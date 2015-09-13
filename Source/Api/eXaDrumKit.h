@@ -9,6 +9,8 @@
 #define SOURCE_API_EXADRUMKIT_H_
 
 #include "../DrumKit/Module.h"
+#include "../Sound/Alsa.h"
+#include "../Sound/Mixer.h"
 
 #include <string>
 
@@ -28,10 +30,14 @@ namespace eXaDrumKitApi
 
 	private:
 
-		const std::string defaultDataLoc = "./Data";
 
 		DrumKit::Module drumModule;
 		DrumKit::Kit kit;
+
+		Sound::AlsaParams alsaParams;
+		Sound::Alsa* alsa;
+
+		Sound::Mixer* mixer;
 
 	};
 

@@ -11,21 +11,27 @@ namespace eXaDrumKitApi
 {
 
 	eXaDrumKit::eXaDrumKit(const char* dataLocation)
-	: drumModule(std::string(dataLocation))
+	: drumModule(std::string(dataLocation)),
+	  alsaParams()
 	{
 
-		return;
-	}
+		std::string moduleLoc;
+		this->drumModule.GetDirectory(moduleLoc);
 
-	eXaDrumKit::eXaDrumKit()
-	: drumModule(defaultDataLoc)
-	{
+		Sound::Alsa::ReadXmlConfig(this->alsaParams, moduleLoc + "alsaConfig.xml");
+
+		this->mixer = new Sound::Mixer(this->drumModule.soundParameters, this->alsaParams);
+
+		this->alsa = new Sound::Alsa(this->alsaParams, *this->mixer);
 
 		return;
 	}
 
 	eXaDrumKit::~eXaDrumKit()
 	{
+
+		delete this->alsa;
+		delete this->mixer;
 
 		return;
 	}
@@ -38,7 +44,7 @@ namespace eXaDrumKitApi
 
 		this->drumModule.GetDirectory(moduleLoc);
 
-		this->drumModule.LoadKit(moduleLoc + "/" + location, this->kit);
+		this->drumModule.LoadKit(moduleLoc + location, this->kit);
 
 
 
