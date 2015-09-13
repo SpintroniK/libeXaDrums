@@ -25,7 +25,7 @@ namespace IO
 
 	public:
 
-		HddSensor(std::string filePath);
+		HddSensor(const char* filePath);
 		~HddSensor();
 
 		short GetOutput();

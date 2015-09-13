@@ -10,11 +10,13 @@
 namespace IO
 {
 
-	HddSensor::HddSensor(std::string filePath)
+	HddSensor::HddSensor(const char* filePath)
 	: index(0)
 	{
 
-		file = new std::ifstream(filePath, std::ios::in|std::ifstream::binary);
+		std::string fileLoc(filePath);
+
+		file = new std::ifstream(fileLoc, std::ios::in|std::ifstream::binary);
 
 		if(!file->good())
 			throw - 1;
