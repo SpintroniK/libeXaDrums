@@ -38,6 +38,14 @@ namespace DrumKit
 		return;
 	}
 
+	const void Module::GetDirectory(std::string& dir)
+	{
+
+		dir = this->directory;
+
+		return;
+	}
+
 	void Module::LoadKit(std::string file, Kit& kit)
 	{
 
