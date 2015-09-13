@@ -12,7 +12,7 @@ namespace eXaDrumKitApi
 
 	eXaDrumKit::eXaDrumKit(const char* dataLocation)
 	: drumModule(std::string(dataLocation)),
-	  alsaParams()
+	  alsaParams(), triggers()
 	{
 
 		std::string moduleLoc;
@@ -47,6 +47,44 @@ namespace eXaDrumKitApi
 		this->drumModule.LoadKit(moduleLoc + location, this->kit);
 
 
+
+		return;
+	}
+
+	void eXaDrumKit::Start()
+	{
+
+		this->alsa->Start();
+
+		return;
+	}
+
+	void eXaDrumKit::Stop()
+	{
+
+		this->alsa->Stop();
+
+		return;
+	}
+
+	size_t eXaDrumKit::AddTrigger(size_t drumId)
+	{
+
+		if(this->kit.drum.size() <= drumId)
+			throw -1;
+
+		this->triggers.push_back(DrumKit::Trigger(this->kit.drum[drumId], *this->mixer));
+
+		return this->triggers.size();
+	}
+
+	void eXaDrumKit::Trig(size_t triggerId, short value)
+	{
+
+		if(this->triggers.size() <= triggerId)
+			throw -1;
+
+		this->triggers[triggerId].Trig(value);
 
 		return;
 	}

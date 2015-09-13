@@ -8,11 +8,13 @@
 #ifndef SOURCE_API_EXADRUMKIT_H_
 #define SOURCE_API_EXADRUMKIT_H_
 
+#include "../DrumKit/Trigger.h"
 #include "../DrumKit/Module.h"
 #include "../Sound/Alsa.h"
 #include "../Sound/Mixer.h"
 
 #include <string>
+#include <vector>
 
 namespace eXaDrumKitApi
 {
@@ -28,6 +30,14 @@ namespace eXaDrumKitApi
 
 		void LoadKit(const char* kitLocation);
 
+		// Trigger stuff
+		size_t AddTrigger(size_t drumId);
+		void Trig(size_t triggerId, short value);
+
+		//
+		void Start();
+		void Stop();
+
 	private:
 
 
@@ -38,6 +48,8 @@ namespace eXaDrumKitApi
 		Sound::Alsa* alsa;
 
 		Sound::Mixer* mixer;
+
+		std::vector<DrumKit::Trigger> triggers;
 
 	};
 
