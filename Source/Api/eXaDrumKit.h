@@ -15,6 +15,7 @@
 
 #include <string>
 #include <vector>
+#include <memory>
 
 namespace eXaDrumKitApi
 {
@@ -45,11 +46,11 @@ namespace eXaDrumKitApi
 		DrumKit::Kit kit;
 
 		Sound::AlsaParams alsaParams;
-		Sound::Alsa* alsa;
+		std::unique_ptr<Sound::Alsa> alsa;
 
-		Sound::Mixer* mixer;
+		std::unique_ptr<Sound::Mixer> mixer;
 
-		std::vector<DrumKit::Trigger> triggers;
+		std::vector<std::unique_ptr<DrumKit::Trigger>> triggers;
 
 	};
 

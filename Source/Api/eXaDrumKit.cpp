@@ -20,18 +20,15 @@ namespace eXaDrumKitApi
 
 		Sound::Alsa::ReadXmlConfig(this->alsaParams, moduleLoc + "alsaConfig.xml");
 
-		this->mixer = new Sound::Mixer(this->drumModule.soundParameters, this->alsaParams);
+		this->mixer = std::unique_ptr<Sound::Mixer>(new Sound::Mixer(this->drumModule.soundParameters, this->alsaParams));
 
-		this->alsa = new Sound::Alsa(this->alsaParams, *this->mixer);
+		this->alsa = std::unique_ptr<Sound::Alsa>(new Sound::Alsa(this->alsaParams, *this->mixer));
 
 		return;
 	}
 
 	eXaDrumKit::~eXaDrumKit()
 	{
-
-		delete this->alsa;
-		delete this->mixer;
 
 		return;
 	}
@@ -73,7 +70,7 @@ namespace eXaDrumKitApi
 		if(this->kit.drum.size() <= drumId)
 			throw -1;
 
-		this->triggers.push_back(DrumKit::Trigger(this->kit.drum[drumId], *this->mixer));
+		this->triggers.push_back(std::unique_ptr<DrumKit::Trigger>(new DrumKit::Trigger(this->kit.drum[drumId], *this->mixer)));
 
 		return this->triggers.size();
 	}
@@ -84,7 +81,7 @@ namespace eXaDrumKitApi
 		if(this->triggers.size() <= triggerId)
 			throw -1;
 
-		this->triggers[triggerId].Trig(value);
+		this->triggers[triggerId]->Trig(value);
 
 		return;
 	}
