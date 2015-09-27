@@ -54,8 +54,10 @@ namespace IO
 		return;
 	}
 
-	short Serial::Read()
+	short Serial::Read(char port)
 	{
+
+		::write(this->handle, &port, 1);
 		::read(this->handle, &this->buf, 1);
 
 		return short(this->buf);
@@ -83,8 +85,8 @@ namespace IO
 		tty_old = tty;
 
 		/* Set Baud Rate */
-		cfsetospeed (&tty, (speed_t)B1000000);
-		cfsetispeed (&tty, (speed_t)B1000000);
+		cfsetospeed (&tty, (speed_t)B230400);
+		cfsetispeed (&tty, (speed_t)B230400);
 
 		/* Setting other Port Stuff */
 		tty.c_cflag &= 	~PARENB;            // Make 8n1

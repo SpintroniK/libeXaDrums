@@ -76,7 +76,7 @@ namespace DrumKit
 
 			bool newSound = GetDrumParams(drumName, kit.drum);
 
-			std::string drumFileName = kit.drum.front().soundFile;
+			std::string drumFileName = kit.drum[drumId].soundFile;
 			std::string fileSound = directory + "Kits/" + kit.kitFolder + "/" + drumFileName;
 
 			// Sound id must match drumId (index in the kit.drum vector)

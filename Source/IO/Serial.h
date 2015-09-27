@@ -31,7 +31,7 @@ namespace IO
 
 		void Open();
 		void Close();
-		short Read();
+		short Read(char port);
 
 	private:
 
