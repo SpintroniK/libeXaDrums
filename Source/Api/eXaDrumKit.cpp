@@ -30,6 +30,8 @@ namespace eXaDrumKitApi
 	eXaDrumKit::~eXaDrumKit()
 	{
 
+		this->triggers.clear();
+
 		return;
 	}
 
