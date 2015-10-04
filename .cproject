@@ -47,6 +47,7 @@
 								<option defaultValue="true" id="gnu.cpp.link.option.shared.181148230" name="Shared (-shared)" superClass="gnu.cpp.link.option.shared" value="true" valueType="boolean"/>
 								<option id="gnu.cpp.link.option.libs.648343014" name="Libraries (-l)" superClass="gnu.cpp.link.option.libs" valueType="libs">
 									<listOptionValue builtIn="false" value="pthread"/>
+									<listOptionValue builtIn="false" value="bcm2835"/>
 									<listOptionValue builtIn="false" value="xml2"/>
 									<listOptionValue builtIn="false" value="asound"/>
 								</option>

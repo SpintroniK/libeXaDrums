@@ -60,7 +60,8 @@ namespace IO
 		if(::write(this->handle, &port, 1) == 1)
 		{
 			::read(this->handle, &this->buf, 1);
-			::read(this->handle, &this->buf, 1);
+			if(this->buf == 's')
+				::read(this->handle, &this->buf, 1);
 		}
 		else
 			return 0;
@@ -90,8 +91,8 @@ namespace IO
 		tty_old = tty;
 
 		/* Set Baud Rate */
-		cfsetospeed (&tty, (speed_t)B1000000);
-		cfsetispeed (&tty, (speed_t)B1000000);
+		cfsetospeed (&tty, (speed_t)B230400);
+		cfsetispeed (&tty, (speed_t)B230400);
 
 		/* Setting other Port Stuff */
 		tty.c_cflag &= 	~PARENB;            // Make 8n1
@@ -113,6 +114,7 @@ namespace IO
 		{
 		   std::cout << "Error " << errno << " from tcsetattr" << std::endl;
 		}
+
 
 		return;
 	}
