@@ -19,6 +19,7 @@
 #include <libxml/xmlmemory.h>
 
 #include <thread>
+#include <atomic>
 #include <chrono>
 #include <map>
 #include <iomanip>
@@ -67,8 +68,8 @@ namespace Sound
 
 		Mixer& 			mixer;
 
-		bool			play;
-		bool			rec;
+		std::atomic<bool> play;
+		std::atomic<bool> rec;
 
 	};
 

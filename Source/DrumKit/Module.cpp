@@ -13,7 +13,8 @@ namespace DrumKit
 
 	Module::Module()
 	: soundParameters(sndParams),
-	  directory("./")
+	  directory("./"),
+	  isPlay(false)
 	{
 
 		return;
@@ -21,7 +22,8 @@ namespace DrumKit
 
 	Module::Module(std::string dir)
 	: soundParameters(sndParams),
-	  directory(dir)
+	  directory(dir),
+	  isPlay(false)
 	{
 
 		return;
@@ -38,7 +40,31 @@ namespace DrumKit
 		return;
 	}
 
-	const void Module::GetDirectory(std::string& dir)
+
+	void Module::Start()
+	{
+
+		isPlay = true;
+
+		playThread = std::thread(&Module::Run, this);
+
+		return;
+	}
+
+
+	void Module::Stop()
+	{
+
+		isPlay = false;
+
+		while(!playThread.joinable());
+
+		playThread.join();
+
+		return;
+	}
+
+	void Module::GetDirectory(std::string& dir) const
 	{
 
 		dir = this->directory;
@@ -100,6 +126,20 @@ namespace DrumKit
 
 
 	/// PRIVATE
+
+
+	void Module::Run()
+	{
+
+		while(isPlay)
+		{
+
+
+
+		}
+
+		return;
+	}
 
 	void Module::AddSound(std::string filename, size_t soundId)
 	{

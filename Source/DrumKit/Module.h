@@ -19,6 +19,8 @@
 #include <fstream>
 #include <vector>
 #include <string>
+#include <thread>
+#include <atomic>
 
 
 namespace DrumKit
@@ -35,11 +37,16 @@ namespace DrumKit
 
 		void LoadKit(std::string fileLoc, Kit& kit);
 
+		void Start();
+		void Stop();
+
 		const std::vector<SoundParams>& soundParameters;
 
-		const void GetDirectory(std::string& dir);
+		void GetDirectory(std::string& dir) const;
 
 	private:
+
+		void Run();
 
 		bool GetDrumParams(xmlNode* drumName, std::vector<Drum>& drum);
 		void GetDrumCurve(std::string curveName, std::vector<float>& curve);
@@ -48,6 +55,8 @@ namespace DrumKit
 
 		std::string directory;
 		std::vector<SoundParams> sndParams;
+		std::thread playThread;
+		std::atomic<bool> isPlay;
 
 
 	};
