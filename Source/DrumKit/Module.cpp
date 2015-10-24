@@ -152,7 +152,10 @@ namespace DrumKit
 
 		drum.drumName 		= std::string((char*) drumName->children->content);
 
-		xmlNode* soundFile 	= drumName->next->next;
+		xmlNode* sensorId 	= drumName->next->next;
+		drum.sensorId 		= (int) std::atoi((char*) sensorId->children->content);
+
+		xmlNode* soundFile 	= sensorId->next->next;
 		drum.soundFile 		= std::string((char*) soundFile->children->content);
 
 		xmlNode* threshold 	= soundFile->next->next;

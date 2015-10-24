@@ -18,6 +18,7 @@ namespace DrumKit
 	{
 
 		int id;
+		int sensorId;
 
 		std::string drumName;
 		std::string soundFile;
