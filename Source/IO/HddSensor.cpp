@@ -39,9 +39,7 @@ namespace IO
 	}
 
 
-	/// PRIVATE
-
-	short HddSensor::GetOutput()
+	short HddSensor::GetData(char channel)
 	{
 
 		std::this_thread::sleep_for(std::chrono::microseconds(10));

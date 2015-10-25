@@ -8,6 +8,8 @@
 #ifndef SOURCE_IO_SERIAL_H_
 #define SOURCE_IO_SERIAL_H_
 
+#include "Sensor.h"
+
 #include <string>
 
 #include <stdio.h>      // Standard input / output functions
@@ -21,17 +23,17 @@
 namespace IO
 {
 
-	class Serial
+	class Serial : public Sensor
 	{
 
 	public:
 
 		Serial();
-		~Serial();
+		virtual ~Serial();
 
 		void Open();
 		void Close();
-		short Read(char port);
+		virtual short Read(char port);
 
 	private:
 

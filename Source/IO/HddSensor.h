@@ -8,6 +8,7 @@
 #ifndef RASPIDRUMS_SOURCE_IO_HDDSENSOR_H_
 #define RASPIDRUMS_SOURCE_IO_HDDSENSOR_H_
 
+#include "Sensor.h"
 
 #include <fstream>
 #include <string>
@@ -20,16 +21,15 @@
 namespace IO
 {
 
-	class HddSensor
+	class HddSensor : public Sensor
 	{
 
 	public:
 
 		HddSensor(const char* filePath);
-		~HddSensor();
+		virtual ~HddSensor();
 
-		short GetOutput();
-		int GetDataLength() { return value.size(); }
+		virtual short GetData(char channel);
 
 	private:
 

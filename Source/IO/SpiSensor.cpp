@@ -11,8 +11,7 @@
 namespace IO
 {
 
-	SpiSensor::SpiSensor(char chan)
-	: channel(chan)
+	SpiSensor::SpiSensor()
 	{
 
 		if (!bcm2835_init())
@@ -47,7 +46,7 @@ namespace IO
 	}
 
 
-	short SpiSensor::Read()
+	short SpiSensor::GetData(char channel)
 	{
 
 		// Select SPI channel
