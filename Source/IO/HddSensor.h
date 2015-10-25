@@ -8,20 +8,19 @@
 #ifndef RASPIDRUMS_SOURCE_IO_HDDSENSOR_H_
 #define RASPIDRUMS_SOURCE_IO_HDDSENSOR_H_
 
-#include "Sensor.h"
-
 #include <fstream>
 #include <string>
 #include <vector>
 #include <iterator>
 #include <thread>
 #include <chrono>
+#include "ISensor.h"
 
 
 namespace IO
 {
 
-	class HddSensor : public Sensor
+	class HddSensor : public ISensor
 	{
 
 	public:

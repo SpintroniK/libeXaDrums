@@ -8,17 +8,16 @@
 #ifndef RASPIDRUMS_SOURCE_IO_SENSOR_H_
 #define RASPIDRUMS_SOURCE_IO_SENSOR_H_
 
-#include "Sensor.h"
-
 #include <bcm2835.h>
 
 #include <iostream>
+#include "ISensor.h"
 
 
 namespace IO
 {
 
-	class SpiSensor : public Sensor
+	class SpiSensor : public ISensor
 	{
 
 	public:

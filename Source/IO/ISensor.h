@@ -5,20 +5,20 @@
  *      Author: jeremy
  */
 
-#ifndef SOURCE_IO_SENSOR_H_
-#define SOURCE_IO_SENSOR_H_
+#ifndef SOURCE_IO_ISENSOR_H_
+#define SOURCE_IO_ISENSOR_H_
 
 namespace IO
 {
 
-	class Sensor
+	class ISensor
 	{
 
 	public:
 
 		virtual short GetData(char channel) = 0;
 
-		virtual ~Sensor() {};
+		virtual ~ISensor() {};
 
 	protected:
 	private:
@@ -27,4 +27,4 @@ namespace IO
 
 } /* namespace IO */
 
-#endif /* SOURCE_IO_SENSOR_H_ */
+#endif /* SOURCE_IO_ISENSOR_H_ */
