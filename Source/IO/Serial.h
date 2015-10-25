@@ -30,14 +30,13 @@ namespace IO
 
 		Serial();
 		virtual ~Serial();
-
-		void Open();
-		void Close();
-		virtual short Read(char port);
+		virtual short GetData(char port);
 
 	private:
 
 		void Configure();
+		void Open();
+		void Close();
 
 		bool isOpen;
 

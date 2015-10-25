@@ -20,6 +20,8 @@ namespace IO
 	  buf()
 	{
 
+		this->Open();
+
 		return;
 	}
 
@@ -31,6 +33,25 @@ namespace IO
 
 		return;
 	}
+
+
+
+	short Serial::GetData(char port)
+	{
+
+		if(::write(this->handle, &port, 1) == 1)
+		{
+			::read(this->handle, &this->buf, 1);
+			if(this->buf == 's')
+				::read(this->handle, &this->buf, 1);
+		}
+		else
+			return 0;
+
+		return short(this->buf);
+	}
+
+	// PRIVATE
 
 	void Serial::Open()
 	{
@@ -53,23 +74,6 @@ namespace IO
 
 		return;
 	}
-
-	short Serial::Read(char port)
-	{
-
-		if(::write(this->handle, &port, 1) == 1)
-		{
-			::read(this->handle, &this->buf, 1);
-			if(this->buf == 's')
-				::read(this->handle, &this->buf, 1);
-		}
-		else
-			return 0;
-
-		return short(this->buf);
-	}
-
-	// PRIVATE
 
 	void Serial::Configure()
 	{
