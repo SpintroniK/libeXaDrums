@@ -32,7 +32,7 @@ namespace eXaDrumKitApi
 		void LoadKit(const char* kitLocation);
 
 		// Trigger stuff
-		size_t AddTrigger(size_t drumId);
+		size_t AddDrum(size_t drumId);
 		void Trig(size_t triggerId, short value);
 
 		//

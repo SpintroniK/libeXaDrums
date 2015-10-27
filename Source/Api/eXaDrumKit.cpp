@@ -66,7 +66,7 @@ namespace eXaDrumKitApi
 		return;
 	}
 
-	size_t eXaDrumKit::AddTrigger(size_t drumId)
+	size_t eXaDrumKit::AddDrum(size_t drumId)
 	{
 
 		if(this->kit.drum.size() <= drumId)
