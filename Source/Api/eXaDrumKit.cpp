@@ -11,26 +11,24 @@ namespace eXaDrumKitApi
 {
 
 	eXaDrumKit::eXaDrumKit(const char* dataLocation)
-	: drumModule(std::string(dataLocation)),
-	  alsaParams(), triggers()
+	: drumModule(nullptr), alsaParams()
 	{
 
-		std::string moduleLoc;
-		this->drumModule.GetDirectory(moduleLoc);
+		std::string moduleLoc(dataLocation);
 
 		Sound::Alsa::ReadXmlConfig(this->alsaParams, moduleLoc + "alsaConfig.xml");
 
-		this->mixer = std::unique_ptr<Sound::Mixer>(new Sound::Mixer(this->drumModule.soundParameters, this->alsaParams));
+		this->mixer = std::shared_ptr<Sound::Mixer>(new Sound::Mixer());
+		this->alsa = std::unique_ptr<Sound::Alsa>(new Sound::Alsa(this->alsaParams, this->mixer));
 
-		this->alsa = std::unique_ptr<Sound::Alsa>(new Sound::Alsa(this->alsaParams, *this->mixer));
+		this->drumModule = std::unique_ptr<DrumKit::Module>(new DrumKit::Module(std::string(dataLocation), IO::SensorType::Hdd, this->mixer));
+
 
 		return;
 	}
 
 	eXaDrumKit::~eXaDrumKit()
 	{
-
-		this->triggers.clear();
 
 		return;
 	}
@@ -41,11 +39,11 @@ namespace eXaDrumKitApi
 		std::string location(kitLocation);
 		std::string moduleLoc;
 
-		this->drumModule.GetDirectory(moduleLoc);
+		this->drumModule->GetDirectory(moduleLoc);
 
-		this->drumModule.LoadKit(moduleLoc + location, this->kit);
+		this->drumModule->LoadKit(moduleLoc + location, this->kit);
 
-
+		this->mixer->SetSoundParameters(this->drumModule->soundParameters);
 
 		return;
 	}
@@ -54,6 +52,7 @@ namespace eXaDrumKitApi
 	{
 
 		this->alsa->Start();
+		this->drumModule->Start();
 
 		return;
 	}
@@ -61,30 +60,10 @@ namespace eXaDrumKitApi
 	void eXaDrumKit::Stop()
 	{
 
+		this->drumModule->Stop();
 		this->alsa->Stop();
 
 		return;
 	}
 
-	size_t eXaDrumKit::AddDrum(size_t drumId)
-	{
-
-		if(this->kit.drum.size() <= drumId)
-			throw -1;
-
-		this->triggers.push_back(std::unique_ptr<DrumKit::Trigger>(new DrumKit::Trigger(this->kit.drum[drumId], *this->mixer)));
-
-		return this->triggers.size();
-	}
-
-	void eXaDrumKit::Trig(size_t triggerId, short value)
-	{
-
-		if(this->triggers.size() <= triggerId)
-			throw -1;
-
-		this->triggers[triggerId]->Trig(value);
-
-		return;
-	}
 }

@@ -14,8 +14,8 @@ namespace IO
 
 	Serial::Serial()
 	: isOpen(false),
-	  baudRate(defaultBaudRate),
-	  port(defaultPort),
+	  baudRate(230400),
+	  port("/dev/ttyUSB0"),
 	  handle(),
 	  buf()
 	{

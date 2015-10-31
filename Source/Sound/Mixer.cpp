@@ -10,9 +10,7 @@
 namespace Sound
 {
 
-	Mixer::Mixer(const std::vector<DrumKit::SoundParams>& soundParams, const AlsaParams& params)
-	: soundParameters(soundParams),
-	  alsaParams(params)
+	Mixer::Mixer() : soundParameters(), alsaParams()
 	{
 
 		return;
@@ -21,6 +19,22 @@ namespace Sound
 	Mixer::~Mixer()
 	{
 
+
+		return;
+	}
+
+	void Mixer::SetSoundParameters(std::vector<DrumKit::SoundParams> soundParams)
+	{
+
+		soundParameters = soundParams;
+
+		return;
+	}
+
+	void Mixer::SetAlsaParameters(AlsaParams* alsaParameters)
+	{
+
+		this->alsaParams = alsaParameters;
 
 		return;
 	}
@@ -53,13 +67,13 @@ namespace Sound
 		{
 			// The sound needs to be added to the sound list
 
-			SoundInfo sound;
+			SampleInfo sample;
 
-			sound.id = id;
-			sound.index = 0;
-			sound.volume = volume;
+			sample.id = id;
+			sample.index = 0;
+			sample.volume = volume;
 
-			soundList.push_back(sound);
+			sampleList.push_back(sample);
 		}
 
 		return;
@@ -73,36 +87,36 @@ namespace Sound
 		std::lock_guard<std::mutex> lock(mixerMutex);
 
 		// Fill buffer with zeros
-		std::fill(alsaParams.buffer, alsaParams.buffer + alsaParams.periodSize, 0);
+		std::fill(alsaParams->buffer.begin(), alsaParams->buffer.begin() + alsaParams->periodSize, 0);
 
 		// If there are sounds to mix
-		if(soundList.size() > 0)
+		if(sampleList.size() > 0)
 		{
 
 			std::vector<size_t> soundsToDelete;
 
 			// Browse sound list
-			for(size_t id = 0; id < soundList.size(); id++)
+			for(size_t id = 0; id < sampleList.size(); id++)
 			{
 
-				int soundId = soundList[id].id;
-				int soundIndex = soundList[id].index;
+				int soundId = sampleList[id].id;
+				int soundIndex = sampleList[id].index;
 
 				// Mix sound
-				for(int i = 0; i < alsaParams.periodSize; i++)
+				for(int i = 0; i < alsaParams->periodSize; i++)
 				{
-					alsaParams.buffer[i] += soundList[id].volume * soundParameters[soundId].data[soundIndex + i];
+					alsaParams->buffer[i] += sampleList[id].volume * soundParameters[soundId].data[soundIndex + i];
 				}
 
 				// Update sound index
-				soundList[id].index += alsaParams.periodSize;
+				sampleList[id].index += alsaParams->periodSize;
 
 			}
 
 			// Delete the sounds that finished playing
-			auto f = [this](SoundInfo sound) { return (sound.index >= soundParameters[sound.id].length); };
-			std::vector<SoundInfo>::iterator n =  std::remove_if(soundList.begin(), soundList.end(), f);
-			soundList.erase(n, soundList.end());
+			auto f = [this](SampleInfo sample) { return (sample.index >= soundParameters[sample.id].length); };
+			std::vector<SampleInfo>::iterator n =  std::remove_if(sampleList.begin(), sampleList.end(), f);
+			sampleList.erase(n, sampleList.end());
 
 		}
 

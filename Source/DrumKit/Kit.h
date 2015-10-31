@@ -14,28 +14,12 @@
 namespace DrumKit
 {
 
-	struct Drum
-	{
-
-		int id;
-		int sensorId;
-
-		std::string drumName;
-		std::string soundFile;
-
-		std::vector<float> curve;
-
-		unsigned int scanTime;
-		short threshold;
-		int maskTime;
-
-	};
 
 	struct SoundParams
 	{
-		short*			data;
-		int 			id;
-		unsigned int	length;
+		std::vector<short>	data;
+		int 				id;
+		unsigned int		length;
 
 	};
 
@@ -44,8 +28,6 @@ namespace DrumKit
 
 		std::string kitName;
 		std::string kitFolder;
-
-		std::vector<Drum> drum;
 
 	};
 

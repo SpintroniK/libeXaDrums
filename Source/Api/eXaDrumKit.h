@@ -8,14 +8,15 @@
 #ifndef SOURCE_API_EXADRUMKIT_H_
 #define SOURCE_API_EXADRUMKIT_H_
 
-#include "../DrumKit/Trigger.h"
-#include "../DrumKit/Module.h"
-#include "../Sound/Alsa.h"
+#include "../IO/SensorType.h"
 #include "../Sound/Mixer.h"
 
 #include <string>
 #include <vector>
 #include <memory>
+
+#include "../DrumKit/DrumModule/Module.h"
+#include "../Sound/Alsa/Alsa.h"
 
 namespace eXaDrumKitApi
 {
@@ -31,10 +32,6 @@ namespace eXaDrumKitApi
 
 		void LoadKit(const char* kitLocation);
 
-		// Trigger stuff
-		size_t AddDrum(size_t drumId);
-		void Trig(size_t triggerId, short value);
-
 		//
 		void Start();
 		void Stop();
@@ -42,15 +39,13 @@ namespace eXaDrumKitApi
 	private:
 
 
-		DrumKit::Module drumModule;
+		std::unique_ptr<DrumKit::Module> drumModule;
 		DrumKit::Kit kit;
 
 		Sound::AlsaParams alsaParams;
 		std::unique_ptr<Sound::Alsa> alsa;
+		std::shared_ptr<Sound::Mixer> mixer;
 
-		std::unique_ptr<Sound::Mixer> mixer;
-
-		std::vector<std::unique_ptr<DrumKit::Trigger>> triggers;
 
 	};
 

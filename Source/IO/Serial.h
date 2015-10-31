@@ -39,8 +39,8 @@ namespace IO
 
 		bool isOpen;
 
-		const unsigned int defaultBaudRate = 230400;
-		const std::string defaultPort = "/dev/ttyUSB0";
+		//const unsigned int defaultBaudRate = 230400;
+		//const std::string defaultPort = "/dev/ttyUSB0";
 
 		unsigned int baudRate;
 		std::string port;

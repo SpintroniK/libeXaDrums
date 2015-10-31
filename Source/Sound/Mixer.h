@@ -8,10 +8,8 @@
 #ifndef MIXER_H_
 #define MIXER_H_
 
-#include "AlsaParams.h"
-#include "SoundInfo.h"
-
-#include "../DrumKit/Module.h"
+#include "../DrumKit/Kit.h"
+#include "Alsa/AlsaParams.h"
 
 #include <vector>
 #include <algorithm>
@@ -19,6 +17,8 @@
 #include <chrono>
 #include <iostream>
 #include <mutex>
+#include "Alsa/AlsaParams.h"
+#include "SampleInfo.h"
 
 namespace Sound
 {
@@ -28,20 +28,22 @@ namespace Sound
 
 	public:
 
-		Mixer(const std::vector<DrumKit::SoundParams>& soundParams, const AlsaParams& params);
+		Mixer();
 		virtual ~Mixer();
 
 		void Mix();
 		void AddToMixer(int id, float volume);
+		void SetAlsaParameters(AlsaParams* alsaParameters);
+		void SetSoundParameters(std::vector<DrumKit::SoundParams> soundParams);
 
 	private:
 
-		const std::vector<DrumKit::SoundParams>& soundParameters;
-		const AlsaParams& alsaParams;
+		std::vector<DrumKit::SoundParams> soundParameters;
+		AlsaParams* alsaParams;
 
 		mutable std::mutex mixerMutex;
 
-		std::vector<SoundInfo> soundList;
+		std::vector<SampleInfo> sampleList;
 
 	};
 
