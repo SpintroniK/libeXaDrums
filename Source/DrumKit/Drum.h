@@ -11,6 +11,7 @@
 #include "../IO/SensorType.h"
 #include "../IO/ISensor.h"
 #include "../IO/HddSensor.h"
+#include "../IO/SpiSensor.h"
 
 #include "../Sound/Mixer.h"
 #include "Trigger.h"

@@ -37,6 +37,15 @@ namespace DrumKit
 
 			break;
 
+		case IO::SensorType::Spi:
+
+			this->sensor = std::shared_ptr<IO::ISensor>(new IO::SpiSensor());
+
+			break;
+
+		default:
+			break;
+
 		}
 
 		return;
@@ -60,7 +69,7 @@ namespace DrumKit
 	void Drum::Trig()
 	{
 
-		short value = this->sensor->GetData(0);
+		short value = this->sensor->GetData(sensorId);
 
 		this->trigger->Trig(value);
 
