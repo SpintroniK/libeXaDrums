@@ -26,8 +26,8 @@ namespace eXaDrumKitApi
 
 	public:
 
-		eXaDrumKit();
-		eXaDrumKit(const char* dataLocation);
+		//eXaDrumKit();
+		eXaDrumKit(const char* dataLocation, IO::SensorType sensorType);
 		~eXaDrumKit();
 
 		void LoadKit(const char* kitLocation);
