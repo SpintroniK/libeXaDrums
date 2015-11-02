@@ -122,11 +122,22 @@ namespace DrumKit
 	void Module::Run()
 	{
 
-		while(isPlay)
+		std::function<void(Drum)> f = [this] (Drum drum)
 		{
 
-			std::for_each(drums.cbegin(), drums.cend(), [](Drum drum){ drum.Trig(); });
+			float volume = 0;
+			bool isTrig = drum.Trig(volume);
 
+			if(isTrig)
+			{
+				this->mixer->AddToMixer(drum.GetId(), volume);
+			}
+
+		};
+
+		while(isPlay)
+		{
+			std::for_each(drums.cbegin(), drums.cend(), f);
 		}
 
 		return;
@@ -192,7 +203,7 @@ namespace DrumKit
 		int drumSensorId =  (int) std::atoi((char*) sensorId->children->content);
 
 
-		Drum drum(drums.size(), drumSensorId, sensorType, mixer);
+		Drum drum(drums.size(), drumSensorId, sensorType);
 
 		xmlNode* soundFile 	= sensorId->next->next;
 		drum.SetSoundFile(std::string((char*) soundFile->children->content));

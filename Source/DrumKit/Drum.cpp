@@ -10,9 +10,8 @@
 namespace DrumKit
 {
 
-	Drum::Drum(int id, int sensorId, IO::SensorType sensorType, std::shared_ptr<Sound::Mixer> const& mixer)
-	: mixer(mixer),
-	  id(id),
+	Drum::Drum(int id, int sensorId, IO::SensorType sensorType)
+	: id(id),
 	  sensorId(sensorId),
 	  sensorType(sensorType),
 	  scanTime(0),
@@ -61,19 +60,19 @@ namespace DrumKit
 	void Drum::CreateTrigger()
 	{
 
-		trigger = std::shared_ptr<Trigger>(new Trigger(id, scanTime, threshold, maskTime, curve, mixer));
+		trigger = std::shared_ptr<Trigger>(new Trigger(id, scanTime, threshold, maskTime, curve));
 
 		return;
 	}
 
-	void Drum::Trig()
+	bool Drum::Trig(float& volume)
 	{
 
 		short value = this->sensor->GetData(sensorId);
 
-		this->trigger->Trig(value);
+		bool isTrig = this->trigger->Trig(value, volume);
 
-		return;
+		return isTrig;
 	}
 
 	void Drum::SetDrumName(std::string drumName)

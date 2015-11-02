@@ -24,6 +24,7 @@
 #include <thread>
 #include <atomic>
 #include <memory>
+#include <functional>
 
 
 

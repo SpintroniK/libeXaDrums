@@ -28,11 +28,11 @@ namespace DrumKit
 
 	public:
 
-		Drum(int id, int sensorId, IO::SensorType sensorType, std::shared_ptr<Sound::Mixer> const& mixer);
+		Drum(int id, int sensorId, IO::SensorType sensorType);
 		~Drum();
 
 		void CreateTrigger();
-		void Trig();
+		bool Trig(float& volume);
 
 		void SetDrumName(std::string drumName);
 		void SetSoundFile(std::string soundFile);
@@ -43,10 +43,10 @@ namespace DrumKit
 
 
 		std::string GetSoundFile() { return this->soundFile; }
+		int GetId() { return this->id; }
 
 	private:
 
-		std::shared_ptr<Sound::Mixer> mixer;
 		std::shared_ptr<IO::ISensor> sensor;
 
 		int id;

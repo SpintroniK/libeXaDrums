@@ -13,9 +13,8 @@ namespace DrumKit
 {
 
 
-	Trigger::Trigger(int drumId, unsigned int scanTime, short threshold, int maskTime, std::vector<float> curve, std::shared_ptr<Sound::Mixer> const& mix)
-	: mixer(mix),
-	  mean(2046),
+	Trigger::Trigger(int drumId, unsigned int scanTime, short threshold, int maskTime, std::vector<float> curve)
+	: mean(2046),
 	  trig(false),
 	  out(false),
 	  trigTime(0),
@@ -41,7 +40,7 @@ namespace DrumKit
 	}
 
 
-	void Trigger::Trig(short value)
+	bool Trigger::Trig(short value, float& volume)
 	{
 
 		// Data normalisation
@@ -71,9 +70,10 @@ namespace DrumKit
 			{
 				out = true;
 
-				float volume = this->curve[maxVelocity];
+				volume = this->curve[maxVelocity];
 
-				mixer->AddToMixer(this->drumId, volume);
+				//mixer->AddToMixer(this->drumId, volume);
+				return true;
 			}
 
 		}
@@ -85,7 +85,9 @@ namespace DrumKit
 			out = false;
 		}
 
-		return;
+		volume = 0;
+
+		return false;
 	}
 
 }

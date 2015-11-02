@@ -29,15 +29,14 @@ namespace DrumKit
 
 	public:
 
-		Trigger(int drumId, unsigned int scanTime, short threshold, int maskTime, std::vector<float> curve, std::shared_ptr<Sound::Mixer> const& mix);
+		Trigger(int drumId, unsigned int scanTime, short threshold, int maskTime, std::vector<float> curve);
 		virtual ~Trigger();
 
-		void Trig(short value);
+		bool Trig(short value, float& volume);
 		bool GetState() const { return trig; }
 
 	private:
 
-		std::shared_ptr<Sound::Mixer> mixer;
 
 		high_resolution_clock::time_point t0;
 
