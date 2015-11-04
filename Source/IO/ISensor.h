@@ -20,9 +20,6 @@ namespace IO
 
 		virtual ~ISensor() {};
 
-	protected:
-	private:
-
 	};
 
 } /* namespace IO */

@@ -114,7 +114,10 @@ namespace Sound
 			}
 
 			// Delete the sounds that finished playing
-			auto f = [this](SampleInfo sample) { return (sample.index >= soundParameters[sample.id].length); };
+			std::function<bool(SampleInfo)> f = [this](SampleInfo sample)
+			{
+				return (sample.index >= soundParameters[sample.id].length);
+			};
 			std::vector<SampleInfo>::iterator n =  std::remove_if(sampleList.begin(), sampleList.end(), f);
 			sampleList.erase(n, sampleList.end());
 

@@ -8,13 +8,15 @@
 #ifndef RASPIDRUMS_SOURCE_IO_HDDSENSOR_H_
 #define RASPIDRUMS_SOURCE_IO_HDDSENSOR_H_
 
+
+#include "ISensor.h"
+
 #include <fstream>
 #include <string>
 #include <vector>
 #include <iterator>
 #include <thread>
 #include <chrono>
-#include "ISensor.h"
 
 
 namespace IO
@@ -28,7 +30,7 @@ namespace IO
 		HddSensor(const char* filePath);
 		virtual ~HddSensor();
 
-		virtual short GetData(char channel);
+		short GetData(char channel);
 
 	private:
 

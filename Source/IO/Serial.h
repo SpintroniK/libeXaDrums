@@ -8,6 +8,9 @@
 #ifndef SOURCE_IO_SERIAL_H_
 #define SOURCE_IO_SERIAL_H_
 
+
+#include "ISensor.h"
+
 #include <string>
 
 #include <stdio.h>      // Standard input / output functions
@@ -17,7 +20,6 @@
 #include <fcntl.h>      // File control definitions
 #include <errno.h>      // Error number definitions
 #include <termios.h>    // POSIX terminal control definitions
-#include "ISensor.h"
 
 namespace IO
 {
@@ -29,7 +31,7 @@ namespace IO
 
 		Serial();
 		virtual ~Serial();
-		virtual short GetData(char port);
+		short GetData(char port);
 
 	private:
 

@@ -8,10 +8,12 @@
 #ifndef RASPIDRUMS_SOURCE_IO_SENSOR_H_
 #define RASPIDRUMS_SOURCE_IO_SENSOR_H_
 
+
+#include "ISensor.h"
+
 #include <bcm2835.h>
 
 #include <iostream>
-#include "ISensor.h"
 
 
 namespace IO
@@ -25,7 +27,7 @@ namespace IO
 		SpiSensor();
 		virtual ~SpiSensor();
 
-		virtual short GetData(char channel);
+		short GetData(char channel);
 
 
 	private:

@@ -10,6 +10,7 @@
 
 #include "../DrumKit/Kit.h"
 #include "Alsa/AlsaParams.h"
+#include "SampleInfo.h"
 
 #include <vector>
 #include <algorithm>
@@ -17,8 +18,6 @@
 #include <chrono>
 #include <iostream>
 #include <mutex>
-#include "Alsa/AlsaParams.h"
-#include "SampleInfo.h"
 
 namespace Sound
 {

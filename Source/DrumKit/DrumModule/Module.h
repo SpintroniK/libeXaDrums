@@ -10,11 +10,11 @@
 
 #include "../../IO/SensorType.h"
 #include "../../Sound/Mixer.h"
-
 #include "../Drum.h"
 #include "../Kit.h"
 #include "../Curves/Curves.h"
 #include "../Curves/Curve.h"
+
 #include <libxml/tree.h>
 #include <libxml/xmlmemory.h>
 

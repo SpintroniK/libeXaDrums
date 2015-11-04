@@ -9,14 +9,13 @@
 #define SOURCE_API_EXADRUMKIT_H_
 
 #include "../IO/SensorType.h"
+#include "../Sound/Alsa/Alsa.h"
 #include "../Sound/Mixer.h"
+#include "../DrumKit/DrumModule/Module.h"
 
 #include <string>
 #include <vector>
 #include <memory>
-
-#include "../DrumKit/DrumModule/Module.h"
-#include "../Sound/Alsa/Alsa.h"
 
 namespace eXaDrumKitApi
 {

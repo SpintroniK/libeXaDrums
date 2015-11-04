@@ -12,7 +12,6 @@
 #include "../IO/ISensor.h"
 #include "../IO/HddSensor.h"
 #include "../IO/SpiSensor.h"
-
 #include "../Sound/Mixer.h"
 #include "Trigger.h"
 
@@ -42,8 +41,8 @@ namespace DrumKit
 		void SetMaskTime(int maskTime);
 
 
-		std::string GetSoundFile() { return this->soundFile; }
-		int GetId() { return this->id; }
+		std::string GetSoundFile() const { return this->soundFile; }
+		int GetId() const { return this->id; }
 
 	private:
 
