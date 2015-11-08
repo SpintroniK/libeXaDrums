@@ -46,7 +46,6 @@ namespace DrumKit
 
 	private:
 
-		std::shared_ptr<IO::ISensor> sensor;
 
 		int id;
 		int sensorId;
@@ -61,6 +60,8 @@ namespace DrumKit
 		short threshold;
 		int maskTime;
 
+
+		std::shared_ptr<IO::ISensor> sensor;
 		std::shared_ptr<Trigger> trigger;
 
 	};

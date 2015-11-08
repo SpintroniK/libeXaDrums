@@ -13,12 +13,12 @@
 
 #include <string>
 
-#include <stdio.h>      // Standard input / output functions
-#include <stdlib.h>
-#include <string.h>     // String function definitions
+#include <cstdio>      // Standard input / output functions
+#include <cstdlib>
+#include <cstring>     // String function definitions
 #include <unistd.h>     // UNIX standard function definitions
 #include <fcntl.h>      // File control definitions
-#include <errno.h>      // Error number definitions
+#include <cerrno>      // Error number definitions
 #include <termios.h>    // POSIX terminal control definitions
 
 namespace IO
@@ -31,7 +31,7 @@ namespace IO
 
 		Serial();
 		virtual ~Serial();
-		short GetData(char port);
+		short GetData(char port) override;
 
 	private:
 

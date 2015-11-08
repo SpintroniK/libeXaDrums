@@ -27,7 +27,7 @@ namespace IO
 		SpiSensor();
 		virtual ~SpiSensor();
 
-		short GetData(char channel);
+		short GetData(char channel) override;
 
 
 	private:

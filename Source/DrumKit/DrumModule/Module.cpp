@@ -12,8 +12,8 @@ namespace DrumKit
 {
 
 	Module::Module(std::string dir, IO::SensorType sensorType, std::shared_ptr<Sound::Mixer> const& mixer)
-	: sensorType(sensorType),
-	  soundParameters(),
+	: soundParameters(),
+	  sensorType(sensorType),
 	  directory(dir),
 	  isPlay(false),
 	  mixer(mixer)

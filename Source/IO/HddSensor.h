@@ -30,7 +30,7 @@ namespace IO
 		HddSensor(const char* filePath);
 		virtual ~HddSensor();
 
-		short GetData(char channel);
+		short GetData(char channel) override;
 
 	private:
 

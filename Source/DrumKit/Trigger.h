@@ -36,9 +36,6 @@ namespace DrumKit
 
 	private:
 
-
-		high_resolution_clock::time_point t0;
-
 		// Drum trigger parameters
 		int drumId;
 		unsigned int scanTime;
@@ -46,6 +43,7 @@ namespace DrumKit
 		int maskTime;
 		std::vector<float> curve;
 
+		high_resolution_clock::time_point t0;
 
 		short mean;
 

@@ -14,17 +14,17 @@ namespace DrumKit
 
 
 	Trigger::Trigger(int drumId, unsigned int scanTime, short threshold, int maskTime, std::vector<float> curve)
-	: mean(2046),
+	: drumId(drumId),
+	  scanTime(scanTime),
+	  threshold(threshold),
+	  maskTime(maskTime),
+	  curve(curve),
+	  mean(2046),
 	  trig(false),
 	  out(false),
 	  trigTime(0),
 	  velocity(0),
-	  maxVelocity(0),
-	  drumId(drumId),
-	  scanTime(scanTime),
-	  threshold(threshold),
-	  maskTime(maskTime),
-	  curve(curve)
+	  maxVelocity(0)
 	{
 
 		t0 = high_resolution_clock::now();
