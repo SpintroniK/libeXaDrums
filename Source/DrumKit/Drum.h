@@ -5,8 +5,8 @@
  *      Author: jeremy
  */
 
-#ifndef SOURCE_DRUMKIT_DRUM_H_
-#define SOURCE_DRUMKIT_DRUM_H_
+#ifndef LIBEXADRUMS_SOURCE_DRUMKIT_DRUM_H_
+#define LIBEXADRUMS_SOURCE_DRUMKIT_DRUM_H_
 
 #include "../IO/SensorType.h"
 #include "../IO/ISensor.h"
@@ -71,4 +71,4 @@ namespace DrumKit
 }
 
 
-#endif /* SOURCE_DRUMKIT_DRUM_H_ */
+#endif /* LIBEXADRUMS_SOURCE_DRUMKIT_DRUM_H_ */

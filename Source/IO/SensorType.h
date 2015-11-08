@@ -5,8 +5,8 @@
  *      Author: jeremy
  */
 
-#ifndef SOURCE_IO_SENSORTYPE_H_
-#define SOURCE_IO_SENSORTYPE_H_
+#ifndef LIBEXADRUMS_SOURCE_IO_SENSORTYPE_H_
+#define LIBEXADRUMS_SOURCE_IO_SENSORTYPE_H_
 
 namespace IO
 {
@@ -25,4 +25,4 @@ namespace IO
 }
 
 
-#endif /* SOURCE_IO_SENSORTYPE_H_ */
+#endif /* LIBEXADRUMS_SOURCE_IO_SENSORTYPE_H_ */

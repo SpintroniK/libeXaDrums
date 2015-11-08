@@ -5,8 +5,8 @@
  *      Author: jeremy
  */
 
-#ifndef SOURCE_API_EXADRUMKIT_H_
-#define SOURCE_API_EXADRUMKIT_H_
+#ifndef LIBEXADRUMS_SOURCE_API_EXADRUMKIT_H_
+#define LIBEXADRUMS_SOURCE_API_EXADRUMKIT_H_
 
 #include "../IO/SensorType.h"
 #include "../Sound/Alsa/Alsa.h"
@@ -51,4 +51,4 @@ namespace eXaDrumKitApi
 
 }
 
-#endif /* SOURCE_API_EXADRUMKIT_H_ */
+#endif /* LIBEXADRUMS_SOURCE_API_EXADRUMKIT_H_ */

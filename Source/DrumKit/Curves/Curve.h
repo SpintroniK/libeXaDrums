@@ -5,8 +5,8 @@
  *      Author: jeremy
  */
 
-#ifndef SOURCE_DRUMKIT_CURVES_CURVE_H_
-#define SOURCE_DRUMKIT_CURVES_CURVE_H_
+#ifndef LIBEXADRUMS_SOURCE_DRUMKIT_CURVES_CURVE_H_
+#define LIBEXADRUMS_SOURCE_DRUMKIT_CURVES_CURVE_H_
 
 namespace DrumKit
 {
@@ -21,4 +21,4 @@ namespace DrumKit
 }
 
 
-#endif /* SOURCE_DRUMKIT_CURVES_CURVE_H_ */
+#endif /* LIBEXADRUMS_SOURCE_DRUMKIT_CURVES_CURVE_H_ */

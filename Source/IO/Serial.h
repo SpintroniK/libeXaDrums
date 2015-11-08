@@ -5,8 +5,8 @@
  *      Author: jeremy
  */
 
-#ifndef SOURCE_IO_SERIAL_H_
-#define SOURCE_IO_SERIAL_H_
+#ifndef LIBEXADRUMS_SOURCE_IO_SERIAL_H_
+#define LIBEXADRUMS_SOURCE_IO_SERIAL_H_
 
 
 #include "ISensor.h"
@@ -56,4 +56,4 @@ namespace IO
 
 }
 
-#endif /* SOURCE_IO_SERIAL_H_ */
+#endif /* LIBEXADRUMS_SOURCE_IO_SERIAL_H_ */
