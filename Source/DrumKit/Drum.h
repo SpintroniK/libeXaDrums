@@ -13,6 +13,7 @@
 #include "../IO/HddSensor.h"
 #include "../IO/SpiSensor.h"
 #include "../Sound/Mixer.h"
+#include "TriggerParameters.h"
 #include "Trigger.h"
 
 #include <vector>

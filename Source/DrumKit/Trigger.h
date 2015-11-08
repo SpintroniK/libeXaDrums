@@ -9,7 +9,7 @@
 #define RASPIDRUMS_SOURCE_DRUMKIT_TRIGGER_H_
 
 #include "../Sound/Mixer.h"
-#include "Kit.h"
+#include "TriggerParameters.h"
 
 #include <chrono>
 #include <iostream>
@@ -28,7 +28,7 @@ namespace DrumKit
 
 	public:
 
-		Trigger(int drumId, unsigned int scanTime, short threshold, int maskTime, std::vector<float> curve);
+		Trigger(TriggerParameters triggerParams);
 		virtual ~Trigger();
 
 		bool Trig(short value, float& volume);
@@ -36,12 +36,7 @@ namespace DrumKit
 
 	private:
 
-		// Drum trigger parameters
-		int drumId;
-		unsigned int scanTime;
-		short threshold;
-		int maskTime;
-		std::vector<float> curve;
+		TriggerParameters triggerParameters;
 
 		high_resolution_clock::time_point t0;
 

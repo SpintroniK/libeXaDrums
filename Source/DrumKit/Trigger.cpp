@@ -13,12 +13,8 @@ namespace DrumKit
 {
 
 
-	Trigger::Trigger(int drumId, unsigned int scanTime, short threshold, int maskTime, std::vector<float> curve)
-	: drumId(drumId),
-	  scanTime(scanTime),
-	  threshold(threshold),
-	  maskTime(maskTime),
-	  curve(curve),
+	Trigger::Trigger(TriggerParameters triggerParams)
+	: triggerParameters(triggerParams),
 	  mean(2046),
 	  trig(false),
 	  out(false),
@@ -52,7 +48,7 @@ namespace DrumKit
 		high_resolution_clock::time_point t = high_resolution_clock::now();
 		unsigned long long dt = (unsigned long long) duration<double, std::micro>(t - t0).count();
 
-		if(velocity > this->threshold)
+		if(velocity > this->triggerParameters.threshold)
 		{
 
 			if(!trig)
@@ -61,16 +57,16 @@ namespace DrumKit
 				 trig = true;
 			}
 
-			if(maxVelocity < velocity && dt < trigTime + this->scanTime)
+			if(maxVelocity < velocity && dt < trigTime + this->triggerParameters.scanTime)
 			{
 				maxVelocity = velocity;
 			}
 
-			if(dt > trigTime + this->scanTime && !out)
+			if(dt > trigTime + this->triggerParameters.scanTime && !out)
 			{
 				out = true;
 
-				volume = this->curve[maxVelocity];
+				volume = this->triggerParameters.curve[maxVelocity];
 
 				//mixer->AddToMixer(this->drumId, volume);
 				return true;
@@ -78,7 +74,7 @@ namespace DrumKit
 
 		}
 
-		if(trig && dt > trigTime + this->maskTime)
+		if(trig && dt > trigTime + this->triggerParameters.maskTime)
 		{
 			trig = false;
 			maxVelocity = 0;

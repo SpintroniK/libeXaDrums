@@ -60,7 +60,15 @@ namespace DrumKit
 	void Drum::CreateTrigger()
 	{
 
-		trigger = std::shared_ptr<Trigger>(new Trigger(id, scanTime, threshold, maskTime, curve));
+		TriggerParameters triggerParameters;
+
+		triggerParameters.drumId = id;
+		triggerParameters.scanTime = scanTime;
+		triggerParameters.threshold = threshold;
+		triggerParameters.maskTime = maskTime;
+		triggerParameters.curve = curve;
+
+		trigger = std::shared_ptr<Trigger>(new Trigger(triggerParameters));
 
 		return;
 	}
