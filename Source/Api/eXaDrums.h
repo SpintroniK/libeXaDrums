@@ -17,17 +17,17 @@
 #include <vector>
 #include <memory>
 
-namespace eXaDrumKitApi
+namespace eXaDrumsApi
 {
 
-	class eXaDrumKit
+	class eXaDrums
 	{
 
 	public:
 
 		//eXaDrumKit();
-		eXaDrumKit(const char* dataLocation, IO::SensorType sensorType);
-		~eXaDrumKit();
+		eXaDrums(const char* dataLocation, IO::SensorType sensorType);
+		~eXaDrums();
 
 		void LoadKit(const char* kitLocation);
 

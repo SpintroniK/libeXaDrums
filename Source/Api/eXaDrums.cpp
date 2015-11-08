@@ -5,12 +5,12 @@
  *      Author: jeremy
  */
 
-#include "eXaDrumKit.h"
+#include "eXaDrums.h"
 
-namespace eXaDrumKitApi
+namespace eXaDrumsApi
 {
 
-	eXaDrumKit::eXaDrumKit(const char* dataLocation, IO::SensorType sensorType)
+	eXaDrums::eXaDrums(const char* dataLocation, IO::SensorType sensorType)
 	: drumModule(nullptr), alsaParams()
 	{
 
@@ -27,13 +27,13 @@ namespace eXaDrumKitApi
 		return;
 	}
 
-	eXaDrumKit::~eXaDrumKit()
+	eXaDrums::~eXaDrums()
 	{
 
 		return;
 	}
 
-	void eXaDrumKit::LoadKit(const char* kitLocation)
+	void eXaDrums::LoadKit(const char* kitLocation)
 	{
 
 		std::string location(kitLocation);
@@ -48,7 +48,7 @@ namespace eXaDrumKitApi
 		return;
 	}
 
-	void eXaDrumKit::Start()
+	void eXaDrums::Start()
 	{
 
 		this->alsa->Start();
@@ -57,7 +57,7 @@ namespace eXaDrumKitApi
 		return;
 	}
 
-	void eXaDrumKit::Stop()
+	void eXaDrums::Stop()
 	{
 
 		this->drumModule->Stop();
