@@ -31,7 +31,7 @@ namespace DrumKit
 		Trigger(TriggerParameters triggerParams);
 		virtual ~Trigger();
 
-		bool Trig(short value, float& volume);
+		bool Trig(short value, float& strength);
 		bool GetState() const { return trig; }
 
 	private:
@@ -39,6 +39,8 @@ namespace DrumKit
 		TriggerParameters triggerParameters;
 
 		high_resolution_clock::time_point t0;
+
+		static constexpr float numSamples = 2048.0f;
 
 		short mean;
 

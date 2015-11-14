@@ -36,7 +36,7 @@ namespace DrumKit
 	}
 
 
-	bool Trigger::Trig(short value, float& volume)
+	bool Trigger::Trig(short value, float& strength)
 	{
 
 		// Data normalisation
@@ -66,9 +66,11 @@ namespace DrumKit
 			{
 				out = true;
 
-				volume = this->triggerParameters.curve[maxVelocity];
+				strength = maxVelocity/numSamples;
 
+				//volume = this->triggerParameters.curve[maxVelocity];
 				//mixer->AddToMixer(this->drumId, volume);
+
 				return true;
 			}
 
@@ -81,7 +83,7 @@ namespace DrumKit
 			out = false;
 		}
 
-		volume = 0;
+		strength = 0;
 
 		return false;
 	}

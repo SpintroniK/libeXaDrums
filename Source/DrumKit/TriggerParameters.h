@@ -20,7 +20,7 @@ namespace DrumKit
 		unsigned int scanTime;
 		short threshold;
 		int maskTime;
-		std::vector<float> curve;
+		//std::vector<float> curve;
 
 	};
 

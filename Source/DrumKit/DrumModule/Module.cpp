@@ -125,12 +125,13 @@ namespace DrumKit
 		std::function<void(Drum)> f = [this] (Drum drum)
 		{
 
-			float volume = 0;
-			bool isTrig = drum.Trig(volume);
+			float strength = 0;
+			bool isTrig = drum.Trig(strength);
 
 			if(isTrig)
 			{
-				this->mixer->AddToMixer(drum.GetId(), volume);
+				// !TODO convert strength to volume (SoundProcessor)
+				this->mixer->AddToMixer(drum.GetId(), strength);
 			}
 
 		};

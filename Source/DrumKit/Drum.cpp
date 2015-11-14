@@ -66,19 +66,19 @@ namespace DrumKit
 		triggerParameters.scanTime = scanTime;
 		triggerParameters.threshold = threshold;
 		triggerParameters.maskTime = maskTime;
-		triggerParameters.curve = curve;
+		//triggerParameters.curve = curve;
 
 		trigger = std::shared_ptr<Trigger>(new Trigger(triggerParameters));
 
 		return;
 	}
 
-	bool Drum::Trig(float& volume)
+	bool Drum::Trig(float& strength)
 	{
 
 		short value = this->sensor->GetData(sensorId);
 
-		bool isTrig = this->trigger->Trig(value, volume);
+		bool isTrig = this->trigger->Trig(value, strength);
 
 		return isTrig;
 	}

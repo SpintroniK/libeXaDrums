@@ -32,7 +32,7 @@ namespace DrumKit
 		~Drum();
 
 		void CreateTrigger();
-		bool Trig(float& volume);
+		bool Trig(float& strength);
 
 		void SetDrumName(std::string drumName);
 		void SetSoundFile(std::string soundFile);
