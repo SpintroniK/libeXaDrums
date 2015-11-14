@@ -53,7 +53,7 @@ namespace DrumKit
 
 		bool GetDrumParams(xmlNode* drumName, std::vector<Drum>& drum);
 		void GetDrumCurve(std::string curveName, std::vector<float>& curve);
-		DrumCurve GetCurveType(std::string curveName);
+		Sound::DrumCurve GetCurveType(std::string curveName);
 		void AddSound(std::string fileLocation, size_t soundId);
 
 		IO::SensorType sensorType;

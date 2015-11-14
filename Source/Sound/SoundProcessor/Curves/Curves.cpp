@@ -7,7 +7,7 @@
 
 #include "Curves.h"
 
-namespace DrumKit
+namespace Sound
 {
 
 	void Curves::Linear(std::vector<float>& curve)

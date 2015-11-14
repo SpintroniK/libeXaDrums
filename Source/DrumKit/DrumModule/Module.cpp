@@ -237,38 +237,38 @@ namespace DrumKit
 		return true;
 	}
 
-	DrumCurve Module::GetCurveType(std::string curveName)
+	Sound::DrumCurve Module::GetCurveType(std::string curveName)
 	{
 		// Create map
-		std::map<std::string, DrumCurve> dic;
+		std::map<std::string, Sound::DrumCurve> dic;
 
 		// Add definitions to dic
-		dic["exponential"] = DrumCurve::exponential;
-		dic["linear"] = DrumCurve::linear;
+		dic["exponential"] = Sound::DrumCurve::exponential;
+		dic["linear"] = Sound::DrumCurve::linear;
 
-		std::map< std::string, DrumCurve>::iterator i = dic.find(curveName);
+		std::map< std::string, Sound::DrumCurve>::iterator i = dic.find(curveName);
 
 		if(i != dic.end())
 			return i->second;
 		else
-			return DrumCurve::linear; // Default value
+			return Sound::DrumCurve::linear; // Default value
 
 	}
 
 	void Module::GetDrumCurve(std::string curveName, std::vector<float>& curve)
 	{
 
-		DrumCurve drumCurve = GetCurveType(curveName);
+		Sound::DrumCurve drumCurve = GetCurveType(curveName);
 
 		switch(drumCurve)
 		{
 
-		case DrumCurve::exponential:
-				Curves::Exponential(curve);
+		case Sound::DrumCurve::exponential:
+				Sound::Curves::Exponential(curve);
 			break;
 
 		default:
-				Curves::Linear(curve);
+				Sound::Curves::Linear(curve);
 			break;
 		}
 
