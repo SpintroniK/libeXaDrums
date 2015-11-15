@@ -88,11 +88,11 @@ namespace DrumKit
 		while(getSound)
 		{
 
-			size_t drumId = drums.size();
+			size_t drumId = instruments.size();
 
-			bool newSound = GetDrumParams(drumName, drums);
+			bool newSound = GetDrumParams(drumName, instruments);
 
-			std::string drumFileName(drums[drumId].GetSoundFile());
+			std::string drumFileName(instruments[drumId].GetSoundFile());
 			std::string fileSound = directory + "SoundBank/" + drumFileName;
 
 			// Sound id must match drumId (index in the kit.drum vector)
@@ -122,23 +122,23 @@ namespace DrumKit
 	void Module::Run()
 	{
 
-		std::function<void(Drum)> f = [this] (Drum drum)
+		std::function<void(Instrument&)> f = [this] (Instrument& instrument)
 		{
 
 			float strength = 0;
-			bool isTrig = drum.Trig(strength);
+			bool isTrig = instrument.Trig(strength);
 
 			if(isTrig)
 			{
 				// !TODO convert strength to volume (SoundProcessor)
-				this->mixer->AddToMixer(drum.GetId(), strength);
+				this->mixer->AddToMixer(instrument.GetId(), strength);
 			}
 
 		};
 
 		while(isPlay)
 		{
-			std::for_each(drums.cbegin(), drums.cend(), f);
+			std::for_each(instruments.begin(), instruments.end(), f);
 		}
 
 		return;
@@ -193,30 +193,34 @@ namespace DrumKit
 	}
 
 
-	bool Module::GetDrumParams(xmlNode* drumName, std::vector<Drum>& drums)
+	bool Module::GetDrumParams(xmlNode* drumName, std::vector<Instrument>& instruments)
 	{
+
+		InstrumentParameters instruParams;
+
+		instruParams.id = instruments.size();
+		instruParams.sensorType = this->sensorType;
 
 		//drum.SetId(drums.size());
 
-		//std::string drumName = std::string((char*) drumName->children->content);
+		std::string instrumentName = std::string((char*) drumName->children->content);
+
+		instruParams.instrumentName = instrumentName;
 
 		xmlNode* sensorId 	= drumName->next->next;
-		int drumSensorId =  (int) std::atoi((char*) sensorId->children->content);
-
-
-		Drum drum(drums.size(), drumSensorId, sensorType);
+		instruParams.sensorId =  (int) std::atoi((char*) sensorId->children->content);
 
 		xmlNode* soundFile 	= sensorId->next->next;
-		drum.SetSoundFile(std::string((char*) soundFile->children->content));
+		instruParams.soundFile = std::string((char*) soundFile->children->content);
 
 		xmlNode* threshold 	= soundFile->next->next;
-		drum.SetThreshold((short) std::atoi((char*) threshold->children->content));
+		instruParams.threshold = (short) std::atoi((char*) threshold->children->content);
 
 		xmlNode* scanTime	= threshold->next->next;
-		drum.SetScanTime((int) std::atoi((char*) scanTime->children->content));
+		instruParams.scanTime = (int) std::atoi((char*) scanTime->children->content);
 
 		xmlNode* maskTime 	= scanTime->next->next;
-		drum.SetMaskTime((int) std::atoi((char*) maskTime->children->content));
+		instruParams.maskTime = (int) std::atoi((char*) maskTime->children->content);
 
 		xmlNode* curve 		= maskTime->next->next;
 		std::string curveName = std::string((char*) curve->children->content);
@@ -224,11 +228,13 @@ namespace DrumKit
 		std::vector<float> drumCurve;
 		GetDrumCurve(curveName, drumCurve);
 
-		drum.SetCurve(drumCurve);
+		instruParams.curve = drumCurve;
 
-		drum.CreateTrigger();
+		Instrument instrument(instruParams);
 
-		drums.push_back(drum);
+		instrument.CreateTrigger();
+
+		instruments.push_back(instrument);
 
 		if(curve->parent->next->next)
 			*drumName = *curve->parent->next->next->children->next;

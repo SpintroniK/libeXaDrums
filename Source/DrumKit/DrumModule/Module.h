@@ -8,10 +8,15 @@
 #ifndef RASPIDRUMS_SOURCE_DRUMKIT_MODULE_H_
 #define RASPIDRUMS_SOURCE_DRUMKIT_MODULE_H_
 
+#include "../../Sound/SoundProcessor/Curves/Curve.h"
+#include "../../Sound/SoundProcessor/Curves/Curves.h"
 #include "../../IO/SensorType.h"
 #include "../../Sound/Mixer.h"
-#include "../Drum.h"
+
 #include "../Kit.h"
+#include "../Instruments/InstrumentParameters.h"
+#include "../Instruments/Instrument.h"
+
 #include <libxml/tree.h>
 #include <libxml/xmlmemory.h>
 
@@ -22,8 +27,6 @@
 #include <atomic>
 #include <memory>
 #include <functional>
-#include "../../Sound/SoundProcessor/Curves/Curve.h"
-#include "../../Sound/SoundProcessor/Curves/Curves.h"
 
 
 
@@ -51,7 +54,7 @@ namespace DrumKit
 
 		void Run();
 
-		bool GetDrumParams(xmlNode* drumName, std::vector<Drum>& drum);
+		bool GetDrumParams(xmlNode* drumName, std::vector<Instrument>& instrument);
 		void GetDrumCurve(std::string curveName, std::vector<float>& curve);
 		Sound::DrumCurve GetCurveType(std::string curveName);
 		void AddSound(std::string fileLocation, size_t soundId);
@@ -60,7 +63,7 @@ namespace DrumKit
 
 		std::string directory;
 		std::vector<SoundParams> sndParams;
-		std::vector<Drum> drums;
+		std::vector<Instrument> instruments;
 
 		std::thread playThread;
 		std::atomic<bool> isPlay;

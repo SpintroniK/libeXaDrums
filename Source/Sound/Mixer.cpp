@@ -93,8 +93,6 @@ namespace Sound
 		if(sampleList.size() > 0)
 		{
 
-			std::vector<size_t> soundsToDelete;
-
 			// Browse sound list
 			for(size_t id = 0; id < sampleList.size(); id++)
 			{
