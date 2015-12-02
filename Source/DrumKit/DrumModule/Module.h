@@ -11,11 +11,12 @@
 #include "../../Sound/SoundProcessor/Curves/Curve.h"
 #include "../../Sound/SoundProcessor/Curves/Curves.h"
 #include "../../IO/SensorType.h"
-#include "../../Sound/Mixer.h"
+#include "../../Sound/SoundProcessor/SoundProcessor.h"
 
 #include "../Kit.h"
 #include "../Instruments/InstrumentParameters.h"
 #include "../Instruments/Instrument.h"
+#include "../Instruments/Drum.h"
 
 #include <libxml/tree.h>
 #include <libxml/xmlmemory.h>
@@ -38,7 +39,7 @@ namespace DrumKit
 
 	public:
 
-		Module(std::string dir, IO::SensorType sensorType, std::shared_ptr<Sound::Mixer> const& mixer);
+		Module(std::string dir, IO::SensorType sensorType, std::shared_ptr<Sound::SoundProcessor> const& soundProc);
 		virtual ~Module();
 
 		void LoadKit(std::string fileLoc, Kit& kit);
@@ -67,7 +68,7 @@ namespace DrumKit
 
 		std::thread playThread;
 		std::atomic<bool> isPlay;
-		std::shared_ptr<Sound::Mixer> mixer;
+		std::shared_ptr<Sound::SoundProcessor> soundProc;
 
 
 	};

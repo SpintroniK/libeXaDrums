@@ -8,16 +8,16 @@
 #ifndef MIXER_H_
 #define MIXER_H_
 
-#include "../DrumKit/Kit.h"
-#include "Alsa/AlsaParams.h"
-#include "SampleInfo.h"
+#include "SoundProcessor/SoundProcessor.h"
 
 #include <vector>
 #include <algorithm>
 #include <iterator>
 #include <chrono>
 #include <iostream>
+#include <memory>
 #include <mutex>
+#include <functional>
 
 namespace Sound
 {
@@ -27,22 +27,20 @@ namespace Sound
 
 	public:
 
-		Mixer();
+		Mixer(std::shared_ptr<SoundProcessor> const& soundProc);
 		virtual ~Mixer();
 
 		void Mix();
-		void AddToMixer(int id, float volume);
 		void SetAlsaParameters(AlsaParams* alsaParameters);
 		void SetSoundParameters(std::vector<DrumKit::SoundParams> soundParams);
 
 	private:
 
-		std::vector<DrumKit::SoundParams> soundParameters;
+		std::shared_ptr<SoundProcessor> const& soundProc;
+
 		AlsaParams* alsaParams;
 
 		mutable std::mutex mixerMutex;
-
-		std::vector<SampleInfo> sampleList;
 
 	};
 

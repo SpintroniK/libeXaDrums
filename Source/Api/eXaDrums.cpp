@@ -11,17 +11,19 @@ namespace eXaDrumsApi
 {
 
 	eXaDrums::eXaDrums(const char* dataLocation, IO::SensorType sensorType)
-	: drumModule(nullptr), alsaParams()
+	: drumModule(nullptr), alsaParams(), alsa(nullptr), mixer(nullptr), soundProc(nullptr)
 	{
 
 		std::string moduleLoc(dataLocation);
 
 		Sound::Alsa::ReadXmlConfig(this->alsaParams, moduleLoc + "alsaConfig.xml");
 
-		this->mixer = std::shared_ptr<Sound::Mixer>(new Sound::Mixer());
-		this->alsa = std::unique_ptr<Sound::Alsa>(new Sound::Alsa(this->alsaParams, this->mixer));
+		this->soundProc = std::shared_ptr<Sound::SoundProcessor>(new Sound::SoundProcessor());
 
-		this->drumModule = std::unique_ptr<DrumKit::Module>(new DrumKit::Module(moduleLoc, sensorType, this->mixer));
+		this->mixer = std::shared_ptr<Sound::Mixer>(new Sound::Mixer(this->soundProc));
+		this->alsa = std::unique_ptr<Sound::Alsa>(new Sound::Alsa(this->alsaParams, this->mixer, this->soundProc));
+
+		this->drumModule = std::unique_ptr<DrumKit::Module>(new DrumKit::Module(moduleLoc, sensorType, this->soundProc));
 
 
 		return;
@@ -43,7 +45,7 @@ namespace eXaDrumsApi
 
 		this->drumModule->LoadKit(moduleLoc + location, this->kit);
 
-		this->mixer->SetSoundParameters(this->drumModule->soundParameters);
+		this->soundProc->SetSoundParameters(this->drumModule->soundParameters);
 
 		return;
 	}

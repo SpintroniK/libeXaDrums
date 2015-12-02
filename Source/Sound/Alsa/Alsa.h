@@ -35,7 +35,7 @@ namespace Sound
 
 	public:
 
-		Alsa(AlsaParams& parameters, std::shared_ptr<Mixer> const& mixer);
+		Alsa(AlsaParams& parameters, std::shared_ptr<Mixer> const& mixer, std::shared_ptr<SoundProcessor> const& soundProc);
 		virtual ~Alsa();
 
 		static void ReadXmlConfig(AlsaParams& params, const std::string fileLocation);
@@ -68,6 +68,7 @@ namespace Sound
 		AlsaParams& 	params;
 
 		std::shared_ptr<Mixer> mixer;
+		std::shared_ptr<SoundProcessor> soundProc;
 
 		std::atomic<bool> play;
 		std::atomic<bool> rec;

@@ -11,12 +11,12 @@
 namespace DrumKit
 {
 
-	Module::Module(std::string dir, IO::SensorType sensorType, std::shared_ptr<Sound::Mixer> const& mixer)
+	Module::Module(std::string dir, IO::SensorType sensorType, std::shared_ptr<Sound::SoundProcessor> const& soundProc)
 	: soundParameters(),
 	  sensorType(sensorType),
 	  directory(dir),
 	  isPlay(false),
-	  mixer(mixer)
+	  soundProc(soundProc)
 	{
 
 		return;
@@ -81,6 +81,9 @@ namespace DrumKit
 		kit.kitFolder 			= std::string((char*) kitFolder->children->content);
 
 		xmlNode* kitParams 		= kitFolder->next->next;
+
+		std::string instrumentType = std::string((char*)kitParams->properties->children->content);
+
 		xmlNode* drumName 		= kitParams->children->next;
 
 		bool getSound = true;
@@ -131,7 +134,7 @@ namespace DrumKit
 			if(isTrig)
 			{
 				// !TODO convert strength to volume (SoundProcessor)
-				this->mixer->AddToMixer(instrument.GetId(), strength);
+				this->soundProc->AddSound(instrument.GetId(), strength);
 			}
 
 		};
@@ -202,6 +205,7 @@ namespace DrumKit
 		instruParams.sensorType = this->sensorType;
 
 		//drum.SetId(drums.size());
+
 
 		std::string instrumentName = std::string((char*) drumName->children->content);
 

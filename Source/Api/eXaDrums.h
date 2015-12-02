@@ -11,6 +11,7 @@
 #include "../IO/SensorType.h"
 #include "../Sound/Alsa/Alsa.h"
 #include "../Sound/Mixer.h"
+#include "../Sound/SoundProcessor/SoundProcessor.h"
 #include "../DrumKit/DrumModule/Module.h"
 
 #include <string>
@@ -44,6 +45,7 @@ namespace eXaDrumsApi
 		Sound::AlsaParams alsaParams;
 		std::unique_ptr<Sound::Alsa> alsa;
 		std::shared_ptr<Sound::Mixer> mixer;
+		std::shared_ptr<Sound::SoundProcessor> soundProc;
 
 
 	};

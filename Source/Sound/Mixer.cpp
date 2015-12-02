@@ -10,7 +10,8 @@
 namespace Sound
 {
 
-	Mixer::Mixer() : soundParameters(), alsaParams()
+	Mixer::Mixer(std::shared_ptr<SoundProcessor> const& soundProc)
+	:  soundProc(soundProc), alsaParams()
 	{
 
 		return;
@@ -23,14 +24,6 @@ namespace Sound
 		return;
 	}
 
-	void Mixer::SetSoundParameters(std::vector<DrumKit::SoundParams> soundParams)
-	{
-
-		soundParameters = soundParams;
-
-		return;
-	}
-
 	void Mixer::SetAlsaParameters(AlsaParams* alsaParameters)
 	{
 
@@ -38,47 +31,6 @@ namespace Sound
 
 		return;
 	}
-
-	void Mixer::AddToMixer(int id, float volume)
-	{
-
-		// Prevent other threads to alter the soundList vector
-		std::lock_guard<std::mutex> lock(mixerMutex);
-
-		/*
-		 * Not needed anymore, but left here as a reminder
-		 *
-		 * // Test if the sound has already been added to the mixer
-		std::vector<SoundInfo>::iterator iter =	std::find_if(soundList.begin(), soundList.end(),
-				[id](const SoundInfo& sound) { return sound.id == id; });
-
-		// Find sound's position in the vector
-		size_t i = std::distance(soundList.begin(), iter);
-
-		if(i != soundList.size())
-		{
-			// The sound is already in the sound list, so we need to rewind it
-			soundList[i].index = 0;
-			// We also have to make sure to play the sound with the new volume
-			soundList[i].volume = volume;
-
-		}
-		else*/
-		{
-			// The sound needs to be added to the sound list
-
-			SampleInfo sample;
-
-			sample.id = id;
-			sample.index = 0;
-			sample.volume = volume;
-
-			sampleList.push_back(sample);
-		}
-
-		return;
-	}
-
 
 	void Mixer::Mix()
 	{
@@ -89,6 +41,33 @@ namespace Sound
 		// Fill buffer with zeros
 		std::fill(alsaParams->buffer.begin(), alsaParams->buffer.begin() + alsaParams->periodSize, 0);
 
+		std::vector<std::vector<short>> samples;
+		samples.clear();
+
+		this->soundProc->GetSamples(samples);
+
+		/*
+		std::function<void(std::vector<short>)> mix = [this](std::vector<short> data)
+		{
+			std::transform(data.cbegin(), data.cend(), this->alsaParams->buffer.cbegin(), this->alsaParams->buffer.begin(), std::plus<short>());
+		};
+
+		std::for_each(samples.cbegin(), samples.cend(), mix);
+		*/
+
+		// Mix sounds
+		for(size_t i = 0; i < samples.size(); i++)
+		{
+			for(size_t j = 0; j < samples[i].size(); j++)
+			{
+				this->alsaParams->buffer[j] += samples[i][j];
+			}
+		}
+
+		// Drop sound samples
+		this->soundProc->DumpSamples();
+
+/*
 		// If there are sounds to mix
 		if(sampleList.size() > 0)
 		{
@@ -119,7 +98,8 @@ namespace Sound
 			std::vector<SampleInfo>::iterator n =  std::remove_if(sampleList.begin(), sampleList.end(), f);
 			sampleList.erase(n, sampleList.end());
 
-		}
+
+		}*/
 
 		return;
 	}
