@@ -18,7 +18,7 @@ namespace DrumKit
 
 	public:
 
-		Cymbal();
+		Cymbal(InstrumentParameters parameters);
 		virtual ~Cymbal();
 
 	private:

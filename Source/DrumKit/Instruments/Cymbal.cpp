@@ -10,7 +10,7 @@
 namespace DrumKit
 {
 
-	Cymbal::Cymbal()
+	Cymbal::Cymbal(InstrumentParameters parameters) : Instrument(parameters)
 	{
 
 		return;
