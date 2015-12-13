@@ -16,8 +16,6 @@ namespace DrumKit
 	DrumTrigger::DrumTrigger(TriggerParameters triggerParams) : Trigger(triggerParams)
 	{
 
-		t0 = high_resolution_clock::now();
-
 		return;
 	}
 

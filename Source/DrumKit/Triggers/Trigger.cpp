@@ -21,6 +21,8 @@ namespace DrumKit
 	  maxVelocity(0)
 	{
 
+		t0 = high_resolution_clock::now();
+
 		return;
 	}
 

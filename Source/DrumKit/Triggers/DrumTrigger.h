@@ -30,10 +30,11 @@ namespace DrumKit
 	public:
 
 		DrumTrigger(TriggerParameters triggerParams);
-		virtual ~DrumTrigger();
 
 		virtual bool Trig(short value, float& strength);
 		//bool GetState() const { return trig; }
+
+		virtual ~DrumTrigger();
 
 	private:
 
