@@ -8,7 +8,8 @@
 #ifndef RASPIDRUMS_SOURCE_DRUMKIT_TRIGGER_H_
 #define RASPIDRUMS_SOURCE_DRUMKIT_TRIGGER_H_
 
-#include "../Sound/Mixer.h"
+#include "../../Sound/Mixer.h"
+#include "Trigger.h"
 #include "TriggerParameters.h"
 
 #include <chrono>
@@ -23,34 +24,20 @@ using namespace std::chrono;
 namespace DrumKit
 {
 
-	class Trigger
+	class DrumTrigger : public Trigger
 	{
 
 	public:
 
-		Trigger(TriggerParameters triggerParams);
-		virtual ~Trigger();
+		DrumTrigger(TriggerParameters triggerParams);
+		virtual ~DrumTrigger();
 
-		bool Trig(short value, float& strength);
-		bool GetState() const { return trig; }
+		virtual bool Trig(short value, float& strength);
+		//bool GetState() const { return trig; }
 
 	private:
 
-		TriggerParameters triggerParameters;
 
-		high_resolution_clock::time_point t0;
-
-		static constexpr float numSamples = 2048.0f;
-
-		short mean;
-
-		bool trig;
-		bool out;
-
-		unsigned long long trigTime;
-
-		short velocity;
-		short maxVelocity;
 
 	};
 

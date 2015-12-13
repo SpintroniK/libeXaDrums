@@ -13,13 +13,13 @@
 #include "../../IO/HddSensor.h"
 #include "../../IO/SpiSensor.h"
 #include "../../Sound/Mixer.h"
-#include "../TriggerParameters.h"
-#include "../Trigger.h"
 #include "InstrumentParameters.h"
 
 #include <vector>
 #include <string>
 #include <memory>
+
+#include "../Triggers/DrumTrigger.h"
 
 namespace DrumKit
 {

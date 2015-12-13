@@ -58,7 +58,7 @@ namespace DrumKit
 		triggerParameters.maskTime = parameters.maskTime;
 		//triggerParameters.curve = curve;
 
-		trigger = std::shared_ptr<Trigger>(new Trigger(triggerParameters));
+		trigger = std::shared_ptr<Trigger>(new DrumTrigger(triggerParameters));
 
 		return;
 	}
