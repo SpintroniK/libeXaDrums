@@ -23,13 +23,6 @@ namespace DrumKit
 
 	};
 
-	struct Kit
-	{
-
-		std::string kitName;
-		std::string kitFolder;
-
-	};
 
 }
 

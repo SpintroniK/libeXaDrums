@@ -42,7 +42,7 @@ namespace DrumKit
 		Module(std::string dir, IO::SensorType sensorType, std::shared_ptr<Sound::SoundProcessor> const& soundProc);
 		virtual ~Module();
 
-		void LoadKit(std::string fileLoc, Kit& kit);
+		void LoadKit(std::string fileLoc);
 
 		void Start();
 		void Stop();
@@ -59,6 +59,9 @@ namespace DrumKit
 		void GetDrumCurve(std::string curveName, std::vector<float>& curve);
 		Sound::DrumCurve GetCurveType(std::string curveName);
 		void AddSound(std::string fileLocation, size_t soundId);
+
+		std::string drumKitName;
+		std::string drumKitFolder;
 
 		IO::SensorType sensorType;
 

@@ -40,7 +40,6 @@ namespace eXaDrumsApi
 
 
 		std::unique_ptr<DrumKit::Module> drumModule;
-		DrumKit::Kit kit;
 
 		Sound::AlsaParams alsaParams;
 		std::unique_ptr<Sound::Alsa> alsa;

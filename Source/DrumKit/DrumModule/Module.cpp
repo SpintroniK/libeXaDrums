@@ -62,7 +62,7 @@ namespace DrumKit
 		return;
 	}
 
-	void Module::LoadKit(std::string file, Kit& kit)
+	void Module::LoadKit(std::string file)
 	{
 
 		const char* fileName 	= file.c_str();
@@ -75,10 +75,10 @@ namespace DrumKit
 		xmlNode* node 			= rootElement->children;
 
 		xmlNode* kitName 		= node->next;
-		kit.kitName				= std::string((char*) kitName->children->content);
+		this->drumKitName		= std::string((char*) kitName->children->content);
 
 		xmlNode* kitFolder 		= kitName->next->next;
-		kit.kitFolder 			= std::string((char*) kitFolder->children->content);
+		this->drumKitFolder		= std::string((char*) kitFolder->children->content);
 
 		xmlNode* kitParams 		= kitFolder->next->next;
 
