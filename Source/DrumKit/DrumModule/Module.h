@@ -55,7 +55,7 @@ namespace DrumKit
 
 		void Run();
 
-		bool GetDrumParams(xmlNode* drumName, std::vector<Instrument>& instrument);
+		bool GetDrumParams(xmlNode* drumName, std::vector<std::shared_ptr<Instrument>>& instrument);
 		void GetDrumCurve(std::string curveName, std::vector<float>& curve);
 		Sound::DrumCurve GetCurveType(std::string curveName);
 		void AddSound(std::string fileLocation, size_t soundId);
@@ -64,7 +64,7 @@ namespace DrumKit
 
 		std::string directory;
 		std::vector<SoundParams> sndParams;
-		std::vector<Instrument> instruments;
+		std::vector<std::shared_ptr<Instrument>> instruments;
 
 		std::thread playThread;
 		std::atomic<bool> isPlay;

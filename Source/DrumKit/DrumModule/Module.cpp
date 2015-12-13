@@ -95,7 +95,7 @@ namespace DrumKit
 
 			bool newSound = GetDrumParams(drumName, instruments);
 
-			std::string drumFileName(instruments[drumId].GetSoundFile());
+			std::string drumFileName(instruments[drumId]->GetSoundFile());
 			std::string fileSound = directory + "SoundBank/" + drumFileName;
 
 			// Sound id must match drumId (index in the kit.drum vector)
@@ -125,16 +125,16 @@ namespace DrumKit
 	void Module::Run()
 	{
 
-		std::function<void(Instrument&)> f = [this] (Instrument& instrument)
+		std::function<void(std::shared_ptr<Instrument>)> f = [this] (std::shared_ptr<Instrument> instrument)
 		{
 
 			float strength = 0;
-			bool isTrig = instrument.Trig(strength);
+			bool isTrig = instrument->Trig(strength);
 
 			if(isTrig)
 			{
 				// !TODO convert strength to volume (SoundProcessor)
-				this->soundProc->AddSound(instrument.GetId(), strength);
+				this->soundProc->AddSound(instrument->GetId(), strength);
 			}
 
 		};
@@ -196,7 +196,7 @@ namespace DrumKit
 	}
 
 
-	bool Module::GetDrumParams(xmlNode* drumName, std::vector<Instrument>& instruments)
+	bool Module::GetDrumParams(xmlNode* drumName, std::vector<std::shared_ptr<Instrument>>& instruments)
 	{
 
 		InstrumentParameters instruParams;
@@ -234,9 +234,9 @@ namespace DrumKit
 
 		instruParams.curve = drumCurve;
 
-		Instrument instrument(instruParams);
+		std::shared_ptr<Instrument> instrument = std::shared_ptr<Instrument>(new Drum(instruParams));
 
-		instrument.CreateTrigger();
+		instrument->CreateTrigger();
 
 		instruments.push_back(instrument);
 

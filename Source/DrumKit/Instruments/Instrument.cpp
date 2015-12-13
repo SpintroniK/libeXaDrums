@@ -64,15 +64,6 @@ namespace DrumKit
 	}
 
 
-	bool Instrument::Trig(float& strength)
-	{
-
-		short value = this->sensor->GetData(parameters.sensorId);
-
-		bool isTrig = this->trigger->Trig(value, strength);
-
-		return isTrig;
-	}
 
 
 }
