@@ -11,7 +11,11 @@ namespace eXaDrumsApi
 {
 
 	eXaDrums::eXaDrums(const char* dataLocation, IO::SensorType sensorType)
-	: drumModule(nullptr), alsaParams(), alsa(nullptr), mixer(nullptr), soundProc(nullptr)
+	: drumModule(nullptr),
+	  alsaParams(),
+	  alsa(nullptr),
+	  mixer(nullptr),
+	  soundProc(nullptr)
 	{
 
 		std::string moduleLoc(dataLocation);
@@ -35,11 +39,27 @@ namespace eXaDrumsApi
 		return;
 	}
 
+
+	void eXaDrums::CreateKitManager(const char* kitsPath)
+	{
+		std::string moduleLoc;
+		this->drumModule->GetDirectory(moduleLoc);
+
+		std::string kitsAbsPath(moduleLoc + std::string(kitsPath));
+
+		this->kitManager = std::unique_ptr<DrumKit::KitManager>(new DrumKit::KitManager(kitsAbsPath));
+
+
+		return;
+	}
+
+
 	void eXaDrums::LoadKit(const char* kitLocation)
 	{
 
 		std::string location(kitLocation);
 		std::string moduleLoc;
+
 
 		this->drumModule->GetDirectory(moduleLoc);
 

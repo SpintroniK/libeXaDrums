@@ -9,6 +9,7 @@
 #define SOURCE_DRUMKIT_KITMANAGER_KITMANAGER_H_
 
 #include <vector>
+#include <string>
 
 #include <dirent.h>
 
@@ -20,13 +21,20 @@ namespace DrumKit
 
 	public:
 
-		KitManager();
+		KitManager(std::string kitsPath);
+
+		void GetNumKits(int& N);
+
 		virtual ~KitManager();
 
 	private:
 
+		std::string kitsPath;
+
+		std::vector<std::string> filesList;
+
 	};
 
-} /* namespace DrumKit */
+}
 
 #endif /* SOURCE_DRUMKIT_KITMANAGER_KITMANAGER_H_ */

@@ -13,6 +13,7 @@
 #include "../Sound/Mixer.h"
 #include "../Sound/SoundProcessor/SoundProcessor.h"
 #include "../DrumKit/DrumModule/Module.h"
+#include "../DrumKit/KitManager/KitManager.h"
 
 #include <string>
 #include <vector>
@@ -31,6 +32,7 @@ namespace eXaDrumsApi
 		~eXaDrums();
 
 		void LoadKit(const char* kitLocation);
+		void CreateKitManager(const char* kitsPath);
 
 		//
 		void Start();
@@ -40,6 +42,8 @@ namespace eXaDrumsApi
 
 
 		std::unique_ptr<DrumKit::Module> drumModule;
+
+		std::unique_ptr<DrumKit::KitManager> kitManager;
 
 		Sound::AlsaParams alsaParams;
 		std::unique_ptr<Sound::Alsa> alsa;
