@@ -13,7 +13,6 @@
 #include "../../IO/SensorType.h"
 #include "../../Sound/SoundProcessor/SoundProcessor.h"
 
-#include "../Kit.h"
 #include "../Instruments/InstrumentParameters.h"
 #include "../Instruments/Instrument.h"
 #include "../Instruments/Drum.h"
@@ -40,16 +39,15 @@ namespace DrumKit
 	public:
 
 		Module(std::string dir, IO::SensorType sensorType, std::shared_ptr<Sound::SoundProcessor> const& soundProc);
-		virtual ~Module();
 
 		void LoadKit(std::string fileLoc);
 
 		void Start();
 		void Stop();
 
-		std::vector<SoundParams> soundParameters;
-
 		void GetDirectory(std::string& dir) const;
+
+		virtual ~Module();
 
 	private:
 
@@ -58,7 +56,7 @@ namespace DrumKit
 		bool GetDrumParams(xmlNode* drumName, std::vector<std::shared_ptr<Instrument>>& instrument);
 		void GetDrumCurve(std::string curveName, std::vector<float>& curve);
 		Sound::DrumCurve GetCurveType(std::string curveName);
-		void AddSound(std::string fileLocation, size_t soundId);
+		void AddSound(std::string fileLocation, std::vector<short>& data, unsigned int& duration);
 
 		std::string drumKitName;
 		std::string drumKitFolder;
@@ -66,7 +64,6 @@ namespace DrumKit
 		IO::SensorType sensorType;
 
 		std::string directory;
-		std::vector<SoundParams> sndParams;
 		std::vector<std::shared_ptr<Instrument>> instruments;
 
 		std::thread playThread;

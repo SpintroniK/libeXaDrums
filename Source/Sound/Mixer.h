@@ -32,7 +32,6 @@ namespace Sound
 
 		void Mix();
 		void SetAlsaParameters(AlsaParams* alsaParameters);
-		void SetSoundParameters(std::vector<DrumKit::SoundParams> soundParams);
 
 	private:
 

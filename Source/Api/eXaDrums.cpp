@@ -62,10 +62,7 @@ namespace eXaDrumsApi
 
 
 		this->drumModule->GetDirectory(moduleLoc);
-
 		this->drumModule->LoadKit(moduleLoc + location);
-
-		this->soundProc->SetSoundParameters(this->drumModule->soundParameters);
 
 		return;
 	}

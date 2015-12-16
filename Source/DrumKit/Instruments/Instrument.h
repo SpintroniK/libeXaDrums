@@ -34,12 +34,19 @@ namespace DrumKit
 		virtual void CreateTrigger();
 		virtual bool Trig(float& strength) = 0;
 
+		virtual void SetSoundData(std::vector<short>& data, unsigned int duration);
+		virtual std::vector<short> GetSoundData() const { return soundData; };
+		virtual unsigned int GetSoundDuration() const { return soundDuration; };
+
 		virtual std::string GetSoundFile() const { return this->parameters.soundFile; }
 		virtual int GetId() const { return this->parameters.id; }
 
 		virtual ~Instrument();
 
 	protected:
+
+		std::vector<short> soundData;
+		unsigned int soundDuration;
 
 		InstrumentParameters parameters;
 		std::shared_ptr<IO::ISensor> sensor;

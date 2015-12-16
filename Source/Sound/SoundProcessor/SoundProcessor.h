@@ -9,7 +9,6 @@
 #define SOURCE_SOUND_SOUNDPROCESSOR_SOUNDPROCESSOR_H_
 
 
-#include "../../DrumKit/Kit.h"
 #include "../SampleInfo.h"
 #include "../Alsa/AlsaParams.h"
 
@@ -17,6 +16,7 @@
 #include <vector>
 #include <algorithm>
 #include <functional>
+
 
 namespace Sound
 {
@@ -30,7 +30,7 @@ namespace Sound
 		virtual ~SoundProcessor();
 
 		void SetAlsaParameters(AlsaParams* alsaParameters);
-		void SetSoundParameters(std::vector<DrumKit::SoundParams> soundParams);
+		void SetInstrumentSounds(std::vector<short> data, unsigned int duration);
 
 		void AddSound(int id, float volume);
 		void GetSamples(std::vector<std::vector<short>>& samples);
@@ -38,10 +38,11 @@ namespace Sound
 
 	private:
 
+		std::vector<std::vector<short>> sounds;
+		std::vector<unsigned int> durations;
 
 		std::vector<SampleInfo> soundList;
 		std::vector<std::vector<short>> sampleList;
-		std::vector<DrumKit::SoundParams> soundParameters;
 
 		AlsaParams* alsaParams;
 

@@ -12,8 +12,7 @@ namespace DrumKit
 {
 
 	Module::Module(std::string dir, IO::SensorType sensorType, std::shared_ptr<Sound::SoundProcessor> const& soundProc)
-	: soundParameters(),
-	  sensorType(sensorType),
+	: sensorType(sensorType),
 	  directory(dir),
 	  isPlay(false),
 	  soundProc(soundProc)
@@ -25,7 +24,6 @@ namespace DrumKit
 	Module::~Module()
 	{
 
-		sndParams.clear();
 
 		return;
 	}
@@ -99,7 +97,13 @@ namespace DrumKit
 			std::string fileSound = directory + "SoundBank/" + drumFileName;
 
 			// Sound id must match drumId (index in the kit.drum vector)
-			AddSound(fileSound, drumId);
+
+			std::vector<short> soundData;
+			unsigned int soundDuration;
+
+			AddSound(fileSound, soundData, soundDuration);
+
+			instruments[drumId]->SetSoundData(soundData, soundDuration);
 
 			drumId++;
 
@@ -108,12 +112,24 @@ namespace DrumKit
 
 		}
 
-		this->soundParameters = sndParams;
 
 		//xmlFreeDoc(doc);
 		xmlFree(doc);
 		//xmlCleanupParser();
 	    //xmlMemoryDump();
+
+		// Transfer sounds to the soundProcessor
+
+		std::function<void(std::shared_ptr<Instrument>)> f = [this](std::shared_ptr<Instrument> instrument)
+		{
+
+			this->soundProc->SetInstrumentSounds(instrument->GetSoundData(), instrument->GetSoundDuration());
+
+			return;
+		};
+
+		std::for_each(instruments.cbegin(), instruments.cend(), f);
+
 
 		return;
 	}
@@ -147,7 +163,7 @@ namespace DrumKit
 		return;
 	}
 
-	void Module::AddSound(std::string filename, size_t soundId)
+	void Module::AddSound(std::string filename, std::vector<short>& data, unsigned int& duration)
 	{
 
 
@@ -171,23 +187,14 @@ namespace DrumKit
 		soundFile.seekg(0, std::ios::beg);
 
 
-		SoundParams sndParameters;
-		sndParameters.data.clear();
-		sndParameters.data.resize(fileSize);
+		data.clear();
+		data.resize(fileSize);
 
 		int i = 0;
-		while(soundFile.read((char*)&sndParameters.data[i], sizeof(short))) i++;
+		while(soundFile.read((char*)&data[i], sizeof(short))) i++;
 
+		duration = fileSize*sizeof(char)/sizeof(short);
 
-		sndParameters.length 	= fileSize*sizeof(char)/sizeof(short);
-		sndParameters.id 		= soundId;
-
-		//sndParameters.data.clear();
-
-		//std::copy(&soundData[0], &soundData[sndParameters.length], std::back_inserter(sndParameters.data));
-
-		// Add sound to lib
-		sndParams.push_back(sndParameters);
 
 		// Close file
 		soundFile.close();

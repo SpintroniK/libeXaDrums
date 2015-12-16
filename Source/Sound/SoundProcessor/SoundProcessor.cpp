@@ -10,13 +10,18 @@
 namespace Sound
 {
 
-	SoundProcessor::SoundProcessor() : soundParameters(), alsaParams()
+	SoundProcessor::SoundProcessor() : sounds(), durations(), alsaParams()
 	{
+
+		sounds.clear();
+		durations.clear();
 
 	}
 
 	SoundProcessor::~SoundProcessor()
 	{
+		sounds.clear();
+		durations.clear();
 
 	}
 
@@ -29,13 +34,15 @@ namespace Sound
 		return;
 	}
 
-	void SoundProcessor::SetSoundParameters(std::vector<DrumKit::SoundParams> soundParams)
+	void SoundProcessor::SetInstrumentSounds(std::vector<short> data, unsigned int duration)
 	{
 
-		soundParameters = soundParams;
+		this->sounds.push_back(data);
+		this->durations.push_back(duration);
 
 		return;
 	}
+
 
 	void SoundProcessor::AddSound(int id, float volume)
 	{
@@ -61,10 +68,11 @@ namespace Sound
 		{
 
 			std::vector<short> buffer(alsaParams->periodSize);
+			int instrumentId = soundList[j].id;
 
 			for(int i = 0; i < alsaParams->periodSize; i++)
 			{
-				buffer[i] = soundList[j].volume * soundParameters[soundList[j].id].data[soundList[j].index + i];
+				buffer[i] = soundList[j].volume * sounds[instrumentId][soundList[j].index + i];
 			}
 
 			soundList[j].index += alsaParams->periodSize;
@@ -84,7 +92,7 @@ namespace Sound
 		// Delete the sounds that finished playing
 		std::function<bool(SampleInfo)> f = [this](SampleInfo sample)
 		{
-			return (sample.index >= soundParameters[sample.id].length);
+			return (sample.index >= durations[sample.id]);
 		};
 		soundList.erase(std::remove_if(soundList.begin(), soundList.end(), f), soundList.end());
 

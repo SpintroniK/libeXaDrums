@@ -11,7 +11,10 @@
 namespace DrumKit
 {
 
-	Instrument::Instrument(InstrumentParameters parameters) : parameters(parameters)
+	Instrument::Instrument(InstrumentParameters parameters)
+	: soundData(),
+	  soundDuration(0),
+	  parameters(parameters)
 	{
 
 		// Create sensor
@@ -43,6 +46,16 @@ namespace DrumKit
 
 	Instrument::~Instrument()
 	{
+
+		return;
+	}
+
+	void Instrument::SetSoundData(std::vector<short>& data, unsigned int duration)
+	{
+
+		this->soundData.clear();
+		this->soundData.swap(data);
+		this->soundDuration = duration;
 
 		return;
 	}
