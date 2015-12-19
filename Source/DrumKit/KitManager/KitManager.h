@@ -29,8 +29,9 @@ namespace DrumKit
 
 	private:
 
-		std::string kitsPath;
+		void ScanFolder();
 
+		std::string kitsPath;
 		std::vector<std::string> filesList;
 
 	};

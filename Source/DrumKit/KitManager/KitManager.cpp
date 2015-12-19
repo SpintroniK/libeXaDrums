@@ -13,20 +13,7 @@ namespace DrumKit
 	KitManager::KitManager(std::string kitsPath) : kitsPath(kitsPath)
 	{
 
-		struct dirent *ent;
-		DIR* directory = opendir(kitsPath.c_str());
-
-		while((ent = readdir(directory)) != NULL)
-		{
-			std::string fileName(ent->d_name);
-			std::string fileExtension = fileName.substr(fileName.find_last_of(".") + 1);
-
-			if(fileExtension == "xml")
-			{
-
-				this->filesList.push_back(this->kitsPath + fileName);
-			}
-		}
+		this->ScanFolder();
 
 		return;
 	}
@@ -47,5 +34,28 @@ namespace DrumKit
 
 		return;
 	}
+
+	// PRIVATE METHODS
+
+	void KitManager::ScanFolder()
+	{
+
+		struct dirent *ent;
+		DIR* directory = opendir(kitsPath.c_str());
+
+		while((ent = readdir(directory)) != NULL)
+		{
+			std::string fileName(ent->d_name);
+			std::string fileExtension = fileName.substr(fileName.find_last_of(".") + 1);
+
+			if(fileExtension == "xml")
+			{
+				this->filesList.push_back(this->kitsPath + fileName);
+			}
+		}
+
+		return;
+	}
+
 
 } /* namespace DrumKit */
