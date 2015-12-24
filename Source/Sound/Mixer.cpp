@@ -42,7 +42,6 @@ namespace Sound
 		std::fill(alsaParams->buffer.begin(), alsaParams->buffer.begin() + alsaParams->periodSize, 0);
 
 		std::vector<std::vector<short>> samples;
-		samples.clear();
 
 		this->soundProc->GetSamples(samples);
 

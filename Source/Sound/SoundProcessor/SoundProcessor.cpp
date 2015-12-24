@@ -49,13 +49,36 @@ namespace Sound
 
 		std::lock_guard<std::mutex> lock(soundProcMutex);
 
-		SampleInfo sample;
+		/*
+		 * Not needed anymore, but left here as a reminder in RaspiDrums
+		 * Needs to be tested...
+		 */
+		//Test if the sound has already been added to the mixer
+		std::vector<SampleInfo>::iterator iter =	std::find_if(soundList.begin(), soundList.end(),
+				[id](const SampleInfo& sound) { return sound.id == id; });
 
-		sample.id = id;
-		sample.index = 0;
-		sample.volume = volume;
+		// Find sound's position in the vector
+		size_t i = std::distance(soundList.begin(), iter);
 
-		soundList.push_back(sample);
+		if(i != soundList.size())
+		{
+			// The sound is already in the sound list, so we need to rewind it
+			soundList[i].index = 0;
+			// We also have to make sure to play the sound with the new volume
+			soundList[i].volume = volume;
+
+		}
+		else
+		{
+
+			SampleInfo sample;
+
+			sample.id = id;
+			sample.index = 0;
+			sample.volume = volume;
+
+			soundList.push_back(sample);
+		}
 
 		return;
 	}
