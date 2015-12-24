@@ -24,10 +24,10 @@ namespace DrumKit
 
 
 		Trigger(TriggerParameters trigParams);
+		virtual ~Trigger() {};
 
 		virtual bool Trig(short value, float& strength) = 0;
 
-		virtual ~Trigger() {};
 
 
 	protected:

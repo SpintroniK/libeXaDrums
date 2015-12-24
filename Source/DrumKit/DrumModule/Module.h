@@ -39,6 +39,7 @@ namespace DrumKit
 	public:
 
 		Module(std::string dir, IO::SensorType sensorType, std::shared_ptr<Sound::SoundProcessor> const& soundProc);
+		virtual ~Module();
 
 		void LoadKit(std::string fileLoc);
 
@@ -46,8 +47,6 @@ namespace DrumKit
 		void Stop();
 
 		void GetDirectory(std::string& dir) const;
-
-		virtual ~Module();
 
 	private:
 

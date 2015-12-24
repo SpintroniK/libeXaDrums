@@ -30,6 +30,7 @@ namespace DrumKit
 	public:
 
 		Instrument(InstrumentParameters parameters);
+		virtual ~Instrument();
 
 		virtual void CreateTrigger();
 		virtual bool Trig(float& strength) = 0;
@@ -41,7 +42,6 @@ namespace DrumKit
 		virtual std::string GetSoundFile() const { return this->parameters.soundFile; }
 		virtual int GetId() const { return this->parameters.id; }
 
-		virtual ~Instrument();
 
 	protected:
 

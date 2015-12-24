@@ -31,6 +31,7 @@ namespace IO
 
 		Serial();
 		virtual ~Serial();
+
 		short GetData(char port);
 
 	private:

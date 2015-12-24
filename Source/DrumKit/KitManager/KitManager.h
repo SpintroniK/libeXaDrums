@@ -22,10 +22,10 @@ namespace DrumKit
 	public:
 
 		KitManager(std::string kitsPath);
+		virtual ~KitManager();
 
 		void GetNumKits(int& N);
 
-		virtual ~KitManager();
 
 	private:
 

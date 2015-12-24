@@ -19,10 +19,10 @@ namespace DrumKit
 	public:
 
 		Drum(InstrumentParameters parameters);
+		virtual ~Drum();
 
 		virtual bool Trig(float& strength);
 
-		~Drum();
 
 	private:
 
