@@ -14,14 +14,10 @@
 #include "AlsaParams.h"
 
 #include <alsa/asoundlib.h>
-#include <libxml/parser.h>
-#include <libxml/tree.h>
-#include <libxml/xmlmemory.h>
 
 #include <thread>
 #include <atomic>
 #include <chrono>
-#include <map>
 #include <iomanip>
 #include <iostream>
 #include <vector>
@@ -38,7 +34,6 @@ namespace Sound
 		Alsa(AlsaParams& parameters, std::shared_ptr<Mixer> const& mixer, std::shared_ptr<SoundProcessor> const& soundProc);
 		virtual ~Alsa();
 
-		static void ReadXmlConfig(AlsaParams& params, const std::string fileLocation);
 
 		void Start();
 		void Stop();
@@ -58,9 +53,6 @@ namespace Sound
 		void 			Record();
 
 		int 			XrunRecovery(int err);
-
-		static void 	GetSndFormat(const char* fName, snd_pcm_format_t& format);
-		static void 	GetAccessType(const char* aName, _snd_pcm_access& access);
 
 		std::thread 	playThread;
 		std::thread 	recordThread;

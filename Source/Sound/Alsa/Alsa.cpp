@@ -57,50 +57,6 @@ namespace Sound
 		return;
 	}
 
-	void Alsa::ReadXmlConfig(AlsaParams& params, const std::string fileLocation)
-	{
-
-		const char* fileName 	= fileLocation.c_str();
-
-		//xmlInitParser();
-
-		xmlDoc* doc 			= xmlReadFile(fileName, NULL, 0);
-		xmlNode* rootElement 	= xmlDocGetRootElement(doc);
-
-		xmlNode* node 			= rootElement->children;
-
-		xmlNode* device 		= node->next;
-		params.device 			= std::string((char*) device->children->content);
-
-		xmlNode* capture 		= device->next->next;
-		params.capture 			= (bool) std::atoi((char*) capture->children->content);
-
-		xmlNode* format 		= capture->next->next;
-		GetSndFormat((char*) format->children->content, params.format);
-
-		xmlNode* sampleRate 	= format->next->next;
-		params.sampleRate		= (unsigned int) std::atoi((char*) sampleRate->children->content);
-
-		xmlNode* nChannels 		= sampleRate->next->next;
-		params.nChannels		= (unsigned int) std::atoi((char*) nChannels->children->content);
-
-		xmlNode* bufferTime 	= nChannels->next->next;
-		params.bufferTime 		= (unsigned int) std::atoi((char*) bufferTime->children->content);
-
-		xmlNode* periodTime		= bufferTime->next->next;
-		params.periodTime 		= (unsigned int) std::atoi((char*) periodTime->children->content);
-
-		xmlNode* access 		= periodTime->next->next;
-		GetAccessType((char*) access->children->content, params.access);
-
-
-		xmlFree(doc);
-		//xmlCleanupParser();
-	    //xmlMemoryDump();
-
-
-		return;
-	}
 
 
 	void Alsa::Start()
@@ -309,47 +265,5 @@ namespace Sound
 
 		return err;
 	}
-
-
-	void Alsa::GetSndFormat(const char* fName, snd_pcm_format_t& format)
-	{
-
-		std::string formatName(fName);
-		std::map<std::string, snd_pcm_format_t> dic;
-
-		// Add definitions to dic
-		dic["SND_PCM_FORMAT_S16_LE"] = SND_PCM_FORMAT_S16_LE;
-
-		std::map< std::string, snd_pcm_format_t>::iterator i = dic.find(formatName);
-
-		if(i != dic.end())
-			format = i->second;
-		else
-			format = SND_PCM_FORMAT_S8; // Default value
-
-		return;
-	}
-
-	void Alsa::GetAccessType(const char* aName, _snd_pcm_access& access)
-	{
-
-		std::string accessName(aName);
-		std::map<std::string, _snd_pcm_access> dic;
-
-		// Add definitions to dic
-		dic["SND_PCM_ACCESS_RW_INTERLEAVED"] = SND_PCM_ACCESS_RW_INTERLEAVED;
-		dic["SND_PCM_ACCESS_MMAP_INTERLEAVED"] = SND_PCM_ACCESS_MMAP_INTERLEAVED;
-
-		std::map< std::string, _snd_pcm_access>::iterator i = dic.find(accessName);
-
-		if(i != dic.end())
-			access = i->second;
-		else
-			access = SND_PCM_ACCESS_RW_INTERLEAVED; // Default value
-
-		return;
-
-	}
-
 
 }

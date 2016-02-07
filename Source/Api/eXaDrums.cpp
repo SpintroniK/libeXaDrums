@@ -20,7 +20,7 @@ namespace eXaDrumsApi
 
 		std::string moduleLoc(dataLocation);
 
-		Sound::Alsa::ReadXmlConfig(this->alsaParams, moduleLoc + "alsaConfig.xml");
+		Sound::AlsaParameters::LoadAlsaParameters(moduleLoc + "alsaConfig.xml", this->alsaParams);
 
 		this->soundProc = std::shared_ptr<Sound::SoundProcessor>(new Sound::SoundProcessor());
 
