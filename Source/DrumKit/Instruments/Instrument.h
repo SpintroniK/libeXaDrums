@@ -36,6 +36,7 @@ namespace DrumKit
 		virtual bool Trig(float& strength) = 0;
 
 		virtual void SetSoundData(std::vector<short>& data, unsigned int duration);
+
 		virtual std::vector<short> GetSoundData() const { return soundData; };
 		virtual unsigned int GetSoundDuration() const { return soundDuration; };
 

@@ -63,72 +63,55 @@ namespace DrumKit
 	void Module::LoadKit(std::string file)
 	{
 
-		const char* fileName 	= file.c_str();
 
-		//xmlInitParser();
+		// Prepare instruments vector to be populated
+		this->instruments.clear();
 
-		xmlDoc* doc 			= xmlReadFile(fileName, NULL, 0);
-		xmlNode* rootElement 	= xmlDocGetRootElement(doc);
+		// Load drum kit parameters
+		KitParameters::LoadKit(file, this->kitParameters);
 
-		xmlNode* node 			= rootElement->children;
 
-		xmlNode* kitName 		= node->next;
-		this->drumKitName		= std::string((char*) kitName->children->content);
-
-		xmlNode* kitFolder 		= kitName->next->next;
-		this->drumKitFolder		= std::string((char*) kitFolder->children->content);
-
-		xmlNode* kitParams 		= kitFolder->next->next;
-
-		std::string instrumentType = std::string((char*)kitParams->properties->children->content);
-
-		xmlNode* drumName 		= kitParams->children->next;
-
-		bool getSound = true;
-
-		while(getSound)
+		std::function<void(InstrumentParameters)> fInst = [this](InstrumentParameters instrumentParameters)
 		{
 
-			size_t drumId = instruments.size();
-
-			bool newSound = GetDrumParams(drumName, instruments);
-
-			std::string drumFileName(instruments[drumId]->GetSoundFile());
-			std::string fileSound = directory + "SoundBank/" + drumFileName;
-
-			// Sound id must match drumId (index in the kit.drum vector)
+			// Sound file location
+			std::string soundLocation = this->directory + "SoundBank/" + instrumentParameters.soundFile;
 
 			std::vector<short> soundData;
 			unsigned int soundDuration;
 
-			AddSound(fileSound, soundData, soundDuration);
+			// Add sound data to soundData vector
+			this->AddSound(soundLocation, soundData, soundDuration);
 
-			instruments[drumId]->SetSoundData(soundData, soundDuration);
-
-			drumId++;
-
-			if(!newSound) 
-				getSound = false;
-
-		}
+			//!! Force sensor type to the one defined by the module (temporary)
+			instrumentParameters.sensorType = this->sensorType;
 
 
-		//xmlFreeDoc(doc);
-		xmlFree(doc);
-		//xmlCleanupParser();
-	    //xmlMemoryDump();
+			//!! Force curve (temporary)
+			std::vector<float> drumCurve;
+			GetDrumCurve("linear", drumCurve);
 
-		// Transfer sounds to the soundProcessor
+			instrumentParameters.curve = drumCurve;
 
-		std::function<void(std::shared_ptr<Instrument>)> f = [this](std::shared_ptr<Instrument> instrument)
-		{
+			// Create instrument for drum module
+			std::shared_ptr<Instrument> instrument = std::shared_ptr<Instrument>(new Drum(instrumentParameters));
+
+			// Set sound data for this instrument
+			instrument->SetSoundData(soundData, soundDuration);
+
+			// Create trigger for the instrument
+			instrument->CreateTrigger();
 
 			this->soundProc->SetInstrumentSounds(instrument->GetSoundData(), instrument->GetSoundDuration());
 
-			return;
+			// Add instrument to drum module
+			instruments.push_back(instrument);
+
 		};
 
-		std::for_each(instruments.cbegin(), instruments.cend(), f);
+		std::for_each(this->kitParameters.instrumentParameters.begin(),
+				this->kitParameters.instrumentParameters.end(), fInst);
+
 
 
 		return;
@@ -202,7 +185,7 @@ namespace DrumKit
 		return;
 	}
 
-
+/*
 	bool Module::GetDrumParams(xmlNode* drumName, std::vector<std::shared_ptr<Instrument>>& instruments)
 	{
 
@@ -254,6 +237,7 @@ namespace DrumKit
 
 		return true;
 	}
+	*/
 
 	Sound::DrumCurve Module::GetCurveType(std::string curveName)
 	{

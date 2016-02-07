@@ -53,7 +53,7 @@ all: libeXaDrums.so
 libeXaDrums.so: $(OBJS) $(USER_OBJS)
 	@echo 'Building target: $@'
 	@echo 'Invoking: Cross G++ Linker'
-	g++ -shared -o "libeXaDrums.so" $(OBJS) $(USER_OBJS) $(LIBS)
+	g++ -o "libeXaDrums.so" $(OBJS) $(USER_OBJS) $(LIBS) -shared
 	@echo 'Finished building target: $@'
 	@echo ' '
 

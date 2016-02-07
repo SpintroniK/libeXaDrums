@@ -17,8 +17,7 @@
 #include "../Instruments/Instrument.h"
 #include "../Instruments/Drum.h"
 
-#include <libxml/tree.h>
-#include <libxml/xmlmemory.h>
+#include "../KitManager/KitParameters.h"
 
 #include <fstream>
 #include <vector>
@@ -26,6 +25,7 @@
 #include <thread>
 #include <atomic>
 #include <memory>
+#include <algorithm>
 #include <functional>
 
 
@@ -52,13 +52,12 @@ namespace DrumKit
 
 		void Run();
 
-		bool GetDrumParams(xmlNode* drumName, std::vector<std::shared_ptr<Instrument>>& instrument);
+		//bool GetDrumParams(xmlNode* drumName, std::vector<std::shared_ptr<Instrument>>& instrument);
 		void GetDrumCurve(std::string curveName, std::vector<float>& curve);
 		Sound::DrumCurve GetCurveType(std::string curveName);
 		void AddSound(std::string fileLocation, std::vector<short>& data, unsigned int& duration);
 
-		std::string drumKitName;
-		std::string drumKitFolder;
+		KitParams kitParameters;
 
 		IO::SensorType sensorType;
 

@@ -9,8 +9,11 @@
 #define SOURCE_DRUMKIT_INSTRUMENTS_INSTRUMENTPARAMETERS_H_
 
 
+#include "InstrumentType.h"
 #include "../../IO/SensorType.h"
 
+#include <vector>
+#include <string>
 
 namespace DrumKit
 {
@@ -18,18 +21,20 @@ namespace DrumKit
 	struct InstrumentParameters
 	{
 
-			int id;
-			int sensorId;
-			IO::SensorType sensorType;
+		InstrumentType instrumentType;
 
-			std::string instrumentName;
-			std::string soundFile;
+		int id;
+		int sensorId;
+		IO::SensorType sensorType;
 
-			std::vector<float> curve;
+		std::string instrumentName;
+		std::string soundFile;
 
-			unsigned int scanTime;
-			short threshold;
-			int maskTime;
+		std::vector<float> curve;
+
+		unsigned int scanTime;
+		short threshold;
+		int maskTime;
 
 	};
 
