@@ -8,6 +8,7 @@
 #ifndef SOURCE_DRUMKIT_KITMANAGER_KITPARAMETERS_H_
 #define SOURCE_DRUMKIT_KITMANAGER_KITPARAMETERS_H_
 
+#include "../../Sound/SoundProcessor/Curves/CurveType.h"
 #include "../Instruments/InstrumentType.h"
 #include "KitParams.h"
 
@@ -31,6 +32,7 @@ namespace DrumKit
 		virtual ~KitParameters() {};
 
 		static InstrumentType GetInstrumentType(std::string type);
+		static Sound::CurveType GetCurveType(std::string type);
 
 	};
 

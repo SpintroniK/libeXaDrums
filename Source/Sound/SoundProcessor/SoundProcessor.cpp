@@ -87,6 +87,8 @@ namespace Sound
 	{
 
 
+		samples.clear();
+
 		for(size_t j = 0; j < soundList.size(); j++)
 		{
 
@@ -123,5 +125,30 @@ namespace Sound
 
 		return;
 	}
+
+	//TODO: Add curves!
+
+	/*
+		void Module::GetDrumCurve(std::string curveName, std::vector<float>& curve)
+		{
+
+			Sound::DrumCurve drumCurve = GetCurveType(curveName);
+
+			switch(drumCurve)
+			{
+
+			case Sound::DrumCurve::exponential:
+					Sound::Curves::Exponential(curve);
+				break;
+
+			default:
+					Sound::Curves::Linear(curve);
+				break;
+			}
+
+			return;
+		}
+	*/
+
 
 } /* namespace Sound */

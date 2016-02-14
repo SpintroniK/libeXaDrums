@@ -57,6 +57,7 @@ namespace DrumKit
 			instrumentParameters.threshold = (short) std::atoi(threshold->GetText());
 			instrumentParameters.scanTime = (unsigned int) std::atoi(scanTime->GetText());
 			instrumentParameters.maskTime = std::atoi(maskTime->GetText());
+			instrumentParameters.curveType = GetCurveType(curve->GetText());
 
 			instrumentParameters.id = instrumentId;
 
@@ -75,6 +76,23 @@ namespace DrumKit
 
 
 	// PRIVATE
+
+	Sound::CurveType KitParameters::GetCurveType(std::string type)
+	{
+
+		std::map<std::string, Sound::CurveType> dic;
+
+		// Add definitions to dic
+		dic["exponential"] = Sound::CurveType::exponential;
+		dic["linear"] = Sound::CurveType::linear;
+
+		std::map< std::string, Sound::CurveType>::iterator i = dic.find(type);
+
+		if(i != dic.end())
+			return i->second;
+		else
+			return Sound::CurveType::linear; // Default value
+	}
 
 	InstrumentType KitParameters::GetInstrumentType(std::string typeName)
 	{

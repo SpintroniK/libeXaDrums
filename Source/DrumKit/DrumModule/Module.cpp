@@ -81,19 +81,15 @@ namespace DrumKit
 			unsigned int soundDuration;
 
 			// Add sound data to soundData vector
-			this->AddSound(soundLocation, soundData, soundDuration);
+			this->LoadSound(soundLocation, soundData, soundDuration);
 
-			//!! Force sensor type to the one defined by the module (temporary)
+			//XXX Force sensor type to the one defined by the module (temporary)
 			instrumentParameters.sensorType = this->sensorType;
 
+			//XXX Force curve to linear (temporary)
+			instrumentParameters.curveType = Sound::CurveType::linear;
 
-			//!! Force curve (temporary)
-			std::vector<float> drumCurve;
-			GetDrumCurve("linear", drumCurve);
-
-			instrumentParameters.curve = drumCurve;
-
-			// Create instrument for drum module
+			//XXX Create instrument for drum module (Drum only for now)
 			std::shared_ptr<Instrument> instrument = std::shared_ptr<Instrument>(new Drum(instrumentParameters));
 
 			// Set sound data for this instrument
@@ -146,7 +142,7 @@ namespace DrumKit
 		return;
 	}
 
-	void Module::AddSound(std::string filename, std::vector<short>& data, unsigned int& duration)
+	void Module::LoadSound(std::string filename, std::vector<short>& data, unsigned int& duration)
 	{
 
 
@@ -181,98 +177,6 @@ namespace DrumKit
 
 		// Close file
 		soundFile.close();
-
-		return;
-	}
-
-/*
-	bool Module::GetDrumParams(xmlNode* drumName, std::vector<std::shared_ptr<Instrument>>& instruments)
-	{
-
-		InstrumentParameters instruParams;
-
-		instruParams.id = instruments.size();
-		instruParams.sensorType = this->sensorType;
-
-		//drum.SetId(drums.size());
-
-
-		std::string instrumentName = std::string((char*) drumName->children->content);
-
-		instruParams.instrumentName = instrumentName;
-
-		xmlNode* sensorId 	= drumName->next->next;
-		instruParams.sensorId =  (int) std::atoi((char*) sensorId->children->content);
-
-		xmlNode* soundFile 	= sensorId->next->next;
-		instruParams.soundFile = std::string((char*) soundFile->children->content);
-
-		xmlNode* threshold 	= soundFile->next->next;
-		instruParams.threshold = (short) std::atoi((char*) threshold->children->content);
-
-		xmlNode* scanTime	= threshold->next->next;
-		instruParams.scanTime = (int) std::atoi((char*) scanTime->children->content);
-
-		xmlNode* maskTime 	= scanTime->next->next;
-		instruParams.maskTime = (int) std::atoi((char*) maskTime->children->content);
-
-		xmlNode* curve 		= maskTime->next->next;
-		std::string curveName = std::string((char*) curve->children->content);
-
-		std::vector<float> drumCurve;
-		GetDrumCurve(curveName, drumCurve);
-
-		instruParams.curve = drumCurve;
-
-		std::shared_ptr<Instrument> instrument = std::shared_ptr<Instrument>(new Drum(instruParams));
-
-		instrument->CreateTrigger();
-
-		instruments.push_back(instrument);
-
-		if(curve->parent->next->next)
-			*drumName = *curve->parent->next->next->children->next;
-		else
-			return false;
-
-		return true;
-	}
-	*/
-
-	Sound::DrumCurve Module::GetCurveType(std::string curveName)
-	{
-		// Create map
-		std::map<std::string, Sound::DrumCurve> dic;
-
-		// Add definitions to dic
-		dic["exponential"] = Sound::DrumCurve::exponential;
-		dic["linear"] = Sound::DrumCurve::linear;
-
-		std::map< std::string, Sound::DrumCurve>::iterator i = dic.find(curveName);
-
-		if(i != dic.end())
-			return i->second;
-		else
-			return Sound::DrumCurve::linear; // Default value
-
-	}
-
-	void Module::GetDrumCurve(std::string curveName, std::vector<float>& curve)
-	{
-
-		Sound::DrumCurve drumCurve = GetCurveType(curveName);
-
-		switch(drumCurve)
-		{
-
-		case Sound::DrumCurve::exponential:
-				Sound::Curves::Exponential(curve);
-			break;
-
-		default:
-				Sound::Curves::Linear(curve);
-			break;
-		}
 
 		return;
 	}

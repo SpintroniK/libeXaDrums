@@ -8,16 +8,17 @@
 #ifndef RASPIDRUMS_SOURCE_DRUMKIT_MODULE_H_
 #define RASPIDRUMS_SOURCE_DRUMKIT_MODULE_H_
 
-#include "../../Sound/SoundProcessor/Curves/Curve.h"
+
+#include "../../Sound/SoundProcessor/SoundProcessor.h"
+#include "../../Sound/SoundProcessor/Curves/CurveType.h"
 #include "../../Sound/SoundProcessor/Curves/Curves.h"
 #include "../../IO/SensorType.h"
-#include "../../Sound/SoundProcessor/SoundProcessor.h"
 
 #include "../Instruments/InstrumentParameters.h"
+#include "../KitManager/KitParameters.h"
 #include "../Instruments/Instrument.h"
 #include "../Instruments/Drum.h"
 
-#include "../KitManager/KitParameters.h"
 
 #include <fstream>
 #include <vector>
@@ -51,11 +52,7 @@ namespace DrumKit
 	private:
 
 		void Run();
-
-		//bool GetDrumParams(xmlNode* drumName, std::vector<std::shared_ptr<Instrument>>& instrument);
-		void GetDrumCurve(std::string curveName, std::vector<float>& curve);
-		Sound::DrumCurve GetCurveType(std::string curveName);
-		void AddSound(std::string fileLocation, std::vector<short>& data, unsigned int& duration);
+		void LoadSound(std::string fileLocation, std::vector<short>& data, unsigned int& duration);
 
 		KitParams kitParameters;
 

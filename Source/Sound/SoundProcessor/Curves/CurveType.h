@@ -11,7 +11,7 @@
 namespace Sound
 {
 
-	enum class DrumCurve
+	enum class CurveType
 	{
 		exponential,
 		linear
