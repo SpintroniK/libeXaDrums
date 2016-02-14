@@ -12,6 +12,7 @@
 #include "../../Sound/SoundProcessor/SoundProcessor.h"
 #include "../../Sound/SoundProcessor/Curves/CurveType.h"
 #include "../../Sound/SoundProcessor/Curves/Curves.h"
+#include "../../Sound/SoundBank/SoundBank.h"
 #include "../../IO/SensorType.h"
 
 #include "../Instruments/InstrumentParameters.h"
@@ -20,7 +21,6 @@
 #include "../Instruments/Drum.h"
 
 
-#include <fstream>
 #include <vector>
 #include <string>
 #include <thread>
@@ -52,7 +52,6 @@ namespace DrumKit
 	private:
 
 		void Run();
-		void LoadSound(std::string fileLocation, std::vector<short>& data, unsigned int& duration);
 
 		KitParams kitParameters;
 

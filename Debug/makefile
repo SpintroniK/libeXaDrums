@@ -10,6 +10,7 @@ RM := rm -rf
 -include sources.mk
 -include Source/Sound/SoundProcessor/Curves/subdir.mk
 -include Source/Sound/SoundProcessor/subdir.mk
+-include Source/Sound/SoundBank/subdir.mk
 -include Source/Sound/Alsa/subdir.mk
 -include Source/Sound/subdir.mk
 -include Source/IO/subdir.mk

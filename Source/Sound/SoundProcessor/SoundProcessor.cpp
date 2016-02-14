@@ -16,6 +16,7 @@ namespace Sound
 		sounds.clear();
 		durations.clear();
 
+		return;
 	}
 
 	SoundProcessor::~SoundProcessor()
@@ -23,6 +24,7 @@ namespace Sound
 		sounds.clear();
 		durations.clear();
 
+		return;
 	}
 
 

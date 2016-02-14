@@ -31,6 +31,7 @@ Source/DrumKit/Triggers \
 Source/IO \
 Source/Sound/Alsa \
 Source/Sound \
+Source/Sound/SoundBank \
 Source/Sound/SoundProcessor/Curves \
 Source/Sound/SoundProcessor \
 

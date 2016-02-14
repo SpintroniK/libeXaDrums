@@ -81,7 +81,7 @@ namespace DrumKit
 			unsigned int soundDuration;
 
 			// Add sound data to soundData vector
-			this->LoadSound(soundLocation, soundData, soundDuration);
+			Sound::SoundBank::LoadSound(soundLocation, soundData, soundDuration);
 
 			//XXX Force sensor type to the one defined by the module (temporary)
 			instrumentParameters.sensorType = this->sensorType;
@@ -128,7 +128,7 @@ namespace DrumKit
 
 			if(isTrig)
 			{
-				// !TODO convert strength to volume (SoundProcessor)
+				//TODO convert strength to volume (SoundProcessor)
 				this->soundProc->AddSound(instrument->GetId(), strength);
 			}
 
@@ -142,44 +142,7 @@ namespace DrumKit
 		return;
 	}
 
-	void Module::LoadSound(std::string filename, std::vector<short>& data, unsigned int& duration)
-	{
 
-
-		// Get file location
-		std::string fileLocation(filename);
-
-		// Open file
-		std::ifstream soundFile(fileLocation);
-
-		// Check file validity
-		if(!soundFile.good())
-			throw - 1;
-
-		soundFile.seekg (0, std::ios::end);
-
-		// Get file size in bytes
-		int fileSize = soundFile.tellg();
-
-		//short* soundData = new short[fileSize];
-
-		soundFile.seekg(0, std::ios::beg);
-
-
-		data.clear();
-		data.resize(fileSize);
-
-		int i = 0;
-		while(soundFile.read((char*)&data[i], sizeof(short))) i++;
-
-		duration = fileSize*sizeof(char)/sizeof(short);
-
-
-		// Close file
-		soundFile.close();
-
-		return;
-	}
 
 }
 
