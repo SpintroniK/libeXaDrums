@@ -50,7 +50,7 @@ namespace IO
 	{
 
 		// Select SPI channel
-		char data = 0b11100000 | (channel << 3);
+		char data = 0b11000000 | (channel << 3);
 
 		char mosi[3] = {data};
 		char miso[3] = {0};
