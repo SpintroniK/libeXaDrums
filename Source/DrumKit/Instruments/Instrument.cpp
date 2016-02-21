@@ -11,7 +11,10 @@
 namespace DrumKit
 {
 
-	Instrument::Instrument(InstrumentParameters parameters) : parameters(parameters)
+	Instrument::Instrument(InstrumentParameters parameters)
+	: parameters(parameters),
+	  sensor(nullptr),
+	  trigger(nullptr)
 	{
 
 		// Create sensor
@@ -72,7 +75,19 @@ namespace DrumKit
 		triggerParameters.maskTime = parameters.maskTime;
 		//triggerParameters.curve = curve;
 
-		trigger = std::shared_ptr<Trigger>(new DrumTrigger(triggerParameters));
+
+		switch(parameters.instrumentType)
+		{
+
+		case InstrumentType::Drum:
+			trigger = std::shared_ptr<Trigger>(new DrumTrigger(triggerParameters));
+			break;
+
+		default:
+			throw -1;
+			break;
+
+		}
 
 		return;
 	}
