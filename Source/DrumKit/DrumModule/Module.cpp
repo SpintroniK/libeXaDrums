@@ -106,9 +106,6 @@ namespace DrumKit
 			// Set sound data for this instrument
 			//instrument->SetSoundData(soundData, soundDuration);
 
-			// Create trigger for the instrument
-			instrument->CreateTrigger();
-
 			//this->soundProc->SetInstrumentSounds(instrument->GetSoundData(), instrument->GetSoundDuration());
 
 			// Add instrument to drum module

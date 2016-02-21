@@ -42,6 +42,8 @@ namespace DrumKit
 
 		}
 
+		// Create instrument trigger
+		this->CreateTrigger();
 
 		return;
 	}
@@ -63,6 +65,8 @@ namespace DrumKit
 
 		return;
 	}*/
+
+	// PRIVATE
 
 	void Instrument::CreateTrigger()
 	{

@@ -35,8 +35,6 @@ namespace DrumKit
 		Instrument(InstrumentParameters parameters);
 		virtual ~Instrument();
 
-		virtual void CreateTrigger();
-
 		virtual bool Trig(float& strength) = 0;
 		virtual int GetSoundId() = 0;
 		virtual void GenerateSounds() = 0;
@@ -62,6 +60,7 @@ namespace DrumKit
 
 	private:
 
+		virtual void CreateTrigger();
 
 
 	};
