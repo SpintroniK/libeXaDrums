@@ -13,13 +13,16 @@
 #include "../../IO/HddSensor.h"
 #include "../../IO/SpiSensor.h"
 #include "../../Sound/Mixer.h"
+#include "../../Sound/SoundProcessor/InstrumentSound.h"
+
+#include "../Triggers/DrumTrigger.h"
+
 #include "InstrumentParameters.h"
 
 #include <vector>
 #include <string>
 #include <memory>
 
-#include "../Triggers/DrumTrigger.h"
 
 namespace DrumKit
 {
@@ -33,21 +36,25 @@ namespace DrumKit
 		virtual ~Instrument();
 
 		virtual void CreateTrigger();
+
 		virtual bool Trig(float& strength) = 0;
+		virtual int GetSoundId() = 0;
+		virtual void GenerateSounds() = 0;
 
-		virtual void SetSoundData(std::vector<short>& data, unsigned int duration);
+		//virtual void SetSoundData(std::vector<short>& data, unsigned int duration);
 
-		virtual std::vector<short> GetSoundData() const { return soundData; };
-		virtual unsigned int GetSoundDuration() const { return soundDuration; };
 
-		virtual std::string GetSoundFile() const { return this->parameters.soundFile; }
+		//virtual std::vector<short> GetSoundData() const { return soundData; };
+		//virtual unsigned int GetSoundDuration() const { return soundDuration; };
+
+		//virtual std::string GetSoundFile() const { return this->parameters.soundFile; }
+
 		virtual int GetId() const { return this->parameters.id; }
 
 
 	protected:
 
-		std::vector<short> soundData;
-		unsigned int soundDuration;
+		std::vector<Sound::InstrumentSound> sounds;
 
 		InstrumentParameters parameters;
 		std::shared_ptr<IO::ISensor> sensor;

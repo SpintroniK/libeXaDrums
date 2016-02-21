@@ -11,13 +11,11 @@
 namespace DrumKit
 {
 
-	Instrument::Instrument(InstrumentParameters parameters)
-	: soundData(),
-	  soundDuration(0),
-	  parameters(parameters)
+	Instrument::Instrument(InstrumentParameters parameters) : parameters(parameters)
 	{
 
 		// Create sensor
+		//XXX Need to improve Hdd sensor
 		const std::string sensorLoc("/home/jeremy/Desktop/Prog/eXaDrums/eXaDrums/out.raw");
 
 		switch(parameters.sensorType)
@@ -36,6 +34,7 @@ namespace DrumKit
 			break;
 
 		default:
+			throw -1;
 			break;
 
 		}
@@ -47,10 +46,12 @@ namespace DrumKit
 	Instrument::~Instrument()
 	{
 
+		sounds.clear();
+
 		return;
 	}
 
-	void Instrument::SetSoundData(std::vector<short>& data, unsigned int duration)
+	/*void Instrument::SetSoundData(std::vector<short>& data, unsigned int duration)
 	{
 
 		this->soundData.clear();
@@ -58,7 +59,7 @@ namespace DrumKit
 		this->soundDuration = duration;
 
 		return;
-	}
+	}*/
 
 	void Instrument::CreateTrigger()
 	{

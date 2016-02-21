@@ -41,7 +41,31 @@ namespace DrumKit
 
 			XMLElement* instrumentName = instrument->FirstChildElement("instrumentName");
 			XMLElement* sensorId = instrument->FirstChildElement("sensorId");
-			XMLElement* soundFile = instrument->FirstChildElement("soundFile");
+
+			// Get sounds
+			int soundId = 0;
+			XMLElement* sounds = instrument->FirstChildElement("sounds");
+			XMLElement* firstSound = sounds->FirstChildElement("sound");
+
+			std::vector<InstrumentSoundInfo> soundsInfo;
+
+			for(XMLElement* sound = firstSound; sound != nullptr; sound = sound->NextSiblingElement())
+			{
+
+				InstrumentSoundInfo soundInfo;
+
+				soundInfo.id = soundId;
+				soundInfo.soundLocation = sound->GetText();
+				soundInfo.type = GetSoundType(sound->Attribute("type"));
+
+				soundsInfo.push_back(soundInfo);
+
+				soundId++;
+
+			}
+
+			instrumentParameters.soundsInfo.swap(soundsInfo);
+
 			XMLElement* threshold = instrument->FirstChildElement("threshold");
 			XMLElement* scanTime = instrument->FirstChildElement("scanTime");
 			XMLElement* maskTime = instrument->FirstChildElement("maskTime");
@@ -53,7 +77,6 @@ namespace DrumKit
 			instrumentParameters.instrumentType = instrumentType;
 			instrumentParameters.instrumentName = instrumentName->GetText();
 			instrumentParameters.sensorId = std::atoi(sensorId->GetText());
-			instrumentParameters.soundFile = soundFile->GetText();
 			instrumentParameters.threshold = (short) std::atoi(threshold->GetText());
 			instrumentParameters.scanTime = (unsigned int) std::atoi(scanTime->GetText());
 			instrumentParameters.maskTime = std::atoi(maskTime->GetText());
@@ -118,5 +141,27 @@ namespace DrumKit
 		return instrumentType;
 	}
 
+	Sound::InstrumentSoundType KitParameters::GetSoundType(std::string type)
+	{
+
+
+		Sound::InstrumentSoundType soundType;
+
+		std::map<std::string, Sound::InstrumentSoundType> dic;
+
+		// Add definitions to dic
+		dic["Default"] = Sound::InstrumentSoundType::Default;
+		dic["ClosingHiHat"] = Sound::InstrumentSoundType::ClosingHiHat;
+
+		std::map< std::string, Sound::InstrumentSoundType>::iterator i = dic.find(type);
+
+		if(i != dic.end())
+			soundType = i->second;
+		else
+			soundType = Sound::InstrumentSoundType::Default; // Default value
+
+		return soundType;
+
+	}
 
 } /* namespace DrumKit */

@@ -74,14 +74,10 @@ namespace DrumKit
 		std::function<void(InstrumentParameters)> fInst = [this](InstrumentParameters instrumentParameters)
 		{
 
-			// Sound file location
-			std::string soundLocation = this->directory + "SoundBank/" + instrumentParameters.soundFile;
 
-			std::vector<short> soundData;
-			unsigned int soundDuration;
 
 			// Add sound data to soundData vector
-			Sound::SoundBank::LoadSound(soundLocation, soundData, soundDuration);
+			//Sound::SoundBank::LoadSound(soundLocation, soundData, soundDuration);
 
 			//XXX Force sensor type to the one defined by the module (temporary)
 			instrumentParameters.sensorType = this->sensorType;
@@ -89,16 +85,31 @@ namespace DrumKit
 			//XXX Force curve to linear (temporary)
 			instrumentParameters.curveType = Sound::CurveType::linear;
 
+			std::shared_ptr<Instrument> instrument = nullptr;
+
 			//XXX Create instrument for drum module (Drum only for now)
-			std::shared_ptr<Instrument> instrument = std::shared_ptr<Instrument>(new Drum(instrumentParameters));
+			switch(instrumentParameters.instrumentType)
+			{
+
+			case InstrumentType::Drum:
+				instrument = std::shared_ptr<Instrument>(new Drum(instrumentParameters));
+				break;
+
+			default:
+				throw -1;
+				break;
+
+			}
+
+			//FIXME Set sounds for instrument and SoundProcessor
 
 			// Set sound data for this instrument
-			instrument->SetSoundData(soundData, soundDuration);
+			//instrument->SetSoundData(soundData, soundDuration);
 
 			// Create trigger for the instrument
 			instrument->CreateTrigger();
 
-			this->soundProc->SetInstrumentSounds(instrument->GetSoundData(), instrument->GetSoundDuration());
+			//this->soundProc->SetInstrumentSounds(instrument->GetSoundData(), instrument->GetSoundDuration());
 
 			// Add instrument to drum module
 			instruments.push_back(instrument);

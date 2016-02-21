@@ -12,6 +12,7 @@
 #include "../../Sound/SoundProcessor/Curves/CurveType.h"
 #include "../../IO/SensorType.h"
 
+#include "InstrumentSoundInfo.h"
 #include "InstrumentType.h"
 
 #include <vector>
@@ -30,7 +31,7 @@ namespace DrumKit
 		IO::SensorType sensorType;
 
 		std::string instrumentName;
-		std::string soundFile;
+		std::vector<InstrumentSoundInfo> soundsInfo;
 
 		Sound::CurveType curveType;
 

@@ -22,6 +22,8 @@ namespace DrumKit
 		virtual ~Drum();
 
 		virtual bool Trig(float& strength);
+		virtual int GetSoundId();
+		virtual void GenerateSounds();
 
 
 	private:

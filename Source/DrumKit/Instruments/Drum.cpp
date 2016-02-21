@@ -34,6 +34,18 @@ namespace DrumKit
 		return isTrig;
 	}
 
+	int Drum::GetSoundId()
+	{
+
+		return 0;
+	}
+
+	void Drum::GenerateSounds()
+	{
+
+		return;
+	}
+
 }
 
 
