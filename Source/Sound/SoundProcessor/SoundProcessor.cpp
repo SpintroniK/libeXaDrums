@@ -69,6 +69,8 @@ namespace Sound
 	void SoundProcessor::UpdatePlayList()
 	{
 
+		std::lock_guard<std::mutex> lock(soundProcMutex);
+
 		std::function<void(std::shared_ptr<SoundSample>)> update = [this](std::shared_ptr<SoundSample> sound)
 		{
 
@@ -92,8 +94,17 @@ namespace Sound
 	void SoundProcessor::PlaySound(int soundId)
 	{
 
+		std::lock_guard<std::mutex> lock(soundProcMutex);
+
 		//XXX Need to add stuff to check the soundId
-		playList[soundId] = true;
+		if(playList[soundId] == true)
+		{
+			sounds[soundId]->SeekBeg();
+		}
+		else
+		{
+			playList[soundId] = true;
+		}
 
 		return;
 	}

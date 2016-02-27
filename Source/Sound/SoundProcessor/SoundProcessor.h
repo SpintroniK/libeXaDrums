@@ -12,6 +12,7 @@
 #include "../Alsa/AlsaParams.h"
 #include "../SoundSample.h"
 
+#include <mutex>
 #include <vector>
 #include <algorithm>
 #include <map>
@@ -46,7 +47,7 @@ namespace Sound
 		AlsaParams* alsaParams;
 		std::vector<std::shared_ptr<SoundSample>> sounds;
 		std::map<int, bool> playList;
-		//mutable std::mutex soundProcMutex;
+		mutable std::mutex soundProcMutex;
 
 	};
 
