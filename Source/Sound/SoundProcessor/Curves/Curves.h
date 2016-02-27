@@ -25,7 +25,7 @@ namespace Sound
 		static void Linear(std::vector<float>& curve);
 		static void Exponential(std::vector<float>& curve);
 
-		static const size_t numSamples = 2048;
+		static const std::size_t numSamples = 2048;
 
 	private:
 

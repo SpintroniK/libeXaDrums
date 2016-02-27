@@ -41,9 +41,7 @@ namespace Sound
 		// Fill buffer with zeros
 		std::fill(alsaParams->buffer.begin(), alsaParams->buffer.begin() + alsaParams->periodSize, 0);
 
-		std::vector<std::vector<short>> samples;
 
-		this->soundProc->GetSamples(samples);
 
 		/*
 		std::function<void(std::vector<short>)> mix = [this](std::vector<short> data)
@@ -54,17 +52,18 @@ namespace Sound
 		std::for_each(samples.cbegin(), samples.cend(), mix);
 		*/
 
+		std::vector<int> playList;
+
+		soundProc->GetPlayList(playList);
+
 		// Mix sounds
-		for(size_t i = 0; i < samples.size(); i++)
+		for(std::size_t i = 0; i < playList.size(); i++)
 		{
-			for(size_t j = 0; j < samples[i].size(); j++)
+			for(int j = 0; j < alsaParams->periodSize; j++)
 			{
-				this->alsaParams->buffer[j] += samples[i][j];
+				this->alsaParams->buffer[j] += soundProc->ReadSoundData(i);
 			}
 		}
-
-		// Drop sound samples
-		this->soundProc->DumpSamples();
 
 /*
 		// If there are sounds to mix

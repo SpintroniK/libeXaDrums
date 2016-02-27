@@ -10,19 +10,16 @@
 namespace Sound
 {
 
-	SoundProcessor::SoundProcessor() : sounds(), durations(), alsaParams()
+	SoundProcessor::SoundProcessor() : alsaParams(), sounds()
 	{
-
-		sounds.clear();
-		durations.clear();
 
 		return;
 	}
 
 	SoundProcessor::~SoundProcessor()
 	{
+
 		sounds.clear();
-		durations.clear();
 
 		return;
 	}
@@ -36,25 +33,84 @@ namespace Sound
 		return;
 	}
 
-	void SoundProcessor::SetInstrumentSounds(std::vector<short> data, unsigned int duration)
+
+	void SoundProcessor::AddSound(int& id, std::vector<short> soundData)
 	{
 
-		this->sounds.push_back(data);
-		this->durations.push_back(duration);
+		id = this->sounds.size();
+
+		// Add sound to the list of sounds
+		this->sounds.push_back(std::shared_ptr<SoundSample>(new SoundSample(id, soundData)));
+
+		// Add sound id to the play list
+		this->playList.insert(std::pair<int, bool>(id, false));
+
+		return;
+	}
+
+	void SoundProcessor::GetPlayList(std::vector<int>& list) const
+	{
+
+		list.clear();
+
+		for(std::map<int, bool>::const_iterator it = this->playList.cbegin(); it != this->playList.cend(); ++it)
+		{
+
+			if(it->second == true)
+			{
+				list.push_back(it->first);
+			}
+
+		}
+
+		return;
+	}
+
+	void SoundProcessor::UpdatePlayList()
+	{
+
+		std::function<void(std::shared_ptr<SoundSample>)> update = [this](std::shared_ptr<SoundSample> sound)
+		{
+
+			if(sound->IsFinished())
+			{
+				//XXX Need to check id?
+				this->playList[sound->GetId()] = false;
+
+				sound->SeekBeg();
+			}
+
+		};
+
+
+		std::for_each(sounds.begin(), sounds.end(), update);
 
 		return;
 	}
 
 
+	void SoundProcessor::PlaySound(int soundId)
+	{
+
+		//XXX Need to add stuff to check the soundId
+		playList[soundId] = true;
+
+		return;
+	}
+
+	short SoundProcessor::ReadSoundData(int soundId)
+	{
+		return sounds[soundId]->ReadData();
+	}
+
+/*
 	void SoundProcessor::AddSound(int id, float volume)
 	{
 
 		std::lock_guard<std::mutex> lock(soundProcMutex);
 
-		/*
-		 * Not needed anymore, but left here as a reminder in RaspiDrums
-		 * Needs to be tested...
-		 */
+
+
 		//Test if the sound has already been added to the mixer
 		std::vector<SampleInfo>::iterator iter =	std::find_if(soundList.begin(), soundList.end(),
 				[id](const SampleInfo& sound) { return sound.id == id; });
@@ -127,30 +183,8 @@ namespace Sound
 
 		return;
 	}
+*/
 
-	//TODO: Add curves!
-
-	/*
-		void Module::GetDrumCurve(std::string curveName, std::vector<float>& curve)
-		{
-
-			Sound::DrumCurve drumCurve = GetCurveType(curveName);
-
-			switch(drumCurve)
-			{
-
-			case Sound::DrumCurve::exponential:
-					Sound::Curves::Exponential(curve);
-				break;
-
-			default:
-					Sound::Curves::Linear(curve);
-				break;
-			}
-
-			return;
-		}
-	*/
 
 
 } /* namespace Sound */

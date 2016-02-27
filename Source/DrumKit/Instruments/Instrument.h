@@ -13,7 +13,7 @@
 #include "../../IO/HddSensor.h"
 #include "../../IO/SpiSensor.h"
 #include "../../Sound/Mixer.h"
-
+#include "../../Sound/SoundProcessor/SoundProcessor.h"
 
 #include "../Triggers/DrumTrigger.h"
 
@@ -22,7 +22,8 @@
 #include <vector>
 #include <string>
 #include <memory>
-
+#include <map>
+#include <utility>
 
 namespace DrumKit
 {
@@ -32,12 +33,11 @@ namespace DrumKit
 
 	public:
 
-		Instrument(InstrumentParameters parameters);
+		Instrument(InstrumentParameters parameters, std::shared_ptr<Sound::SoundProcessor> soundProcessor);
 		virtual ~Instrument();
 
 		virtual bool Trig(float& strength) = 0;
-		virtual int GetSoundId() = 0;
-		virtual void GenerateSounds() = 0;
+		virtual int GetSoundProps() const = 0;
 
 		//virtual void SetSoundData(std::vector<short>& data, unsigned int duration);
 
@@ -53,9 +53,13 @@ namespace DrumKit
 	protected:
 
 
+		virtual void GenerateSounds() = 0;
+
 		InstrumentParameters parameters;
 		std::shared_ptr<IO::ISensor> sensor;
 		std::shared_ptr<Trigger> trigger;
+		std::shared_ptr<Sound::SoundProcessor> soundProcessor;
+		std::map<int, int> soundIds;
 
 	private:
 

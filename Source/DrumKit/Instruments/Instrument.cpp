@@ -11,10 +11,12 @@
 namespace DrumKit
 {
 
-	Instrument::Instrument(InstrumentParameters parameters)
+	Instrument::Instrument(InstrumentParameters parameters, std::shared_ptr<Sound::SoundProcessor> soundProcessor)
 	: parameters(parameters),
 	  sensor(nullptr),
-	  trigger(nullptr)
+	  trigger(nullptr),
+	  soundProcessor(soundProcessor),
+	  soundIds()
 	{
 
 		// Create sensor

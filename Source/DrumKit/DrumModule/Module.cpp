@@ -92,7 +92,7 @@ namespace DrumKit
 			{
 
 			case InstrumentType::Drum:
-				instrument = std::shared_ptr<Instrument>(new Drum(instrumentParameters));
+				instrument = std::shared_ptr<Instrument>(new Drum(instrumentParameters, soundProc));
 				break;
 
 			default:
@@ -136,8 +136,7 @@ namespace DrumKit
 
 			if(isTrig)
 			{
-				//TODO convert strength to volume (SoundProcessor)
-				this->soundProc->AddSound(instrument->GetId(), strength);
+				soundProc->PlaySound(0);
 			}
 
 		};

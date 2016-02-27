@@ -8,7 +8,15 @@
 #ifndef LIBEXADRUMS_SOURCE_DRUMKIT_DRUM_H_
 #define LIBEXADRUMS_SOURCE_DRUMKIT_DRUM_H_
 
+#include "../../Sound/SoundBank/SoundBank.h"
+#include "../../Sound/SoundProcessor/SoundProcessor.h"
+
 #include "Instrument.h"
+
+#include <functional>
+#include <vector>
+#include <string>
+#include <memory>
 
 namespace DrumKit
 {
@@ -18,17 +26,15 @@ namespace DrumKit
 
 	public:
 
-		Drum(InstrumentParameters parameters);
+		Drum(InstrumentParameters parameters, std::shared_ptr<Sound::SoundProcessor> soundProc);
 		virtual ~Drum();
 
 		virtual bool Trig(float& strength);
-		virtual int GetSoundId();
-		virtual void GenerateSounds();
-
+		virtual int GetSoundProps() const;
 
 	private:
 
-
+		virtual void GenerateSounds();
 
 	};
 

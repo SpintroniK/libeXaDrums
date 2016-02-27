@@ -9,13 +9,16 @@
 #define SOURCE_SOUND_SOUNDPROCESSOR_SOUNDPROCESSOR_H_
 
 
-#include "../SampleInfo.h"
 #include "../Alsa/AlsaParams.h"
+#include "../SoundSample.h"
 
-#include <mutex>
 #include <vector>
 #include <algorithm>
+#include <map>
+#include <utility>
+#include <memory>
 #include <functional>
+#include <iterator>
 
 
 namespace Sound
@@ -30,23 +33,20 @@ namespace Sound
 		virtual ~SoundProcessor();
 
 		void SetAlsaParameters(AlsaParams* alsaParameters);
-		void SetInstrumentSounds(std::vector<short> data, unsigned int duration);
+		void AddSound(int& id, std::vector<short> soundData);
+		void GetPlayList(std::vector<int>& list) const;
+		void UpdatePlayList();
+		void PlaySound(int soundId);
+		short ReadSoundData(int soundId);
 
-		void AddSound(int id, float volume);
-		void GetSamples(std::vector<std::vector<short>>& samples);
-		void DumpSamples();
 
 	private:
 
-		std::vector<std::vector<short>> sounds;
-		std::vector<unsigned int> durations;
-
-		std::vector<SampleInfo> soundList;
-		std::vector<std::vector<short>> sampleList;
 
 		AlsaParams* alsaParams;
-
-		mutable std::mutex soundProcMutex;
+		std::vector<std::shared_ptr<SoundSample>> sounds;
+		std::map<int, bool> playList;
+		//mutable std::mutex soundProcMutex;
 
 	};
 
