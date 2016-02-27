@@ -51,7 +51,7 @@ namespace DrumKit
 	Instrument::~Instrument()
 	{
 
-		sounds.clear();
+
 
 		return;
 	}

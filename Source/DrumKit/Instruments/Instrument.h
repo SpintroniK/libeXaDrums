@@ -13,7 +13,7 @@
 #include "../../IO/HddSensor.h"
 #include "../../IO/SpiSensor.h"
 #include "../../Sound/Mixer.h"
-#include "../../Sound/SoundProcessor/InstrumentSound.h"
+
 
 #include "../Triggers/DrumTrigger.h"
 
@@ -52,7 +52,6 @@ namespace DrumKit
 
 	protected:
 
-		std::vector<Sound::InstrumentSound> sounds;
 
 		InstrumentParameters parameters;
 		std::shared_ptr<IO::ISensor> sensor;
