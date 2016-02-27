@@ -65,6 +65,9 @@ namespace Sound
 			}
 		}
 
+
+		soundProc->UpdatePlayList();
+
 /*
 		// If there are sounds to mix
 		if(sampleList.size() > 0)
