@@ -52,9 +52,7 @@ namespace Sound
 		std::for_each(samples.cbegin(), samples.cend(), mix);
 		*/
 
-		std::vector<int> playList;
-
-		soundProc->GetPlayList(playList);
+		const std::vector<int>& playList = soundProc->GetPlayList();
 
 		// Mix sounds
 		for(std::size_t i = 0; i < playList.size(); i++)

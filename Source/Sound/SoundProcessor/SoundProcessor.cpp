@@ -43,27 +43,14 @@ namespace Sound
 		this->sounds.push_back(SoundSample(id, soundData));
 
 		// Add sound id to the play list
-		this->playList.insert(std::pair<int, bool>(id, false));
+		//this->playList.insert(std::pair<int, bool>(id, false));
 
 		return;
 	}
 
-	void SoundProcessor::GetPlayList(std::vector<int>& list) const
+	const std::vector<int>& SoundProcessor::GetPlayList() const
 	{
-
-		list.clear();
-
-		for(std::unordered_map<int, bool>::const_iterator it = this->playList.cbegin(); it != this->playList.cend(); ++it)
-		{
-
-			if(it->second == true)
-			{
-				list.push_back(it->first);
-			}
-
-		}
-
-		return;
+		return playList;
 	}
 
 	void SoundProcessor::UpdatePlayList()
@@ -76,8 +63,10 @@ namespace Sound
 
 			if(sound.IsFinished())
 			{
-				//XXX Need to check id?
-				this->playList[sound.GetId()] = false;
+				//XXX Need to check that?
+				//this->playList[sound.GetId()] = false;
+				playList.erase(std::remove_if(playList.begin(), playList.end(),
+						[&sound](int soundId) { return (soundId == sound.GetId()); }), playList.end());
 
 				sound.SeekBeg();
 			}
@@ -96,14 +85,15 @@ namespace Sound
 
 		//std::lock_guard<std::mutex> lock(soundProcMutex);
 
-		//XXX Need to add stuff to check the soundId
-		if(playList[soundId] == true)
+		bool isPlaying = std::find(playList.begin(), playList.end(), soundId) != playList.end();
+
+		if(isPlaying)
 		{
 			sounds[soundId].SeekBeg();
 		}
 		else
 		{
-			playList[soundId] = true;
+			playList.push_back(soundId);
 		}
 
 		return;

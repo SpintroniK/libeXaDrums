@@ -15,11 +15,9 @@
 
 #include <vector>
 #include <algorithm>
-#include <unordered_map>
 #include <utility>
 #include <memory>
 #include <functional>
-#include <iterator>
 
 
 namespace Sound
@@ -35,7 +33,7 @@ namespace Sound
 
 		void SetAlsaParameters(AlsaParams* alsaParameters);
 		void AddSound(int& id, std::vector<short> soundData);
-		void GetPlayList(std::vector<int>& list) const;
+		const std::vector<int>& GetPlayList() const;
 		void UpdatePlayList();
 		void PlaySound(int soundId);
 		short ReadSoundData(int soundId);
@@ -46,7 +44,7 @@ namespace Sound
 
 		AlsaParams* alsaParams;
 		std::vector<SoundSample> sounds;
-		std::unordered_map<int, bool> playList;
+		std::vector<int> playList;
 		//mutable std::mutex soundProcMutex;
 
 	};
