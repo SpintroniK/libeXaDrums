@@ -13,7 +13,7 @@ namespace Sound
 	SoundSample::SoundSample(int id, std::vector<short> soundData)
 	: id(id),
 	  volume(1.0f),
-	  index(0),
+	  idx(0),
 	  data(soundData)
 	{
 
@@ -49,29 +49,29 @@ namespace Sound
 	short SoundSample::ReadData()
 	{
 
-		this->index++;
+		idx++;
 
-		if(this->index >= this->data.size())
+		if(idx >= data.size())
 		{
 			return 0;
 		}
 		else
 		{
-			return this->data[this->index];
+			return data[idx];
 		}
 
 	}
 
 	bool SoundSample::IsFinished() const
 	{
-		return index >= data.size();
+		return idx >= data.size();
 	}
 
 
 	void SoundSample::SeekBeg()
 	{
 
-		index = 0;
+		idx = 0;
 
 		return;
 	}

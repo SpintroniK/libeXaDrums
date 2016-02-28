@@ -32,7 +32,7 @@ namespace Sound
 
 		int id;
 		float volume;
-		std::size_t index;
+		std::size_t idx;
 		std::vector<short> data;
 
 	};

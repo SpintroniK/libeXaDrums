@@ -40,7 +40,7 @@ namespace Sound
 		id = this->sounds.size();
 
 		// Add sound to the list of sounds
-		this->sounds.push_back(std::shared_ptr<SoundSample>(new SoundSample(id, soundData)));
+		this->sounds.push_back(SoundSample(id, soundData));
 
 		// Add sound id to the play list
 		this->playList.insert(std::pair<int, bool>(id, false));
@@ -53,7 +53,7 @@ namespace Sound
 
 		list.clear();
 
-		for(std::map<int, bool>::const_iterator it = this->playList.cbegin(); it != this->playList.cend(); ++it)
+		for(std::unordered_map<int, bool>::const_iterator it = this->playList.cbegin(); it != this->playList.cend(); ++it)
 		{
 
 			if(it->second == true)
@@ -69,17 +69,17 @@ namespace Sound
 	void SoundProcessor::UpdatePlayList()
 	{
 
-		std::lock_guard<std::mutex> lock(soundProcMutex);
+		//std::lock_guard<std::mutex> lock(soundProcMutex);
 
-		std::function<void(std::shared_ptr<SoundSample>)> update = [this](std::shared_ptr<SoundSample> sound)
+		std::function<void(SoundSample)> update = [this](SoundSample sound)
 		{
 
-			if(sound->IsFinished())
+			if(sound.IsFinished())
 			{
 				//XXX Need to check id?
-				this->playList[sound->GetId()] = false;
+				this->playList[sound.GetId()] = false;
 
-				sound->SeekBeg();
+				sound.SeekBeg();
 			}
 
 		};
@@ -94,12 +94,12 @@ namespace Sound
 	void SoundProcessor::PlaySound(int soundId)
 	{
 
-		std::lock_guard<std::mutex> lock(soundProcMutex);
+		//std::lock_guard<std::mutex> lock(soundProcMutex);
 
 		//XXX Need to add stuff to check the soundId
 		if(playList[soundId] == true)
 		{
-			sounds[soundId]->SeekBeg();
+			sounds[soundId].SeekBeg();
 		}
 		else
 		{
@@ -111,7 +111,7 @@ namespace Sound
 
 	short SoundProcessor::ReadSoundData(int soundId)
 	{
-		return sounds[soundId]->ReadData();
+		return sounds[soundId].ReadData();
 	}
 
 /*
