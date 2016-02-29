@@ -134,7 +134,9 @@ namespace DrumKit
 
 			if(isTrig)
 			{
-				soundProc->PlaySound(instrument->GetSoundProps());
+
+				const int soundId = instrument->GetSoundProps();
+				soundProc->PlaySound(soundId);
 			}
 
 		};

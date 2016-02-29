@@ -37,8 +37,7 @@ namespace DrumKit
 
 	int Drum::GetSoundProps() const
 	{
-		//XXX Weird .at(0) doesn't work. Need to investigate that.
-		return this->soundIds.find(0)->first;
+		return this->soundIds.at(0);
 	}
 
 	// PRIVATE

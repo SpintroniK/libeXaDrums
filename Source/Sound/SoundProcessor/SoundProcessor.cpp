@@ -5,7 +5,6 @@
  *      Author: jeremy
  */
 
-#include <iostream>
 
 #include "SoundProcessor.h"
 
@@ -65,10 +64,10 @@ namespace Sound
 
 			if(sound.IsFinished())
 			{
-				//XXX Need to check that?
+				//FIXME That thing is wrong!!!
 				//this->playList[sound.GetId()] = false;
-				playList.erase(std::remove_if(playList.begin(), playList.end(),
-						[&sound](int soundId) { return (soundId == sound.GetId()); }), playList.end());
+				//playList.erase(std::remove_if(playList.begin(), playList.end(),
+				//		[&sound](int soundId) { return (soundId == sound.GetId()); }), playList.end());
 
 				sound.SeekBeg();
 			}
@@ -95,7 +94,6 @@ namespace Sound
 		}
 		else
 		{
-			std::cout << "Sound id = " << soundId << std::endl;
 			playList.push_back(soundId);
 		}
 

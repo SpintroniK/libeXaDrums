@@ -57,7 +57,7 @@ namespace Sound
 		}
 		else
 		{
-			return data[idx];
+			return volume*data[idx];
 		}
 
 	}
