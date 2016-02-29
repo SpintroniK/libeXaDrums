@@ -5,6 +5,8 @@
  *      Author: jeremy
  */
 
+#include <iostream>
+
 #include "SoundProcessor.h"
 
 namespace Sound
@@ -93,6 +95,7 @@ namespace Sound
 		}
 		else
 		{
+			std::cout << "Sound id = " << soundId << std::endl;
 			playList.push_back(soundId);
 		}
 

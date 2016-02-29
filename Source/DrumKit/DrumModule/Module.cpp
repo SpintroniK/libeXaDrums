@@ -45,8 +45,6 @@ namespace DrumKit
 
 		isPlay = false;
 
-		while(!playThread.joinable());
-
 		playThread.join();
 
 		return;
@@ -136,7 +134,7 @@ namespace DrumKit
 
 			if(isTrig)
 			{
-				soundProc->PlaySound(0);
+				soundProc->PlaySound(instrument->GetSoundProps());
 			}
 
 		};
