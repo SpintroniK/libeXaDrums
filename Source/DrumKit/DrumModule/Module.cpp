@@ -72,11 +72,6 @@ namespace DrumKit
 		std::function<void(InstrumentParameters)> fInst = [this](InstrumentParameters instrumentParameters)
 		{
 
-
-
-			// Add sound data to soundData vector
-			//Sound::SoundBank::LoadSound(soundLocation, soundData, soundDuration);
-
 			//XXX Force sensor type to the one defined by the module (temporary)
 			instrumentParameters.sensorType = this->sensorType;
 
@@ -99,12 +94,6 @@ namespace DrumKit
 
 			}
 
-			//FIXME Set sounds for instrument and SoundProcessor
-
-			// Set sound data for this instrument
-			//instrument->SetSoundData(soundData, soundDuration);
-
-			//this->soundProc->SetInstrumentSounds(instrument->GetSoundData(), instrument->GetSoundDuration());
 
 			// Add instrument to drum module
 			instruments.push_back(instrument);

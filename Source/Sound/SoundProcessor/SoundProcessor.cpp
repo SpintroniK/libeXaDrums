@@ -105,6 +105,14 @@ namespace Sound
 		return sounds[soundId].ReadData();
 	}
 
+	void SoundProcessor::ReadSoundChunk(int soundId, std::vector<short>& chunk)
+	{
+
+		sounds[soundId].ReadChunk(chunk);
+
+		return;
+	}
+
 /*
 	void SoundProcessor::AddSound(int id, float volume)
 	{

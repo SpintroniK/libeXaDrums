@@ -37,6 +37,8 @@ namespace DrumKit
 
 	int Drum::GetSoundProps() const
 	{
+
+		//TODO Also add the volume to the properties
 		return this->soundIds.at(0);
 	}
 

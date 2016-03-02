@@ -37,6 +37,7 @@ namespace Sound
 		void UpdatePlayList();
 		void PlaySound(int soundId);
 		short ReadSoundData(int soundId);
+		void ReadSoundChunk(int soundId, std::vector<short>& chunk);
 
 
 	private:

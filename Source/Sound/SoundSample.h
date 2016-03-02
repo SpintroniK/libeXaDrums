@@ -9,6 +9,7 @@
 #define SOURCE_SOUND_SOUNDSAMPLE_H_
 
 #include <vector>
+#include <algorithm>
 
 namespace Sound
 {
@@ -23,6 +24,7 @@ namespace Sound
 
 		void SetVolume(float volume);
 		short ReadData();
+		void ReadChunk(std::vector<short>& chunk);
 		bool IsFinished() const;
 		void SeekBeg();
 

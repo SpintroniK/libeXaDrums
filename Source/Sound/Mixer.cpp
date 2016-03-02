@@ -54,13 +54,27 @@ namespace Sound
 
 		const std::vector<int>& playList = soundProc->GetPlayList();
 
+
+		std::vector<short> chunk(alsaParams->periodSize);
+
 		// Mix sounds
 		for(std::size_t i = 0; i < playList.size(); i++)
 		{
+
+			soundProc->ReadSoundChunk(i, chunk);
+
+			for(int j = 0; j < alsaParams->periodSize; j++)
+			{
+				this->alsaParams->buffer[j] += chunk[j];
+			}
+
+			/*
 			for(int j = 0; j < alsaParams->periodSize; j++)
 			{
 				this->alsaParams->buffer[j] += soundProc->ReadSoundData(i);
 			}
+			*/
+
 		}
 
 
