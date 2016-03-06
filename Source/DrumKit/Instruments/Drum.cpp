@@ -25,7 +25,7 @@ namespace DrumKit
 		return;
 	}
 
-	bool Drum::Trig(float& strength)
+	/*bool Drum::Trig(float& strength)
 	{
 
 		short value = this->sensor->GetData(parameters.sensorId);
@@ -34,6 +34,7 @@ namespace DrumKit
 
 		return isTrig;
 	}
+	*/
 
 	int Drum::GetSoundProps() const
 	{

@@ -13,15 +13,13 @@ namespace DrumKit
 
 	Instrument::Instrument(InstrumentParameters parameters, std::shared_ptr<Sound::SoundProcessor> soundProcessor)
 	: parameters(parameters),
-	  sensor(nullptr),
-	  trigger(nullptr),
 	  soundProcessor(soundProcessor),
 	  soundIds()
 	{
 
 		// Create sensor
-		//XXX Need to improve Hdd sensor
-		const std::string sensorLoc("/home/jeremy/Desktop/Prog/eXaDrums/eXaDrums/out.raw");
+
+		/*const std::string sensorLoc("/home/jeremy/Desktop/Prog/eXaDrums/eXaDrums/out.raw");
 
 		switch(parameters.sensorType)
 		{
@@ -43,9 +41,9 @@ namespace DrumKit
 			break;
 
 		}
-
+		*/
 		// Create instrument trigger
-		this->CreateTrigger();
+		//this->CreateTriggers();
 
 		return;
 	}
@@ -70,16 +68,14 @@ namespace DrumKit
 
 	// PRIVATE
 
-	void Instrument::CreateTrigger()
+	/*void Instrument::CreateTriggers()
 	{
 
 		TriggerParameters triggerParameters;
 
-		triggerParameters.drumId = parameters.id;
 		triggerParameters.scanTime = parameters.scanTime;
 		triggerParameters.threshold = parameters.threshold;
 		triggerParameters.maskTime = parameters.maskTime;
-		//triggerParameters.curve = curve;
 
 
 		switch(parameters.instrumentType)
@@ -97,6 +93,7 @@ namespace DrumKit
 
 		return;
 	}
+	*/
 
 
 

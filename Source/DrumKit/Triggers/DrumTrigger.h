@@ -32,7 +32,8 @@ namespace DrumKit
 		DrumTrigger(TriggerParameters triggerParams);
 		virtual ~DrumTrigger();
 
-		virtual bool Trig(short value, float& strength);
+		virtual void Refresh();
+		//virtual bool Trig(short value, float& strength);
 		//bool GetState() const { return trig; }
 
 

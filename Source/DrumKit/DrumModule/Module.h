@@ -19,7 +19,9 @@
 #include "../KitManager/KitParameters.h"
 #include "../Instruments/Instrument.h"
 #include "../Instruments/Drum.h"
-
+#include "../Triggers/TriggerState.h"
+#include "../Triggers/Trigger.h"
+#include "../Triggers/DrumTrigger.h"
 
 #include <vector>
 #include <string>
@@ -28,8 +30,9 @@
 #include <memory>
 #include <algorithm>
 #include <functional>
+#include <utility>
 
-
+#include <iostream>
 
 namespace DrumKit
 {
@@ -49,20 +52,29 @@ namespace DrumKit
 
 		void GetDirectory(std::string& dir) const;
 
+
 	private:
 
 		void Run();
+
+		void CreateTriggers();
+		void CreateInstruments();
 
 		KitParams kitParameters;
 
 		IO::SensorType sensorType;
 
 		std::string directory;
+
 		std::vector<std::shared_ptr<Instrument>> instruments;
+		std::vector<TriggerParameters> triggersParameters;
 
 		std::thread playThread;
 		std::atomic<bool> isPlay;
 		std::shared_ptr<Sound::SoundProcessor> soundProc;
+
+		std::vector<std::shared_ptr<Trigger>> triggers;
+		std::vector<TriggerState> trigStates;
 
 
 	};

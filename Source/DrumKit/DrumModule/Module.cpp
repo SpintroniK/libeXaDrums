@@ -15,7 +15,8 @@ namespace DrumKit
 	: sensorType(sensorType),
 	  directory(dir),
 	  isPlay(false),
-	  soundProc(soundProc)
+	  soundProc(soundProc),
+	  triggers()
 	{
 
 		return;
@@ -65,18 +66,83 @@ namespace DrumKit
 		// Prepare instruments vector to be populated
 		this->instruments.clear();
 
+		// Prepare trigger parameters vector
+		this->triggersParameters.clear();
+
+		// Read triggers configurations
+		KitParameters::LoadTriggersConfig(this->directory, triggersParameters);
+
 		// Load drum kit parameters
 		KitParameters::LoadKit(file, this->kitParameters);
+
+		// Create Triggers
+		this->CreateTriggers();
+
+		// Populate trigStates
+		std::transform(triggers.begin(), triggers.end(), std::back_inserter(trigStates),
+						[](std::shared_ptr<Trigger> trigger) { return trigger->GetTriggerState(); });
+
+		// Create Instruments
+		this->CreateInstruments();
+
+
+		return;
+	}
+
+
+	/// PRIVATE
+
+
+	void Module::Run()
+	{
+
+		while(isPlay)
+		{
+
+			// Refresh triggers states
+			std::for_each(triggers.begin(), triggers.end(), [](std::shared_ptr<Trigger> trigger) { trigger->Refresh(); });
+
+		}
+
+		return;
+	}
+
+
+	void Module::CreateTriggers()
+	{
+
+		std::function<void(TriggerParameters)> fTrig = [this](TriggerParameters triggerParameters)
+		{
+
+			std::shared_ptr<Trigger> trigger = nullptr;
+
+			switch (triggerParameters.type)
+			{
+			case TriggerType::Drum:
+				trigger = std::shared_ptr<Trigger>(new DrumTrigger(triggerParameters));
+				break;
+
+			default:
+					throw -1;
+				break;
+			}
+
+			this->triggers.push_back(trigger);
+
+		};
+
+		std::for_each(this->triggersParameters.begin(), this->triggersParameters.end(), fTrig);
+
+		return;
+	}
+
+	void Module::CreateInstruments()
+	{
 
 
 		std::function<void(InstrumentParameters)> fInst = [this](InstrumentParameters instrumentParameters)
 		{
 
-			//XXX Force sensor type to the one defined by the module (temporary)
-			instrumentParameters.sensorType = this->sensorType;
-
-			//XXX Force curve to linear (temporary)
-			instrumentParameters.curveType = Sound::CurveType::linear;
 
 			std::shared_ptr<Instrument> instrument = nullptr;
 
@@ -103,41 +169,8 @@ namespace DrumKit
 		std::for_each(this->kitParameters.instrumentParameters.begin(),
 				this->kitParameters.instrumentParameters.end(), fInst);
 
-
-
 		return;
 	}
-
-
-	/// PRIVATE
-
-
-	void Module::Run()
-	{
-
-		std::function<void(std::shared_ptr<Instrument>)> f = [this] (std::shared_ptr<Instrument> instrument)
-		{
-
-			float strength = 0;
-			bool isTrig = instrument->Trig(strength);
-
-			if(isTrig)
-			{
-
-				const int soundId = instrument->GetSoundProps();
-				soundProc->PlaySound(soundId);
-			}
-
-		};
-
-		while(isPlay)
-		{
-			std::for_each(instruments.begin(), instruments.end(), f);
-		}
-
-		return;
-	}
-
 
 
 }

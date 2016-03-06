@@ -27,8 +27,16 @@ namespace DrumKit
 	}
 
 
-	bool DrumTrigger::Trig(short value, float& strength)
+	void DrumTrigger::Refresh()
 	{
+
+		// Reset state value
+		state.strength = 0.0f;
+		state.isTrig = false;
+
+		// Read sensor date
+		short value = this->GetSensorData();
+
 
 		// Data normalisation
 		short v = std::abs(value - mean);
@@ -57,12 +65,9 @@ namespace DrumKit
 			{
 				out = true;
 
-				strength = maxVelocity/numSamples;
-
-				//volume = this->triggerParameters.curve[maxVelocity];
-				//mixer->AddToMixer(this->drumId, volume);
-
-				return true;
+				// Update trigger state
+				state.strength = maxVelocity/numSamples;
+				state.isTrig = true;
 			}
 
 		}
@@ -74,9 +79,7 @@ namespace DrumKit
 			out = false;
 		}
 
-		strength = 0;
-
-		return false;
+		return;
 	}
 
 }

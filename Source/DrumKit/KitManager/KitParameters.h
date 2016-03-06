@@ -11,8 +11,12 @@
 #include "../../Sound/SoundProcessor/Curves/CurveType.h"
 #include "../../Sound/SoundProcessor/InstrumentSoundType.h"
 
+#include "../../IO/SensorType.h"
+
 #include "../Instruments/InstrumentType.h"
 #include "../Instruments/InstrumentSoundInfo.h"
+#include "../Triggers/TriggerType.h"
+#include "../Triggers/TriggerParameters.h"
 
 #include "KitParams.h"
 
@@ -29,12 +33,15 @@ namespace DrumKit
 	public:
 
 		static void LoadKit(std::string file, KitParams& parameters);
+		static void LoadTriggersConfig(std::string moduleDir, std::vector<TriggerParameters>& trigsParams);
+
 
 	private:
 
 		KitParameters() {};
 		virtual ~KitParameters() {};
 
+		static TriggerType GetTriggerType(std::string type);
 		static InstrumentType GetInstrumentType(std::string type);
 		static Sound::CurveType GetCurveType(std::string type);
 		static Sound::InstrumentSoundType GetSoundType(std::string type);

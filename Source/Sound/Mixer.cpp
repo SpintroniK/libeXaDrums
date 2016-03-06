@@ -36,7 +36,7 @@ namespace Sound
 	{
 
 		// Prevent other threads to alter the soundList vector
-		std::lock_guard<std::mutex> lock(mixerMutex);
+		//std::lock_guard<std::mutex> lock(mixerMutex);
 
 		// Fill buffer with zeros
 		std::fill(alsaParams->buffer.begin(), alsaParams->buffer.begin() + alsaParams->periodSize, 0);

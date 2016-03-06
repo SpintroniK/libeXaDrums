@@ -12,6 +12,55 @@ using namespace tinyxml2;
 namespace DrumKit
 {
 
+	void KitParameters::LoadTriggersConfig(std::string moduleDir, std::vector<TriggerParameters>& trigsParams)
+	{
+
+		trigsParams.clear();
+
+		std::string file(moduleDir + "triggersConfig.xml");
+
+		XMLDocument doc;
+
+		if(doc.LoadFile(file.c_str()) != XML_NO_ERROR)
+			throw -1;
+
+		XMLElement* root = doc.RootElement();
+
+		// Look for first trigger
+		XMLElement* firstTrigger = root->FirstChildElement("Trigger");
+
+		// Read all triggers
+		for(XMLElement* trigger = firstTrigger; trigger != nullptr; trigger = trigger->NextSiblingElement())
+		{
+			TriggerParameters trigParams;
+
+			// Get trigger id
+			trigParams.sensorId = std::atoi(trigger->Attribute("sensorId"));
+
+			// Get trigger type
+			trigParams.type = GetTriggerType(trigger->Attribute("type"));
+
+			// Read xml elements
+			XMLElement* threshold = trigger->FirstChildElement("Threshold");
+			XMLElement* scanTime = trigger->FirstChildElement("ScanTime");
+			XMLElement* maskTime = trigger->FirstChildElement("MaskTime");
+			XMLElement* response = trigger->FirstChildElement("Response");
+
+			trigParams.threshold = (short) std::atoi(threshold->GetText());
+			trigParams.scanTime = (unsigned int) std::atoi(scanTime->GetText());
+			trigParams.maskTime = std::atoi(maskTime->GetText());
+			trigParams.response = GetCurveType(response->GetText());
+
+			//XXX Forcing sensor type to HDD
+			trigParams.sensorType = IO::SensorType::Hdd;
+
+			trigsParams.push_back(trigParams);
+		}
+
+
+		return;
+	}
+
 
 	void KitParameters::LoadKit(std::string file, KitParams& parameters)
 	{
@@ -36,17 +85,26 @@ namespace DrumKit
 		{
 
 			InstrumentParameters instrumentParameters;
+			instrumentParameters.triggersIds.clear();
 
 			// Get xml elements
-
 			XMLElement* instrumentName = instrument->FirstChildElement("instrumentName");
-			XMLElement* sensorId = instrument->FirstChildElement("sensorId");
+			XMLElement* triggers = instrument->FirstChildElement("triggers");
+			XMLElement* firstTrigger = triggers->FirstChildElement("trigger");
 
-			// Get sounds
-			int soundId = 0;
+			// Get triggers
+			for(XMLElement* trigger = firstTrigger; trigger != nullptr; trigger = trigger->NextSiblingElement())
+			{
+				int triggerId = std::atoi(trigger->GetText());
+				instrumentParameters.triggersIds.push_back(triggerId);
+			}
+
+
 			XMLElement* sounds = instrument->FirstChildElement("sounds");
 			XMLElement* firstSound = sounds->FirstChildElement("sound");
 
+			// Get sounds
+			int soundId = 0;
 			std::vector<InstrumentSoundInfo> soundsInfo;
 
 			for(XMLElement* sound = firstSound; sound != nullptr; sound = sound->NextSiblingElement())
@@ -66,21 +124,18 @@ namespace DrumKit
 
 			instrumentParameters.soundsInfo.swap(soundsInfo);
 
+			/*
 			XMLElement* threshold = instrument->FirstChildElement("threshold");
 			XMLElement* scanTime = instrument->FirstChildElement("scanTime");
 			XMLElement* maskTime = instrument->FirstChildElement("maskTime");
 			XMLElement* curve = instrument->FirstChildElement("curve");
+			*/
 
 			// Populate instrumentParameters
-
 			InstrumentType instrumentType = GetInstrumentType(instrument->Attribute("type"));
 			instrumentParameters.instrumentType = instrumentType;
 			instrumentParameters.instrumentName = instrumentName->GetText();
-			instrumentParameters.sensorId = std::atoi(sensorId->GetText());
-			instrumentParameters.threshold = (short) std::atoi(threshold->GetText());
-			instrumentParameters.scanTime = (unsigned int) std::atoi(scanTime->GetText());
-			instrumentParameters.maskTime = std::atoi(maskTime->GetText());
-			instrumentParameters.curveType = GetCurveType(curve->GetText());
+
 
 			instrumentParameters.id = instrumentId;
 
@@ -99,6 +154,23 @@ namespace DrumKit
 
 
 	// PRIVATE
+
+	TriggerType KitParameters::GetTriggerType(std::string type)
+	{
+
+		TriggerType triggerType;
+
+		if(type == "Drum")
+		{
+			triggerType = TriggerType::Drum;
+		}
+		else
+		{
+			triggerType = TriggerType::Default;
+		}
+
+		return triggerType;
+	}
 
 	Sound::CurveType KitParameters::GetCurveType(std::string type)
 	{

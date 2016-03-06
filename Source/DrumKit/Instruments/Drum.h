@@ -29,7 +29,7 @@ namespace DrumKit
 		Drum(InstrumentParameters parameters, std::shared_ptr<Sound::SoundProcessor> soundProc);
 		virtual ~Drum();
 
-		virtual bool Trig(float& strength);
+		//virtual bool Trig(float& strength);
 		virtual int GetSoundProps() const;
 
 	private:
