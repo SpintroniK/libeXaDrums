@@ -10,8 +10,8 @@
 namespace DrumKit
 {
 
-	Drum::Drum(InstrumentParameters parameters, std::shared_ptr<Sound::SoundProcessor> soundProc)
-	: Instrument(parameters, soundProc)
+	Drum::Drum(InstrumentParameters parameters, std::shared_ptr<Sound::SoundProcessor> soundProcessor, std::vector<std::shared_ptr<Trigger>> const& triggers)
+	: Instrument(parameters, soundProcessor, triggers)
 	{
 
 		this->GenerateSounds();
@@ -25,16 +25,6 @@ namespace DrumKit
 		return;
 	}
 
-	/*bool Drum::Trig(float& strength)
-	{
-
-		short value = this->sensor->GetData(parameters.sensorId);
-
-		bool isTrig = this->trigger->Trig(value, strength);
-
-		return isTrig;
-	}
-	*/
 
 	int Drum::GetSoundProps() const
 	{

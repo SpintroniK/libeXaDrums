@@ -17,6 +17,7 @@
 #include "../Instruments/InstrumentSoundInfo.h"
 #include "../Triggers/TriggerType.h"
 #include "../Triggers/TriggerParameters.h"
+#include "../Triggers/TriggerLocation.h"
 
 #include "KitParams.h"
 
@@ -42,6 +43,7 @@ namespace DrumKit
 		virtual ~KitParameters() {};
 
 		static TriggerType GetTriggerType(std::string type);
+		static TriggerLocation GetTriggerLocation(std::string location);
 		static InstrumentType GetInstrumentType(std::string type);
 		static Sound::CurveType GetCurveType(std::string type);
 		static Sound::InstrumentSoundType GetSoundType(std::string type);

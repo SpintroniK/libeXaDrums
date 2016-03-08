@@ -11,47 +11,21 @@
 namespace DrumKit
 {
 
-	Instrument::Instrument(InstrumentParameters parameters, std::shared_ptr<Sound::SoundProcessor> soundProcessor)
+	Instrument::Instrument(InstrumentParameters parameters, std::shared_ptr<Sound::SoundProcessor> soundProcessor, std::vector<std::shared_ptr<Trigger>> const& trigs)
 	: parameters(parameters),
 	  soundProcessor(soundProcessor),
 	  soundIds()
 	{
 
-		// Create sensor
-
-		/*const std::string sensorLoc("/home/jeremy/Desktop/Prog/eXaDrums/eXaDrums/out.raw");
-
-		switch(parameters.sensorType)
-		{
-
-		case IO::SensorType::Hdd:
-
-			this->sensor = std::shared_ptr<IO::ISensor>(new IO::HddSensor(sensorLoc.c_str()));
-
-			break;
-
-		case IO::SensorType::Spi:
-
-			this->sensor = std::shared_ptr<IO::ISensor>(new IO::SpiSensor());
-
-			break;
-
-		default:
-			throw -1;
-			break;
-
-		}
-		*/
-		// Create instrument trigger
-		//this->CreateTriggers();
+		// Only selects the triggers that the instrument uses.
+		/*std::transform(parameters.triggersIds.cbegin(), parameters.triggersIds.cend(), std::back_inserter(triggers),
+				[&] (int triggerId) { return trigs[triggerId]; } );*/
 
 		return;
 	}
 
 	Instrument::~Instrument()
 	{
-
-
 
 		return;
 	}

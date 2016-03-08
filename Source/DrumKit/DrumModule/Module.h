@@ -19,7 +19,7 @@
 #include "../KitManager/KitParameters.h"
 #include "../Instruments/Instrument.h"
 #include "../Instruments/Drum.h"
-#include "../Triggers/TriggerState.h"
+#include "../Triggers/TriggerType.h"
 #include "../Triggers/Trigger.h"
 #include "../Triggers/DrumTrigger.h"
 
@@ -32,7 +32,6 @@
 #include <functional>
 #include <utility>
 
-#include <iostream>
 
 namespace DrumKit
 {
@@ -66,7 +65,7 @@ namespace DrumKit
 
 		std::string directory;
 
-		std::vector<std::shared_ptr<Instrument>> instruments;
+		std::vector<std::unique_ptr<Instrument>> instruments;
 		std::vector<TriggerParameters> triggersParameters;
 
 		std::thread playThread;
@@ -74,7 +73,6 @@ namespace DrumKit
 		std::shared_ptr<Sound::SoundProcessor> soundProc;
 
 		std::vector<std::shared_ptr<Trigger>> triggers;
-		std::vector<TriggerState> trigStates;
 
 
 	};

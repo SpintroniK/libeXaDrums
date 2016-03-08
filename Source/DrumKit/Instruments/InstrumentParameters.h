@@ -9,8 +9,6 @@
 #define SOURCE_DRUMKIT_INSTRUMENTS_INSTRUMENTPARAMETERS_H_
 
 
-//#include "../../IO/SensorType.h"
-
 #include "InstrumentSoundInfo.h"
 #include "InstrumentType.h"
 

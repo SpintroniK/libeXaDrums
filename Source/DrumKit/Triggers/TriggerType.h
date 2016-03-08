@@ -14,8 +14,8 @@ namespace DrumKit
 	enum class TriggerType
 	{
 
-		Drum,
-		Default
+		Discrete,
+		Continuous
 
 	};
 

@@ -78,10 +78,10 @@ namespace DrumKit
 		// Create Triggers
 		this->CreateTriggers();
 
-		// Populate trigStates
-		std::transform(triggers.begin(), triggers.end(), std::back_inserter(trigStates),
+		// Populate trigStates (probably not needed anymore)
+		/*std::transform(triggers.begin(), triggers.end(), std::back_inserter(trigStates),
 						[](std::shared_ptr<Trigger> trigger) { return trigger->GetTriggerState(); });
-
+		*/
 		// Create Instruments
 		this->CreateInstruments();
 
@@ -118,7 +118,7 @@ namespace DrumKit
 
 			switch (triggerParameters.type)
 			{
-			case TriggerType::Drum:
+			case TriggerType::Discrete:
 				trigger = std::shared_ptr<Trigger>(new DrumTrigger(triggerParameters));
 				break;
 
@@ -144,14 +144,14 @@ namespace DrumKit
 		{
 
 
-			std::shared_ptr<Instrument> instrument = nullptr;
+			std::unique_ptr<Instrument> instrument = nullptr;
 
 			//XXX Create instrument for drum module (Drum only for now)
 			switch(instrumentParameters.instrumentType)
 			{
 
 			case InstrumentType::Drum:
-				instrument = std::shared_ptr<Instrument>(new Drum(instrumentParameters, soundProc));
+				instrument = std::unique_ptr<Instrument>(new Drum(instrumentParameters, soundProc, triggers));
 				break;
 
 			default:
@@ -162,12 +162,12 @@ namespace DrumKit
 
 
 			// Add instrument to drum module
-			instruments.push_back(instrument);
+			instruments.push_back(std::move(instrument));
 
 		};
 
-		std::for_each(this->kitParameters.instrumentParameters.begin(),
-				this->kitParameters.instrumentParameters.end(), fInst);
+		std::for_each(this->kitParameters.instrumentParameters.cbegin(),
+				this->kitParameters.instrumentParameters.cend(), fInst);
 
 		return;
 	}

@@ -11,6 +11,8 @@
 #include "../../Sound/SoundBank/SoundBank.h"
 #include "../../Sound/SoundProcessor/SoundProcessor.h"
 
+#include "../Triggers/Trigger.h"
+
 #include "Instrument.h"
 
 #include <functional>
@@ -26,10 +28,9 @@ namespace DrumKit
 
 	public:
 
-		Drum(InstrumentParameters parameters, std::shared_ptr<Sound::SoundProcessor> soundProc);
+		Drum(InstrumentParameters parameters, std::shared_ptr<Sound::SoundProcessor> soundProcessor, std::vector<std::shared_ptr<Trigger>> const& triggers);
 		virtual ~Drum();
 
-		//virtual bool Trig(float& strength);
 		virtual int GetSoundProps() const;
 
 	private:
@@ -37,8 +38,6 @@ namespace DrumKit
 		virtual void GenerateSounds();
 
 	};
-
-
 
 }
 

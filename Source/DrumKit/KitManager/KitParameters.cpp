@@ -38,7 +38,7 @@ namespace DrumKit
 			trigParams.sensorId = std::atoi(trigger->Attribute("sensorId"));
 
 			// Get trigger type
-			trigParams.type = GetTriggerType(trigger->Attribute("type"));
+			trigParams.type = GetTriggerType(trigger->Attribute("sensorType"));
 
 			// Read xml elements
 			XMLElement* threshold = trigger->FirstChildElement("Threshold");
@@ -51,7 +51,7 @@ namespace DrumKit
 			trigParams.maskTime = std::atoi(maskTime->GetText());
 			trigParams.response = GetCurveType(response->GetText());
 
-			//XXX Forcing sensor type to HDD
+			//XXX Forcing sensor type to HDD (should real from sensor config. file)
 			trigParams.sensorType = IO::SensorType::Hdd;
 
 			trigsParams.push_back(trigParams);
@@ -96,6 +96,7 @@ namespace DrumKit
 			for(XMLElement* trigger = firstTrigger; trigger != nullptr; trigger = trigger->NextSiblingElement())
 			{
 				int triggerId = std::atoi(trigger->GetText());
+				TriggerLocation triggerLoc = GetTriggerLocation(trigger->Attribute("location"));
 				instrumentParameters.triggersIds.push_back(triggerId);
 			}
 
@@ -160,17 +161,37 @@ namespace DrumKit
 
 		TriggerType triggerType;
 
-		if(type == "Drum")
+		if(type == "Continuous")
 		{
-			triggerType = TriggerType::Drum;
+			triggerType = TriggerType::Continuous;
 		}
 		else
 		{
-			triggerType = TriggerType::Default;
+			triggerType = TriggerType::Discrete;
 		}
 
 		return triggerType;
 	}
+
+	TriggerLocation KitParameters::GetTriggerLocation(std::string location)
+	{
+
+
+		TriggerLocation triggerLocation;
+
+		if(location == "Rim")
+		{
+			triggerLocation = TriggerLocation::Rim;
+		}
+		else
+		{
+			triggerLocation = TriggerLocation::DrumHead;
+		}
+
+		return triggerLocation;
+
+	}
+
 
 	Sound::CurveType KitParameters::GetCurveType(std::string type)
 	{
