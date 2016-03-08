@@ -25,7 +25,6 @@ namespace DrumKit
 		t0 = high_resolution_clock::now();
 
 		// Default state values
-		state.type = triggerParams.type;
 		state.isTrig = false;
 		state.sensorId = triggerParams.sensorId;
 		state.strength = 0.0f;

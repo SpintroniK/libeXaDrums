@@ -8,7 +8,6 @@
 #ifndef SOURCE_DRUMKIT_TRIGGERS_TRIGGERSTATE_H_
 #define SOURCE_DRUMKIT_TRIGGERS_TRIGGERSTATE_H_
 
-#include "TriggerType.h"
 
 namespace DrumKit
 {
@@ -19,8 +18,6 @@ namespace DrumKit
 		int sensorId;
 		float strength;
 		bool isTrig;
-		TriggerType type;
-
 
 	};
 
