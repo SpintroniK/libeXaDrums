@@ -99,7 +99,7 @@ namespace DrumKit
 		while(isPlay)
 		{
 
-			std::function<void(std::shared_ptr<Instrument>)> fInst = [&](std::shared_ptr<Instrument> instrument)
+			std::function<void(std::shared_ptr<Instrument> const&)> fInst = [&](std::shared_ptr<Instrument> const& instrument)
 			{
 				int soundId = instrument->GetSoundProps();
 
