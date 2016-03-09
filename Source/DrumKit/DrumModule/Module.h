@@ -31,6 +31,7 @@
 #include <algorithm>
 #include <functional>
 #include <utility>
+#include <map>
 
 
 namespace DrumKit
@@ -65,14 +66,14 @@ namespace DrumKit
 
 		std::string directory;
 
-		std::vector<std::unique_ptr<Instrument>> instruments;
+		std::vector<std::shared_ptr<Instrument>> instruments;
 		std::vector<TriggerParameters> triggersParameters;
 
 		std::thread playThread;
 		std::atomic<bool> isPlay;
 		std::shared_ptr<Sound::SoundProcessor> soundProc;
 
-		std::vector<std::shared_ptr<Trigger>> triggers;
+		std::map<int, std::shared_ptr<Trigger>> triggers;
 
 
 	};

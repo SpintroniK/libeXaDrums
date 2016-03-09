@@ -10,7 +10,7 @@
 namespace DrumKit
 {
 
-	Drum::Drum(InstrumentParameters parameters, std::shared_ptr<Sound::SoundProcessor> soundProcessor, std::vector<std::shared_ptr<Trigger>> const& triggers)
+	Drum::Drum(InstrumentParameters parameters, std::shared_ptr<Sound::SoundProcessor> soundProcessor, std::map<int, std::shared_ptr<Trigger>> const& triggers)
 	: Instrument(parameters, soundProcessor, triggers)
 	{
 
@@ -26,11 +26,38 @@ namespace DrumKit
 	}
 
 
-	int Drum::GetSoundProps() const
+	int Drum::GetSoundProps()
 	{
 
 		//TODO Also add the volume to the properties
-		return this->soundIds.at(0);
+
+		for(std::size_t i = 0; i < triggers.size(); i++)
+		{
+
+
+			triggers[i]->Refresh();
+			TriggerState triggerState =  triggers[i]->GetTriggerState();
+
+			if(triggerState.isTrig)
+			{
+				int triggerId = triggerState.sensorId;
+
+				switch (triggerId)
+				{
+					case 0:
+						return soundIds.at(0);
+						break;
+					default:
+						return -1;
+						break;
+				}
+			}
+
+		};
+
+
+
+		return -1;
 	}
 
 	// PRIVATE

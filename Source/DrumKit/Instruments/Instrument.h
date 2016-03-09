@@ -30,11 +30,11 @@ namespace DrumKit
 
 	public:
 
-		Instrument(InstrumentParameters parameters, std::shared_ptr<Sound::SoundProcessor> soundProcessor, std::vector<std::shared_ptr<Trigger>> const& trigs);
+		Instrument(InstrumentParameters parameters, std::shared_ptr<Sound::SoundProcessor> soundProcessor, std::map<int, std::shared_ptr<Trigger>> const& trigs);
 		virtual ~Instrument();
 
 
-		virtual int GetSoundProps() const = 0;
+		virtual int GetSoundProps() = 0;
 
 		virtual std::vector<int> const& GetTriggers() const { return this->parameters.triggersIds; };
 		virtual int GetId() const { return this->parameters.id; }
@@ -48,10 +48,10 @@ namespace DrumKit
 		InstrumentParameters parameters;
 		std::shared_ptr<Sound::SoundProcessor> soundProcessor;
 		std::map<int, int> soundIds;
+		std::vector<std::shared_ptr<Trigger>> triggers;
 
 	private:
 
-		std::vector<std::shared_ptr<Trigger>> triggers;
 
 
 	};

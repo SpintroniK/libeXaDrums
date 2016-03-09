@@ -28,10 +28,10 @@ namespace DrumKit
 
 	public:
 
-		Drum(InstrumentParameters parameters, std::shared_ptr<Sound::SoundProcessor> soundProcessor, std::vector<std::shared_ptr<Trigger>> const& triggers);
+		Drum(InstrumentParameters parameters, std::shared_ptr<Sound::SoundProcessor> soundProcessor, std::map<int, std::shared_ptr<Trigger>> const& triggers);
 		virtual ~Drum();
 
-		virtual int GetSoundProps() const;
+		virtual int GetSoundProps();
 
 	private:
 

@@ -99,8 +99,17 @@ namespace DrumKit
 		while(isPlay)
 		{
 
-			// Refresh triggers states
-			std::for_each(triggers.begin(), triggers.end(), [](std::shared_ptr<Trigger> trigger) { trigger->Refresh(); });
+			std::function<void(std::shared_ptr<Instrument>)> fInst = [&](std::shared_ptr<Instrument> instrument)
+			{
+				int soundId = instrument->GetSoundProps();
+
+				if(soundId > -1)
+				{
+					soundProc->PlaySound(soundId);
+				}
+			};
+
+			std::for_each(instruments.cbegin(), instruments.cend(), fInst);
 
 		}
 
@@ -127,7 +136,7 @@ namespace DrumKit
 				break;
 			}
 
-			this->triggers.push_back(trigger);
+			this->triggers.insert(std::pair<int, std::shared_ptr<Trigger>>(triggerParameters.sensorId, trigger));
 
 		};
 
@@ -144,14 +153,14 @@ namespace DrumKit
 		{
 
 
-			std::unique_ptr<Instrument> instrument = nullptr;
+			std::shared_ptr<Instrument> instrument = nullptr;
 
 			//XXX Create instrument for drum module (Drum only for now)
 			switch(instrumentParameters.instrumentType)
 			{
 
 			case InstrumentType::Drum:
-				instrument = std::unique_ptr<Instrument>(new Drum(instrumentParameters, soundProc, triggers));
+				instrument = std::shared_ptr<Instrument>(new Drum(instrumentParameters, soundProc, triggers));
 				break;
 
 			default:
@@ -162,7 +171,7 @@ namespace DrumKit
 
 
 			// Add instrument to drum module
-			instruments.push_back(std::move(instrument));
+			instruments.push_back(instrument);
 
 		};
 
