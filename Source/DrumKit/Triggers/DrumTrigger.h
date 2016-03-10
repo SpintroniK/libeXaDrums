@@ -8,7 +8,6 @@
 #ifndef RASPIDRUMS_SOURCE_DRUMKIT_TRIGGER_H_
 #define RASPIDRUMS_SOURCE_DRUMKIT_TRIGGER_H_
 
-#include "../../Sound/Mixer.h"
 #include "Trigger.h"
 #include "TriggerParameters.h"
 

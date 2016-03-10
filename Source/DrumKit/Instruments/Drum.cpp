@@ -10,7 +10,7 @@
 namespace DrumKit
 {
 
-	Drum::Drum(InstrumentParameters parameters, std::shared_ptr<Sound::SoundProcessor> soundProcessor, std::map<int, std::shared_ptr<Trigger>> const& triggers)
+	Drum::Drum(InstrumentParameters parameters, std::shared_ptr<Sound::SoundProcessor> soundProcessor, std::map<int, TriggerPtr> const& triggers)
 	: Instrument(parameters, soundProcessor, triggers)
 	{
 

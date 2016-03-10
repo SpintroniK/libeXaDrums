@@ -99,7 +99,7 @@ namespace DrumKit
 		while(isPlay)
 		{
 
-			std::function<void(std::shared_ptr<Instrument> const&)> fInst = [&](std::shared_ptr<Instrument> const& instrument)
+			std::function<void(InstrumentPtr const&)> fInst = [&](InstrumentPtr const& instrument)
 			{
 				int soundId = instrument->GetSoundProps();
 
@@ -123,12 +123,12 @@ namespace DrumKit
 		std::function<void(TriggerParameters)> fTrig = [this](TriggerParameters triggerParameters)
 		{
 
-			std::shared_ptr<Trigger> trigger = nullptr;
+			TriggerPtr trigger = nullptr;
 
 			switch (triggerParameters.type)
 			{
 			case TriggerType::Discrete:
-				trigger = std::shared_ptr<Trigger>(new DrumTrigger(triggerParameters));
+				trigger = TriggerPtr(new DrumTrigger(triggerParameters));
 				break;
 
 			default:
@@ -136,7 +136,7 @@ namespace DrumKit
 				break;
 			}
 
-			this->triggers.insert(std::pair<int, std::shared_ptr<Trigger>>(triggerParameters.sensorId, trigger));
+			this->triggers.insert(std::pair<int, TriggerPtr>(triggerParameters.sensorId, trigger));
 
 		};
 
@@ -153,14 +153,14 @@ namespace DrumKit
 		{
 
 
-			std::shared_ptr<Instrument> instrument = nullptr;
+			InstrumentPtr instrument = nullptr;
 
 			//XXX Create instrument for drum module (Drum only for now)
 			switch(instrumentParameters.instrumentType)
 			{
 
 			case InstrumentType::Drum:
-				instrument = std::shared_ptr<Instrument>(new Drum(instrumentParameters, soundProc, triggers));
+				instrument = InstrumentPtr(new Drum(instrumentParameters, soundProc, triggers));
 				break;
 
 			default:

@@ -5,7 +5,7 @@
  *      Author: jeremy
  */
 
-#include "../KitManager/KitParameters.h"
+#include "KitParameters.h"
 
 using namespace tinyxml2;
 
@@ -196,18 +196,19 @@ namespace DrumKit
 	Sound::CurveType KitParameters::GetCurveType(std::string type)
 	{
 
-		std::map<std::string, Sound::CurveType> dic;
+		Sound::CurveType curveType;
 
 		// Add definitions to dic
-		dic["exponential"] = Sound::CurveType::exponential;
-		dic["linear"] = Sound::CurveType::linear;
-
-		std::map< std::string, Sound::CurveType>::iterator i = dic.find(type);
-
-		if(i != dic.end())
-			return i->second;
+		if(type == "exponential")
+		{
+			curveType = Sound::CurveType::exponential;
+		}
 		else
-			return Sound::CurveType::linear; // Default value
+		{
+			curveType = Sound::CurveType::linear;
+		}
+
+		return curveType;
 	}
 
 	InstrumentType KitParameters::GetInstrumentType(std::string typeName)
@@ -216,20 +217,27 @@ namespace DrumKit
 
 		InstrumentType instrumentType;
 
-		std::map<std::string, InstrumentType> dic;
-
-		// Add definitions to dic
-		dic["Drum"] = InstrumentType::Drum;
-		dic["Cymbal"] = InstrumentType::Cymbal;
-		dic["HiHat"] = InstrumentType::HiHat;
-		dic["BassDrum"] = InstrumentType::BassDrum;
-
-		std::map< std::string, InstrumentType>::iterator i = dic.find(typeName);
-
-		if(i != dic.end())
-			instrumentType = i->second;
+		if(typeName == "HiHat")
+		{
+			instrumentType= InstrumentType::HiHat;
+		}
+		else if(typeName == "Cymbal")
+		{
+			instrumentType = InstrumentType::Cymbal;
+		}
+		else if(typeName == "HiHat")
+		{
+			instrumentType = InstrumentType::HiHat;
+		}
+		else if (typeName == "BassDrum")
+		{
+			instrumentType = InstrumentType::BassDrum;
+		}
 		else
-			instrumentType = InstrumentType::Drum; // Default value
+		{
+			instrumentType = InstrumentType::Drum;
+		}
+
 
 		return instrumentType;
 	}
@@ -237,21 +245,17 @@ namespace DrumKit
 	Sound::InstrumentSoundType KitParameters::GetSoundType(std::string type)
 	{
 
-
 		Sound::InstrumentSoundType soundType;
 
-		std::map<std::string, Sound::InstrumentSoundType> dic;
-
-		// Add definitions to dic
-		dic["Default"] = Sound::InstrumentSoundType::Default;
-		dic["ClosingHiHat"] = Sound::InstrumentSoundType::ClosingHiHat;
-
-		std::map< std::string, Sound::InstrumentSoundType>::iterator i = dic.find(type);
-
-		if(i != dic.end())
-			soundType = i->second;
+		if(type == "ClosingHiHat")
+		{
+			soundType = Sound::InstrumentSoundType::ClosingHiHat;
+		}
 		else
-			soundType = Sound::InstrumentSoundType::Default; // Default value
+		{
+			soundType = Sound::InstrumentSoundType::Default;
+		}
+
 
 		return soundType;
 

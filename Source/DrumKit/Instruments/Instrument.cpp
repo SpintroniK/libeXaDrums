@@ -11,7 +11,7 @@
 namespace DrumKit
 {
 
-	Instrument::Instrument(InstrumentParameters parameters, std::shared_ptr<Sound::SoundProcessor> soundProcessor, std::map<int, std::shared_ptr<Trigger>> const& trigs)
+	Instrument::Instrument(InstrumentParameters parameters, std::shared_ptr<Sound::SoundProcessor> soundProcessor, std::map<int, TriggerPtr> const& trigs)
 	: parameters(parameters),
 	  soundProcessor(soundProcessor),
 	  soundIds()
@@ -30,44 +30,7 @@ namespace DrumKit
 		return;
 	}
 
-	/*void Instrument::SetSoundData(std::vector<short>& data, unsigned int duration)
-	{
 
-		this->soundData.clear();
-		this->soundData.swap(data);
-		this->soundDuration = duration;
-
-		return;
-	}*/
-
-	// PRIVATE
-
-	/*void Instrument::CreateTriggers()
-	{
-
-		TriggerParameters triggerParameters;
-
-		triggerParameters.scanTime = parameters.scanTime;
-		triggerParameters.threshold = parameters.threshold;
-		triggerParameters.maskTime = parameters.maskTime;
-
-
-		switch(parameters.instrumentType)
-		{
-
-		case InstrumentType::Drum:
-			trigger = std::shared_ptr<Trigger>(new DrumTrigger(triggerParameters));
-			break;
-
-		default:
-			throw -1;
-			break;
-
-		}
-
-		return;
-	}
-	*/
 
 
 

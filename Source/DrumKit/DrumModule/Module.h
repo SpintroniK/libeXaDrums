@@ -10,10 +10,7 @@
 
 
 #include "../../Sound/SoundProcessor/SoundProcessor.h"
-#include "../../Sound/SoundProcessor/Curves/CurveType.h"
-#include "../../Sound/SoundProcessor/Curves/Curves.h"
 #include "../../Sound/SoundBank/SoundBank.h"
-#include "../../IO/SensorType.h"
 
 #include "../Instruments/InstrumentParameters.h"
 #include "../KitManager/KitParameters.h"
@@ -66,14 +63,14 @@ namespace DrumKit
 
 		std::string directory;
 
-		std::vector<std::shared_ptr<Instrument>> instruments;
+		std::vector<InstrumentPtr> instruments;
 		std::vector<TriggerParameters> triggersParameters;
 
 		std::thread playThread;
 		std::atomic<bool> isPlay;
 		std::shared_ptr<Sound::SoundProcessor> soundProc;
 
-		std::map<int, std::shared_ptr<Trigger>> triggers;
+		std::map<int, TriggerPtr> triggers;
 
 
 	};

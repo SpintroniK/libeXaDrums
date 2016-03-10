@@ -48,13 +48,15 @@ namespace DrumKit
 		InstrumentParameters parameters;
 		std::shared_ptr<Sound::SoundProcessor> soundProcessor;
 		std::map<int, int> soundIds;
-		std::vector<std::shared_ptr<Trigger>> triggers;
+		std::vector<TriggerPtr> triggers;
 
 	private:
 
 
 
 	};
+
+	typedef std::shared_ptr<Instrument> InstrumentPtr;
 
 }
 

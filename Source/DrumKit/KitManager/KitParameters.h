@@ -23,8 +23,6 @@
 
 #include <tinyxml2.h>
 
-#include <map>
-
 namespace DrumKit
 {
 

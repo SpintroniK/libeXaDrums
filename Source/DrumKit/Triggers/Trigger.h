@@ -8,6 +8,7 @@
 #ifndef SOURCE_DRUMKIT_TRIGGERS_TRIGGER_H_
 #define SOURCE_DRUMKIT_TRIGGERS_TRIGGER_H_
 
+
 #include "../../IO/ISensor.h"
 #include "../../IO/HddSensor.h"
 #include "../../IO/SpiSensor.h"
@@ -18,6 +19,7 @@
 #include <chrono>
 #include <string>
 #include <memory>
+
 
 using namespace std::chrono;
 
@@ -68,6 +70,9 @@ namespace DrumKit
 
 
 	};
+
+
+	typedef std::shared_ptr<Trigger> TriggerPtr;
 
 
 }

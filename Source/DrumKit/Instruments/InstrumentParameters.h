@@ -29,12 +29,6 @@ namespace DrumKit
 		std::vector<InstrumentSoundInfo> soundsInfo;
 		std::vector<int> triggersIds;
 
-		//IO::SensorType sensorType;
-		//unsigned int scanTime;
-		//short threshold;
-		//int maskTime;
-		//int sensorId;
-
 	};
 
 }

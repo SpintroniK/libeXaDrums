@@ -42,16 +42,6 @@ namespace Sound
 		std::fill(alsaParams->buffer.begin(), alsaParams->buffer.begin() + alsaParams->periodSize, 0);
 
 
-
-		/*
-		std::function<void(std::vector<short>)> mix = [this](std::vector<short> data)
-		{
-			std::transform(data.cbegin(), data.cend(), this->alsaParams->buffer.cbegin(), this->alsaParams->buffer.begin(), std::plus<short>());
-		};
-
-		std::for_each(samples.cbegin(), samples.cend(), mix);
-		*/
-
 		const std::vector<int>& playList = soundProc->GetPlayList();
 
 
@@ -80,39 +70,7 @@ namespace Sound
 
 		soundProc->UpdatePlayList();
 
-/*
-		// If there are sounds to mix
-		if(sampleList.size() > 0)
-		{
 
-			// Browse sound list
-			for(size_t id = 0; id < sampleList.size(); id++)
-			{
-
-				int soundId = sampleList[id].id;
-				int soundIndex = sampleList[id].index;
-
-				// Mix sound
-				for(int i = 0; i < alsaParams->periodSize; i++)
-				{
-					alsaParams->buffer[i] += sampleList[id].volume * soundParameters[soundId].data[soundIndex + i];
-				}
-
-				// Update sound index
-				sampleList[id].index += alsaParams->periodSize;
-
-			}
-
-			// Delete the sounds that finished playing
-			std::function<bool(SampleInfo)> f = [this](SampleInfo sample)
-			{
-				return (sample.index >= soundParameters[sample.id].length);
-			};
-			std::vector<SampleInfo>::iterator n =  std::remove_if(sampleList.begin(), sampleList.end(), f);
-			sampleList.erase(n, sampleList.end());
-
-
-		}*/
 
 		return;
 	}
