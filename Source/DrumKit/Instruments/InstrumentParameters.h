@@ -9,9 +9,7 @@
 #define SOURCE_DRUMKIT_INSTRUMENTS_INSTRUMENTPARAMETERS_H_
 
 
-#include "../../Sound/SoundProcessor/Curves/CurveType.h"
-#include "../../IO/SensorType.h"
-
+#include "InstrumentSoundInfo.h"
 #include "InstrumentType.h"
 
 #include <vector>
@@ -26,17 +24,10 @@ namespace DrumKit
 		InstrumentType instrumentType;
 
 		int id;
-		int sensorId;
-		IO::SensorType sensorType;
 
 		std::string instrumentName;
-		std::string soundFile;
-
-		Sound::CurveType curveType;
-
-		unsigned int scanTime;
-		short threshold;
-		int maskTime;
+		std::vector<InstrumentSoundInfo> soundsInfo;
+		std::vector<int> triggersIds;
 
 	};
 

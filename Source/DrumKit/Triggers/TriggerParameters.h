@@ -8,6 +8,11 @@
 #ifndef SOURCE_DRUMKIT_TRIGGERS_TRIGGERPARAMETERS_H_
 #define SOURCE_DRUMKIT_TRIGGERS_TRIGGERPARAMETERS_H_
 
+#include "../../Sound/SoundProcessor/Curves/CurveType.h"
+#include "../../IO/SensorType.h"
+
+#include "TriggerType.h"
+
 #include <vector>
 
 namespace DrumKit
@@ -16,12 +21,13 @@ namespace DrumKit
 	struct TriggerParameters
 	{
 
-		int drumId;
+		int sensorId;
 		unsigned int scanTime;
 		short threshold;
 		int maskTime;
-		//std::vector<float> curve;
-
+		TriggerType type;
+		IO::SensorType sensorType;
+		Sound::CurveType response;
 	};
 
 }

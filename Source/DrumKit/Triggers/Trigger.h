@@ -8,9 +8,18 @@
 #ifndef SOURCE_DRUMKIT_TRIGGERS_TRIGGER_H_
 #define SOURCE_DRUMKIT_TRIGGERS_TRIGGER_H_
 
+
+#include "../../IO/ISensor.h"
+#include "../../IO/HddSensor.h"
+#include "../../IO/SpiSensor.h"
+
 #include "TriggerParameters.h"
+#include "TriggerState.h"
 
 #include <chrono>
+#include <string>
+#include <memory>
+
 
 using namespace std::chrono;
 
@@ -26,11 +35,15 @@ namespace DrumKit
 		Trigger(TriggerParameters trigParams);
 		virtual ~Trigger() {};
 
-		virtual bool Trig(short value, float& strength) = 0;
+		//virtual bool Trig(short value, float& strength) = 0;
+		virtual void Refresh() = 0;
 
+		virtual TriggerState const& GetTriggerState() const { return state; }
 
 
 	protected:
+
+		virtual short GetSensorData() const { return sensor->GetData(triggerParameters.sensorId); }
 
 		TriggerParameters triggerParameters;
 
@@ -48,12 +61,18 @@ namespace DrumKit
 		short velocity;
 		short maxVelocity;
 
+		TriggerState state;
+
 
 	private:
 
+		std::unique_ptr<IO::ISensor> sensor;
 
 
 	};
+
+
+	typedef std::shared_ptr<Trigger> TriggerPtr;
 
 
 }

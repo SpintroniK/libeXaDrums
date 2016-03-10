@@ -22,4 +22,10 @@ namespace DrumKit
 		return;
 	}
 
+	int Cymbal::GetSoundId()
+	{
+
+		return 0;
+	}
+
 }

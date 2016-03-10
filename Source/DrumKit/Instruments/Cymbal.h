@@ -21,6 +21,8 @@ namespace DrumKit
 		Cymbal(InstrumentParameters parameters);
 		virtual ~Cymbal();
 
+		virtual int GetSoundId();
+
 	private:
 
 

@@ -10,16 +10,15 @@
 
 
 #include "../../Sound/SoundProcessor/SoundProcessor.h"
-#include "../../Sound/SoundProcessor/Curves/CurveType.h"
-#include "../../Sound/SoundProcessor/Curves/Curves.h"
 #include "../../Sound/SoundBank/SoundBank.h"
-#include "../../IO/SensorType.h"
 
 #include "../Instruments/InstrumentParameters.h"
 #include "../KitManager/KitParameters.h"
 #include "../Instruments/Instrument.h"
 #include "../Instruments/Drum.h"
-
+#include "../Triggers/TriggerType.h"
+#include "../Triggers/Trigger.h"
+#include "../Triggers/DrumTrigger.h"
 
 #include <vector>
 #include <string>
@@ -28,7 +27,8 @@
 #include <memory>
 #include <algorithm>
 #include <functional>
-
+#include <utility>
+#include <map>
 
 
 namespace DrumKit
@@ -49,20 +49,28 @@ namespace DrumKit
 
 		void GetDirectory(std::string& dir) const;
 
+
 	private:
 
 		void Run();
+
+		void CreateTriggers();
+		void CreateInstruments();
 
 		KitParams kitParameters;
 
 		IO::SensorType sensorType;
 
 		std::string directory;
-		std::vector<std::shared_ptr<Instrument>> instruments;
+
+		std::vector<InstrumentPtr> instruments;
+		std::vector<TriggerParameters> triggersParameters;
 
 		std::thread playThread;
 		std::atomic<bool> isPlay;
 		std::shared_ptr<Sound::SoundProcessor> soundProc;
+
+		std::map<int, TriggerPtr> triggers;
 
 
 	};

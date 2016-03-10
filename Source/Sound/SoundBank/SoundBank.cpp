@@ -26,8 +26,8 @@ namespace Sound
 	{
 
 
-		// Get file location
-		std::string fileLocation(filename);
+		//XXX Hack! Needs to be fixed. Get file location
+		std::string fileLocation = "../Data/SoundBank/" + filename;
 
 		// Open file
 		std::ifstream soundFile(fileLocation);

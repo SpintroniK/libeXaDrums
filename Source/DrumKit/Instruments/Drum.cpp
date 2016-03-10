@@ -10,10 +10,11 @@
 namespace DrumKit
 {
 
-	Drum::Drum(InstrumentParameters parameters) : Instrument(parameters)
+	Drum::Drum(InstrumentParameters parameters, std::shared_ptr<Sound::SoundProcessor> soundProcessor, std::map<int, TriggerPtr> const& triggers)
+	: Instrument(parameters, soundProcessor, triggers)
 	{
 
-
+		this->GenerateSounds();
 
 		return;
 	}
@@ -24,14 +25,79 @@ namespace DrumKit
 		return;
 	}
 
-	bool Drum::Trig(float& strength)
+
+	int Drum::GetSoundProps()
 	{
 
-		short value = this->sensor->GetData(parameters.sensorId);
+		//TODO Also add the volume to the properties
 
-		bool isTrig = this->trigger->Trig(value, strength);
+		for(std::size_t i = 0; i < triggers.size(); i++)
+		{
 
-		return isTrig;
+
+			triggers[i]->Refresh();
+			TriggerState triggerState =  triggers[i]->GetTriggerState();
+
+			if(triggerState.isTrig)
+			{
+				int triggerId = triggerState.sensorId;
+
+				switch (triggerId)
+				{
+					case 0:
+						return soundIds.at(0);
+						break;
+					default:
+						return -1;
+						break;
+				}
+			}
+
+		};
+
+
+
+		return -1;
+	}
+
+	// PRIVATE
+
+	void Drum::GenerateSounds()
+	{
+
+		std::function<void(InstrumentSoundInfo)> genSounds = [this](InstrumentSoundInfo soundInfo)
+		{
+
+			std::vector<short> soundData;
+			unsigned int soundDuration;
+
+			// Load sound
+			Sound::SoundBank::LoadSound(soundInfo.soundLocation, soundData, soundDuration);
+
+			switch (soundInfo.type)
+			{
+				case Sound::InstrumentSoundType::Default:
+
+						int id;
+						soundProcessor->AddSound(id, soundData);
+
+						// Internal Id = 0 for default sound
+						soundIds.insert(std::pair<int, int>(0, id));
+
+					break;
+				default:
+					break;
+			}
+
+
+
+
+		};
+
+
+		std::for_each(parameters.soundsInfo.cbegin(), parameters.soundsInfo.cend(), genSounds);
+
+		return;
 	}
 
 }

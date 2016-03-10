@@ -11,35 +11,15 @@
 namespace DrumKit
 {
 
-	Instrument::Instrument(InstrumentParameters parameters)
-	: soundData(),
-	  soundDuration(0),
-	  parameters(parameters)
+	Instrument::Instrument(InstrumentParameters parameters, std::shared_ptr<Sound::SoundProcessor> soundProcessor, std::map<int, TriggerPtr> const& trigs)
+	: parameters(parameters),
+	  soundProcessor(soundProcessor),
+	  soundIds()
 	{
 
-		// Create sensor
-		const std::string sensorLoc("/home/jeremy/Desktop/Prog/eXaDrums/eXaDrums/out.raw");
-
-		switch(parameters.sensorType)
-		{
-
-		case IO::SensorType::Hdd:
-
-			this->sensor = std::shared_ptr<IO::ISensor>(new IO::HddSensor(sensorLoc.c_str()));
-
-			break;
-
-		case IO::SensorType::Spi:
-
-			this->sensor = std::shared_ptr<IO::ISensor>(new IO::SpiSensor());
-
-			break;
-
-		default:
-			break;
-
-		}
-
+		// Only selects the triggers that the instrument uses.
+		std::transform(parameters.triggersIds.cbegin(), parameters.triggersIds.cend(), std::back_inserter(triggers),
+				[&] (int triggerId) { return trigs.at(triggerId); } );
 
 		return;
 	}
@@ -50,31 +30,7 @@ namespace DrumKit
 		return;
 	}
 
-	void Instrument::SetSoundData(std::vector<short>& data, unsigned int duration)
-	{
 
-		this->soundData.clear();
-		this->soundData.swap(data);
-		this->soundDuration = duration;
-
-		return;
-	}
-
-	void Instrument::CreateTrigger()
-	{
-
-		TriggerParameters triggerParameters;
-
-		triggerParameters.drumId = parameters.id;
-		triggerParameters.scanTime = parameters.scanTime;
-		triggerParameters.threshold = parameters.threshold;
-		triggerParameters.maskTime = parameters.maskTime;
-		//triggerParameters.curve = curve;
-
-		trigger = std::shared_ptr<Trigger>(new DrumTrigger(triggerParameters));
-
-		return;
-	}
 
 
 

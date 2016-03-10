@@ -8,18 +8,19 @@
 #ifndef SOURCE_DRUMKIT_INSTRUMENTS_INSTRUMENT_H_
 #define SOURCE_DRUMKIT_INSTRUMENTS_INSTRUMENT_H_
 
-#include "../../IO/SensorType.h"
-#include "../../IO/ISensor.h"
-#include "../../IO/HddSensor.h"
-#include "../../IO/SpiSensor.h"
-#include "../../Sound/Mixer.h"
+
+#include "../../Sound/SoundProcessor/SoundProcessor.h"
+
+#include "../Triggers/Trigger.h"
+
 #include "InstrumentParameters.h"
 
 #include <vector>
 #include <string>
 #include <memory>
-
-#include "../Triggers/DrumTrigger.h"
+#include <map>
+#include <algorithm>
+#include <utility>
 
 namespace DrumKit
 {
@@ -29,35 +30,33 @@ namespace DrumKit
 
 	public:
 
-		Instrument(InstrumentParameters parameters);
+		Instrument(InstrumentParameters parameters, std::shared_ptr<Sound::SoundProcessor> soundProcessor, std::map<int, std::shared_ptr<Trigger>> const& trigs);
 		virtual ~Instrument();
 
-		virtual void CreateTrigger();
-		virtual bool Trig(float& strength) = 0;
 
-		virtual void SetSoundData(std::vector<short>& data, unsigned int duration);
+		virtual int GetSoundProps() = 0;
 
-		virtual std::vector<short> GetSoundData() const { return soundData; };
-		virtual unsigned int GetSoundDuration() const { return soundDuration; };
-
-		virtual std::string GetSoundFile() const { return this->parameters.soundFile; }
+		virtual std::vector<int> const& GetTriggers() const { return this->parameters.triggersIds; };
 		virtual int GetId() const { return this->parameters.id; }
 
 
 	protected:
 
-		std::vector<short> soundData;
-		unsigned int soundDuration;
+
+		virtual void GenerateSounds() = 0;
 
 		InstrumentParameters parameters;
-		std::shared_ptr<IO::ISensor> sensor;
-		std::shared_ptr<Trigger> trigger;
+		std::shared_ptr<Sound::SoundProcessor> soundProcessor;
+		std::map<int, int> soundIds;
+		std::vector<TriggerPtr> triggers;
 
 	private:
 
 
 
 	};
+
+	typedef std::shared_ptr<Instrument> InstrumentPtr;
 
 }
 

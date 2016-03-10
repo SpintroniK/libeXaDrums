@@ -36,69 +36,41 @@ namespace Sound
 	{
 
 		// Prevent other threads to alter the soundList vector
-		std::lock_guard<std::mutex> lock(mixerMutex);
+		//std::lock_guard<std::mutex> lock(mixerMutex);
 
 		// Fill buffer with zeros
 		std::fill(alsaParams->buffer.begin(), alsaParams->buffer.begin() + alsaParams->periodSize, 0);
 
-		std::vector<std::vector<short>> samples;
 
-		this->soundProc->GetSamples(samples);
+		const std::vector<int>& playList = soundProc->GetPlayList();
 
-		/*
-		std::function<void(std::vector<short>)> mix = [this](std::vector<short> data)
-		{
-			std::transform(data.cbegin(), data.cend(), this->alsaParams->buffer.cbegin(), this->alsaParams->buffer.begin(), std::plus<short>());
-		};
 
-		std::for_each(samples.cbegin(), samples.cend(), mix);
-		*/
+		std::vector<short> chunk(alsaParams->periodSize);
 
 		// Mix sounds
-		for(size_t i = 0; i < samples.size(); i++)
+		for(std::size_t i = 0; i < playList.size(); i++)
 		{
-			for(size_t j = 0; j < samples[i].size(); j++)
+
+			soundProc->ReadSoundChunk(i, chunk);
+
+			for(int j = 0; j < alsaParams->periodSize; j++)
 			{
-				this->alsaParams->buffer[j] += samples[i][j];
+				this->alsaParams->buffer[j] += chunk[j];
 			}
+
+			/*
+			for(int j = 0; j < alsaParams->periodSize; j++)
+			{
+				this->alsaParams->buffer[j] += soundProc->ReadSoundData(i);
+			}
+			*/
+
 		}
 
-		// Drop sound samples
-		this->soundProc->DumpSamples();
 
-/*
-		// If there are sounds to mix
-		if(sampleList.size() > 0)
-		{
-
-			// Browse sound list
-			for(size_t id = 0; id < sampleList.size(); id++)
-			{
-
-				int soundId = sampleList[id].id;
-				int soundIndex = sampleList[id].index;
-
-				// Mix sound
-				for(int i = 0; i < alsaParams->periodSize; i++)
-				{
-					alsaParams->buffer[i] += sampleList[id].volume * soundParameters[soundId].data[soundIndex + i];
-				}
-
-				// Update sound index
-				sampleList[id].index += alsaParams->periodSize;
-
-			}
-
-			// Delete the sounds that finished playing
-			std::function<bool(SampleInfo)> f = [this](SampleInfo sample)
-			{
-				return (sample.index >= soundParameters[sample.id].length);
-			};
-			std::vector<SampleInfo>::iterator n =  std::remove_if(sampleList.begin(), sampleList.end(), f);
-			sampleList.erase(n, sampleList.end());
+		soundProc->UpdatePlayList();
 
 
-		}*/
 
 		return;
 	}

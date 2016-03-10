@@ -15,7 +15,8 @@ namespace DrumKit
 	: sensorType(sensorType),
 	  directory(dir),
 	  isPlay(false),
-	  soundProc(soundProc)
+	  soundProc(soundProc),
+	  triggers()
 	{
 
 		return;
@@ -45,8 +46,6 @@ namespace DrumKit
 
 		isPlay = false;
 
-		while(!playThread.joinable());
-
 		playThread.join();
 
 		return;
@@ -67,47 +66,24 @@ namespace DrumKit
 		// Prepare instruments vector to be populated
 		this->instruments.clear();
 
+		// Prepare trigger parameters vector
+		this->triggersParameters.clear();
+
+		// Read triggers configurations
+		KitParameters::LoadTriggersConfig(this->directory, triggersParameters);
+
 		// Load drum kit parameters
 		KitParameters::LoadKit(file, this->kitParameters);
 
+		// Create Triggers
+		this->CreateTriggers();
 
-		std::function<void(InstrumentParameters)> fInst = [this](InstrumentParameters instrumentParameters)
-		{
-
-			// Sound file location
-			std::string soundLocation = this->directory + "SoundBank/" + instrumentParameters.soundFile;
-
-			std::vector<short> soundData;
-			unsigned int soundDuration;
-
-			// Add sound data to soundData vector
-			Sound::SoundBank::LoadSound(soundLocation, soundData, soundDuration);
-
-			//XXX Force sensor type to the one defined by the module (temporary)
-			instrumentParameters.sensorType = this->sensorType;
-
-			//XXX Force curve to linear (temporary)
-			instrumentParameters.curveType = Sound::CurveType::linear;
-
-			//XXX Create instrument for drum module (Drum only for now)
-			std::shared_ptr<Instrument> instrument = std::shared_ptr<Instrument>(new Drum(instrumentParameters));
-
-			// Set sound data for this instrument
-			instrument->SetSoundData(soundData, soundDuration);
-
-			// Create trigger for the instrument
-			instrument->CreateTrigger();
-
-			this->soundProc->SetInstrumentSounds(instrument->GetSoundData(), instrument->GetSoundDuration());
-
-			// Add instrument to drum module
-			instruments.push_back(instrument);
-
-		};
-
-		std::for_each(this->kitParameters.instrumentParameters.begin(),
-				this->kitParameters.instrumentParameters.end(), fInst);
-
+		// Populate trigStates (probably not needed anymore)
+		/*std::transform(triggers.begin(), triggers.end(), std::back_inserter(trigStates),
+						[](std::shared_ptr<Trigger> trigger) { return trigger->GetTriggerState(); });
+		*/
+		// Create Instruments
+		this->CreateInstruments();
 
 
 		return;
@@ -120,28 +96,90 @@ namespace DrumKit
 	void Module::Run()
 	{
 
-		std::function<void(std::shared_ptr<Instrument>)> f = [this] (std::shared_ptr<Instrument> instrument)
-		{
-
-			float strength = 0;
-			bool isTrig = instrument->Trig(strength);
-
-			if(isTrig)
-			{
-				//TODO convert strength to volume (SoundProcessor)
-				this->soundProc->AddSound(instrument->GetId(), strength);
-			}
-
-		};
-
 		while(isPlay)
 		{
-			std::for_each(instruments.begin(), instruments.end(), f);
+
+			std::function<void(InstrumentPtr const&)> fInst = [&](InstrumentPtr const& instrument)
+			{
+				int soundId = instrument->GetSoundProps();
+
+				if(soundId > -1)
+				{
+					soundProc->PlaySound(soundId);
+				}
+			};
+
+			std::for_each(instruments.cbegin(), instruments.cend(), fInst);
+
 		}
 
 		return;
 	}
 
+
+	void Module::CreateTriggers()
+	{
+
+		std::function<void(TriggerParameters)> fTrig = [this](TriggerParameters triggerParameters)
+		{
+
+			TriggerPtr trigger = nullptr;
+
+			switch (triggerParameters.type)
+			{
+			case TriggerType::Discrete:
+				trigger = TriggerPtr(new DrumTrigger(triggerParameters));
+				break;
+
+			default:
+					throw -1;
+				break;
+			}
+
+			this->triggers.insert(std::pair<int, TriggerPtr>(triggerParameters.sensorId, trigger));
+
+		};
+
+		std::for_each(this->triggersParameters.begin(), this->triggersParameters.end(), fTrig);
+
+		return;
+	}
+
+	void Module::CreateInstruments()
+	{
+
+
+		std::function<void(InstrumentParameters)> fInst = [this](InstrumentParameters instrumentParameters)
+		{
+
+
+			InstrumentPtr instrument = nullptr;
+
+			//XXX Create instrument for drum module (Drum only for now)
+			switch(instrumentParameters.instrumentType)
+			{
+
+			case InstrumentType::Drum:
+				instrument = InstrumentPtr(new Drum(instrumentParameters, soundProc, triggers));
+				break;
+
+			default:
+				throw -1;
+				break;
+
+			}
+
+
+			// Add instrument to drum module
+			instruments.push_back(instrument);
+
+		};
+
+		std::for_each(this->kitParameters.instrumentParameters.cbegin(),
+				this->kitParameters.instrumentParameters.cend(), fInst);
+
+		return;
+	}
 
 
 }

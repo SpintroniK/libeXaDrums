@@ -16,7 +16,6 @@
 #include <chrono>
 #include <iostream>
 #include <memory>
-#include <mutex>
 #include <functional>
 
 namespace Sound
@@ -39,7 +38,7 @@ namespace Sound
 
 		AlsaParams* alsaParams;
 
-		mutable std::mutex mixerMutex;
+		//mutable std::mutex mixerMutex;
 
 	};
 

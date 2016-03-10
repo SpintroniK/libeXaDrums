@@ -249,6 +249,7 @@ namespace Sound
 	int Alsa::XrunRecovery(int err)
 	{
 
+
 		if (err == -EPIPE)
 		{
 			err = snd_pcm_prepare(params.handle);
