@@ -12,7 +12,8 @@ namespace DrumKit
 {
 
 	Module::Module(std::string dir, IO::SensorType sensorType, std::shared_ptr<Sound::SoundProcessor> const& soundProc)
-	: sensorType(sensorType),
+	: kitManager(dir),
+	  sensorType(sensorType),
 	  directory(dir),
 	  isPlay(false),
 	  soundProc(soundProc),
@@ -70,10 +71,11 @@ namespace DrumKit
 		this->triggersParameters.clear();
 
 		// Read triggers configurations
-		KitParameters::LoadTriggersConfig(this->directory, triggersParameters);
+		this->kitManager.LoadTriggersConfig(this->directory, triggersParameters);
 
 		// Load drum kit parameters
-		KitParameters::LoadKit(file, this->kitParameters);
+
+		this->kitManager.LoadKit(file, this->kitParameters);
 
 		// Create Triggers
 		this->CreateTriggers();

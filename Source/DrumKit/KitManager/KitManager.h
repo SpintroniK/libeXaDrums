@@ -8,6 +8,21 @@
 #ifndef SOURCE_DRUMKIT_KITMANAGER_KITMANAGER_H_
 #define SOURCE_DRUMKIT_KITMANAGER_KITMANAGER_H_
 
+#include "../../Sound/SoundProcessor/Curves/CurveType.h"
+#include "../../Sound/SoundProcessor/InstrumentSoundType.h"
+
+#include "../../IO/SensorType.h"
+
+#include "../Instruments/InstrumentType.h"
+#include "../Instruments/InstrumentSoundInfo.h"
+#include "../Triggers/TriggerType.h"
+#include "../Triggers/TriggerParameters.h"
+#include "../Triggers/TriggerLocation.h"
+
+#include "KitParameters.h"
+
+#include <tinyxml2.h>
+
 #include <vector>
 #include <string>
 
@@ -24,12 +39,22 @@ namespace DrumKit
 		KitManager(std::string kitsPath);
 		virtual ~KitManager();
 
-		void GetNumKits(int& N);
+
+		void LoadKit(std::string file, KitParams& parameters);
+		void LoadTriggersConfig(std::string moduleDir, std::vector<TriggerParameters>& trigsParams);
+
+		int GetNumKits() { return int(this->filesList.size()); }
 
 
 	private:
 
 		void ScanFolder();
+
+		static TriggerType GetTriggerType(std::string type);
+		static TriggerLocation GetTriggerLocation(std::string location);
+		static InstrumentType GetInstrumentType(std::string type);
+		static Sound::CurveType GetCurveType(std::string type);
+		static Sound::InstrumentSoundType GetSoundType(std::string type);
 
 		std::string kitsPath;
 		std::vector<std::string> filesList;

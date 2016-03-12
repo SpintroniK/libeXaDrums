@@ -5,49 +5,28 @@
  *      Author: jeremy
  */
 
-#ifndef SOURCE_DRUMKIT_KITMANAGER_KITPARAMETERS_H_
-#define SOURCE_DRUMKIT_KITMANAGER_KITPARAMETERS_H_
+#ifndef SOURCE_DRUMKIT_KITMANAGER_KITPARAMS_H_
+#define SOURCE_DRUMKIT_KITMANAGER_KITPARAMS_H_
 
-#include "../../Sound/SoundProcessor/Curves/CurveType.h"
-#include "../../Sound/SoundProcessor/InstrumentSoundType.h"
+#include "../Instruments/InstrumentParameters.h"
 
-#include "../../IO/SensorType.h"
-
-#include "../Instruments/InstrumentType.h"
-#include "../Instruments/InstrumentSoundInfo.h"
-#include "../Triggers/TriggerType.h"
-#include "../Triggers/TriggerParameters.h"
-#include "../Triggers/TriggerLocation.h"
-
-#include "KitParams.h"
-
-#include <tinyxml2.h>
+#include <string>
+#include <vector>
 
 namespace DrumKit
 {
 
-	class KitParameters
+	struct KitParams
 	{
 
-	public:
+		std::string kitName;
+		std::string kitFolder;
 
-		static void LoadKit(std::string file, KitParams& parameters);
-		static void LoadTriggersConfig(std::string moduleDir, std::vector<TriggerParameters>& trigsParams);
-
-
-	private:
-
-		KitParameters() {};
-		virtual ~KitParameters() {};
-
-		static TriggerType GetTriggerType(std::string type);
-		static TriggerLocation GetTriggerLocation(std::string location);
-		static InstrumentType GetInstrumentType(std::string type);
-		static Sound::CurveType GetCurveType(std::string type);
-		static Sound::InstrumentSoundType GetSoundType(std::string type);
+		std::vector<InstrumentParameters> instrumentParameters;
 
 	};
 
-} /* namespace DrumKit */
+}
 
-#endif /* SOURCE_DRUMKIT_KITMANAGER_KITPARAMETERS_H_ */
+
+#endif /* SOURCE_DRUMKIT_KITMANAGER_KITPARAMS_H_ */

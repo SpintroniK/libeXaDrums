@@ -12,8 +12,8 @@
 #include "../../Sound/SoundProcessor/SoundProcessor.h"
 #include "../../Sound/SoundBank/SoundBank.h"
 
+#include "../KitManager/KitManager.h"
 #include "../Instruments/InstrumentParameters.h"
-#include "../KitManager/KitParameters.h"
 #include "../Instruments/Instrument.h"
 #include "../Instruments/Drum.h"
 #include "../Triggers/TriggerType.h"
@@ -57,6 +57,7 @@ namespace DrumKit
 		void CreateTriggers();
 		void CreateInstruments();
 
+		KitManager kitManager;
 		KitParams kitParameters;
 
 		IO::SensorType sensorType;
