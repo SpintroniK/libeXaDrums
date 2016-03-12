@@ -98,6 +98,12 @@ namespace DrumKit
 		while(isPlay)
 		{
 
+			// Refresh triggers
+			std::for_each(triggers.begin(), triggers.end(), [](TriggerPtr triggerPtr)
+			{
+				triggerPtr->Refresh();
+			});
+
 
 			std::for_each(instruments.cbegin(), instruments.cend(), [&](InstrumentPtr const& instrumentPtr)
 			{
