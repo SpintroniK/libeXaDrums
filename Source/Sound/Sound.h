@@ -20,7 +20,6 @@ namespace Sound
 
 	public:
 
-		Sound();
 		Sound(std::vector<short> soundData);
 		virtual ~Sound();
 

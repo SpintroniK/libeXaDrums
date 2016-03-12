@@ -67,26 +67,20 @@ namespace DrumKit
 
 		// Prepare instruments vector to be populated
 		this->instruments.clear();
-
 		// Prepare trigger parameters vector
 		this->triggersParameters.clear();
+		// Clear all raw sounds
+		this->rawSounds.clear();
+
 
 		// Read triggers configurations
 		this->kitManager.LoadTriggersConfig(this->directory, triggersParameters);
-
-		// Load drum kit parameters
-
-		this->kitManager.LoadKit(file, this->kitParameters);
-
-
-
 		// Create Triggers
 		this->CreateTriggers();
-
-		// Populate trigStates (probably not needed anymore)
-		/*std::transform(triggers.begin(), triggers.end(), std::back_inserter(trigStates),
-						[](std::shared_ptr<Trigger> trigger) { return trigger->GetTriggerState(); });
-		*/
+		// Load drum kit parameters
+		this->kitManager.LoadKit(file, this->kitParameters);
+		// Load raw sounds
+		this->LoadKitSounds();
 		// Create Instruments
 		this->CreateInstruments();
 
