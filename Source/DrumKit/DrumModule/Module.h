@@ -54,11 +54,15 @@ namespace DrumKit
 
 		void Run();
 
+		void LoadKitSounds();
 		void CreateTriggers();
 		void CreateInstruments();
 
+
+		Sound::SoundBank soundBank;
+
 		KitManager kitManager;
-		KitParams kitParameters;
+		KitParameters kitParameters;
 
 		IO::SensorType sensorType;
 
@@ -71,6 +75,7 @@ namespace DrumKit
 		std::atomic<bool> isPlay;
 		std::shared_ptr<Sound::SoundProcessor> soundProc;
 
+		std::vector<Sound::SoundPtr> rawSounds;
 		std::map<int, TriggerPtr> triggers;
 
 

@@ -12,7 +12,8 @@ namespace DrumKit
 {
 
 	Module::Module(std::string dir, IO::SensorType sensorType, std::shared_ptr<Sound::SoundProcessor> const& soundProc)
-	: kitManager(dir),
+	: soundBank(dir),
+	  kitManager(dir),
 	  sensorType(sensorType),
 	  directory(dir),
 	  isPlay(false),
@@ -77,6 +78,8 @@ namespace DrumKit
 
 		this->kitManager.LoadKit(file, this->kitParameters);
 
+
+
 		// Create Triggers
 		this->CreateTriggers();
 
@@ -118,6 +121,31 @@ namespace DrumKit
 		return;
 	}
 
+
+	void Module::LoadKitSounds()
+	{
+
+		std::for_each(kitParameters.instrumentParameters.begin(), kitParameters.instrumentParameters.end(),
+		[&] (InstrumentParameters instrumentParameters)
+		{
+
+			std::for_each(instrumentParameters.soundsInfo.begin(), instrumentParameters.soundsInfo.end(),
+			[&] (InstrumentSoundInfo soundInfo)
+			{
+
+				// Create sound from file parth
+				Sound::Sound sound = soundBank.LoadSound(soundInfo.soundLocation);
+
+				// Add sound to raw sounds list
+				rawSounds.push_back(std::make_shared<Sound::Sound>(sound));
+
+			});
+
+		});
+
+
+		return;
+	}
 
 	void Module::CreateTriggers()
 	{

@@ -9,6 +9,7 @@
 #define SOURCE_SOUND_SOUND_H_
 
 #include <vector>
+#include <memory>
 #include <algorithm>
 
 namespace Sound
@@ -19,7 +20,8 @@ namespace Sound
 
 	public:
 
-		Sound(int id, std::vector<short> soundData);
+		Sound();
+		Sound(std::vector<short> soundData);
 		virtual ~Sound();
 
 		void SetVolume(float volume);
@@ -28,16 +30,17 @@ namespace Sound
 		bool IsFinished() const;
 		void SeekBeg();
 
-		int GetId() const { return id; };
 
 	private:
 
-		int id;
 		float volume;
 		std::size_t idx;
 		std::vector<short> data;
 
 	};
+
+
+	typedef std::shared_ptr<Sound> SoundPtr;
 
 } /* namespace Sound */
 

@@ -78,7 +78,7 @@ namespace DrumKit
 		return;
 	}
 
-	void KitManager::LoadKit(std::string file, KitParams& parameters)
+	void KitManager::LoadKit(std::string file, KitParameters& parameters)
 	{
 
 		parameters.instrumentParameters.clear();

@@ -16,7 +16,7 @@
 namespace DrumKit
 {
 
-	struct KitParams
+	struct KitParameters
 	{
 
 		std::string kitName;

@@ -10,7 +10,7 @@
 namespace Sound
 {
 
-	SoundBank::SoundBank()
+	SoundBank::SoundBank(std::string dataFolder) : soundBankFolder(dataFolder + "/SoundBank")
 	{
 
 		return;
@@ -22,12 +22,11 @@ namespace Sound
 		return;
 	}
 
-	void SoundBank::LoadSound(std::string filename, std::vector<short>& data, unsigned int& duration)
+	Sound SoundBank::LoadSound(std::string filename)
 	{
 
 
-		//XXX Hack! Needs to be fixed. Get file location
-		std::string fileLocation = "../Data/SoundBank/" + filename;
+		std::string fileLocation = this->soundBankFolder + "/" +filename;
 
 		// Open file
 		std::ifstream soundFile(fileLocation);
@@ -41,24 +40,24 @@ namespace Sound
 		// Get file size in bytes
 		int fileSize = soundFile.tellg();
 
-		//short* soundData = new short[fileSize];
 
 		soundFile.seekg(0, std::ios::beg);
 
 
-		data.clear();
+		std::vector<short> data;
 		data.resize(fileSize);
 
 		int i = 0;
 		while(soundFile.read((char*)&data[i], sizeof(short))) i++;
 
-		duration = fileSize*sizeof(char)/sizeof(short);
+		//unsigned int duration = fileSize*sizeof(char)/sizeof(short);
 
 
 		// Close file
 		soundFile.close();
 
-		return;
+		return Sound(data);
+
 	}
 
 } /* namespace Sound */

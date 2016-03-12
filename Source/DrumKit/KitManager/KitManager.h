@@ -40,7 +40,7 @@ namespace DrumKit
 		virtual ~KitManager();
 
 
-		void LoadKit(std::string file, KitParams& parameters);
+		void LoadKit(std::string file, KitParameters& parameters);
 		void LoadTriggersConfig(std::string moduleDir, std::vector<TriggerParameters>& trigsParams);
 
 		int GetNumKits() { return int(this->filesList.size()); }

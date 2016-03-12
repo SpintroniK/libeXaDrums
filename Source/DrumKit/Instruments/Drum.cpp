@@ -72,14 +72,14 @@ namespace DrumKit
 			unsigned int soundDuration;
 
 			// Load sound
-			Sound::SoundBank::LoadSound(soundInfo.soundLocation, soundData, soundDuration);
+			//Sound::SoundBank::LoadSound(soundInfo.soundLocation, soundData, soundDuration);
 
 			switch (soundInfo.type)
 			{
 				case Sound::InstrumentSoundType::Default:
 
 						int id;
-						soundProcessor->AddSound(id, soundData);
+						//soundProcessor->AddSound(id, soundData);
 
 						// Internal Id = 0 for default sound
 						soundIds.insert(std::pair<int, int>(0, id));

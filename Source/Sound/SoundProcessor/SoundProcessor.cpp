@@ -35,7 +35,7 @@ namespace Sound
 	}
 
 
-	void SoundProcessor::AddSound(int& id, std::vector<short> soundData)
+	/*void SoundProcessor::AddSound(int& id, std::vector<short> soundData)
 	{
 
 		id = this->sounds.size();
@@ -47,7 +47,7 @@ namespace Sound
 		//this->playList.insert(std::pair<int, bool>(id, false));
 
 		return;
-	}
+	}*/
 
 	const std::vector<int>& SoundProcessor::GetPlayList() const
 	{

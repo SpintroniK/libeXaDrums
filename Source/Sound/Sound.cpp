@@ -10,9 +10,9 @@
 namespace Sound
 {
 
-	Sound::Sound(int id, std::vector<short> soundData)
-	: id(id),
-	  volume(1.0f),
+
+	Sound::Sound(std::vector<short> soundData)
+	: volume(1.0f),
 	  idx(0),
 	  data(soundData)
 	{

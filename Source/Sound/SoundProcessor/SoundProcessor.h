@@ -31,7 +31,7 @@ namespace Sound
 		virtual ~SoundProcessor();
 
 		void SetAlsaParameters(AlsaParams* alsaParameters);
-		void AddSound(int& id, std::vector<short> soundData);
+		//void AddSound(int& id, std::vector<short> soundData);
 		const std::vector<int>& GetPlayList() const;
 		void UpdatePlayList();
 		void PlaySound(int soundId);

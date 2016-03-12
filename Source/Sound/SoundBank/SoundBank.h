@@ -8,6 +8,8 @@
 #ifndef SOURCE_SOUND_SOUNDBANK_SOUNDBANK_H_
 #define SOURCE_SOUND_SOUNDBANK_SOUNDBANK_H_
 
+#include "../Sound.h"
+
 #include <string>
 #include <vector>
 #include <fstream>
@@ -20,14 +22,15 @@ namespace Sound
 
 	public:
 
-		SoundBank();
+		SoundBank(std::string dataFolder);
 		virtual ~SoundBank();
 
-		static void LoadSound(std::string filename, std::vector<short>& data, unsigned int& duration);
+		Sound LoadSound(std::string filename);
 
 
 	private:
 
+		std::string soundBankFolder;
 
 
 	};
