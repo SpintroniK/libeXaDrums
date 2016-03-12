@@ -5,12 +5,12 @@
  *      Author: jeremy
  */
 
-#include "SoundSample.h"
+#include "Sound.h"
 
 namespace Sound
 {
 
-	SoundSample::SoundSample(int id, std::vector<short> soundData)
+	Sound::Sound(int id, std::vector<short> soundData)
 	: id(id),
 	  volume(1.0f),
 	  idx(0),
@@ -20,14 +20,14 @@ namespace Sound
 		return;
 	}
 
-	SoundSample::~SoundSample()
+	Sound::~Sound()
 	{
 
 		return;
 	}
 
 
-	void SoundSample::SetVolume(float volume)
+	void Sound::SetVolume(float volume)
 	{
 
 		if(volume < 0.0f)
@@ -46,7 +46,7 @@ namespace Sound
 		return;
 	}
 
-	short SoundSample::ReadData()
+	short Sound::ReadData()
 	{
 
 		idx++;
@@ -62,7 +62,7 @@ namespace Sound
 
 	}
 
-	void SoundSample::ReadChunk(std::vector<short>& chunk)
+	void Sound::ReadChunk(std::vector<short>& chunk)
 	{
 
 		std::size_t length = chunk.size();
@@ -91,13 +91,13 @@ namespace Sound
 	}
 
 
-	bool SoundSample::IsFinished() const
+	bool Sound::IsFinished() const
 	{
 		return idx >= data.size();
 	}
 
 
-	void SoundSample::SeekBeg()
+	void Sound::SeekBeg()
 	{
 
 		idx = 0;

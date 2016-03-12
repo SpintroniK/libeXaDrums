@@ -5,8 +5,8 @@
  *      Author: jeremy
  */
 
-#ifndef SOURCE_SOUND_SOUNDSAMPLE_H_
-#define SOURCE_SOUND_SOUNDSAMPLE_H_
+#ifndef SOURCE_SOUND_SOUND_H_
+#define SOURCE_SOUND_SOUND_H_
 
 #include <vector>
 #include <algorithm>
@@ -14,13 +14,13 @@
 namespace Sound
 {
 
-	class SoundSample
+	class Sound
 	{
 
 	public:
 
-		SoundSample(int id, std::vector<short> soundData);
-		virtual ~SoundSample();
+		Sound(int id, std::vector<short> soundData);
+		virtual ~Sound();
 
 		void SetVolume(float volume);
 		short ReadData();
@@ -41,4 +41,4 @@ namespace Sound
 
 } /* namespace Sound */
 
-#endif /* SOURCE_SOUND_SOUNDSAMPLE_H_ */
+#endif /* SOURCE_SOUND_SOUND_H_ */

@@ -41,7 +41,7 @@ namespace Sound
 		id = this->sounds.size();
 
 		// Add sound to the list of sounds
-		this->sounds.push_back(SoundSample(id, soundData));
+		this->sounds.push_back(Sound(id, soundData));
 
 		// Add sound id to the play list
 		//this->playList.insert(std::pair<int, bool>(id, false));
@@ -59,7 +59,7 @@ namespace Sound
 
 		//std::lock_guard<std::mutex> lock(soundProcMutex);
 
-		std::function<void(SoundSample)> update = [this](SoundSample sound)
+		std::function<void(Sound)> update = [this](Sound sound)
 		{
 
 			if(sound.IsFinished())
