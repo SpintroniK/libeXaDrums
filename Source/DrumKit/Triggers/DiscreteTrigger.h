@@ -15,6 +15,7 @@
 #include <iostream>
 #include <vector>
 #include <memory>
+#include <mutex>
 
 #include <cmath>
 
@@ -23,13 +24,13 @@ using namespace std::chrono;
 namespace DrumKit
 {
 
-	class DrumTrigger : public Trigger
+	class DiscreteTrigger : public Trigger
 	{
 
 	public:
 
-		DrumTrigger(TriggerParameters triggerParams);
-		virtual ~DrumTrigger();
+		DiscreteTrigger(TriggerParameters triggerParams);
+		virtual ~DiscreteTrigger();
 
 		virtual void Refresh();
 		//virtual bool Trig(short value, float& strength);
@@ -38,7 +39,7 @@ namespace DrumKit
 
 	private:
 
-
+		mutable std::mutex triggerMutex;
 
 	};
 

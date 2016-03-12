@@ -5,7 +5,7 @@
  *      Author: jeremy
  */
 
-#include "DrumTrigger.h"
+#include "DiscreteTrigger.h"
 
 using namespace std::chrono;
 
@@ -13,13 +13,13 @@ namespace DrumKit
 {
 
 
-	DrumTrigger::DrumTrigger(TriggerParameters triggerParams) : Trigger(triggerParams)
+	DiscreteTrigger::DiscreteTrigger(TriggerParameters triggerParams) : Trigger(triggerParams)
 	{
 
 		return;
 	}
 
-	DrumTrigger::~DrumTrigger()
+	DiscreteTrigger::~DiscreteTrigger()
 	{
 
 
@@ -27,8 +27,11 @@ namespace DrumKit
 	}
 
 
-	void DrumTrigger::Refresh()
+	void DiscreteTrigger::Refresh()
 	{
+
+
+		std::lock_guard<std::mutex> lock(triggerMutex);
 
 		// Reset state value
 		state.strength = 0.0f;

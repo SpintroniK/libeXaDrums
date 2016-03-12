@@ -18,7 +18,7 @@
 #include "../Instruments/Drum.h"
 #include "../Triggers/TriggerType.h"
 #include "../Triggers/Trigger.h"
-#include "../Triggers/DrumTrigger.h"
+#include "../Triggers/DiscreteTrigger.h"
 
 #include <vector>
 #include <string>
@@ -28,7 +28,6 @@
 #include <algorithm>
 #include <functional>
 #include <utility>
-#include <map>
 
 
 namespace DrumKit
@@ -76,7 +75,7 @@ namespace DrumKit
 		std::shared_ptr<Sound::SoundProcessor> soundProc;
 
 		std::vector<Sound::SoundPtr> rawSounds;
-		std::map<int, TriggerPtr> triggers;
+		std::vector<TriggerPtr> triggers;
 
 
 	};

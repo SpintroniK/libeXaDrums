@@ -4,15 +4,15 @@
 
 # Add inputs and outputs from these tool invocations to the build variables 
 CPP_SRCS += \
-../Source/DrumKit/Triggers/DrumTrigger.cpp \
+../Source/DrumKit/Triggers/DiscreteTrigger.cpp \
 ../Source/DrumKit/Triggers/Trigger.cpp 
 
 OBJS += \
-./Source/DrumKit/Triggers/DrumTrigger.o \
+./Source/DrumKit/Triggers/DiscreteTrigger.o \
 ./Source/DrumKit/Triggers/Trigger.o 
 
 CPP_DEPS += \
-./Source/DrumKit/Triggers/DrumTrigger.d \
+./Source/DrumKit/Triggers/DiscreteTrigger.d \
 ./Source/DrumKit/Triggers/Trigger.d 
 
 

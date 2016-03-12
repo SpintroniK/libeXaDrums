@@ -13,6 +13,8 @@ namespace Sound
 	SoundBank::SoundBank(std::string dataFolder) : soundBankFolder(dataFolder + "/SoundBank")
 	{
 
+		//TODO: Scan catergories to vector...
+
 		return;
 	}
 

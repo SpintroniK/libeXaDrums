@@ -101,7 +101,7 @@ namespace DrumKit
 		{
 
 			InstrumentParameters instrumentParameters;
-			instrumentParameters.triggersIds.clear();
+			instrumentParameters.triggersIdsAndLocations.clear();
 
 			// Get xml elements
 			XMLElement* instrumentName = instrument->FirstChildElement("instrumentName");
@@ -113,7 +113,7 @@ namespace DrumKit
 			{
 				int triggerId = std::atoi(trigger->GetText());
 				TriggerLocation triggerLoc = GetTriggerLocation(trigger->Attribute("location"));
-				instrumentParameters.triggersIds.push_back(triggerId);
+				instrumentParameters.triggersIdsAndLocations.push_back(std::make_tuple(triggerId, triggerLoc));
 			}
 
 

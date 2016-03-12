@@ -8,12 +8,14 @@
 #ifndef SOURCE_DRUMKIT_INSTRUMENTS_INSTRUMENTPARAMETERS_H_
 #define SOURCE_DRUMKIT_INSTRUMENTS_INSTRUMENTPARAMETERS_H_
 
+#include "../Triggers/TriggerLocation.h"
 
 #include "InstrumentSoundInfo.h"
 #include "InstrumentType.h"
 
 #include <vector>
 #include <string>
+#include <tuple>
 
 namespace DrumKit
 {
@@ -27,7 +29,7 @@ namespace DrumKit
 
 		std::string instrumentName;
 		std::vector<InstrumentSoundInfo> soundsInfo;
-		std::vector<int> triggersIds;
+		std::vector<std::tuple<int, TriggerLocation>> triggersIdsAndLocations;
 
 	};
 

@@ -38,6 +38,8 @@ namespace DrumKit
 		//virtual bool Trig(short value, float& strength) = 0;
 		virtual void Refresh() = 0;
 
+		virtual int GetId() const { return this->triggerParameters.sensorId; };
+		virtual TriggerType GetType() const { return this->triggerParameters.type; }
 		virtual TriggerState const& GetTriggerState() const { return state; }
 
 

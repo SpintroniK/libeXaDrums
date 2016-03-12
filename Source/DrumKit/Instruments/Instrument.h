@@ -10,6 +10,7 @@
 
 
 #include "../../Sound/SoundProcessor/SoundProcessor.h"
+#include "../../Sound/Sound.h"
 
 #include "../Triggers/Trigger.h"
 
@@ -30,25 +31,24 @@ namespace DrumKit
 
 	public:
 
-		Instrument(InstrumentParameters parameters, std::shared_ptr<Sound::SoundProcessor> soundProcessor, std::map<int, std::shared_ptr<Trigger>> const& trigs);
+		Instrument(InstrumentParameters parameters);
 		virtual ~Instrument();
 
 
-		virtual int GetSoundProps() = 0;
+		virtual void SetTriggers(std::vector<TriggerPtr> triggers) = 0;
+		virtual void SetSound(Sound::SoundPtr const soundPtr, Sound::SoundProcessor const soundProcessor) = 0;
 
-		virtual std::vector<int> const& GetTriggers() const { return this->parameters.triggersIds; };
+		virtual Sound::SoundPtr GetSound() = 0;
+		virtual bool isTriggerEvent() const = 0;
+
 		virtual int GetId() const { return this->parameters.id; }
 
 
 	protected:
 
-
-		virtual void GenerateSounds() = 0;
-
 		InstrumentParameters parameters;
-		std::shared_ptr<Sound::SoundProcessor> soundProcessor;
 		std::map<int, int> soundIds;
-		std::vector<TriggerPtr> triggers;
+
 
 	private:
 

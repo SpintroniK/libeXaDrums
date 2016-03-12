@@ -7,14 +7,17 @@
 
 #include "Drum.h"
 
+#include <iostream>
+
 namespace DrumKit
 {
 
-	Drum::Drum(InstrumentParameters parameters, std::shared_ptr<Sound::SoundProcessor> soundProcessor, std::map<int, TriggerPtr> const& triggers)
-	: Instrument(parameters, soundProcessor, triggers)
+	Drum::Drum(InstrumentParameters parameters)
+	: Instrument(parameters),
+	  drumHeadTrigger(nullptr),
+	  drumRimTrigger(nullptr)
 	{
 
-		this->GenerateSounds();
 
 		return;
 	}
@@ -26,43 +29,90 @@ namespace DrumKit
 	}
 
 
-	int Drum::GetSoundProps()
+	void Drum::SetTriggers(std::vector<TriggerPtr> triggers)
 	{
 
-		//TODO Also add the volume to the properties
-
-		for(std::size_t i = 0; i < triggers.size(); i++)
+		std::for_each(triggers.cbegin(), triggers.cend(), [this](TriggerPtr triggerPtr)
 		{
 
+			auto triggerIdAndLocation = std::find_if(parameters.triggersIdsAndLocations.cbegin(),
+					parameters.triggersIdsAndLocations.cend(),
+					[triggerPtr](std::tuple<int, TriggerLocation> idAndLocation)
+					{
+						return (std::get<0>(idAndLocation) == triggerPtr->GetId());
+					});
 
-			triggers[i]->Refresh();
-			TriggerState triggerState =  triggers[i]->GetTriggerState();
-
-			if(triggerState.isTrig)
+			if(triggerIdAndLocation != std::end(parameters.triggersIdsAndLocations))
 			{
-				int triggerId = triggerState.sensorId;
 
-				switch (triggerId)
+				TriggerLocation triggerLocation =  std::get<1>(*triggerIdAndLocation);
+
+				switch (triggerLocation)
 				{
-					case 0:
-						return soundIds.at(0);
+					case TriggerLocation::DrumHead:
+					{
+						this->drumHeadTrigger = triggerPtr;
+						TriggerState headTriggerState = drumHeadTrigger->GetTriggerState();
+						std::cout << "Head: " << headTriggerState.sensorId << std::endl;
+					}
 						break;
+
+					case TriggerLocation::Rim:
+					{
+						this->drumRimTrigger = triggerPtr;
+						TriggerState rimTriggerState = drumRimTrigger->GetTriggerState();
+						std::cout << "Rim: " << rimTriggerState.sensorId << std::endl;
+					}
+						break;
+
 					default:
-						return -1;
 						break;
 				}
+
 			}
 
-		};
+
+		});
+
+
+		return;
+	}
+
+	void Drum::SetSound(Sound::SoundPtr const soundPtr, Sound::SoundProcessor const soundProcessor)
+	{
 
 
 
-		return -1;
+
+		return;
+	}
+
+	bool Drum::isTriggerEvent() const
+	{
+
+		TriggerState headTriggerState = drumHeadTrigger->GetTriggerState();
+		TriggerState rimTriggerState = drumRimTrigger->GetTriggerState();
+
+		if(headTriggerState.isTrig || rimTriggerState.isTrig)
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+
+	}
+
+	Sound::SoundPtr Drum::GetSound()
+	{
+
+		return drumHeadSound;
 	}
 
 	// PRIVATE
 
-	void Drum::GenerateSounds()
+	/*void Drum::GenerateSounds()
 	{
 
 		std::function<void(InstrumentSoundInfo)> genSounds = [this](InstrumentSoundInfo soundInfo)
@@ -99,7 +149,7 @@ namespace DrumKit
 
 		return;
 	}
-
+	*/
 }
 
 
