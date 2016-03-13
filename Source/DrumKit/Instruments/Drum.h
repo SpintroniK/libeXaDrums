@@ -32,12 +32,14 @@ namespace DrumKit
 		virtual ~Drum();
 
 		virtual void SetTriggers(std::vector<TriggerPtr> triggers);
-		virtual void SetSound(Sound::SoundPtr const soundPtr, Sound::SoundProcessor const soundProcessor);
+		virtual void SetSound(Sound::SoundPtr const& soundPtr, Sound::SoundProcessor const& soundProcessor);
 
-		virtual bool isTriggerEvent() const;
+		virtual bool isTriggerEvent();
 		virtual Sound::SoundPtr GetSound();
 
 	private:
+
+		static const int numTriggers = 2;
 
 		TriggerPtr drumHeadTrigger;
 		TriggerPtr drumRimTrigger;

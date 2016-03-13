@@ -7,8 +7,6 @@
 
 #include "Drum.h"
 
-#include <iostream>
-
 namespace DrumKit
 {
 
@@ -32,7 +30,12 @@ namespace DrumKit
 	void Drum::SetTriggers(std::vector<TriggerPtr> triggers)
 	{
 
-		std::for_each(triggers.cbegin(), triggers.cend(), [this](TriggerPtr triggerPtr)
+		if(parameters.triggersIdsAndLocations.size() != numTriggers)
+		{
+			throw -1;
+		}
+
+		std::for_each(triggers.begin(), triggers.end(), [&](TriggerPtr triggerPtr)
 		{
 
 			auto triggerIdAndLocation = std::find_if(parameters.triggersIdsAndLocations.cbegin(),
@@ -52,16 +55,12 @@ namespace DrumKit
 					case TriggerLocation::DrumHead:
 					{
 						this->drumHeadTrigger = triggerPtr;
-						TriggerState headTriggerState = drumHeadTrigger->GetTriggerState();
-						std::cout << "Head: " << headTriggerState.sensorId << std::endl;
 					}
 						break;
 
 					case TriggerLocation::Rim:
 					{
 						this->drumRimTrigger = triggerPtr;
-						TriggerState rimTriggerState = drumRimTrigger->GetTriggerState();
-						std::cout << "Rim: " << rimTriggerState.sensorId << std::endl;
 					}
 						break;
 
@@ -78,7 +77,7 @@ namespace DrumKit
 		return;
 	}
 
-	void Drum::SetSound(Sound::SoundPtr const soundPtr, Sound::SoundProcessor const soundProcessor)
+	void Drum::SetSound(Sound::SoundPtr const& soundPtr, Sound::SoundProcessor const& soundProcessor)
 	{
 
 
@@ -87,11 +86,12 @@ namespace DrumKit
 		return;
 	}
 
-	bool Drum::isTriggerEvent() const
+	bool Drum::isTriggerEvent()
 	{
 
 		TriggerState headTriggerState = drumHeadTrigger->GetTriggerState();
 		TriggerState rimTriggerState = drumRimTrigger->GetTriggerState();
+
 
 		if(headTriggerState.isTrig || rimTriggerState.isTrig)
 		{

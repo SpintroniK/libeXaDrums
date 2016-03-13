@@ -7,7 +7,6 @@
 
 #include "Module.h"
 
-
 namespace DrumKit
 {
 
@@ -105,12 +104,13 @@ namespace DrumKit
 			});
 
 
-			std::for_each(instruments.cbegin(), instruments.cend(), [&](InstrumentPtr const& instrumentPtr)
+			std::for_each(instruments.begin(), instruments.end(), [](InstrumentPtr instrumentPtr)
 			{
 
 				bool isTriggerEvent = instrumentPtr->isTriggerEvent();
 
-				if(isTriggerEvent)
+
+				//if(isTriggerEvent)
 				{
 
 				}
