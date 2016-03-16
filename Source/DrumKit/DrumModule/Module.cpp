@@ -104,15 +104,14 @@ namespace DrumKit
 			});
 
 
-			std::for_each(instruments.begin(), instruments.end(), [](InstrumentPtr instrumentPtr)
+			std::for_each(instruments.cbegin(), instruments.cend(), [](InstrumentPtr instrumentPtr)
 			{
 
 				bool isTriggerEvent = instrumentPtr->isTriggerEvent();
 
 
-				//if(isTriggerEvent)
+				if(isTriggerEvent)
 				{
-
 				}
 
 			});

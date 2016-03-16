@@ -35,20 +35,20 @@ namespace DrumKit
 			throw -1;
 		}
 
-		std::for_each(triggers.begin(), triggers.end(), [&](TriggerPtr triggerPtr)
+		std::for_each(triggers.cbegin(), triggers.cend(), [&](TriggerPtr triggerPtr)
 		{
 
 			auto triggerIdAndLocation = std::find_if(parameters.triggersIdsAndLocations.cbegin(),
 					parameters.triggersIdsAndLocations.cend(),
-					[triggerPtr](std::tuple<int, TriggerLocation> idAndLocation)
+					[triggerPtr](std::pair<int, TriggerLocation> const& idAndLocation)
 					{
-						return (std::get<0>(idAndLocation) == triggerPtr->GetId());
+						return (idAndLocation.first == triggerPtr->GetId());
 					});
 
 			if(triggerIdAndLocation != std::end(parameters.triggersIdsAndLocations))
 			{
 
-				TriggerLocation triggerLocation =  std::get<1>(*triggerIdAndLocation);
+				TriggerLocation triggerLocation =  (*triggerIdAndLocation).second;
 
 				switch (triggerLocation)
 				{

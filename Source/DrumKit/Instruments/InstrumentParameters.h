@@ -15,7 +15,7 @@
 
 #include <vector>
 #include <string>
-#include <tuple>
+#include <utility>
 
 namespace DrumKit
 {
@@ -29,7 +29,7 @@ namespace DrumKit
 
 		std::string instrumentName;
 		std::vector<InstrumentSoundInfo> soundsInfo;
-		std::vector<std::tuple<int, TriggerLocation>> triggersIdsAndLocations;
+		std::vector<std::pair<int, TriggerLocation>> triggersIdsAndLocations;
 
 	};
 

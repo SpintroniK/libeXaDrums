@@ -113,7 +113,7 @@ namespace DrumKit
 			{
 				int triggerId = std::atoi(trigger->GetText());
 				TriggerLocation triggerLoc = GetTriggerLocation(trigger->Attribute("location"));
-				instrumentParameters.triggersIdsAndLocations.push_back(std::make_tuple(triggerId, triggerLoc));
+				instrumentParameters.triggersIdsAndLocations.push_back(std::make_pair(triggerId, triggerLoc));
 			}
 
 
