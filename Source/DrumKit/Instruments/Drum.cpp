@@ -77,10 +77,44 @@ namespace DrumKit
 		return;
 	}
 
-	void Drum::SetSound(Sound::SoundPtr const& soundPtr, Sound::SoundProcessor const& soundProcessor)
+	void Drum::SetSound(InstrumentSoundInfo const& soundInfo,
+						Sound::SoundBank const& soundBank,
+						std::shared_ptr<Sound::SoundProcessor> const& soundProcessor)
 	{
 
+		Sound::InstrumentSoundType soundType = soundInfo.type;
+		std::string soundLocation = soundInfo.soundLocation;
 
+		switch (soundType)
+		{
+			case Sound::InstrumentSoundType::RimShot:
+			{
+
+				// Use SoundBank to load sound
+				Sound::Sound sound = soundBank.LoadSound(soundLocation, 0);
+
+				// Use that sound for the rim shot
+				drumRimSound = std::make_shared<Sound::Sound>(sound);
+
+			}
+				break;
+
+			case Sound::InstrumentSoundType::Default:
+			{
+
+				// Use SoundBank to load sound
+				Sound::Sound sound = soundBank.LoadSound(soundLocation, 1);
+
+				// Use that sound for the drum head
+				drumHeadSound = std::make_shared<Sound::Sound>(sound);
+
+			}
+				break;
+
+			default:
+				throw -1;
+				break;
+		}
 
 
 		return;

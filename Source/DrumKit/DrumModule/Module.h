@@ -10,6 +10,7 @@
 
 
 #include "../../Sound/SoundProcessor/SoundProcessor.h"
+#include "../../Sound/Mixer.h"
 #include "../../Sound/SoundBank/SoundBank.h"
 
 #include "../KitManager/KitManager.h"
@@ -38,7 +39,9 @@ namespace DrumKit
 
 	public:
 
-		Module(std::string dir, IO::SensorType sensorType, std::shared_ptr<Sound::SoundProcessor> const& soundProc);
+		Module(std::string dir, IO::SensorType sensorType,
+				std::shared_ptr<Sound::SoundProcessor> const& soundProc,
+				std::shared_ptr<Sound::Mixer> const& mixer);
 		virtual ~Module();
 
 		void LoadKit(std::string fileLoc);
@@ -73,8 +76,9 @@ namespace DrumKit
 		std::thread playThread;
 		std::atomic<bool> isPlay;
 		std::shared_ptr<Sound::SoundProcessor> soundProc;
+		std::shared_ptr<Sound::Mixer> mixer;
 
-		std::vector<Sound::SoundPtr> rawSounds;
+		//std::vector<Sound::SoundPtr> rawSounds;
 		std::vector<TriggerPtr> triggers;
 
 

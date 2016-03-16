@@ -20,8 +20,10 @@ namespace Sound
 
 	public:
 
-		Sound(std::vector<short> soundData);
+		Sound(int id, std::vector<short> soundData);
 		virtual ~Sound();
+
+		int GetId() const { return this->id; }
 
 		void SetVolume(float volume);
 		short ReadData();
@@ -32,6 +34,7 @@ namespace Sound
 
 	private:
 
+		int id;
 		float volume;
 		std::size_t idx;
 		std::vector<short> data;

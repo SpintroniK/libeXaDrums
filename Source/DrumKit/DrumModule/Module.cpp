@@ -10,13 +10,17 @@
 namespace DrumKit
 {
 
-	Module::Module(std::string dir, IO::SensorType sensorType, std::shared_ptr<Sound::SoundProcessor> const& soundProc)
+	Module::Module(std::string dir,
+			IO::SensorType sensorType,
+			std::shared_ptr<Sound::SoundProcessor> const& soundProc,
+			std::shared_ptr<Sound::Mixer> const& mixer)
 	: soundBank(dir),
 	  kitManager(dir),
 	  sensorType(sensorType),
 	  directory(dir),
 	  isPlay(false),
 	  soundProc(soundProc),
+	  mixer(mixer),
 	  triggers()
 	{
 
@@ -69,7 +73,7 @@ namespace DrumKit
 		// Prepare trigger parameters vector
 		this->triggersParameters.clear();
 		// Clear all raw sounds
-		this->rawSounds.clear();
+		//this->rawSounds.clear();
 
 
 		// Read triggers configurations
@@ -79,7 +83,7 @@ namespace DrumKit
 		// Load drum kit parameters
 		this->kitManager.LoadKit(file, this->kitParameters);
 		// Load raw sounds
-		this->LoadKitSounds();
+		//this->LoadKitSounds();
 		// Create Instruments
 		this->CreateInstruments();
 
@@ -134,10 +138,10 @@ namespace DrumKit
 			{
 
 				// Create sound from file parth
-				Sound::Sound sound = soundBank.LoadSound(soundInfo.soundLocation);
+				//Sound::Sound sound = soundBank.LoadSound(soundInfo.soundLocation);
 
 				// Add sound to raw sounds list
-				rawSounds.push_back(std::make_shared<Sound::Sound>(sound));
+				//rawSounds.push_back(std::make_shared<Sound::Sound>(sound));
 
 			});
 
@@ -202,6 +206,13 @@ namespace DrumKit
 
 			// Create instrument's triggers
 			instrumentPtr->SetTriggers(this->triggers);
+
+			// Set instrument sounds
+			std::for_each(instrumentParameters.soundsInfo.cbegin(), instrumentParameters.soundsInfo.cend(),
+			[this, &instrumentPtr] (InstrumentSoundInfo const& soundInfo)
+			{
+				instrumentPtr->SetSound(soundInfo, this->soundBank, this->soundProc);
+			});
 
 			// Add instrument to drum module
 			instruments.push_back(instrumentPtr);

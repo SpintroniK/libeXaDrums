@@ -24,7 +24,7 @@ namespace Sound
 		return;
 	}
 
-	Sound SoundBank::LoadSound(std::string filename)
+	Sound SoundBank::LoadSound(std::string filename, int id) const
 	{
 
 
@@ -58,7 +58,7 @@ namespace Sound
 		// Close file
 		soundFile.close();
 
-		return Sound(data);
+		return Sound(id, data);
 
 	}
 

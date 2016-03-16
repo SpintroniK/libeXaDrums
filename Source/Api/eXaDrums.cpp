@@ -27,7 +27,7 @@ namespace eXaDrumsApi
 		this->mixer = std::shared_ptr<Sound::Mixer>(new Sound::Mixer(this->soundProc));
 		this->alsa = std::unique_ptr<Sound::Alsa>(new Sound::Alsa(this->alsaParams, this->mixer, this->soundProc));
 
-		this->drumModule = std::unique_ptr<DrumKit::Module>(new DrumKit::Module(moduleLoc, sensorType, this->soundProc));
+		this->drumModule = std::unique_ptr<DrumKit::Module>(new DrumKit::Module(moduleLoc, sensorType, this->soundProc, this->mixer));
 
 
 		return;

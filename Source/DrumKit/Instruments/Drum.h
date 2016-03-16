@@ -9,6 +9,7 @@
 #define LIBEXADRUMS_SOURCE_DRUMKIT_DRUM_H_
 
 #include "../../Sound/SoundBank/SoundBank.h"
+#include "../../Sound/SoundProcessor/InstrumentSoundType.h"
 #include "../../Sound/SoundProcessor/SoundProcessor.h"
 
 #include "../Triggers/Trigger.h"
@@ -32,7 +33,9 @@ namespace DrumKit
 		virtual ~Drum();
 
 		virtual void SetTriggers(std::vector<TriggerPtr> triggers);
-		virtual void SetSound(Sound::SoundPtr const& soundPtr, Sound::SoundProcessor const& soundProcessor);
+		virtual void SetSound(InstrumentSoundInfo const& soundInfo,
+								Sound::SoundBank const& soundBank,
+								std::shared_ptr<Sound::SoundProcessor> const& soundProcessor);
 
 		virtual bool isTriggerEvent();
 		virtual Sound::SoundPtr GetSound();

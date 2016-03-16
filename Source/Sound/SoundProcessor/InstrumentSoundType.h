@@ -15,6 +15,7 @@ namespace Sound
 	{
 
 		Default,
+		RimShot,
 		ClosingHiHat
 
 	};

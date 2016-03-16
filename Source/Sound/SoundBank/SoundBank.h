@@ -25,7 +25,7 @@ namespace Sound
 		SoundBank(std::string dataFolder);
 		virtual ~SoundBank();
 
-		Sound LoadSound(std::string filename);
+		Sound LoadSound(std::string filename, int id) const;
 
 
 	private:

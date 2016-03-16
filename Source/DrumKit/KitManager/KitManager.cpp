@@ -289,6 +289,10 @@ namespace DrumKit
 		{
 			soundType = Sound::InstrumentSoundType::ClosingHiHat;
 		}
+		else if(type == "RimShot")
+		{
+			soundType = Sound::InstrumentSoundType::RimShot;
+		}
 		else
 		{
 			soundType = Sound::InstrumentSoundType::Default;

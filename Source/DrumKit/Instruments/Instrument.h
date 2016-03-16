@@ -10,6 +10,7 @@
 
 
 #include "../../Sound/SoundProcessor/SoundProcessor.h"
+#include "../../Sound/SoundBank/SoundBank.h"
 #include "../../Sound/Sound.h"
 
 #include "../Triggers/Trigger.h"
@@ -36,7 +37,9 @@ namespace DrumKit
 
 
 		virtual void SetTriggers(std::vector<TriggerPtr> triggers) = 0;
-		virtual void SetSound(Sound::SoundPtr const& soundPtr, Sound::SoundProcessor const& soundProcessor) = 0;
+		virtual void SetSound(InstrumentSoundInfo const& soundInfo,
+								Sound::SoundBank const& soundBank,
+								std::shared_ptr<Sound::SoundProcessor> const& soundProcessor) = 0;
 
 		virtual Sound::SoundPtr GetSound() = 0;
 		virtual bool isTriggerEvent()= 0;
