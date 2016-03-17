@@ -26,17 +26,15 @@ namespace Sound
 
 	public:
 
-		Mixer(std::shared_ptr<SoundProcessor> const& soundProc);
+		Mixer();
 		virtual ~Mixer();
 
 		void Mix();
-		void SetAlsaParameters(AlsaParams* alsaParameters);
+		void SetAlsaParameters(AlsaParams const& alsaParameters);
 
 	private:
 
-		std::shared_ptr<SoundProcessor> const& soundProc;
-
-		AlsaParams* alsaParams;
+		AlsaParams alsaParams;
 
 		//mutable std::mutex mixerMutex;
 

@@ -10,19 +10,17 @@
 namespace DrumKit
 {
 
-	Module::Module(std::string dir,
-			IO::SensorType sensorType,
-			std::shared_ptr<Sound::SoundProcessor> const& soundProc,
-			std::shared_ptr<Sound::Mixer> const& mixer)
+	Module::Module(std::string dir,	IO::SensorType sensorType, std::shared_ptr<Sound::Mixer> const& mixer)
 	: soundBank(dir),
 	  kitManager(dir),
 	  sensorType(sensorType),
 	  directory(dir),
 	  isPlay(false),
-	  soundProc(soundProc),
 	  mixer(mixer),
 	  triggers()
 	{
+
+		this->soundProc = std::shared_ptr<Sound::SoundProcessor>(new Sound::SoundProcessor());
 
 		return;
 	}

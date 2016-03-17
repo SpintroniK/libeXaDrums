@@ -31,7 +31,7 @@ namespace Sound
 
 	public:
 
-		Alsa(AlsaParams& parameters, std::shared_ptr<Mixer> const& mixer, std::shared_ptr<SoundProcessor> const& soundProc);
+		Alsa(AlsaParams& parameters, std::shared_ptr<Mixer> const& mixer);
 		virtual ~Alsa();
 
 
@@ -57,10 +57,9 @@ namespace Sound
 		std::thread 	playThread;
 		std::thread 	recordThread;
 
-		AlsaParams& 	params;
+		AlsaParams	 	params;
 
 		std::shared_ptr<Mixer> mixer;
-		std::shared_ptr<SoundProcessor> soundProc;
 
 		std::atomic<bool> play;
 		std::atomic<bool> rec;

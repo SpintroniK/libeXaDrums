@@ -11,7 +11,7 @@
 namespace Sound
 {
 
-	SoundProcessor::SoundProcessor() : alsaParams(), sounds()
+	SoundProcessor::SoundProcessor() : sounds()
 	{
 
 		return;
@@ -25,14 +25,6 @@ namespace Sound
 		return;
 	}
 
-
-	void SoundProcessor::SetAlsaParameters(AlsaParams* alsaParameters)
-	{
-
-		this->alsaParams = alsaParameters;
-
-		return;
-	}
 
 
 	/*void SoundProcessor::AddSound(int& id, std::vector<short> soundData)

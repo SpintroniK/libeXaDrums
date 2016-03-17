@@ -14,20 +14,17 @@ namespace eXaDrumsApi
 	: drumModule(nullptr),
 	  alsaParams(),
 	  alsa(nullptr),
-	  mixer(nullptr),
-	  soundProc(nullptr)
+	  mixer(nullptr)
 	{
 
 		std::string moduleLoc(dataLocation);
 
 		Sound::AlsaParameters::LoadAlsaParameters(moduleLoc + "alsaConfig.xml", this->alsaParams);
 
-		this->soundProc = std::shared_ptr<Sound::SoundProcessor>(new Sound::SoundProcessor());
+		this->mixer = std::shared_ptr<Sound::Mixer>(new Sound::Mixer());
+		this->alsa = std::unique_ptr<Sound::Alsa>(new Sound::Alsa(this->alsaParams, this->mixer));
 
-		this->mixer = std::shared_ptr<Sound::Mixer>(new Sound::Mixer(this->soundProc));
-		this->alsa = std::unique_ptr<Sound::Alsa>(new Sound::Alsa(this->alsaParams, this->mixer, this->soundProc));
-
-		this->drumModule = std::unique_ptr<DrumKit::Module>(new DrumKit::Module(moduleLoc, sensorType, this->soundProc, this->mixer));
+		this->drumModule = std::unique_ptr<DrumKit::Module>(new DrumKit::Module(moduleLoc, sensorType, this->mixer));
 
 
 		return;
@@ -40,18 +37,6 @@ namespace eXaDrumsApi
 	}
 
 
-	void eXaDrums::CreateKitManager(const char* kitsPath)
-	{
-		std::string moduleLoc;
-		this->drumModule->GetDirectory(moduleLoc);
-
-		std::string kitsAbsPath(moduleLoc + std::string(kitsPath));
-
-		this->kitManager = std::unique_ptr<DrumKit::KitManager>(new DrumKit::KitManager(kitsAbsPath));
-
-
-		return;
-	}
 
 
 	void eXaDrums::LoadKit(const char* kitLocation)

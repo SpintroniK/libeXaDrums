@@ -129,6 +129,7 @@ namespace DrumKit
 
 		if(headTriggerState.isTrig || rimTriggerState.isTrig)
 		{
+
 			return true;
 		}
 		else

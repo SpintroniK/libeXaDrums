@@ -12,10 +12,9 @@ using namespace std::chrono;
 namespace Sound
 {
 
-	Alsa::Alsa(AlsaParams& parameters, std::shared_ptr<Mixer> const& mix, std::shared_ptr<SoundProcessor> const& soundProc)
+	Alsa::Alsa(AlsaParams& parameters, std::shared_ptr<Mixer> const& mix)
 	: params(parameters),
 	  mixer(mix),
-	  soundProc(soundProc),
 	  play(false),
 	  rec(false)
 
@@ -36,8 +35,8 @@ namespace Sound
 		else throw - 1;
 
 		// Give parameters to mixer
-		soundProc->SetAlsaParameters(&params);
-		mix->SetAlsaParameters(&params);
+		//soundProc->SetAlsaParameters(&params);
+		mix->SetAlsaParameters(params);
 
 		return;
 	}

@@ -10,8 +10,7 @@
 namespace Sound
 {
 
-	Mixer::Mixer(std::shared_ptr<SoundProcessor> const& soundProc)
-	:  soundProc(soundProc), alsaParams()
+	Mixer::Mixer() : alsaParams()
 	{
 
 		return;
@@ -24,7 +23,7 @@ namespace Sound
 		return;
 	}
 
-	void Mixer::SetAlsaParameters(AlsaParams* alsaParameters)
+	void Mixer::SetAlsaParameters(AlsaParams const& alsaParameters)
 	{
 
 		this->alsaParams = alsaParameters;
@@ -39,7 +38,7 @@ namespace Sound
 		//std::lock_guard<std::mutex> lock(mixerMutex);
 
 		// Fill buffer with zeros
-		std::fill(alsaParams->buffer.begin(), alsaParams->buffer.begin() + alsaParams->periodSize, 0);
+		/*std::fill(alsaParams->buffer.begin(), alsaParams->buffer.begin() + alsaParams->periodSize, 0);
 
 
 		const std::vector<int>& playList = soundProc->GetPlayList();
@@ -57,7 +56,7 @@ namespace Sound
 			{
 				this->alsaParams->buffer[j] += chunk[j];
 			}
-
+		*/
 			/*
 			for(int j = 0; j < alsaParams->periodSize; j++)
 			{
@@ -65,11 +64,7 @@ namespace Sound
 			}
 			*/
 
-		}
-
-
-		soundProc->UpdatePlayList();
-
+		//}
 
 
 		return;

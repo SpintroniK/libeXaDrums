@@ -39,9 +39,7 @@ namespace DrumKit
 
 	public:
 
-		Module(std::string dir, IO::SensorType sensorType,
-				std::shared_ptr<Sound::SoundProcessor> const& soundProc,
-				std::shared_ptr<Sound::Mixer> const& mixer);
+		Module(std::string dir, IO::SensorType sensorType, std::shared_ptr<Sound::Mixer> const& mixer);
 		virtual ~Module();
 
 		void LoadKit(std::string fileLoc);
