@@ -27,9 +27,22 @@ namespace Sound
 		return;
 	}
 
+	bool Sound::IsMoreData(std::size_t length) const
+	{
+
+		if(idx + length <= data.size())
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
 
 	void Sound::SetVolume(float volume)
 	{
+
 
 		if(volume < 0.0f)
 		{
@@ -47,64 +60,24 @@ namespace Sound
 		return;
 	}
 
-	short Sound::ReadData()
+	void Sound::AddToIndex(int offset)
 	{
 
-		idx++;
-
-		if(idx >= data.size())
-		{
-			return 0;
-		}
-		else
-		{
-			return volume*data[idx];
-		}
-
-	}
-
-	void Sound::ReadChunk(std::vector<short>& chunk)
-	{
-
-		std::size_t length = chunk.size();
-
-		if(idx >= data.size())
-		{
-			std::fill(chunk.begin(), chunk.end(), 0);
-		}
-		else if(idx + length >= data.size())
-		{
-
-			std::fill(chunk.begin(), chunk.end(), 0);
-			std::copy(data.begin() + idx, data.end(), chunk.begin());
-
-		}
-		else
-		{
-			std::copy(data.begin() + idx, data.begin() + idx + length, chunk.begin());
-			idx += length;
-		}
-
-		std::transform(chunk.begin(), chunk.end(), chunk.begin(), std::bind1st(std::multiplies<float>(), volume));
-
-		return;
-
-	}
-
-
-	bool Sound::IsFinished() const
-	{
-		return idx >= data.size();
-	}
-
-
-	void Sound::SeekBeg()
-	{
-
-		idx = 0;
+		idx += offset;
 
 		return;
 	}
+
+
+	void Sound::Seek(std::size_t index)
+	{
+
+		idx = index;
+
+		return;
+	}
+
+
 
 	// PRIVATE
 

@@ -5,10 +5,10 @@
  *      Author: jeremy
  */
 
-#ifndef SOURCE_DRUMKIT_INSTRUMENTS_CYMBAL_H_
-#define SOURCE_DRUMKIT_INSTRUMENTS_CYMBAL_H_
+#ifndef SOURCE_DRUMKIT_INSTRUMENTS_CYMBALS_CYMBAL_H_
+#define SOURCE_DRUMKIT_INSTRUMENTS_CYMBALS_CYMBAL_H_
 
-#include "Instrument.h"
+#include "../Instrument.h"
 
 namespace DrumKit
 {
@@ -32,4 +32,4 @@ namespace DrumKit
 }
 
 
-#endif /* SOURCE_DRUMKIT_INSTRUMENTS_CYMBAL_H_ */
+#endif /* SOURCE_DRUMKIT_INSTRUMENTS_CYMBALS_CYMBAL_H_ */

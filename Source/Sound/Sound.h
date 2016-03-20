@@ -23,13 +23,18 @@ namespace Sound
 		Sound(int id, std::vector<short> soundData);
 		virtual ~Sound();
 
-		int GetId() const { return this->id; }
-
 		void SetVolume(float volume);
-		short ReadData();
-		void ReadChunk(std::vector<short>& chunk);
-		bool IsFinished() const;
-		void SeekBeg();
+		void Seek(std::size_t index);
+		void AddToIndex(int offset);
+
+		bool IsMoreData(std::size_t length) const;
+
+		int GetId() const { return this->id; }
+		float GetVolume() const { return this->volume; }
+		bool IsFinished() const { return idx >= data.size(); }
+		std::size_t GetIndex() const { return idx; }
+		const short* GetData() const { return data.data(); }
+
 
 
 	private:

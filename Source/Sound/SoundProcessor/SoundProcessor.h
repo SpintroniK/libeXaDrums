@@ -31,18 +31,9 @@ namespace Sound
 		virtual ~SoundProcessor();
 
 
-		const std::vector<int>& GetPlayList() const;
-		void UpdatePlayList();
-		void PlaySound(int soundId);
-		short ReadSoundData(int soundId);
-		void ReadSoundChunk(int soundId, std::vector<short>& chunk);
-
 
 	private:
 
-
-		std::vector<Sound> sounds;
-		std::vector<int> playList;
 
 	};
 

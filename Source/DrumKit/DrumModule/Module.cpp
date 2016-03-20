@@ -10,7 +10,7 @@
 namespace DrumKit
 {
 
-	Module::Module(std::string dir,	IO::SensorType sensorType, std::shared_ptr<Sound::Mixer> const& mixer)
+	Module::Module(std::string dir,	IO::SensorType sensorType, std::shared_ptr<Sound::Mixer> mixer)
 	: soundBank(dir),
 	  kitManager(dir),
 	  sensorType(sensorType),
@@ -68,20 +68,19 @@ namespace DrumKit
 
 		// Prepare instruments vector to be populated
 		this->instruments.clear();
+
 		// Prepare trigger parameters vector
 		this->triggersParameters.clear();
-		// Clear all raw sounds
-		//this->rawSounds.clear();
-
 
 		// Read triggers configurations
 		this->kitManager.LoadTriggersConfig(this->directory, triggersParameters);
+
 		// Create Triggers
 		this->CreateTriggers();
+
 		// Load drum kit parameters
 		this->kitManager.LoadKit(file, this->kitParameters);
-		// Load raw sounds
-		//this->LoadKitSounds();
+
 		// Create Instruments
 		this->CreateInstruments();
 
@@ -106,7 +105,7 @@ namespace DrumKit
 			});
 
 
-			std::for_each(instruments.cbegin(), instruments.cend(), [](InstrumentPtr instrumentPtr)
+			std::for_each(instruments.cbegin(), instruments.cend(), [this](InstrumentPtr instrumentPtr)
 			{
 
 				bool isTriggerEvent = instrumentPtr->isTriggerEvent();
@@ -114,6 +113,8 @@ namespace DrumKit
 
 				if(isTriggerEvent)
 				{
+					Sound::SoundPtr sound = instrumentPtr->GetSound();
+					mixer->SetSound(instrumentPtr->GetId(), sound);
 				}
 
 			});
@@ -123,31 +124,6 @@ namespace DrumKit
 		return;
 	}
 
-
-	void Module::LoadKitSounds()
-	{
-
-		std::for_each(kitParameters.instrumentParameters.begin(), kitParameters.instrumentParameters.end(),
-		[&] (InstrumentParameters instrumentParameters)
-		{
-
-			std::for_each(instrumentParameters.soundsInfo.begin(), instrumentParameters.soundsInfo.end(),
-			[&] (InstrumentSoundInfo soundInfo)
-			{
-
-				// Create sound from file parth
-				//Sound::Sound sound = soundBank.LoadSound(soundInfo.soundLocation);
-
-				// Add sound to raw sounds list
-				//rawSounds.push_back(std::make_shared<Sound::Sound>(sound));
-
-			});
-
-		});
-
-
-		return;
-	}
 
 	void Module::CreateTriggers()
 	{
@@ -167,8 +143,6 @@ namespace DrumKit
 					throw -1;
 				break;
 			}
-
-			//this->triggers.insert(std::pair<int, TriggerPtr>(triggerParameters.sensorId, trigger));
 
 			triggers.push_back(triggerPtr);
 
@@ -192,8 +166,8 @@ namespace DrumKit
 			switch(instrumentParameters.instrumentType)
 			{
 
-			case InstrumentType::Drum:
-				instrumentPtr = InstrumentPtr(new Drum(instrumentParameters));
+			case InstrumentType::TestDrum:
+				instrumentPtr = InstrumentPtr(new TestDrum(instrumentParameters));
 				break;
 
 			default:

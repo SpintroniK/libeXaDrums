@@ -11,7 +11,7 @@
 #include "../IO/SensorType.h"
 #include "../Sound/Alsa/Alsa.h"
 #include "../Sound/Alsa/AlsaParameters.h"
-#include "../Sound/Mixer.h"
+#include "../Sound/Mixer/Mixer.h"
 #include "../DrumKit/DrumModule/Module.h"
 #include "../DrumKit/KitManager/KitManager.h"
 

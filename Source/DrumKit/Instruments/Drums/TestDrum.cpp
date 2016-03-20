@@ -5,12 +5,12 @@
  *      Author: jeremy
  */
 
-#include "Drum.h"
+#include "TestDrum.h"
 
 namespace DrumKit
 {
 
-	Drum::Drum(InstrumentParameters parameters)
+	TestDrum::TestDrum(InstrumentParameters parameters)
 	: Instrument(parameters),
 	  drumHeadTrigger(nullptr),
 	  drumRimTrigger(nullptr)
@@ -20,14 +20,14 @@ namespace DrumKit
 		return;
 	}
 
-	Drum::~Drum()
+	TestDrum::~TestDrum()
 	{
 
 		return;
 	}
 
 
-	void Drum::SetTriggers(std::vector<TriggerPtr> triggers)
+	void TestDrum::SetTriggers(std::vector<TriggerPtr> triggers)
 	{
 
 		if(parameters.triggersIdsAndLocations.size() != numTriggers)
@@ -77,7 +77,7 @@ namespace DrumKit
 		return;
 	}
 
-	void Drum::SetSound(InstrumentSoundInfo const& soundInfo,
+	void TestDrum::SetSound(InstrumentSoundInfo const& soundInfo,
 						Sound::SoundBank const& soundBank,
 						std::shared_ptr<Sound::SoundProcessor> const& soundProcessor)
 	{
@@ -120,7 +120,7 @@ namespace DrumKit
 		return;
 	}
 
-	bool Drum::isTriggerEvent()
+	bool TestDrum::isTriggerEvent()
 	{
 
 		TriggerState headTriggerState = drumHeadTrigger->GetTriggerState();
@@ -139,12 +139,31 @@ namespace DrumKit
 
 	}
 
-	Sound::SoundPtr Drum::GetSound()
+	Sound::SoundPtr TestDrum::GetSound()
 	{
 
-		return drumHeadSound;
-	}
+		TriggerState headTriggerState = drumHeadTrigger->GetTriggerState();
+		TriggerState rimTriggerState = drumRimTrigger->GetTriggerState();
 
+		drumHeadSound->SetVolume(headTriggerState.strength);
+		drumRimSound->SetVolume(rimTriggerState.strength);
+
+		if(headTriggerState.isTrig)
+		{
+			if(drumHeadTrigger->GetTriggerState().strength > 0.25f)
+			{
+				return drumHeadSound;
+			}
+			else
+			{
+				return drumRimSound;
+			}
+		}
+		else
+		{
+			return drumRimSound;
+		}
+	}
 	// PRIVATE
 
 	/*void Drum::GenerateSounds()

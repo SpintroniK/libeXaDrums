@@ -15,6 +15,7 @@ namespace DrumKit
 	enum class InstrumentType
 	{
 
+		TestDrum,
 		Drum,
 		Cymbal,
 		HiHat,

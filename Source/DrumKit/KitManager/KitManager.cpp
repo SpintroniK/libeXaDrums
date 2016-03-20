@@ -267,9 +267,13 @@ namespace DrumKit
 		{
 			instrumentType = InstrumentType::HiHat;
 		}
-		else if (typeName == "BassDrum")
+		else if(typeName == "BassDrum")
 		{
 			instrumentType = InstrumentType::BassDrum;
+		}
+		else if(typeName == "TestDrum")
+		{
+			instrumentType = InstrumentType::TestDrum;
 		}
 		else
 		{

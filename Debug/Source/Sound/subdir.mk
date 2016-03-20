@@ -4,15 +4,12 @@
 
 # Add inputs and outputs from these tool invocations to the build variables 
 CPP_SRCS += \
-../Source/Sound/Mixer.cpp \
 ../Source/Sound/Sound.cpp 
 
 OBJS += \
-./Source/Sound/Mixer.o \
 ./Source/Sound/Sound.o 
 
 CPP_DEPS += \
-./Source/Sound/Mixer.d \
 ./Source/Sound/Sound.d 
 
 

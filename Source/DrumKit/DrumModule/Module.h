@@ -10,13 +10,13 @@
 
 
 #include "../../Sound/SoundProcessor/SoundProcessor.h"
-#include "../../Sound/Mixer.h"
+#include "../../Sound/Mixer/Mixer.h"
 #include "../../Sound/SoundBank/SoundBank.h"
 
 #include "../KitManager/KitManager.h"
 #include "../Instruments/InstrumentParameters.h"
 #include "../Instruments/Instrument.h"
-#include "../Instruments/Drum.h"
+#include "../Instruments/Drums/TestDrum.h"
 #include "../Triggers/TriggerType.h"
 #include "../Triggers/Trigger.h"
 #include "../Triggers/DiscreteTrigger.h"
@@ -31,6 +31,7 @@
 #include <utility>
 
 
+
 namespace DrumKit
 {
 
@@ -39,22 +40,18 @@ namespace DrumKit
 
 	public:
 
-		Module(std::string dir, IO::SensorType sensorType, std::shared_ptr<Sound::Mixer> const& mixer);
+		Module(std::string dir, IO::SensorType sensorType, std::shared_ptr<Sound::Mixer> mixer);
 		virtual ~Module();
 
 		void LoadKit(std::string fileLoc);
-
 		void Start();
 		void Stop();
-
 		void GetDirectory(std::string& dir) const;
 
 
 	private:
 
 		void Run();
-
-		void LoadKitSounds();
 		void CreateTriggers();
 		void CreateInstruments();
 

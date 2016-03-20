@@ -8,13 +8,13 @@
 #ifndef LIBEXADRUMS_SOURCE_DRUMKIT_DRUM_H_
 #define LIBEXADRUMS_SOURCE_DRUMKIT_DRUM_H_
 
-#include "../../Sound/SoundBank/SoundBank.h"
-#include "../../Sound/SoundProcessor/InstrumentSoundType.h"
-#include "../../Sound/SoundProcessor/SoundProcessor.h"
+#include "../../../Sound/SoundBank/SoundBank.h"
+#include "../../../Sound/SoundProcessor/InstrumentSoundType.h"
+#include "../../../Sound/SoundProcessor/SoundProcessor.h"
 
-#include "../Triggers/Trigger.h"
+#include "../../Triggers/Trigger.h"
 
-#include "Instrument.h"
+#include "../Instrument.h"
 
 #include <functional>
 #include <vector>
@@ -24,13 +24,13 @@
 namespace DrumKit
 {
 
-	class Drum : public Instrument
+	class TestDrum : public Instrument
 	{
 
 	public:
 
-		Drum(InstrumentParameters parameters);
-		virtual ~Drum();
+		TestDrum(InstrumentParameters parameters);
+		virtual ~TestDrum();
 
 		virtual void SetTriggers(std::vector<TriggerPtr> triggers);
 		virtual void SetSound(InstrumentSoundInfo const& soundInfo,

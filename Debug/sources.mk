@@ -25,11 +25,14 @@ C_UPPER_DEPS :=
 SUBDIRS := \
 Source/Api \
 Source/DrumKit/DrumModule \
+Source/DrumKit/Instruments/Cymbals \
+Source/DrumKit/Instruments/Drums \
 Source/DrumKit/Instruments \
 Source/DrumKit/KitManager \
 Source/DrumKit/Triggers \
 Source/IO \
 Source/Sound/Alsa \
+Source/Sound/Mixer \
 Source/Sound \
 Source/Sound/SoundBank \
 Source/Sound/SoundProcessor/Curves \

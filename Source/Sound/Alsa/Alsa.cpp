@@ -32,11 +32,13 @@ namespace Sound
 			snd_pcm_sw_params_alloca(&params.swParams);
 			SetSwParams();
 		}
-		else throw - 1;
+		else
+		{
+			throw - 1;
+		}
 
 		// Give parameters to mixer
 		//soundProc->SetAlsaParameters(&params);
-		mix->SetAlsaParameters(params);
 
 		return;
 	}
@@ -203,7 +205,7 @@ namespace Sound
 	{
 
 		int err = 0;
-		int index = 0, frames = 0;
+		int frames = 0;
 
 		while(play)
 		{
@@ -215,17 +217,21 @@ namespace Sound
 
 				//time_point<high_resolution_clock> t_start = high_resolution_clock::now();
 
-				mixer->Mix();
+				mixer->Mix(params.buffer, (std::size_t) params.periodSize);
 
 
 				err = snd_pcm_writei(params.handle, params.buffer.data(), frames);
 
 
 				if (err == -EAGAIN)
+				{
 					continue;
+				}
 
 				if (err < 0)
+				{
 					XrunRecovery(err);
+				}
 
 				frames -= err;
 
@@ -238,16 +244,13 @@ namespace Sound
 
 			}
 
-			index 	+= err;
-
 		}
 
 		return;
 	}
 
-	int Alsa::XrunRecovery(int err)
+	void Alsa::XrunRecovery(int& err)
 	{
-
 
 		if (err == -EPIPE)
 		{
@@ -257,13 +260,17 @@ namespace Sound
 		{
 
 			while ((err = snd_pcm_resume(params.handle)) == -EAGAIN)
+			{
 				std::this_thread::sleep_for(milliseconds(1));
+			}
 
 			if (err < 0)
+			{
 				err = snd_pcm_prepare(params.handle);
+			}
 		}
 
-		return err;
+		return;
 	}
 
 }

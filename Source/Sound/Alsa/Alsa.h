@@ -10,7 +10,7 @@
 
 #define ALSA_PCM_NEW_HW_PARAMS_API
 
-#include "../Mixer.h"
+#include "../Mixer/Mixer.h"
 #include "AlsaParams.h"
 
 #include <alsa/asoundlib.h>
@@ -41,23 +41,23 @@ namespace Sound
 
 	private:
 
-		int 			SetHwParams();
-		int 			SetSwParams();
+		int SetHwParams();
+		int SetSwParams();
 
-		void 			StartPlayback();
-		void 			StopPlayback();
-		void 			Playback();
+		void StartPlayback();
+		void StopPlayback();
+		void Playback();
 
-		void			StartRecord();
-		void 			StopRecord();
-		void 			Record();
+		void StartRecord();
+		void StopRecord();
+		void Record();
 
-		int 			XrunRecovery(int err);
+		void XrunRecovery(int& err);
 
-		std::thread 	playThread;
-		std::thread 	recordThread;
+		std::thread playThread;
+		std::thread recordThread;
 
-		AlsaParams	 	params;
+		AlsaParams params;
 
 		std::shared_ptr<Mixer> mixer;
 
