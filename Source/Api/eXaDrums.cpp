@@ -14,7 +14,8 @@ namespace eXaDrumsApi
 	: drumModule(nullptr),
 	  alsaParams(),
 	  alsa(nullptr),
-	  mixer(nullptr)
+	  mixer(nullptr),
+	  isStarted(false)
 	{
 
 		std::string moduleLoc(dataLocation);
@@ -57,6 +58,7 @@ namespace eXaDrumsApi
 
 		this->alsa->Start();
 		this->drumModule->Start();
+		isStarted = true;
 
 		return;
 	}
@@ -66,6 +68,7 @@ namespace eXaDrumsApi
 
 		this->drumModule->Stop();
 		this->alsa->Stop();
+		isStarted = false;
 
 		return;
 	}

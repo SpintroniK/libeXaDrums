@@ -32,6 +32,7 @@ namespace eXaDrumsApi
 		~eXaDrums();
 
 		void LoadKit(const char* kitLocation);
+		bool IsStarted() const { return isStarted; }
 
 		//
 		void Start();
@@ -45,6 +46,8 @@ namespace eXaDrumsApi
 		Sound::AlsaParams alsaParams;
 		std::unique_ptr<Sound::Alsa> alsa;
 		std::shared_ptr<Sound::Mixer> mixer;
+
+		bool isStarted;
 
 
 	};
