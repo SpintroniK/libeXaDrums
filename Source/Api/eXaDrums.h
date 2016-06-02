@@ -18,6 +18,7 @@
 #include <string>
 #include <vector>
 #include <memory>
+#include <atomic>
 
 namespace eXaDrumsApi
 {
@@ -47,7 +48,7 @@ namespace eXaDrumsApi
 		std::unique_ptr<Sound::Alsa> alsa;
 		std::shared_ptr<Sound::Mixer> mixer;
 
-		bool isStarted;
+		std::atomic<bool> isStarted;
 
 
 	};
