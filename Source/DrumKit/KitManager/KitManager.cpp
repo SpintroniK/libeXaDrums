@@ -169,10 +169,23 @@ namespace DrumKit
 		return;
 	}
 
+
+	void KitManager::GetKitById(int id, std::string& kit) const
+	{
+
+		kit = kitNames.at(id);
+
+		return;
+	}
+
+
 	// PRIVATE METHODS
 
 	void KitManager::ScanFolder()
 	{
+
+		this->filesList.clear();
+		this->kitNames.clear();
 
 		struct dirent* ent;
 		DIR* directory = opendir(kitsPath.c_str());
@@ -185,6 +198,7 @@ namespace DrumKit
 			if(fileExtension == "xml")
 			{
 				this->filesList.push_back(this->kitsPath + fileName);
+				this->kitNames.push_back(fileName);
 			}
 		}
 

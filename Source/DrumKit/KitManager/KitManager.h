@@ -25,6 +25,7 @@
 
 #include <vector>
 #include <string>
+#include <iostream>
 
 #include <dirent.h>
 
@@ -44,6 +45,7 @@ namespace DrumKit
 		void LoadTriggersConfig(std::string moduleDir, std::vector<TriggerParameters>& trigsParams);
 
 		int GetNumKits() { return int(this->filesList.size()); }
+		void GetKitById(int id, std::string& kit) const;
 
 
 	private:
@@ -58,6 +60,7 @@ namespace DrumKit
 
 		std::string kitsPath;
 		std::vector<std::string> filesList;
+		std::vector<std::string> kitNames;
 
 	};
 

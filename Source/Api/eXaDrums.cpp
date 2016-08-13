@@ -38,8 +38,6 @@ namespace eXaDrumsApi
 	}
 
 
-
-
 	void eXaDrums::LoadKit(const char* kitLocation)
 	{
 
@@ -69,6 +67,21 @@ namespace eXaDrumsApi
 		this->drumModule->Stop();
 		this->alsa->Stop();
 		isStarted = false;
+
+		return;
+	}
+
+	void eXaDrums::GetKitNameById(int id, char* kitName, int& nameLength)
+	{
+
+		std::string kit;
+		this->drumModule->GetKitById(id, kit);
+
+		// Get string's length
+		nameLength = kit.length();
+
+		// Copy string to char*
+		kit.copy(kitName, nameLength);
 
 		return;
 	}

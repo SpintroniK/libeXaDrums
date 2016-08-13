@@ -39,6 +39,9 @@ namespace eXaDrumsApi
 		void Start();
 		void Stop();
 
+		int GetNumKits() const { return drumModule->GetNumKits(); }
+		void GetKitNameById(int id, char* kitName, int& nameLength);
+
 	private:
 
 

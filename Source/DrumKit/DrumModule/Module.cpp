@@ -12,7 +12,7 @@ namespace DrumKit
 
 	Module::Module(std::string dir,	IO::SensorType sensorType, std::shared_ptr<Sound::Mixer> mixer)
 	: soundBank(dir),
-	  kitManager(dir),
+	  kitManager(dir + "Kits/"),
 	  sensorType(sensorType),
 	  directory(dir),
 	  isPlay(false),

@@ -44,6 +44,10 @@ namespace DrumKit
 		virtual ~Module();
 
 		void LoadKit(std::string fileLoc);
+		int GetNumKits() { return kitManager.GetNumKits(); }
+		void GetKitById(int id, std::string& kitName) { kitManager.GetKitById(id, kitName); }
+
+
 		void Start();
 		void Stop();
 		void GetDirectory(std::string& dir) const;
