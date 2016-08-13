@@ -42,7 +42,10 @@ namespace IO
 	short HddSensor::GetData(char channel)
 	{
 
-		std::this_thread::sleep_for(std::chrono::microseconds(10));
+		//std::this_thread::sleep_for(std::chrono::microseconds(10));
+
+		// Artificial delay (works well in Debug with my laptop...)
+		for(int i = 0; i < 2500; i++);
 
 		short val = value[++index];
 

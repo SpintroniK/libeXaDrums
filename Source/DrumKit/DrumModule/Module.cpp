@@ -67,6 +67,9 @@ namespace DrumKit
 		// Prepare trigger parameters vector
 		this->triggersParameters.clear();
 
+		// Clear current triggers
+		this->triggers.clear();
+
 		// Read triggers configurations
 		this->kitManager.LoadTriggersConfig(this->directory, triggersParameters);
 
