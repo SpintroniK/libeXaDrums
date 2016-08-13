@@ -35,22 +35,17 @@ namespace DrumKit
 
 	void Module::Start()
 	{
-
 		isPlay = true;
-
 		playThread = std::thread(&Module::Run, this);
-
 		return;
 	}
 
 
 	void Module::Stop()
 	{
-
 		isPlay = false;
-
 		playThread.join();
-
+		mixer->Dump();
 		return;
 	}
 

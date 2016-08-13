@@ -197,10 +197,20 @@ namespace DrumKit
 
 			if(fileExtension == "xml")
 			{
+
 				this->filesList.push_back(this->kitsPath + fileName);
-				this->kitNames.push_back(fileName);
+
+				// Get kit name
+				std::size_t extIndex = fileName.find_last_of(".");
+				std::string kitName = fileName.substr(0, extIndex);
+				//kitName[0] = std::toupper(kitName[0]);
+				this->kitNames.push_back(kitName);
 			}
 		}
+
+		// Sort
+		std::sort(this->filesList.begin(), this->filesList.end());
+		std::sort(this->kitNames.begin(), this->kitNames.end());
 
 		return;
 	}

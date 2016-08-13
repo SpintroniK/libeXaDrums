@@ -25,6 +25,7 @@
 
 #include <vector>
 #include <string>
+#include <algorithm>
 #include <iostream>
 
 #include <dirent.h>
