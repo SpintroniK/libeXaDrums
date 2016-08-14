@@ -46,7 +46,7 @@ namespace DrumKit
 		void LoadTriggersConfig(std::string moduleDir, std::vector<TriggerParameters>& trigsParams);
 
 		int GetNumKits() { return int(this->filesList.size()); }
-		void GetKitById(int id, std::string& kit) const;
+		void GetKitNameById(int id, std::string& kit) const;
 
 
 	private:

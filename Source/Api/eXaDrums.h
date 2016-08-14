@@ -8,7 +8,6 @@
 #ifndef LIBEXADRUMS_SOURCE_API_EXADRUMKIT_H_
 #define LIBEXADRUMS_SOURCE_API_EXADRUMKIT_H_
 
-#include "../IO/SensorType.h"
 #include "../Sound/Alsa/Alsa.h"
 #include "../Sound/Alsa/AlsaParameters.h"
 #include "../Sound/Mixer/Mixer.h"
@@ -29,7 +28,7 @@ namespace eXaDrumsApi
 	public:
 
 		//eXaDrumKit();
-		eXaDrums(const char* dataLocation, IO::SensorType sensorType);
+		eXaDrums(const char* dataLocation);
 		~eXaDrums();
 
 		void LoadKit(const char* kitLocation);

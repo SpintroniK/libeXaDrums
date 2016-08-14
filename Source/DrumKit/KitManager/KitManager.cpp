@@ -170,7 +170,7 @@ namespace DrumKit
 	}
 
 
-	void KitManager::GetKitById(int id, std::string& kit) const
+	void KitManager::GetKitNameById(int id, std::string& kit) const
 	{
 
 		kit = kitNames.at(id);

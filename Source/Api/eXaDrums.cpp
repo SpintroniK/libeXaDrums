@@ -10,7 +10,7 @@
 namespace eXaDrumsApi
 {
 
-	eXaDrums::eXaDrums(const char* dataLocation, IO::SensorType sensorType)
+	eXaDrums::eXaDrums(const char* dataLocation)
 	: drumModule(nullptr),
 	  alsaParams(),
 	  alsa(nullptr),
@@ -25,7 +25,7 @@ namespace eXaDrumsApi
 		this->mixer = std::shared_ptr<Sound::Mixer>(new Sound::Mixer());
 		this->alsa = std::unique_ptr<Sound::Alsa>(new Sound::Alsa(this->alsaParams, this->mixer));
 
-		this->drumModule = std::unique_ptr<DrumKit::Module>(new DrumKit::Module(moduleLoc, sensorType, this->mixer));
+		this->drumModule = std::unique_ptr<DrumKit::Module>(new DrumKit::Module(moduleLoc, this->mixer));
 
 
 		return;
@@ -75,7 +75,7 @@ namespace eXaDrumsApi
 	{
 
 		std::string kit;
-		this->drumModule->GetKitById(id, kit);
+		this->drumModule->GetKitNameById(id, kit);
 
 		// Get string's length
 		nameLength = kit.length();

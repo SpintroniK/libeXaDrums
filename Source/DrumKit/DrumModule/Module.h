@@ -40,12 +40,12 @@ namespace DrumKit
 
 	public:
 
-		Module(std::string dir, IO::SensorType sensorType, std::shared_ptr<Sound::Mixer> mixer);
+		Module(std::string dir, std::shared_ptr<Sound::Mixer> mixer);
 		virtual ~Module();
 
 		void LoadKit(std::string fileLoc);
 		int GetNumKits() { return kitManager.GetNumKits(); }
-		void GetKitById(int id, std::string& kitName) { kitManager.GetKitById(id, kitName); }
+		void GetKitNameById(int id, std::string& kitName) { kitManager.GetKitNameById(id, kitName); }
 
 
 		void Start();
@@ -64,8 +64,6 @@ namespace DrumKit
 
 		KitManager kitManager;
 		KitParameters kitParameters;
-
-		IO::SensorType sensorType;
 
 		std::string directory;
 
