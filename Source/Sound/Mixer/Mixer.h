@@ -28,7 +28,7 @@ namespace Sound
 
 		void SetSound(int instrumentId, SoundPtr& sound);
 		void Mix(std::vector<short>& buffer, const std::size_t periodSize);
-		void Dump() { playList.clear(); };
+		//void Dump() { playList.clear(); };
 
 	private:
 

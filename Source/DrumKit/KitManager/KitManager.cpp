@@ -9,7 +9,6 @@
 
 using namespace tinyxml2;
 
-
 namespace DrumKit
 {
 
@@ -38,7 +37,7 @@ namespace DrumKit
 
 		XMLDocument doc;
 
-		if(doc.LoadFile(file.c_str()) != XML_NO_ERROR)
+		if(doc.LoadFile(file.c_str()) != XML_SUCCESS)
 			throw -1;
 
 		XMLElement* root = doc.RootElement();
@@ -85,7 +84,7 @@ namespace DrumKit
 
 		XMLDocument doc;
 
-		if(doc.LoadFile(file.c_str()) != XML_NO_ERROR)
+		if(doc.LoadFile(file.c_str()) != XML_SUCCESS)
 			throw -1;
 
 		XMLElement* root = doc.RootElement();

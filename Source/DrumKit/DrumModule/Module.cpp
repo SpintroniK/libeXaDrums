@@ -44,7 +44,6 @@ namespace DrumKit
 	{
 		isPlay = false;
 		playThread.join();
-		mixer->Dump();
 		return;
 	}
 

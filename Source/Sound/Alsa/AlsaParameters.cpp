@@ -17,7 +17,7 @@ namespace Sound
 
 		XMLDocument doc;
 
-		if(doc.LoadFile(filePath.c_str()) != XML_NO_ERROR)
+		if(doc.LoadFile(filePath.c_str()) != XML_SUCCESS)
 			throw -1;
 
 		XMLElement* root = doc.RootElement();

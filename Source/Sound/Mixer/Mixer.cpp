@@ -19,8 +19,6 @@ namespace Sound
 	Mixer::~Mixer()
 	{
 
-		playList.clear();
-
 		return;
 	}
 
