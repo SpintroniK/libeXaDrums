@@ -5,7 +5,7 @@
  *      Author: jeremy
  */
 
-#include "KitManager.h"
+#include "../Kits/KitManager.h"
 
 using namespace tinyxml2;
 
@@ -22,8 +22,6 @@ namespace DrumKit
 
 	KitManager::~KitManager()
 	{
-
-		this->filesList.clear();
 
 		return;
 	}
@@ -183,7 +181,7 @@ namespace DrumKit
 	void KitManager::ScanFolder()
 	{
 
-		this->filesList.clear();
+		this->filesPaths.clear();
 		this->kitNames.clear();
 
 		struct dirent* ent;
@@ -197,7 +195,7 @@ namespace DrumKit
 			if(fileExtension == "xml")
 			{
 
-				this->filesList.push_back(this->kitsPath + fileName);
+				this->filesPaths.push_back(this->kitsPath + fileName);
 
 				// Get kit name
 				std::size_t extIndex = fileName.find_last_of(".");
@@ -208,7 +206,7 @@ namespace DrumKit
 		}
 
 		// Sort
-		std::sort(this->filesList.begin(), this->filesList.end());
+		std::sort(this->filesPaths.begin(), this->filesPaths.end());
 		std::sort(this->kitNames.begin(), this->kitNames.end());
 
 		return;

@@ -12,7 +12,7 @@
 #include "../Sound/Alsa/AlsaParameters.h"
 #include "../Sound/Mixer/Mixer.h"
 #include "../DrumKit/DrumModule/Module.h"
-#include "../DrumKit/KitManager/KitManager.h"
+#include "../DrumKit/Kits/KitManager.h"
 
 #include <string>
 #include <vector>
@@ -31,7 +31,7 @@ namespace eXaDrumsApi
 		eXaDrums(const char* dataLocation);
 		~eXaDrums();
 
-		void LoadKit(const char* kitLocation);
+		void LoadKit(int id);
 		bool IsStarted() const { return isStarted; }
 
 		//

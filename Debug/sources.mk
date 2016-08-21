@@ -28,7 +28,7 @@ Source/DrumKit/DrumModule \
 Source/DrumKit/Instruments/Cymbals \
 Source/DrumKit/Instruments/Drums \
 Source/DrumKit/Instruments \
-Source/DrumKit/KitManager \
+Source/DrumKit/Kits \
 Source/DrumKit/Triggers \
 Source/IO \
 Source/Sound/Alsa \

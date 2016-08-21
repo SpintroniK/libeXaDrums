@@ -21,6 +21,8 @@ namespace DrumKit
 
 		this->soundProc = std::shared_ptr<Sound::SoundProcessor>(new Sound::SoundProcessor());
 
+		LoadKits();
+
 		return;
 	}
 
@@ -57,7 +59,9 @@ namespace DrumKit
 		return;
 	}
 
-	void Module::LoadKit(std::string file)
+
+
+	void Module::LoadKit(int id)
 	{
 
 
@@ -76,8 +80,8 @@ namespace DrumKit
 		// Create Triggers
 		this->CreateTriggers();
 
-		// Load drum kit parameters
-		this->kitManager.LoadKit(file, this->kitParameters);
+		//xxx HACK!!! Load drum kit parameters
+		this->kitParameters = kits.at(id).GetParameters();
 
 		// Create Instruments
 		this->CreateInstruments();
@@ -86,8 +90,34 @@ namespace DrumKit
 		return;
 	}
 
+	std::string Module::GetKitNameById(int id) const
+	{
+
+		return kits.at(id).GetName();
+	}
+
 
 	/// PRIVATE
+
+	void Module::LoadKits()
+	{
+
+		// Clear kits list
+		kits.clear();
+
+		// Get all kits locations
+		std::vector<std::string> kitsPaths = kitManager.GetKitsLocations();
+
+		std::transform(kitsPaths.cbegin(), kitsPaths.cend(), std::back_inserter(kits), [this](std::string const& kitPath)
+		{
+			KitParameters kitParams;
+			kitManager.LoadKit(kitPath, kitParams);
+
+			return Kit(kitParams);
+		});
+
+		return;
+	}
 
 
 	void Module::Run()

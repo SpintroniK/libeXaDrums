@@ -13,7 +13,9 @@
 #include "../../Sound/Mixer/Mixer.h"
 #include "../../Sound/SoundBank/SoundBank.h"
 
-#include "../KitManager/KitManager.h"
+#include "../Kits/KitManager.h"
+#include "../Kits/Kit.h"
+
 #include "../Instruments/InstrumentParameters.h"
 #include "../Instruments/Instrument.h"
 #include "../Instruments/Drums/TestDrum.h"
@@ -43,9 +45,9 @@ namespace DrumKit
 		Module(std::string dir, std::shared_ptr<Sound::Mixer> mixer);
 		virtual ~Module();
 
-		void LoadKit(std::string fileLoc);
-		int GetNumKits() { return kitManager.GetNumKits(); }
-		void GetKitNameById(int id, std::string& kitName) { kitManager.GetKitNameById(id, kitName); }
+		void LoadKit(int id);
+		int GetNumKits() const { return (int) kits.size(); }
+		std::string GetKitNameById(int id) const;
 
 
 		void Start();
@@ -55,6 +57,7 @@ namespace DrumKit
 
 	private:
 
+		void LoadKits();
 		void Run();
 		void CreateTriggers();
 		void CreateInstruments();
@@ -64,6 +67,7 @@ namespace DrumKit
 
 		KitManager kitManager;
 		KitParameters kitParameters;
+		std::vector<Kit> kits;
 
 		std::string directory;
 
@@ -75,7 +79,6 @@ namespace DrumKit
 		std::shared_ptr<Sound::SoundProcessor> soundProc;
 		std::shared_ptr<Sound::Mixer> mixer;
 
-		//std::vector<Sound::SoundPtr> rawSounds;
 		std::vector<TriggerPtr> triggers;
 
 
