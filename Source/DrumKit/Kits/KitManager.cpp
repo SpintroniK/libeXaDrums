@@ -167,22 +167,12 @@ namespace DrumKit
 	}
 
 
-	void KitManager::GetKitNameById(int id, std::string& kit) const
-	{
-
-		kit = kitNames.at(id);
-
-		return;
-	}
-
-
 	// PRIVATE METHODS
 
 	void KitManager::ScanFolder()
 	{
 
 		this->filesPaths.clear();
-		this->kitNames.clear();
 
 		struct dirent* ent;
 		DIR* directory = opendir(kitsPath.c_str());
@@ -194,20 +184,12 @@ namespace DrumKit
 
 			if(fileExtension == "xml")
 			{
-
 				this->filesPaths.push_back(this->kitsPath + fileName);
-
-				// Get kit name
-				std::size_t extIndex = fileName.find_last_of(".");
-				std::string kitName = fileName.substr(0, extIndex);
-				//kitName[0] = std::toupper(kitName[0]);
-				this->kitNames.push_back(kitName);
 			}
 		}
 
 		// Sort
 		std::sort(this->filesPaths.begin(), this->filesPaths.end());
-		std::sort(this->kitNames.begin(), this->kitNames.end());
 
 		return;
 	}
