@@ -31,18 +31,24 @@ namespace eXaDrumsApi
 		eXaDrums(const char* dataLocation);
 		~eXaDrums();
 
-		void LoadKit(int id);
+		void SelectKit(int id);
 		bool IsStarted() const { return isStarted; }
 
 		//
 		void Start();
 		void Stop();
 
+		// Kits
 		int GetNumKits() const { return drumModule->GetNumKits(); }
 		void GetKitNameById(int id, char* kitName, int& nameLength);
 
+		// Instruments
+		int GetNumInstruments() const { return drumModule->GetNumInstruments(); }
+		void GetInstrumentName(int id, char* name, int& nameLength);
+
 	private:
 
+		void CppStringToC(std::string input, char* str, int& length) const;
 
 		std::unique_ptr<DrumKit::Module> drumModule;
 

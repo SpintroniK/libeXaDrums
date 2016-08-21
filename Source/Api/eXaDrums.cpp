@@ -38,10 +38,10 @@ namespace eXaDrumsApi
 	}
 
 
-	void eXaDrums::LoadKit(int id)
+	void eXaDrums::SelectKit(int id)
 	{
 
-		this->drumModule->LoadKit(id);
+		this->drumModule->SelectKit(id);
 
 		return;
 	}
@@ -71,11 +71,29 @@ namespace eXaDrumsApi
 
 		std::string kit = this->drumModule->GetKitNameById(id);
 
+		CppStringToC(kit, kitName, nameLength);
+
+		return;
+	}
+
+	void eXaDrums::GetInstrumentName(int id, char* name, int& nameLength)
+	{
+
+		std::string inst = this->drumModule->GetInstrumentName(id);
+
+		CppStringToC(inst, name, nameLength);
+
+		return;
+	}
+
+	void eXaDrums::CppStringToC(std::string input, char* str, int& length) const
+	{
+
 		// Get string's length
-		nameLength = kit.length();
+		length = input.length();
 
 		// Copy string to char*
-		kit.copy(kitName, nameLength);
+		input.copy(str, length);
 
 		return;
 	}

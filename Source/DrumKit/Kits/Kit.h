@@ -12,23 +12,28 @@
 
 #include <string>
 
+class Module;
+
 namespace DrumKit
 {
 
 	class Kit
 	{
+		friend class Module;
 
 		public:
 
 			Kit(KitParameters params);
 			virtual ~Kit();
 
+			std::string GetInstrumentName(std::size_t id) const;
 			std::string GetName() const { return parameters.kitName; }
-			KitParameters GetParameters() const { return parameters; }
+			int GetNumInstruments() const { return (int)parameters.instrumentParameters.size(); }
 
 		private:
 
 			KitParameters parameters;
+
 
 	};
 

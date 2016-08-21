@@ -11,7 +11,8 @@ namespace DrumKit
 {
 
 	Module::Module(std::string dir, std::shared_ptr<Sound::Mixer> mixer)
-	: soundBank(dir),
+	: currentKitId(0),
+	  soundBank(dir),
 	  kitManager(dir + "Kits/"),
 	  directory(dir),
 	  isPlay(false),
@@ -33,6 +34,13 @@ namespace DrumKit
 		return;
 	}
 
+	std::string Module::GetInstrumentName(std::size_t id) const
+	{
+
+		std::string name(kits[currentKitId].GetInstrumentName(id));
+
+		return name;
+	}
 
 	void Module::Start()
 	{
@@ -61,9 +69,16 @@ namespace DrumKit
 
 
 
-	void Module::LoadKit(int id)
+	void Module::SelectKit(std::size_t id)
 	{
 
+
+		if(id > kits.size())
+		{
+			throw -1;
+		}
+
+		currentKitId = id;
 
 		// Prepare instruments vector to be populated
 		this->instruments.clear();
@@ -80,8 +95,8 @@ namespace DrumKit
 		// Create Triggers
 		this->CreateTriggers();
 
-		//xxx HACK!!! Load drum kit parameters
-		this->kitParameters = kits.at(id).GetParameters();
+		//Load drum kit parameters
+		this->kitParameters = kits[id].parameters;
 
 		// Create Instruments
 		this->CreateInstruments();

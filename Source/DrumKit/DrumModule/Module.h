@@ -45,11 +45,16 @@ namespace DrumKit
 		Module(std::string dir, std::shared_ptr<Sound::Mixer> mixer);
 		virtual ~Module();
 
-		void LoadKit(int id);
+		// Kit
+		void SelectKit(std::size_t id);
 		int GetNumKits() const { return (int) kits.size(); }
 		std::string GetKitNameById(int id) const;
 
+		// Instrument
+		std::string GetInstrumentName(std::size_t id) const;
+		int GetNumInstruments() const { return kits[currentKitId].GetNumInstruments(); }
 
+		// Module
 		void Start();
 		void Stop();
 		void GetDirectory(std::string& dir) const;
@@ -62,6 +67,7 @@ namespace DrumKit
 		void CreateTriggers();
 		void CreateInstruments();
 
+		int currentKitId;
 
 		Sound::SoundBank soundBank;
 
