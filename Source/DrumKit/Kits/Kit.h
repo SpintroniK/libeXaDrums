@@ -19,6 +19,7 @@ namespace DrumKit
 
 	class Kit
 	{
+
 		friend class Module;
 
 		public:

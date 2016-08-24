@@ -11,7 +11,7 @@ namespace DrumKit
 {
 
 	Module::Module(std::string dir, std::shared_ptr<Sound::Mixer> mixer)
-	: currentKitId(0),
+	: kitId(0),
 	  soundBank(dir),
 	  kitManager(dir + "Kits/"),
 	  directory(dir),
@@ -37,7 +37,7 @@ namespace DrumKit
 	std::string Module::GetInstrumentName(std::size_t id) const
 	{
 
-		std::string name(kits[currentKitId].GetInstrumentName(id));
+		std::string name(kits[kitId].GetInstrumentName(id));
 
 		return name;
 	}
@@ -78,7 +78,7 @@ namespace DrumKit
 			throw -1;
 		}
 
-		currentKitId = id;
+		kitId = id;
 
 		// Prepare instruments vector to be populated
 		this->instruments.clear();
@@ -111,6 +111,15 @@ namespace DrumKit
 		return kits.at(id).GetName();
 	}
 
+	void Module::SetInstrumentVolume(int id, float volume)
+	{
+
+		// Normalize volume
+		volume /= 100;
+
+
+		return;
+	}
 
 	/// PRIVATE
 
@@ -142,10 +151,7 @@ namespace DrumKit
 		{
 
 			// Refresh triggers
-			std::for_each(triggers.begin(), triggers.end(), [](TriggerPtr triggerPtr)
-			{
-				triggerPtr->Refresh();
-			});
+			std::for_each(triggers.begin(), triggers.end(), [](TriggerPtr triggerPtr) { triggerPtr->Refresh(); });
 
 
 			std::for_each(instruments.cbegin(), instruments.cend(), [this](InstrumentPtr instrumentPtr)
@@ -234,8 +240,7 @@ namespace DrumKit
 
 		};
 
-		std::for_each(this->kitParameters.instrumentParameters.cbegin(),
-				this->kitParameters.instrumentParameters.cend(), fInst);
+		std::for_each(this->kitParameters.instrumentParameters.cbegin(), this->kitParameters.instrumentParameters.cend(), fInst);
 
 		return;
 	}

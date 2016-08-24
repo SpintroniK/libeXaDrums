@@ -45,6 +45,7 @@ namespace eXaDrumsApi
 		// Instruments
 		int GetNumInstruments() const { return drumModule->GetNumInstruments(); }
 		void GetInstrumentName(int id, char* name, int& nameLength);
+		void SetInstrumentVolume(int id, float volume) { drumModule->SetInstrumentVolume(id, volume); }
 
 	private:
 

@@ -52,7 +52,8 @@ namespace DrumKit
 
 		// Instrument
 		std::string GetInstrumentName(std::size_t id) const;
-		int GetNumInstruments() const { return kits[currentKitId].GetNumInstruments(); }
+		int GetNumInstruments() const { return kits[kitId].GetNumInstruments(); }
+		void SetInstrumentVolume(int id, float volume);
 
 		// Module
 		void Start();
@@ -67,7 +68,7 @@ namespace DrumKit
 		void CreateTriggers();
 		void CreateInstruments();
 
-		int currentKitId;
+		int kitId;
 
 		Sound::SoundBank soundBank;
 
