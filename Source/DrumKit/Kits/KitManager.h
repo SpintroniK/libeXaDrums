@@ -19,6 +19,8 @@
 #include "../Triggers/TriggerParameters.h"
 #include "../Triggers/TriggerLocation.h"
 
+#include "KitParameters.h"
+
 #include <tinyxml2.h>
 
 #include <vector>
@@ -27,8 +29,6 @@
 #include <iostream>
 
 #include <dirent.h>
-#include "../Kits/KitParameters.h"
-
 
 
 namespace DrumKit

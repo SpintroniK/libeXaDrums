@@ -10,8 +10,10 @@
 namespace Sound
 {
 
-	SoundBank::SoundBank(std::string dataFolder) : soundBankFolder(dataFolder + "/SoundBank")
+	SoundBank::SoundBank(std::string dataFolder) : soundBankFolder(dataFolder + "SoundBank/")
 	{
+
+		LoadSounds();
 
 		return;
 	}
@@ -26,7 +28,7 @@ namespace Sound
 	{
 
 
-		std::string fileLocation = this->soundBankFolder + "/" +filename;
+		std::string fileLocation = this->soundBankFolder + filename;
 
 		// Open file
 		std::ifstream soundFile(fileLocation);
@@ -65,5 +67,55 @@ namespace Sound
 		return sounds.back().GetId();
 
 	}
+
+	/// PRIVATE METHODS
+
+	void SoundBank::LoadSounds()
+	{
+
+		// Clear existing sounds paths
+		soundsPaths.clear();
+
+		struct dirent* ent;
+		DIR* directory = opendir(soundBankFolder.c_str());
+
+		// Scan directory
+		while((ent = readdir(directory)) != NULL)
+		{
+			// Check if entry is a directory
+			if(ent->d_type == DT_DIR)
+			{
+
+				// Get directory path
+				std::string soundsDirPath = soundBankFolder + std::string(ent->d_name) + "/";
+
+				struct dirent* dir;
+				DIR* soundsDir = opendir(soundsDirPath.c_str());
+
+				while((dir = readdir(soundsDir)) != NULL)
+				{
+
+					// Get file name and extension
+					std::string fileName(dir->d_name);
+					std::string fileExtension = fileName.substr(fileName.find_last_of(".") + 1);
+
+					if(fileExtension == "raw")
+					{
+						soundsPaths.push_back(soundsDirPath + fileName);
+					}
+
+				}
+
+				closedir(soundsDir);
+			}
+		}
+
+		closedir(directory);
+
+
+		return;
+	}
+
+
 
 } /* namespace Sound */

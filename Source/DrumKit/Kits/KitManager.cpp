@@ -83,7 +83,9 @@ namespace DrumKit
 		XMLDocument doc;
 
 		if(doc.LoadFile(file.c_str()) != XML_SUCCESS)
+		{
 			throw -1;
+		}
 
 		XMLElement* root = doc.RootElement();
 
@@ -187,6 +189,8 @@ namespace DrumKit
 				this->filesPaths.push_back(this->kitsPath + fileName);
 			}
 		}
+
+		closedir(directory);
 
 		// Sort
 		std::sort(this->filesPaths.begin(), this->filesPaths.end());

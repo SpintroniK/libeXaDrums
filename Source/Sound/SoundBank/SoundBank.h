@@ -14,6 +14,8 @@
 #include <vector>
 #include <fstream>
 
+#include <dirent.h>
+
 namespace Sound
 {
 
@@ -31,7 +33,10 @@ namespace Sound
 
 	private:
 
+		void LoadSounds();
+
 		std::string soundBankFolder;
+		std::vector<std::string> soundsPaths;
 		std::vector<Sound> sounds;
 
 
