@@ -25,12 +25,14 @@ namespace Sound
 		SoundBank(std::string dataFolder);
 		virtual ~SoundBank();
 
-		Sound LoadSound(std::string filename, int id) const;
+		int LoadSound(std::string filename);
+		Sound GetSound(int id) const { return sounds[id]; }
 
 
 	private:
 
 		std::string soundBankFolder;
+		std::vector<Sound> sounds;
 
 
 	};

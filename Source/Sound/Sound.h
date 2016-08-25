@@ -27,7 +27,7 @@ namespace Sound
 		void Seek(std::size_t index);
 		void AddToIndex(int offset);
 
-		bool IsMoreData(std::size_t length) const;
+		bool HasMoreData(std::size_t length) const;
 
 		int GetId() const { return this->id; }
 		float GetVolume() const { return this->volume; }

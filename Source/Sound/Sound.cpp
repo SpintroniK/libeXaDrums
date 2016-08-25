@@ -27,7 +27,7 @@ namespace Sound
 		return;
 	}
 
-	bool Sound::IsMoreData(std::size_t length) const
+	bool Sound::HasMoreData(std::size_t length) const
 	{
 
 		if(idx + length <= data.size())

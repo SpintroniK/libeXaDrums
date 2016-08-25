@@ -154,11 +154,11 @@ namespace DrumKit
 			std::for_each(triggers.begin(), triggers.end(), [](TriggerPtr triggerPtr) { triggerPtr->Refresh(); });
 
 
-			std::for_each(instruments.cbegin(), instruments.cend(), [this](InstrumentPtr instrumentPtr)
+			// Check instruments triggers and send sounds to mixer if necessary
+			for(const InstrumentPtr instrumentPtr : instruments)
 			{
 
 				bool isTriggerEvent = instrumentPtr->isTriggerEvent();
-
 
 				if(isTriggerEvent)
 				{
@@ -166,7 +166,7 @@ namespace DrumKit
 					mixer->SetSound(instrumentPtr->GetId(), sound);
 				}
 
-			});
+			}
 
 		}
 
@@ -177,27 +177,24 @@ namespace DrumKit
 	void Module::CreateTriggers()
 	{
 
-		std::function<void(TriggerParameters)> fTrig = [this](TriggerParameters triggerParameters)
+		for(TriggerParameters const& triggerParameters : this->triggersParameters)
 		{
 
 			TriggerPtr triggerPtr = nullptr;
 
 			switch (triggerParameters.type)
 			{
-			case TriggerType::Discrete:
-				triggerPtr = TriggerPtr(new DiscreteTrigger(triggerParameters));
-				break;
 
-			default:
-					throw -1;
-				break;
+			case TriggerType::Discrete: triggerPtr = TriggerPtr(new DiscreteTrigger(triggerParameters)); break;
+
+			default: throw -1; break;
+
 			}
 
 			triggers.push_back(triggerPtr);
 
 		};
 
-		std::for_each(this->triggersParameters.begin(), this->triggersParameters.end(), fTrig);
 
 		return;
 	}
@@ -206,22 +203,17 @@ namespace DrumKit
 	{
 
 
-		std::function<void(InstrumentParameters)> fInst = [this](InstrumentParameters instrumentParameters)
+		for(InstrumentParameters const& instrumentParameters : this->kitParameters.instrumentParameters)
 		{
 
-
+			// Create instrument
 			InstrumentPtr instrumentPtr = nullptr;
-
 			switch(instrumentParameters.instrumentType)
 			{
 
-			case InstrumentType::TestDrum:
-				instrumentPtr = InstrumentPtr(new TestDrum(instrumentParameters));
-				break;
+			case InstrumentType::TestDrum: instrumentPtr = InstrumentPtr(new TestDrum(instrumentParameters)); break;
 
-			default:
-				throw -1;
-				break;
+			default: throw -1; break;
 
 			}
 
@@ -229,18 +221,16 @@ namespace DrumKit
 			instrumentPtr->SetTriggers(this->triggers);
 
 			// Set instrument sounds
-			std::for_each(instrumentParameters.soundsInfo.cbegin(), instrumentParameters.soundsInfo.cend(),
-			[this, &instrumentPtr] (InstrumentSoundInfo const& soundInfo)
+			for(InstrumentSoundInfo const& soundInfo : instrumentParameters.soundsInfo)
 			{
 				instrumentPtr->SetSound(soundInfo, this->soundBank, this->soundProc);
-			});
+			}
 
 			// Add instrument to drum module
 			instruments.push_back(instrumentPtr);
 
 		};
 
-		std::for_each(this->kitParameters.instrumentParameters.cbegin(), this->kitParameters.instrumentParameters.cend(), fInst);
 
 		return;
 	}

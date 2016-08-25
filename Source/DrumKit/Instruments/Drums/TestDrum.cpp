@@ -27,7 +27,7 @@ namespace DrumKit
 	}
 
 
-	void TestDrum::SetTriggers(std::vector<TriggerPtr> triggers)
+	void TestDrum::SetTriggers(std::vector<TriggerPtr>& triggers)
 	{
 
 		if(parameters.triggersIdsAndLocations.size() != numTriggers)
@@ -35,7 +35,7 @@ namespace DrumKit
 			throw -1;
 		}
 
-		std::for_each(triggers.cbegin(), triggers.cend(), [&](TriggerPtr triggerPtr)
+		for(const TriggerPtr triggerPtr : triggers)
 		{
 
 			auto triggerIdAndLocation = std::find_if(parameters.triggersIdsAndLocations.cbegin(),
@@ -52,33 +52,19 @@ namespace DrumKit
 
 				switch (triggerLocation)
 				{
-					case TriggerLocation::DrumHead:
-					{
-						this->drumHeadTrigger = triggerPtr;
-					}
-						break;
+					case TriggerLocation::DrumHead: this->drumHeadTrigger = triggerPtr; break;
+					case TriggerLocation::Rim: this->drumRimTrigger = triggerPtr; break;
 
-					case TriggerLocation::Rim:
-					{
-						this->drumRimTrigger = triggerPtr;
-					}
-						break;
-
-					default:
-						break;
+					default: break;
 				}
-
 			}
-
-
-		});
+		}
 
 
 		return;
 	}
 
-	void TestDrum::SetSound(InstrumentSoundInfo const& soundInfo,
-						Sound::SoundBank const& soundBank,
+	void TestDrum::SetSound(InstrumentSoundInfo const& soundInfo, Sound::SoundBank& soundBank,
 						std::shared_ptr<Sound::SoundProcessor> const& soundProcessor)
 	{
 
@@ -91,29 +77,27 @@ namespace DrumKit
 			{
 
 				// Use SoundBank to load sound
-				Sound::Sound sound = soundBank.LoadSound(soundLocation, 0);
+				int soundId = soundBank.LoadSound(soundLocation);
 
 				// Use that sound for the rim shot
-				drumRimSound = std::make_shared<Sound::Sound>(sound);
+				drumRimSound = std::make_shared<Sound::Sound>(soundBank.GetSound(soundId));
 
 			}
-				break;
+			break;
 
 			case Sound::InstrumentSoundType::Default:
 			{
 
 				// Use SoundBank to load sound
-				Sound::Sound sound = soundBank.LoadSound(soundLocation, 1);
+				int soundId = soundBank.LoadSound(soundLocation);
 
 				// Use that sound for the drum head
-				drumHeadSound = std::make_shared<Sound::Sound>(sound);
+				drumHeadSound = std::make_shared<Sound::Sound>(soundBank.GetSound(soundId));
 
 			}
-				break;
+			break;
 
-			default:
-				throw -1;
-				break;
+			default: throw -1; break;
 		}
 
 

@@ -13,8 +13,6 @@ namespace Sound
 	SoundBank::SoundBank(std::string dataFolder) : soundBankFolder(dataFolder + "/SoundBank")
 	{
 
-		//TODO: Scan catergories to vector...
-
 		return;
 	}
 
@@ -24,7 +22,7 @@ namespace Sound
 		return;
 	}
 
-	Sound SoundBank::LoadSound(std::string filename, int id) const
+	int SoundBank::LoadSound(std::string filename)
 	{
 
 
@@ -35,7 +33,9 @@ namespace Sound
 
 		// Check file validity
 		if(!soundFile.good())
+		{
 			throw - 1;
+		}
 
 		soundFile.seekg (0, std::ios::end);
 
@@ -58,7 +58,11 @@ namespace Sound
 		// Close file
 		soundFile.close();
 
-		return Sound(id, data);
+		// Add sound to collection
+		std::size_t sId = sounds.size();
+		sounds.push_back(Sound(sId, data));
+
+		return sounds.back().GetId();
 
 	}
 

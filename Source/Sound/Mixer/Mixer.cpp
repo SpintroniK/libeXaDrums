@@ -62,7 +62,7 @@ namespace Sound
 
 			Sound sound = *(x.second.get());
 
-			if(sound.IsMoreData(periodSize))
+			if(sound.HasMoreData(periodSize))
 			{
 				const short* data = sound.GetData();
 				std::size_t idx = sound.GetIndex();
