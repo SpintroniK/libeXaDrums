@@ -55,7 +55,9 @@ namespace DrumKit
 	{
 		isPlay = false;
 		playThread.join();
+
 		mixer->Dump();
+		soundBank->Reset();
 
 		return;
 	}

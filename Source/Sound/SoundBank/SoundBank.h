@@ -33,6 +33,7 @@ namespace Sound
 
 		int LoadSound(std::string filename);
 		int AddSound(std::vector<short>& soundData);
+		void Reset() { sounds.clear(); }
 
 		void SetSoundVolume(int id, float volume) { sounds[id].SetVolume(volume); }
 
