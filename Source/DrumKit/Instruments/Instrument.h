@@ -37,10 +37,10 @@ namespace DrumKit
 
 
 		virtual void SetTriggers(std::vector<TriggerPtr>& triggers) = 0;
-		virtual void SetSound(InstrumentSoundInfo const& soundInfo,	Sound::SoundBank& soundBank,
+		virtual void SetSound(InstrumentSoundInfo const& soundInfo,	std::shared_ptr<Sound::SoundBank>& soundBank,
 								std::shared_ptr<Sound::SoundProcessor> const& soundProcessor) = 0;
 
-		virtual Sound::SoundPtr GetSound() = 0;
+		virtual void GetSoundProps(int& id, float& volume) = 0;
 		virtual bool isTriggerEvent()= 0;
 
 		virtual int GetId() const { return this->parameters.id; }

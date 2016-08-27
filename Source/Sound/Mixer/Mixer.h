@@ -8,11 +8,13 @@
 #ifndef MIXER_H_
 #define MIXER_H_
 
+#include "../SoundBank/SoundBank.h"
 #include "../Sound.h"
 
 #include <vector>
 #include <utility>
 #include <algorithm>
+#include <memory>
 #include <mutex>
 
 namespace Sound
@@ -26,13 +28,20 @@ namespace Sound
 		Mixer();
 		virtual ~Mixer();
 
-		void PlaySound(int instrumentId, SoundPtr& sound);
+		void PlaySound(int id);
+		void LoopSound(int id);
+		void StopSound(int id);
+
 		void Mix(std::vector<short>& buffer);
 		void Dump() { playList.clear(); };
 
+		void SetSoundBank(std::shared_ptr<SoundBank> sb) { this->soundBank = sb; }
+
 	private:
 
-		std::vector<std::pair<int, SoundPtr>> playList;
+		std::shared_ptr<SoundBank> soundBank;
+		std::vector<int> playList;
+
 		mutable std::mutex mixerMutex;
 
 	};

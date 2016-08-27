@@ -23,27 +23,22 @@ namespace Sound
 	}
 
 
-	void Mixer::PlaySound(int instrumentId, SoundPtr& sound)
+	void Mixer::PlaySound(int id)
 	{
-
-
 
 		std::lock_guard<std::mutex> lock(mixerMutex);
 
-		auto it = std::find_if(playList.begin(), playList.end(), [&](std::pair<int, SoundPtr> x)
-		{
-			return (x.first == instrumentId && x.second->GetId() == sound->GetId());
-		});
+		std::vector<int>::const_iterator it = std::find_if(playList.cbegin(), playList.cend(), [&id](int i) { return id == i; });
 
 		if(it != std::end(playList))
 		{
 			// The sound is already in playList
-			(*it).second->Seek(0);
+			soundBank->sounds[*it].Seek(0);
 		}
 		else
 		{
 			// Add sound to playList
-			playList.push_back(std::make_pair(instrumentId, sound));
+			playList.push_back(id);
 		}
 
 		return;
@@ -59,24 +54,23 @@ namespace Sound
 		std::size_t periodSize = buffer.size();
 
 		// Mix sounds
-		for(std::pair<int, SoundPtr>& x : playList)
+		for(int const& id : playList)
 		{
 
-			Sound sound = *(x.second.get());
+			Sound& sound = soundBank->sounds[id];
 
 			if(sound.HasMoreData(periodSize))
 			{
 				const short* data = sound.GetData();
-				std::size_t idx = sound.GetIndex();
-				float volume = sound.GetVolume();
+				const std::size_t idx = sound.GetIndex();
+				const float volume = sound.GetVolume();
 
 				for(std::size_t i = 0; i < periodSize; i++)
 				{
 					buffer[i] += volume * (*(data + idx + i));
 				}
 
-				x.second->AddToIndex(periodSize);
-
+				sound.AddToIndex(periodSize);
 			}
 		}
 

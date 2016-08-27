@@ -19,8 +19,12 @@
 namespace Sound
 {
 
+	class Mixer;
+
 	class SoundBank
 	{
+
+	friend class Mixer;
 
 	public:
 
@@ -28,6 +32,10 @@ namespace Sound
 		virtual ~SoundBank();
 
 		int LoadSound(std::string filename);
+		int AddSound(std::vector<short>& soundData);
+
+		void SetSoundVolume(int id, float volume) { sounds[id].SetVolume(volume); }
+
 		Sound GetSound(int id) const { return sounds[id]; }
 
 

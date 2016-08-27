@@ -24,6 +24,16 @@ namespace Sound
 		return;
 	}
 
+	int SoundBank::AddSound(std::vector<short>& data)
+	{
+
+		// Add sound to collection
+		std::size_t sId = sounds.size();
+		sounds.push_back(Sound(sId, data));
+
+		return sounds.back().GetId();
+	}
+
 	int SoundBank::LoadSound(std::string filename)
 	{
 

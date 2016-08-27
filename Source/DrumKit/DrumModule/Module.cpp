@@ -12,7 +12,6 @@ namespace DrumKit
 
 	Module::Module(std::string dir, std::shared_ptr<Sound::Mixer> mixer)
 	: kitId(0),
-	  soundBank(dir),
 	  kitManager(dir + "Kits/"),
 	  directory(dir),
 	  isPlay(false),
@@ -20,8 +19,10 @@ namespace DrumKit
 	  triggers()
 	{
 
-		this->soundProc = std::shared_ptr<Sound::SoundProcessor>(new Sound::SoundProcessor());
+		this->soundProc = std::make_shared<Sound::SoundProcessor>(Sound::SoundProcessor());
+		this->soundBank = std::make_shared<Sound::SoundBank>(Sound::SoundBank(dir));
 
+		mixer->SetSoundBank(soundBank);
 		LoadKits();
 
 		return;
@@ -162,8 +163,11 @@ namespace DrumKit
 
 				if(isTriggerEvent)
 				{
-					Sound::SoundPtr sound = instrumentPtr->GetSound();
-					mixer->PlaySound(instrumentPtr->GetId(), sound);
+					int soundId = 0;
+					float volume = 1.0f;
+					instrumentPtr->GetSoundProps(soundId, volume);
+					soundBank->SetSoundVolume(soundId, volume);
+					mixer->PlaySound(soundId);
 				}
 
 			}

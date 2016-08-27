@@ -10,10 +10,9 @@
 namespace DrumKit
 {
 
-	TestDrum::TestDrum(InstrumentParameters parameters)
-	: Instrument(parameters),
-	  drumHeadTrigger(nullptr),
-	  drumRimTrigger(nullptr)
+	TestDrum::TestDrum(InstrumentParameters parameters) : Instrument(parameters),
+	  drumHeadTrigger(nullptr), drumRimTrigger(nullptr),
+	  drumHeadSoundId(0), drumRimSoundId(0)
 	{
 
 
@@ -64,7 +63,7 @@ namespace DrumKit
 		return;
 	}
 
-	void TestDrum::SetSound(InstrumentSoundInfo const& soundInfo, Sound::SoundBank& soundBank,
+	void TestDrum::SetSound(InstrumentSoundInfo const& soundInfo, std::shared_ptr<Sound::SoundBank>& soundBank,
 						std::shared_ptr<Sound::SoundProcessor> const& soundProcessor)
 	{
 
@@ -73,29 +72,8 @@ namespace DrumKit
 
 		switch (soundType)
 		{
-			case Sound::InstrumentSoundType::RimShot:
-			{
-
-				// Use SoundBank to load sound
-				int soundId = soundBank.LoadSound(soundLocation);
-
-				// Use that sound for the rim shot
-				drumRimSound = std::make_shared<Sound::Sound>(soundBank.GetSound(soundId));
-
-			}
-			break;
-
-			case Sound::InstrumentSoundType::Default:
-			{
-
-				// Use SoundBank to load sound
-				int soundId = soundBank.LoadSound(soundLocation);
-
-				// Use that sound for the drum head
-				drumHeadSound = std::make_shared<Sound::Sound>(soundBank.GetSound(soundId));
-
-			}
-			break;
+			case Sound::InstrumentSoundType::RimShot: drumRimSoundId = soundBank->LoadSound(soundLocation); break;
+			case Sound::InstrumentSoundType::Default: drumHeadSoundId = soundBank->LoadSound(soundLocation); break;
 
 			default: throw -1; break;
 		}
@@ -123,30 +101,27 @@ namespace DrumKit
 
 	}
 
-	Sound::SoundPtr TestDrum::GetSound()
+	void TestDrum::GetSoundProps(int& id, float& volume)
 	{
 
 		TriggerState headTriggerState = drumHeadTrigger->GetTriggerState();
 		TriggerState rimTriggerState = drumRimTrigger->GetTriggerState();
 
-		drumHeadSound->SetVolume(headTriggerState.strength);
-		drumRimSound->SetVolume(rimTriggerState.strength);
 
 		if(headTriggerState.isTrig)
 		{
 			if(drumHeadTrigger->GetTriggerState().strength > 0.25f)
 			{
-				return drumHeadSound;
+				id = drumHeadSoundId;
+				volume = headTriggerState.strength;
 			}
 			else
 			{
-				return drumRimSound;
+				id = drumRimSoundId;
+				volume = rimTriggerState.strength;
 			}
 		}
-		else
-		{
-			return drumRimSound;
-		}
+
 	}
 	// PRIVATE
 

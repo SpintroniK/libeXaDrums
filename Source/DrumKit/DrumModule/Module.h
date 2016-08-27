@@ -70,7 +70,7 @@ namespace DrumKit
 
 		int kitId;
 
-		Sound::SoundBank soundBank;
+		std::shared_ptr<Sound::SoundBank> soundBank;
 
 		KitManager kitManager;
 		KitParameters kitParameters;
