@@ -151,11 +151,11 @@ namespace DrumKit
 		{
 
 			// Refresh triggers
-			std::for_each(triggers.begin(), triggers.end(), [](TriggerPtr triggerPtr) { triggerPtr->Refresh(); });
+			std::for_each(triggers.begin(), triggers.end(), [](TriggerPtr& triggerPtr) { triggerPtr->Refresh(); });
 
 
 			// Check instruments triggers and send sounds to mixer if necessary
-			for(const InstrumentPtr instrumentPtr : instruments)
+			for(InstrumentPtr const& instrumentPtr : instruments)
 			{
 
 				bool isTriggerEvent = instrumentPtr->isTriggerEvent();
@@ -163,7 +163,7 @@ namespace DrumKit
 				if(isTriggerEvent)
 				{
 					Sound::SoundPtr sound = instrumentPtr->GetSound();
-					mixer->SetSound(instrumentPtr->GetId(), sound);
+					mixer->PlaySound(instrumentPtr->GetId(), sound);
 				}
 
 			}

@@ -10,7 +10,7 @@
 namespace Sound
 {
 
-	Mixer::Mixer() : playList()
+	Mixer::Mixer() : periodSize(0)
 	{
 
 		return;
@@ -23,7 +23,7 @@ namespace Sound
 	}
 
 
-	void Mixer::SetSound(int instrumentId, SoundPtr& sound)
+	void Mixer::PlaySound(int instrumentId, SoundPtr& sound)
 	{
 
 
@@ -50,14 +50,14 @@ namespace Sound
 	}
 
 
-	void Mixer::Mix(std::vector<short>& buffer, const std::size_t periodSize)
+	void Mixer::Mix(std::vector<short>& buffer)
 	{
 
 		// Fill buffer with zeros
 		std::fill(buffer.begin(), buffer.begin() + periodSize, 0);
 
 		// Mix sounds
-		std::for_each(playList.begin(), playList.end(), [&buffer, &periodSize](std::pair<int, SoundPtr> x)
+		for(std::pair<int, SoundPtr>& x : playList)
 		{
 
 			Sound sound = *(x.second.get());
@@ -76,7 +76,7 @@ namespace Sound
 				x.second->AddToIndex(periodSize);
 
 			}
-		});
+		}
 
 
 		return;

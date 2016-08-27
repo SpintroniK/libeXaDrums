@@ -37,8 +37,8 @@ namespace Sound
 			throw - 1;
 		}
 
-		// Give parameters to mixer
-		//soundProc->SetAlsaParameters(&params);
+		// Give period size to mixer
+		mixer->SetPeriodSize(params.periodSize);
 
 		return;
 	}
@@ -217,7 +217,7 @@ namespace Sound
 
 				//time_point<high_resolution_clock> t_start = high_resolution_clock::now();
 
-				mixer->Mix(params.buffer, (std::size_t) params.periodSize);
+				mixer->Mix(params.buffer);
 
 
 				err = snd_pcm_writei(params.handle, params.buffer.data(), frames);
