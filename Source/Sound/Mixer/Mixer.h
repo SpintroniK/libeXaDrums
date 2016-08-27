@@ -30,11 +30,8 @@ namespace Sound
 		void Mix(std::vector<short>& buffer);
 		void Dump() { playList.clear(); };
 
-		void SetPeriodSize(std::size_t pSize) { this->periodSize = pSize; }
-
 	private:
 
-		std::size_t periodSize;
 		std::vector<std::pair<int, SoundPtr>> playList;
 		mutable std::mutex mixerMutex;
 

@@ -37,9 +37,6 @@ namespace Sound
 			throw - 1;
 		}
 
-		// Give period size to mixer
-		mixer->SetPeriodSize(params.periodSize);
-
 		return;
 	}
 
@@ -126,13 +123,12 @@ namespace Sound
 
 		params.bufferSize = size;
 
-		params.buffer.assign(size, 0);
-
 
 		snd_pcm_hw_params_set_period_time_near(params.handle, params.hwParams, &params.periodTime, &dir);
 		snd_pcm_hw_params_get_period_size(params.hwParams, &size, &dir);
 
 		params.periodSize = size;
+		params.buffer.resize(size);
 
 		snd_pcm_hw_params(params.handle, params.hwParams);
 

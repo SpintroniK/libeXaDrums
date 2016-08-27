@@ -10,7 +10,7 @@
 namespace Sound
 {
 
-	Mixer::Mixer() : periodSize(0)
+	Mixer::Mixer()
 	{
 
 		return;
@@ -54,7 +54,9 @@ namespace Sound
 	{
 
 		// Fill buffer with zeros
-		std::fill(buffer.begin(), buffer.begin() + periodSize, 0);
+		std::fill(buffer.begin(), buffer.end(), 0);
+
+		std::size_t periodSize = buffer.size();
 
 		// Mix sounds
 		for(std::pair<int, SoundPtr>& x : playList)
