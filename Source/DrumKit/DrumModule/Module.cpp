@@ -120,6 +120,8 @@ namespace DrumKit
 		// Normalize volume
 		volume /= 100;
 
+		// Set instrument's volume
+		this->instruments[id]->SetVolume(soundBank, volume);
 
 		return;
 	}
@@ -168,8 +170,7 @@ namespace DrumKit
 					int soundId = 0;
 					float volume = 1.0f;
 					instrumentPtr->GetSoundProps(soundId, volume);
-					soundBank->SetSoundVolume(soundId, volume);
-					mixer->PlaySound(soundId);
+					mixer->PlaySound(soundId, volume);
 				}
 
 			}
@@ -217,7 +218,7 @@ namespace DrumKit
 			switch(instrumentParameters.instrumentType)
 			{
 
-			case InstrumentType::TestDrum: instrumentPtr = InstrumentPtr(new TestDrum(instrumentParameters)); break;
+			case InstrumentType::TestDrum: instrumentPtr = InstrumentPtr(new TestDrum(instrumentParameters, soundBank)); break;
 
 			default: throw -1; break;
 
@@ -229,7 +230,7 @@ namespace DrumKit
 			// Set instrument sounds
 			for(InstrumentSoundInfo const& soundInfo : instrumentParameters.soundsInfo)
 			{
-				instrumentPtr->SetSound(soundInfo, this->soundBank, this->soundProc);
+				instrumentPtr->SetSound(soundInfo, this->soundProc);
 			}
 
 			// Add instrument to drum module

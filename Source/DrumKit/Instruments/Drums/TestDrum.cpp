@@ -10,7 +10,8 @@
 namespace DrumKit
 {
 
-	TestDrum::TestDrum(InstrumentParameters parameters) : Instrument(parameters),
+	TestDrum::TestDrum(InstrumentParameters parameters, std::shared_ptr<Sound::SoundBank> soundBank)
+	: Instrument(parameters, soundBank),
 	  drumHeadTrigger(nullptr), drumRimTrigger(nullptr),
 	  drumHeadSoundId(0), drumRimSoundId(0)
 	{
@@ -63,8 +64,7 @@ namespace DrumKit
 		return;
 	}
 
-	void TestDrum::SetSound(InstrumentSoundInfo const& soundInfo, std::shared_ptr<Sound::SoundBank>& soundBank,
-						std::shared_ptr<Sound::SoundProcessor> const& soundProcessor)
+	void TestDrum::SetSound(InstrumentSoundInfo const& soundInfo, std::shared_ptr<Sound::SoundProcessor> const& soundProcessor)
 	{
 
 		Sound::InstrumentSoundType soundType = soundInfo.type;
@@ -78,6 +78,15 @@ namespace DrumKit
 			default: throw -1; break;
 		}
 
+
+		return;
+	}
+
+	void TestDrum::SetVolume(std::shared_ptr<Sound::SoundBank>& soundBank, float volume)
+	{
+
+		soundBank->SetSoundVolume(drumRimSoundId, volume);
+		soundBank->SetSoundVolume(drumHeadSoundId, volume);
 
 		return;
 	}
@@ -122,6 +131,7 @@ namespace DrumKit
 			}
 		}
 
+		return;
 	}
 	// PRIVATE
 

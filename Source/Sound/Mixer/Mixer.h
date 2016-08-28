@@ -28,8 +28,8 @@ namespace Sound
 		Mixer();
 		virtual ~Mixer();
 
-		void PlaySound(int id);
-		void LoopSound(int id);
+		void PlaySound(int id, float volume);
+		void LoopSound(int id, float volume);
 		void StopSound(int id);
 
 		void Mix(std::vector<short>& buffer);
@@ -40,7 +40,7 @@ namespace Sound
 	private:
 
 		std::shared_ptr<SoundBank> soundBank;
-		std::vector<int> playList;
+		std::vector<std::pair<int, float>> playList;
 
 		mutable std::mutex mixerMutex;
 

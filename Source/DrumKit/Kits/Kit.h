@@ -20,6 +20,7 @@ namespace DrumKit
 	class Kit
 	{
 
+		//xxx To be removed
 		friend class Module;
 
 		public:

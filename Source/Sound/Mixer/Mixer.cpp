@@ -23,22 +23,22 @@ namespace Sound
 	}
 
 
-	void Mixer::PlaySound(int id)
+	void Mixer::PlaySound(int id, float volume)
 	{
 
 		std::lock_guard<std::mutex> lock(mixerMutex);
 
-		std::vector<int>::const_iterator it = std::find_if(playList.cbegin(), playList.cend(), [&id](int i) { return id == i; });
+		auto it = std::find_if(playList.cbegin(), playList.cend(), [&id](std::pair<int, float> const& s) { return id == s.first; });
 
 		if(it != std::end(playList))
 		{
 			// The sound is already in playList
-			soundBank->sounds[*it].Seek(0);
+			soundBank->sounds[(*it).first].Seek(0);
 		}
 		else
 		{
 			// Add sound to playList
-			playList.push_back(id);
+			playList.push_back(std::pair<int, float>(id, volume));
 		}
 
 		return;
@@ -54,20 +54,21 @@ namespace Sound
 		std::size_t periodSize = buffer.size();
 
 		// Mix sounds
-		for(int const& id : playList)
+		for(std::pair<int, float> const& s : playList)
 		{
 
-			Sound& sound = soundBank->sounds[id];
+			Sound& sound = soundBank->sounds[s.first];
 
 			if(sound.HasMoreData(periodSize))
 			{
 				const short* data = sound.GetData();
 				const std::size_t idx = sound.GetIndex();
 				const float volume = sound.GetVolume();
+				const float mix_volume = s.second;
 
 				for(std::size_t i = 0; i < periodSize; i++)
 				{
-					buffer[i] += volume * (*(data + idx + i));
+					buffer[i] += volume * mix_volume *(*(data + idx + i));
 				}
 
 				sound.AddToIndex(periodSize);

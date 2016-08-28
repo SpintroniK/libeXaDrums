@@ -11,9 +11,8 @@
 namespace DrumKit
 {
 
-	Instrument::Instrument(InstrumentParameters parameters)
-	: parameters(parameters),
-	  soundIds()
+	Instrument::Instrument(InstrumentParameters parameters, std::shared_ptr<Sound::SoundBank> sb)
+	: parameters(parameters), soundBank(sb)
 	{
 
 
