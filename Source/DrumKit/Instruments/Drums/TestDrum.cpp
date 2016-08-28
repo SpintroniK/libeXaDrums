@@ -82,16 +82,18 @@ namespace DrumKit
 		return;
 	}
 
-	void TestDrum::SetVolume(std::shared_ptr<Sound::SoundBank>& soundBank, float volume)
+	void TestDrum::SetVolume(float volume)
 	{
 
 		soundBank->SetSoundVolume(drumRimSoundId, volume);
 		soundBank->SetSoundVolume(drumHeadSoundId, volume);
 
+		parameters.volume = volume;
+
 		return;
 	}
 
-	bool TestDrum::isTriggerEvent()
+	bool TestDrum::IsTriggerEvent()
 	{
 
 		TriggerState headTriggerState = drumHeadTrigger->GetTriggerState();

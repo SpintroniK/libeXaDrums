@@ -26,6 +26,7 @@ namespace DrumKit
 		InstrumentType instrumentType;
 
 		int id;
+		float volume;
 
 		std::string instrumentName;
 		std::vector<InstrumentSoundInfo> soundsInfo;

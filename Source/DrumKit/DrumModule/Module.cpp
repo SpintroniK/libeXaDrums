@@ -121,7 +121,7 @@ namespace DrumKit
 		volume /= 100;
 
 		// Set instrument's volume
-		this->instruments[id]->SetVolume(soundBank, volume);
+		this->instruments[id]->SetVolume(volume);
 
 		return;
 	}
@@ -163,7 +163,7 @@ namespace DrumKit
 			for(InstrumentPtr const& instrumentPtr : instruments)
 			{
 
-				bool isTriggerEvent = instrumentPtr->isTriggerEvent();
+				bool isTriggerEvent = instrumentPtr->IsTriggerEvent();
 
 				if(isTriggerEvent)
 				{

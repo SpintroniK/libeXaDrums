@@ -15,6 +15,8 @@ namespace DrumKit
 	: parameters(parameters), soundBank(sb)
 	{
 
+		//XXX Hack!!!
+		parameters.volume = 1.0f;
 
 		return;
 	}
