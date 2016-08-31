@@ -10,12 +10,13 @@
 namespace DrumKit
 {
 
-	Module::Module(std::string dir, std::shared_ptr<Sound::Mixer> mixer)
+	Module::Module(std::string dir, std::shared_ptr<Sound::Mixer> mixer, std::shared_ptr<Metronome> metro)
 	: kitId(0),
 	  kitManager(dir + "Kits/"),
 	  directory(dir),
 	  isPlay(false),
 	  mixer(mixer),
+	  metronome(metro),
 	  triggers()
 	{
 
@@ -24,6 +25,7 @@ namespace DrumKit
 
 		mixer->SetSoundBank(soundBank);
 		LoadKits();
+
 
 		return;
 	}
@@ -56,8 +58,8 @@ namespace DrumKit
 		isPlay = false;
 		playThread.join();
 
-		mixer->Dump();
-		soundBank->Reset();
+		mixer->Clear();
+		soundBank->Clear();
 
 		return;
 	}

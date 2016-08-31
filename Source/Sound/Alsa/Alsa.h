@@ -57,7 +57,7 @@ namespace Sound
 		std::thread playThread;
 		std::thread recordThread;
 
-		AlsaParams params;
+		AlsaParams& params;
 
 		std::shared_ptr<Mixer> mixer;
 

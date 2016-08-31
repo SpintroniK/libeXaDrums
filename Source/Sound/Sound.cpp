@@ -11,11 +11,7 @@ namespace Sound
 {
 
 
-	Sound::Sound(int id, std::vector<short> soundData)
-	: id(id),
-	  volume(1.0f),
-	  idx(0),
-	  data(soundData)
+	Sound::Sound(int id, std::vector<short> soundData) : id(id), volume(1.0f), loop(false), idx(0), data(soundData), length(data.size())
 	{
 
 		return;
@@ -29,6 +25,8 @@ namespace Sound
 
 	bool Sound::HasMoreData(std::size_t length) const
 	{
+
+		if(loop) return true;
 
 		if(idx + length <= data.size())
 		{
@@ -63,7 +61,14 @@ namespace Sound
 	void Sound::AddToIndex(int offset)
 	{
 
-		idx += offset;
+		if(!HasMoreData(offset))
+		{
+			idx = 0;
+		}
+		else
+		{
+			idx += offset;
+		}
 
 		return;
 	}

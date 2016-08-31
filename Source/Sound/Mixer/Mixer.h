@@ -33,7 +33,7 @@ namespace Sound
 		void StopSound(int id);
 
 		void Mix(std::vector<short>& buffer);
-		void Dump() { playList.clear(); };
+		void Clear() { playList.clear(); };
 
 		void SetSoundBank(std::shared_ptr<SoundBank> sb) { this->soundBank = sb; }
 

@@ -61,14 +61,26 @@ namespace Sound
 
 			if(sound.HasMoreData(periodSize))
 			{
-				const short* data = sound.GetData();
-				const std::size_t idx = sound.GetIndex();
-				const float volume = sound.GetVolume();
-				const float mix_volume = s.second;
 
-				for(std::size_t i = 0; i < periodSize; i++)
+				const float volume = sound.GetVolume();
+				const float mix_volume = s.second / soundBank->sounds.size();
+
+				if(sound.isLoop())
 				{
-					buffer[i] += volume * mix_volume *(*(data + idx + i));
+					for(std::size_t i = 0; i < periodSize; i++)
+					{
+						buffer[i] += volume * mix_volume * sound.GetValue(i);
+					}
+				}
+				else
+				{
+					const short* data = sound.GetData();
+					const std::size_t idx = sound.GetIndex();
+
+					for(std::size_t i = 0; i < periodSize; i++)
+					{
+						buffer[i] += volume * mix_volume *(*(data + idx + i));
+					}
 				}
 
 				sound.AddToIndex(periodSize);

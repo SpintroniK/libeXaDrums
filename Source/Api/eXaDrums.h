@@ -11,8 +11,8 @@
 #include "../Sound/Alsa/Alsa.h"
 #include "../Sound/Alsa/AlsaParameters.h"
 #include "../Sound/Mixer/Mixer.h"
+#include "../Metronome/Metronome.h"
 #include "../DrumKit/DrumModule/Module.h"
-#include "../DrumKit/Kits/KitManager.h"
 
 #include <string>
 #include <vector>
@@ -27,18 +27,18 @@ namespace eXaDrumsApi
 
 	public:
 
-		//eXaDrumKit();
 		eXaDrums(const char* dataLocation);
 		~eXaDrums();
 
-		void SelectKit(int id);
+		// eXaDrums
 		bool IsStarted() const { return isStarted; }
 
-		//
+		// Module
 		void Start();
 		void Stop();
 
 		// Kits
+		void SelectKit(int id);
 		int GetNumKits() const { return drumModule->GetNumKits(); }
 		void GetKitNameById(int id, char* kitName, int& nameLength);
 
@@ -56,6 +56,7 @@ namespace eXaDrumsApi
 		Sound::AlsaParams alsaParams;
 		std::unique_ptr<Sound::Alsa> alsa;
 		std::shared_ptr<Sound::Mixer> mixer;
+		std::shared_ptr<DrumKit::Metronome> metronome;
 
 		std::atomic<bool> isStarted;
 

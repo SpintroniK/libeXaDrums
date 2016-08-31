@@ -30,6 +30,7 @@ Source/DrumKit/Instruments \
 Source/DrumKit/Kits \
 Source/DrumKit/Triggers \
 Source/IO \
+Source/Metronome \
 Source/Sound/Alsa \
 Source/Sound/Mixer \
 Source/Sound \

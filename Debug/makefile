@@ -14,6 +14,7 @@ RM := rm -rf
 -include Source/Sound/Mixer/subdir.mk
 -include Source/Sound/Alsa/subdir.mk
 -include Source/Sound/subdir.mk
+-include Source/Metronome/subdir.mk
 -include Source/IO/subdir.mk
 -include Source/DrumKit/Triggers/subdir.mk
 -include Source/DrumKit/Kits/subdir.mk
