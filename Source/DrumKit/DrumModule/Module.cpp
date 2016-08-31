@@ -59,7 +59,6 @@ namespace DrumKit
 		playThread.join();
 
 		mixer->Clear();
-		soundBank->Clear();
 
 		return;
 	}
@@ -84,6 +83,8 @@ namespace DrumKit
 		}
 
 		kitId = id;
+
+		soundBank->Clear();
 
 		// Prepare instruments vector to be populated
 		this->instruments.clear();
