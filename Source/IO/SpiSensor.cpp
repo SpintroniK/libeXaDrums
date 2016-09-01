@@ -11,24 +11,33 @@
 namespace IO
 {
 
+	// Initilize number of instances
+	std::size_t SpiSensor::numInstances = 0;
+
 	SpiSensor::SpiSensor()
 	{
 
-		if (!bcm2835_init())
+		if(numInstances == 0)
 		{
-			std::cout << "Could not initialise bcm2835" << std::endl;
-			return ;
+
+			if (!bcm2835_init())
+			{
+				//std::cout << "Could not initialise bcm2835" << std::endl;
+				return ;
+			}
+
+			// Bcm2835 configuration
+			{
+				bcm2835_spi_begin();
+				bcm2835_spi_setBitOrder(BCM2835_SPI_BIT_ORDER_MSBFIRST);		// The default
+				bcm2835_spi_setDataMode(BCM2835_SPI_MODE0);						// The default
+				bcm2835_spi_setClockDivider(BCM2835_SPI_CLOCK_DIVIDER_128);		//
+				bcm2835_spi_chipSelect(BCM2835_SPI_CS0);						// The default
+				bcm2835_spi_setChipSelectPolarity(BCM2835_SPI_CS0, LOW);		// the default
+			}
 		}
 
-		// Bcm2835 configuration
-		{
-			bcm2835_spi_begin();
-			bcm2835_spi_setBitOrder(BCM2835_SPI_BIT_ORDER_MSBFIRST);		// The default
-			bcm2835_spi_setDataMode(BCM2835_SPI_MODE0);						// The default
-			bcm2835_spi_setClockDivider(BCM2835_SPI_CLOCK_DIVIDER_128);		//
-			bcm2835_spi_chipSelect(BCM2835_SPI_CS0);						// The default
-			bcm2835_spi_setChipSelectPolarity(BCM2835_SPI_CS0, LOW);		// the default
-		}
+		numInstances++;
 
 		return;
 	}
@@ -36,11 +45,17 @@ namespace IO
 	SpiSensor::~SpiSensor()
 	{
 
-		// End Spi transfer
-		bcm2835_spi_end();
+		numInstances--;
 
-		// Close bcm2835 library
-		bcm2835_close();
+		if(numInstances == 0)
+		{
+
+			// End Spi transfer
+			bcm2835_spi_end();
+
+			// Close bcm2835 library
+			bcm2835_close();
+		}
 
 		return;
 	}

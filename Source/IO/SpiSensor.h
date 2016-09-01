@@ -32,10 +32,12 @@ namespace IO
 
 	private:
 
+		static std::size_t numInstances;
+
 	};
 
-
-
 }
+
+
 
 #endif /* RASPIDRUMS_SOURCE_IO_SENSOR_H_ */
