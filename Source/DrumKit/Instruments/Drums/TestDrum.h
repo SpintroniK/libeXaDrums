@@ -32,12 +32,12 @@ namespace DrumKit
 		TestDrum(InstrumentParameters parameters, std::shared_ptr<Sound::SoundBank> sb);
 		virtual ~TestDrum();
 
-		virtual void SetTriggers(std::vector<TriggerPtr>& triggers);
-		virtual void SetSound(InstrumentSoundInfo const& soundInfo,	std::shared_ptr<Sound::SoundProcessor> const& soundProcessor);
+		virtual void SetTriggers(std::vector<TriggerPtr> const& triggers);
+		virtual void SetSound(InstrumentSoundInfo const& soundInfo);
 		virtual void SetVolume(float volume);
 
-		virtual bool IsTriggerEvent();
-		virtual void GetSoundProps(int& id, float& volume);
+		virtual bool IsTriggerEvent() const;
+		virtual void GetSoundProps(int& id, float& volume) const;
 
 	private:
 

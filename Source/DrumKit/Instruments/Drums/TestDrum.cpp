@@ -27,7 +27,7 @@ namespace DrumKit
 	}
 
 
-	void TestDrum::SetTriggers(std::vector<TriggerPtr>& triggers)
+	void TestDrum::SetTriggers(std::vector<TriggerPtr> const& triggers)
 	{
 
 		if(parameters.triggersIdsAndLocations.size() != numTriggers)
@@ -35,7 +35,7 @@ namespace DrumKit
 			throw -1;
 		}
 
-		for(const TriggerPtr triggerPtr : triggers)
+		for(const TriggerPtr& triggerPtr : triggers)
 		{
 
 			auto triggerIdAndLocation = std::find_if(parameters.triggersIdsAndLocations.cbegin(),
@@ -64,7 +64,7 @@ namespace DrumKit
 		return;
 	}
 
-	void TestDrum::SetSound(InstrumentSoundInfo const& soundInfo, std::shared_ptr<Sound::SoundProcessor> const& soundProcessor)
+	void TestDrum::SetSound(InstrumentSoundInfo const& soundInfo)
 	{
 
 		Sound::InstrumentSoundType soundType = soundInfo.type;
@@ -93,16 +93,14 @@ namespace DrumKit
 		return;
 	}
 
-	bool TestDrum::IsTriggerEvent()
+	bool TestDrum::IsTriggerEvent() const
 	{
 
 		TriggerState headTriggerState = drumHeadTrigger->GetTriggerState();
 		TriggerState rimTriggerState = drumRimTrigger->GetTriggerState();
 
-
 		if(headTriggerState.isTrig || rimTriggerState.isTrig)
 		{
-
 			return true;
 		}
 		else
@@ -112,7 +110,7 @@ namespace DrumKit
 
 	}
 
-	void TestDrum::GetSoundProps(int& id, float& volume)
+	void TestDrum::GetSoundProps(int& id, float& volume) const
 	{
 
 		TriggerState headTriggerState = drumHeadTrigger->GetTriggerState();

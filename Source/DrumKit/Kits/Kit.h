@@ -10,9 +10,17 @@
 
 #include "KitParameters.h"
 
+#include "../../Sound/SoundBank/SoundBank.h"
+
+#include "../Instruments/InstrumentParameters.h"
+#include "../Instruments/Instrument.h"
+#include "../Instruments/Drums/TestDrum.h"
+#include "../Triggers/TriggerType.h"
+#include "../Triggers/Trigger.h"
+#include "../Triggers/DiscreteTrigger.h"
+
 #include <string>
 
-class Module;
 
 namespace DrumKit
 {
@@ -20,22 +28,33 @@ namespace DrumKit
 	class Kit
 	{
 
-		//xxx To be removed
-		friend class Module;
-
 		public:
 
-			Kit(KitParameters params);
+			Kit(KitParameters params, std::vector<TriggerPtr> const& trigs, std::shared_ptr<Sound::SoundBank> sb);
 			virtual ~Kit();
+
+			void Enable();
+			void Disable();
+
+			void SetInstrumentVolume(int id, float volume) { this->instruments[id]->SetVolume(volume); }
 
 			std::string GetInstrumentName(std::size_t id) const;
 			std::string GetName() const { return parameters.kitName; }
 			int GetNumInstruments() const { return (int)parameters.instrumentParameters.size(); }
+			const std::vector<InstrumentPtr>& GetInstruments() const { return instruments; }
+
+
 
 		private:
 
+			void CreateInstruments();
+
 			KitParameters parameters;
 
+			const std::vector<TriggerPtr>& triggers;
+			std::shared_ptr<Sound::SoundBank> soundBank;
+
+			std::vector<InstrumentPtr> instruments;
 
 	};
 

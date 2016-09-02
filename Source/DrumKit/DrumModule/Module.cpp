@@ -11,21 +11,32 @@ namespace DrumKit
 {
 
 	Module::Module(std::string dir, std::shared_ptr<Sound::Mixer> mixer, std::shared_ptr<Metronome> metro)
-	: kitId(0),
+	: directory(dir),
 	  kitManager(dir + "Kits/"),
-	  directory(dir),
+	  kitId(0),
 	  isPlay(false),
 	  mixer(mixer),
-	  metronome(metro),
-	  triggers()
+	  metronome(metro)
 	{
 
 		this->soundProc = std::make_shared<Sound::SoundProcessor>(Sound::SoundProcessor());
 		this->soundBank = std::make_shared<Sound::SoundBank>(Sound::SoundBank(dir));
 
 		mixer->SetSoundBank(soundBank);
+
+
+		// Load triggers
+		std::vector<TriggerParameters> triggersParameters;
+		this->kitManager.LoadTriggersConfig(this->directory, triggersParameters);
+
+		// Create Triggers
+		this->CreateTriggers(triggersParameters);
+
+		// Load all drum kits
 		LoadKits();
 
+		// Select current kit
+		SelectKit(kitId);
 
 		return;
 	}
@@ -82,31 +93,17 @@ namespace DrumKit
 			throw -1;
 		}
 
-		kitId = id;
+		// Disable previous kit
+		kits[kitId].Disable();
 
+		// Clear sound bank
 		soundBank->Clear();
 
-		// Prepare instruments vector to be populated
-		this->instruments.clear();
+		// Update kit id
+		kitId = id;
 
-		// Prepare trigger parameters vector
-		this->triggersParameters.clear();
-
-		// Clear current triggers
-		this->triggers.clear();
-
-		// Read triggers configurations
-		this->kitManager.LoadTriggersConfig(this->directory, triggersParameters);
-
-		// Create Triggers
-		this->CreateTriggers();
-
-		//Load drum kit parameters
-		this->kitParameters = kits[id].parameters;
-
-		// Create Instruments
-		this->CreateInstruments();
-
+		// Enable new kit
+		kits[kitId].Enable();
 
 		return;
 	}
@@ -121,10 +118,10 @@ namespace DrumKit
 	{
 
 		// Normalize volume
-		volume /= 100;
+		volume /= 100.0f;
 
 		// Set instrument's volume
-		this->instruments[id]->SetVolume(volume);
+		this->kits[kitId].SetInstrumentVolume(id, volume);
 
 		return;
 	}
@@ -145,7 +142,7 @@ namespace DrumKit
 			KitParameters kitParams;
 			kitManager.LoadKit(kitPath, kitParams);
 
-			return Kit(kitParams);
+			return Kit(kitParams, this->triggers, this->soundBank);
 		});
 
 		return;
@@ -163,6 +160,7 @@ namespace DrumKit
 
 
 			// Check instruments triggers and send sounds to mixer if necessary
+			const std::vector<InstrumentPtr>& instruments = kits[kitId].GetInstruments();
 			for(InstrumentPtr const& instrumentPtr : instruments)
 			{
 
@@ -184,10 +182,10 @@ namespace DrumKit
 	}
 
 
-	void Module::CreateTriggers()
+	void Module::CreateTriggers(std::vector<TriggerParameters> const& triggersParameters)
 	{
 
-		for(TriggerParameters const& triggerParameters : this->triggersParameters)
+		for(TriggerParameters const& triggerParameters : triggersParameters)
 		{
 
 			TriggerPtr triggerPtr = nullptr;
@@ -208,43 +206,6 @@ namespace DrumKit
 
 		return;
 	}
-
-	void Module::CreateInstruments()
-	{
-
-
-		for(InstrumentParameters const& instrumentParameters : this->kitParameters.instrumentParameters)
-		{
-
-			// Create instrument
-			InstrumentPtr instrumentPtr = nullptr;
-			switch(instrumentParameters.instrumentType)
-			{
-
-			case InstrumentType::TestDrum: instrumentPtr = InstrumentPtr(new TestDrum(instrumentParameters, soundBank)); break;
-
-			default: throw -1; break;
-
-			}
-
-			// Create instrument's triggers
-			instrumentPtr->SetTriggers(this->triggers);
-
-			// Set instrument sounds
-			for(InstrumentSoundInfo const& soundInfo : instrumentParameters.soundsInfo)
-			{
-				instrumentPtr->SetSound(soundInfo, this->soundProc);
-			}
-
-			// Add instrument to drum module
-			instruments.push_back(instrumentPtr);
-
-		};
-
-
-		return;
-	}
-
 
 }
 

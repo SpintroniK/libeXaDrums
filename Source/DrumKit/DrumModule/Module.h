@@ -17,12 +17,6 @@
 #include "../Kits/KitManager.h"
 #include "../Kits/Kit.h"
 
-#include "../Instruments/InstrumentParameters.h"
-#include "../Instruments/Instrument.h"
-#include "../Instruments/Drums/TestDrum.h"
-#include "../Triggers/TriggerType.h"
-#include "../Triggers/Trigger.h"
-#include "../Triggers/DiscreteTrigger.h"
 
 #include <vector>
 #include <string>
@@ -66,29 +60,27 @@ namespace DrumKit
 
 		void LoadKits();
 		void Run();
-		void CreateTriggers();
-		void CreateInstruments();
+		void CreateTriggers(std::vector<TriggerParameters> const& trigParams);
 
-		int kitId;
 
-		std::shared_ptr<Sound::SoundBank> soundBank;
-
-		KitManager kitManager;
-		KitParameters kitParameters;
-		std::vector<Kit> kits;
-
+		// Module
 		std::string directory;
-
-		std::vector<InstrumentPtr> instruments;
-		std::vector<TriggerParameters> triggersParameters;
-
 		std::thread playThread;
+
+		// Kits
+		KitManager kitManager;
+		int kitId;
+		std::vector<Kit> kits;
 		std::atomic<bool> isPlay;
+
+		// Triggers
+		std::vector<TriggerPtr> triggers;
+
+		// Sound
+		std::shared_ptr<Sound::SoundBank> soundBank;
 		std::shared_ptr<Sound::SoundProcessor> soundProc;
 		std::shared_ptr<Sound::Mixer> mixer;
 		std::shared_ptr<Metronome> metronome;
-
-		std::vector<TriggerPtr> triggers;
 
 
 	};
