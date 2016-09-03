@@ -28,13 +28,14 @@ Source/DrumKit/DrumModule \
 Source/DrumKit/Instruments/Drums \
 Source/DrumKit/Instruments \
 Source/DrumKit/Kits \
+Source/DrumKit/Triggers/Curves \
 Source/DrumKit/Triggers \
+Source/DrumKit/Triggers/Triggers \
 Source/IO \
 Source/Metronome \
 Source/Sound/Alsa \
 Source/Sound/Mixer \
 Source/Sound \
 Source/Sound/SoundBank \
-Source/Sound/SoundProcessor/Curves \
 Source/Sound/SoundProcessor \
 

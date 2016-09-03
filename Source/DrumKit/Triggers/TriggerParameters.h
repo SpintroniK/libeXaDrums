@@ -8,9 +8,9 @@
 #ifndef SOURCE_DRUMKIT_TRIGGERS_TRIGGERPARAMETERS_H_
 #define SOURCE_DRUMKIT_TRIGGERS_TRIGGERPARAMETERS_H_
 
-#include "../../Sound/SoundProcessor/Curves/CurveType.h"
 #include "../../IO/SensorType.h"
 
+#include "Curves/CurveType.h"
 #include "TriggerType.h"
 
 #include <vector>

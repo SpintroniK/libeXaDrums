@@ -8,7 +8,6 @@ RM := rm -rf
 
 # All of the sources participating in the build are defined here
 -include sources.mk
--include Source/Sound/SoundProcessor/Curves/subdir.mk
 -include Source/Sound/SoundProcessor/subdir.mk
 -include Source/Sound/SoundBank/subdir.mk
 -include Source/Sound/Mixer/subdir.mk
@@ -17,6 +16,8 @@ RM := rm -rf
 -include Source/Metronome/subdir.mk
 -include Source/IO/subdir.mk
 -include Source/DrumKit/Triggers/Triggers/subdir.mk
+-include Source/DrumKit/Triggers/Curves/subdir.mk
+-include Source/DrumKit/Triggers/subdir.mk
 -include Source/DrumKit/Kits/subdir.mk
 -include Source/DrumKit/Instruments/Drums/subdir.mk
 -include Source/DrumKit/Instruments/subdir.mk

@@ -14,6 +14,8 @@
 #include "../../Sound/SoundBank/SoundBank.h"
 #include "../../Metronome/Metronome.h"
 
+#include "../Triggers/TriggerManager.h"
+
 #include "../Kits/KitManager.h"
 #include "../Kits/Kit.h"
 

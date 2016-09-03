@@ -5,7 +5,7 @@
  *      Author: jeremy
  */
 
-#include "Curves.h"
+#include "../../../DrumKit/Triggers/Curves/Curves.h"
 
 namespace Sound
 {

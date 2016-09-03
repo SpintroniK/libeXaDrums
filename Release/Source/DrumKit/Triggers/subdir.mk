@@ -4,16 +4,13 @@
 
 # Add inputs and outputs from these tool invocations to the build variables 
 CPP_SRCS += \
-../Source/DrumKit/Triggers/DiscreteTrigger.cpp \
-../Source/DrumKit/Triggers/Trigger.cpp 
+../Source/DrumKit/Triggers/TriggerManager.cpp 
 
 OBJS += \
-./Source/DrumKit/Triggers/DiscreteTrigger.o \
-./Source/DrumKit/Triggers/Trigger.o 
+./Source/DrumKit/Triggers/TriggerManager.o 
 
 CPP_DEPS += \
-./Source/DrumKit/Triggers/DiscreteTrigger.d \
-./Source/DrumKit/Triggers/Trigger.d 
+./Source/DrumKit/Triggers/TriggerManager.d 
 
 
 # Each subdirectory must supply rules for building sources it contributes

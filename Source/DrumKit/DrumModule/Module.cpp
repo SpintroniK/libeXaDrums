@@ -27,7 +27,7 @@ namespace DrumKit
 
 		// Load triggers
 		std::vector<TriggerParameters> triggersParameters;
-		this->kitManager.LoadTriggersConfig(this->directory, triggersParameters);
+		TriggerManager::LoadTriggersConfig(this->directory, triggersParameters);
 
 		// Create Triggers
 		this->CreateTriggers(triggersParameters);
