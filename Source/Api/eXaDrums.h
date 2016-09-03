@@ -41,6 +41,7 @@ namespace eXaDrumsApi
 
 		// Kits
 		void SelectKit(int id);
+		void SaveKitConfig(int id) const { drumModule->SaveKitConfig(id); }
 		int GetNumKits() const { return drumModule->GetNumKits(); }
 		void GetKitNameById(int id, char* kitName, int& nameLength);
 

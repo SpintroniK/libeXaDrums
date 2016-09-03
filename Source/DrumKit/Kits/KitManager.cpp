@@ -114,6 +114,8 @@ namespace DrumKit
 		parameters.kitName = kitName->GetText();
 		parameters.kitFolder = kitFolder->GetText();
 
+		parameters.configFilePath = file;
+
 		return;
 	}
 

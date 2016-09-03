@@ -9,6 +9,7 @@
 #define SOURCE_DRUMKIT_KITS_KIT_H_
 
 #include "KitParameters.h"
+#include "KitManager.h"
 
 #include "../../Sound/SoundBank/SoundBank.h"
 
@@ -35,8 +36,9 @@ namespace DrumKit
 
 			void Enable();
 			void Disable();
+			void Save() const { KitManager::SaveKit(parameters.configFilePath, parameters);}
 
-			void SetInstrumentVolume(int id, float volume) { this->instruments[id]->SetVolume(volume); }
+			void SetInstrumentVolume(int id, float volume);
 
 			float GetInstrumentVolume(int id) const { return instruments[id]->GetVolume(); }
 			std::string GetInstrumentName(std::size_t id) const;

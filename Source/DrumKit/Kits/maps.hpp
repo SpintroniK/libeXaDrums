@@ -24,7 +24,7 @@ namespace DrumKit
 	std::map<TriggerLocation, std::string> KitManager::triggersLocations =
 	{
 			{TriggerLocation::Rim, 		"Rim"},
-			{TriggerLocation::DrumHead, "DrumHead"}
+			{TriggerLocation::DrumHead,	"DrumHead"}
 	};
 
 	std::map<Sound::InstrumentSoundType, std::string>  KitManager::soundsTypes =

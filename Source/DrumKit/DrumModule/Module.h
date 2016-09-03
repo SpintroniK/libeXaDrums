@@ -40,6 +40,7 @@ namespace DrumKit
 		virtual ~Module();
 
 		// Kit
+		void SaveKitConfig(int id) const { kits[id].Save(); } ;
 		void SelectKit(std::size_t id);
 		int GetNumKits() const { return (int) kits.size(); }
 		std::string GetKitNameById(int id) const;
