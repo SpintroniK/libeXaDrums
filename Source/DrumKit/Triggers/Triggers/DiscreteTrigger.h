@@ -9,7 +9,7 @@
 #define RASPIDRUMS_SOURCE_DRUMKIT_TRIGGER_H_
 
 #include "Trigger.h"
-#include "TriggerParameters.h"
+#include "../TriggerParameters.h"
 
 #include <chrono>
 #include <iostream>

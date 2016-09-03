@@ -16,8 +16,8 @@
 #include "../Instruments/Instrument.h"
 #include "../Instruments/Drums/TestDrum.h"
 #include "../Triggers/TriggerType.h"
-#include "../Triggers/Trigger.h"
-#include "../Triggers/DiscreteTrigger.h"
+#include "../Triggers/Triggers/Trigger.h"
+#include "../Triggers/Triggers/DiscreteTrigger.h"
 
 #include <string>
 

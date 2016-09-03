@@ -13,16 +13,14 @@
 #include "../../Sound/SoundBank/SoundBank.h"
 #include "../../Sound/Sound.h"
 
-#include "../Triggers/Trigger.h"
+#include "../Triggers/Triggers/Trigger.h"
 
 #include "InstrumentParameters.h"
 
 #include <vector>
 #include <string>
 #include <memory>
-#include <map>
 #include <algorithm>
-#include <utility>
 
 namespace DrumKit
 {

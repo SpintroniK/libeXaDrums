@@ -28,7 +28,7 @@ Source/DrumKit/DrumModule \
 Source/DrumKit/Instruments/Drums \
 Source/DrumKit/Instruments \
 Source/DrumKit/Kits \
-Source/DrumKit/Triggers \
+Source/DrumKit/Triggers/Triggers \
 Source/IO \
 Source/Metronome \
 Source/Sound/Alsa \

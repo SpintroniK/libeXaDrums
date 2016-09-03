@@ -5,16 +5,16 @@
  *      Author: jeremy
  */
 
-#ifndef SOURCE_DRUMKIT_TRIGGERS_TRIGGER_H_
-#define SOURCE_DRUMKIT_TRIGGERS_TRIGGER_H_
+#ifndef SOURCE_DRUMKIT_TRIGGERS_TRIGGERS_TRIGGER_H_
+#define SOURCE_DRUMKIT_TRIGGERS_TRIGGERS_TRIGGER_H_
 
 
-#include "../../IO/ISensor.h"
-#include "../../IO/HddSensor.h"
-#include "../../IO/SpiSensor.h"
+#include "../../../IO/ISensor.h"
+#include "../../../IO/HddSensor.h"
+#include "../../../IO/SpiSensor.h"
 
-#include "TriggerParameters.h"
-#include "TriggerState.h"
+#include "../TriggerParameters.h"
+#include "../TriggerState.h"
 
 #include <chrono>
 #include <string>
@@ -80,4 +80,4 @@ namespace DrumKit
 }
 
 
-#endif /* SOURCE_DRUMKIT_TRIGGERS_TRIGGER_H_ */
+#endif /* SOURCE_DRUMKIT_TRIGGERS_TRIGGERS_TRIGGER_H_ */

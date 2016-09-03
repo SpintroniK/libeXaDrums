@@ -12,7 +12,7 @@
 #include "../../../Sound/SoundProcessor/InstrumentSoundType.h"
 #include "../../../Sound/SoundProcessor/SoundProcessor.h"
 
-#include "../../Triggers/Trigger.h"
+#include "../../Triggers/Triggers/Trigger.h"
 
 #include "../Instrument.h"
 
