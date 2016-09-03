@@ -32,6 +32,7 @@ namespace Sound
 		virtual ~SoundBank();
 
 		int LoadSound(std::string filename);
+		int LoadSound(std::string filename, float volume);
 		int AddSound(std::vector<short>& soundData);
 		void LoopSound(int id, bool s) { sounds[id].SetLoop(s); }
 		void Clear() { sounds.clear(); }

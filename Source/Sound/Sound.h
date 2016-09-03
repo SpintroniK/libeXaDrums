@@ -21,6 +21,8 @@ namespace Sound
 	public:
 
 		Sound(int id, std::vector<short> soundData);
+		Sound(int id, std::vector<short> soundData, float volume);
+
 		virtual ~Sound();
 
 		void SetVolume(float volume);

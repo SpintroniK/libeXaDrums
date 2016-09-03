@@ -72,8 +72,8 @@ namespace DrumKit
 
 		switch (soundType)
 		{
-			case Sound::InstrumentSoundType::RimShot: drumRimSoundId = soundBank->LoadSound(soundLocation); break;
-			case Sound::InstrumentSoundType::Default: drumHeadSoundId = soundBank->LoadSound(soundLocation); break;
+			case Sound::InstrumentSoundType::RimShot: drumRimSoundId = soundBank->LoadSound(soundLocation, parameters.volume); break;
+			case Sound::InstrumentSoundType::Default: drumHeadSoundId = soundBank->LoadSound(soundLocation, parameters.volume); break;
 
 			default: throw -1; break;
 		}

@@ -34,7 +34,13 @@ namespace Sound
 		return sounds.back().GetId();
 	}
 
+
 	int SoundBank::LoadSound(std::string filename)
+	{
+		return LoadSound(filename, 1.0f);
+	}
+
+	int SoundBank::LoadSound(std::string filename, float volume)
 	{
 
 
@@ -72,7 +78,7 @@ namespace Sound
 
 		// Add sound to collection
 		std::size_t sId = sounds.size();
-		sounds.push_back(Sound(sId, data));
+		sounds.push_back(Sound(sId, data, volume));
 
 		return sounds.back().GetId();
 
