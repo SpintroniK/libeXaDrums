@@ -32,7 +32,7 @@ namespace DrumKit
 
 	private:
 
-		static Sound::CurveType GetCurveType(std::string type);
+		static CurveType GetCurveType(std::string type);
 		static TriggerType GetTriggerType(std::string type);
 		static TriggerLocation GetTriggerLocation(std::string location);
 

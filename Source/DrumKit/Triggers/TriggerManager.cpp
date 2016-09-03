@@ -95,19 +95,19 @@ namespace DrumKit
 	}
 
 
-	Sound::CurveType TriggerManager::GetCurveType(std::string type)
+	CurveType TriggerManager::GetCurveType(std::string type)
 	{
 
-		Sound::CurveType curveType;
+		CurveType curveType;
 
 		// Add definitions to dic
 		if(type == "exponential")
 		{
-			curveType = Sound::CurveType::exponential;
+			curveType = CurveType::exponential;
 		}
 		else
 		{
-			curveType = Sound::CurveType::linear;
+			curveType = CurveType::linear;
 		}
 
 		return curveType;

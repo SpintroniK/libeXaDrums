@@ -27,7 +27,7 @@ namespace DrumKit
 		int maskTime;
 		TriggerType type;
 		IO::SensorType sensorType;
-		Sound::CurveType response;
+		CurveType response;
 	};
 
 }

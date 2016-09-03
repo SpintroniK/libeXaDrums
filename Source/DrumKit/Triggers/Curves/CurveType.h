@@ -8,7 +8,7 @@
 #ifndef LIBEXADRUMS_SOURCE_DRUMKIT_CURVES_CURVE_H_
 #define LIBEXADRUMS_SOURCE_DRUMKIT_CURVES_CURVE_H_
 
-namespace Sound
+namespace DrumKit
 {
 
 	enum class CurveType

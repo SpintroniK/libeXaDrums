@@ -14,7 +14,7 @@
 #include <map>
 #include <cmath>
 
-namespace Sound
+namespace DrumKit
 {
 
 	class Curves
