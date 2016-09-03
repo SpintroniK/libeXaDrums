@@ -38,6 +38,7 @@ namespace DrumKit
 
 			void SetInstrumentVolume(int id, float volume) { this->instruments[id]->SetVolume(volume); }
 
+			float GetInstrumentVolume(int id) const { return instruments[id]->GetVolume(); }
 			std::string GetInstrumentName(std::size_t id) const;
 			std::string GetName() const { return parameters.kitName; }
 			int GetNumInstruments() const { return (int)parameters.instrumentParameters.size(); }

@@ -5,7 +5,8 @@
  *      Author: jeremy
  */
 
-#include "../Kits/KitManager.h"
+#include "KitManager.h"
+#include "maps.hpp"
 
 using namespace tinyxml2;
 
@@ -92,13 +93,6 @@ namespace DrumKit
 
 			instrumentParameters.soundsInfo.swap(soundsInfo);
 
-			/*
-			XMLElement* threshold = instrument->FirstChildElement("threshold");
-			XMLElement* scanTime = instrument->FirstChildElement("scanTime");
-			XMLElement* maskTime = instrument->FirstChildElement("maskTime");
-			XMLElement* curve = instrument->FirstChildElement("curve");
-			*/
-
 			// Populate instrumentParameters
 			InstrumentType instrumentType = GetInstrumentType(instrument->Attribute("type"));
 			instrumentParameters.instrumentType = instrumentType;
@@ -107,12 +101,15 @@ namespace DrumKit
 
 			instrumentParameters.id = instrumentId;
 
+			// Set volume
+			std::string volumeStr = instrument->Attribute("volume");
+			instrumentParameters.volume = float(std::atoi(volumeStr.c_str())/100.0f);
+
 			instrumentId++;
 
 			parameters.instrumentParameters.push_back(instrumentParameters);
 
 		}
-
 
 		parameters.kitName = kitName->GetText();
 		parameters.kitFolder = kitFolder->GetText();
@@ -120,6 +117,93 @@ namespace DrumKit
 		return;
 	}
 
+
+	void KitManager::SaveKit(std::string file, KitParameters parameters)
+	{
+
+		// Create document
+		XMLDocument doc;
+
+		// Add root element
+		XMLElement* root = doc.NewElement("root");
+		doc.InsertFirstChild(root);
+
+		// Create Elements
+		XMLElement* kitName = doc.NewElement("kitName");
+		XMLElement* kitFolder = doc.NewElement("kitFolder");
+
+		// Add values and attributes to elements
+		kitName->SetText(parameters.kitName.c_str());
+		kitFolder->SetText(parameters.kitFolder.c_str());
+
+		// Add elements to document
+		root->InsertEndChild(kitName);
+		root->InsertEndChild(kitFolder);
+
+		// Instruments
+		for(InstrumentParameters const& instrumentParameters : parameters.instrumentParameters)
+		{
+			XMLElement* instrument = doc.NewElement("Instrument");
+
+			// Set type
+			std::string instrumentType = GetInstrumentTypeStr(instrumentParameters.instrumentType);
+			instrument->SetAttribute("type", instrumentType.c_str());
+
+			// Set volume
+			int volume = (int)std::floor(instrumentParameters.volume * 100.0f);
+			instrument->SetAttribute("volume", volume);
+
+			// Add Instrument name
+			XMLElement* instrumentName = doc.NewElement("instrumentName");
+			instrumentName->SetText(instrumentParameters.instrumentName.c_str());
+			instrument->InsertEndChild(instrumentName);
+
+			// Triggers
+			XMLElement* triggers = doc.NewElement("triggers");
+			for(auto const& triggerLoc : instrumentParameters.triggersIdsAndLocations)
+			{
+
+				XMLElement* trigger = doc.NewElement("trigger");
+
+				// Set location
+				std::string location = GetTriggerLocationStr(triggerLoc.second);
+				trigger->SetAttribute("location", location.c_str());
+
+				// Set id
+				trigger->SetText(triggerLoc.first);
+
+				triggers->InsertEndChild(trigger);
+			}
+			instrument->InsertEndChild(triggers);
+
+			// Sounds
+			XMLElement* sounds = doc.NewElement("sounds");
+			for(InstrumentSoundInfo const& soundInfo : instrumentParameters.soundsInfo)
+			{
+
+				XMLElement* sound = doc.NewElement("sound");
+
+				// Set type
+				std::string type = GetSoundTypeStr(soundInfo.type);
+				sound->SetAttribute("type", type.c_str());
+
+				// Set file path
+				sound->SetText(soundInfo.soundLocation.c_str());
+
+				// Add sound
+				sounds->InsertEndChild(sound);
+			}
+			instrument->InsertEndChild(sounds);
+
+			// Insert in root
+			root->InsertEndChild(instrument);
+		}
+
+		// Save file
+		doc.SaveFile(file.c_str());
+
+		return;
+	}
 
 	// PRIVATE METHODS
 
@@ -156,55 +240,77 @@ namespace DrumKit
 	TriggerLocation KitManager::GetTriggerLocation(std::string location)
 	{
 
-
 		TriggerLocation triggerLocation;
 
-		if(location == "Rim")
+		auto it = std::find_if(triggersLocations.cbegin(), triggersLocations.cend(), [&location](std::pair<TriggerLocation, std::string> const& v){ return location ==  v.second; });
+
+		if(it != std::end(triggersLocations))
 		{
-			triggerLocation = TriggerLocation::Rim;
+			triggerLocation = (*it).first;
 		}
 		else
 		{
-			triggerLocation = TriggerLocation::DrumHead;
+			throw -1;
 		}
 
 		return triggerLocation;
-
 	}
 
-	InstrumentType KitManager::GetInstrumentType(std::string typeName)
+	std::string KitManager::GetTriggerLocationStr(TriggerLocation triggerLocation)
 	{
 
+		std::string location;
 
-		InstrumentType instrumentType;
+		auto it = std::find_if(triggersLocations.cbegin(), triggersLocations.cend(), [&triggerLocation](std::pair<TriggerLocation, std::string> const& v){ return triggerLocation ==  v.first; });
 
-		if(typeName == "HiHat")
+		if(it != std::end(triggersLocations))
 		{
-			instrumentType= InstrumentType::HiHat;
-		}
-		else if(typeName == "Cymbal")
-		{
-			instrumentType = InstrumentType::Cymbal;
-		}
-		else if(typeName == "HiHat")
-		{
-			instrumentType = InstrumentType::HiHat;
-		}
-		else if(typeName == "BassDrum")
-		{
-			instrumentType = InstrumentType::BassDrum;
-		}
-		else if(typeName == "TestDrum")
-		{
-			instrumentType = InstrumentType::TestDrum;
+			location = (*it).second;
 		}
 		else
 		{
-			instrumentType = InstrumentType::Drum;
+			throw -1;
 		}
 
+		return location;
+	}
+
+	InstrumentType KitManager::GetInstrumentType(std::string typeStr)
+	{
+
+		InstrumentType instrumentType;
+
+		auto it = std::find_if(instrumentsTypes.cbegin(), instrumentsTypes.cend(), [&typeStr](std::pair<InstrumentType, std::string> const& v){ return typeStr ==  v.second; });
+
+		if(it != std::end(instrumentsTypes))
+		{
+			instrumentType = (*it).first;
+		}
+		else
+		{
+			throw -1;
+		}
 
 		return instrumentType;
+	}
+
+	std::string KitManager::GetInstrumentTypeStr(InstrumentType type)
+	{
+
+		std::string typeStr;
+
+		auto it = std::find_if(instrumentsTypes.cbegin(), instrumentsTypes.cend(), [&type](std::pair<InstrumentType, std::string> const& v){ return type ==  v.first; });
+
+		if(it != std::end(instrumentsTypes))
+		{
+			typeStr = (*it).second;
+		}
+		else
+		{
+			throw -1;
+		}
+
+		return typeStr;
 	}
 
 	Sound::InstrumentSoundType KitManager::GetSoundType(std::string type)
@@ -212,22 +318,37 @@ namespace DrumKit
 
 		Sound::InstrumentSoundType soundType;
 
-		if(type == "ClosingHiHat")
+		auto it = std::find_if(soundsTypes.cbegin(), soundsTypes.cend(), [&type](std::pair<Sound::InstrumentSoundType, std::string> const& v){ return type ==  v.second; });
+
+		if(it != std::end(soundsTypes))
 		{
-			soundType = Sound::InstrumentSoundType::ClosingHiHat;
-		}
-		else if(type == "RimShot")
-		{
-			soundType = Sound::InstrumentSoundType::RimShot;
+			soundType = (*it).first;
 		}
 		else
 		{
-			soundType = Sound::InstrumentSoundType::Default;
+			throw -1;
 		}
 
-
 		return soundType;
+	}
 
+	std::string KitManager::GetSoundTypeStr(Sound::InstrumentSoundType soundType)
+	{
+
+		std::string type;
+
+		auto it = std::find_if(soundsTypes.cbegin(), soundsTypes.cend(), [&soundType](std::pair<Sound::InstrumentSoundType, std::string> const& v){ return soundType ==  v.first; });
+
+		if(it != std::end(soundsTypes))
+		{
+			type = (*it).second;
+		}
+		else
+		{
+			throw -1;
+		}
+
+		return type;
 	}
 
 

@@ -114,19 +114,7 @@ namespace DrumKit
 		return kits.at(id).GetName();
 	}
 
-	void Module::SetInstrumentVolume(int id, float volume)
-	{
-
-		// Normalize volume
-		volume /= 100.0f;
-
-		// Set instrument's volume
-		this->kits[kitId].SetInstrumentVolume(id, volume);
-
-		return;
-	}
-
-	/// PRIVATE
+	// PRIVATE METHODS
 
 	void Module::LoadKits()
 	{
@@ -140,7 +128,7 @@ namespace DrumKit
 		std::transform(kitsPaths.cbegin(), kitsPaths.cend(), std::back_inserter(kits), [this](std::string const& kitPath)
 		{
 			KitParameters kitParams;
-			kitManager.LoadKit(kitPath, kitParams);
+			KitManager::LoadKit(kitPath, kitParams);
 
 			return Kit(kitParams, this->triggers, this->soundBank);
 		});

@@ -22,6 +22,9 @@
 #include <string>
 #include <algorithm>
 #include <iostream>
+#include <map>
+
+#include <cmath>
 
 #include <dirent.h>
 
@@ -37,8 +40,8 @@ namespace DrumKit
 		KitManager(std::string kitsPath);
 		virtual ~KitManager();
 
-
-		void LoadKit(std::string file, KitParameters& parameters);
+		static void LoadKit(std::string file, KitParameters& parameters);
+		static void SaveKit(std::string file, KitParameters parameters);
 
 		int GetNumKits() { return int(this->filesPaths.size()); }
 
@@ -49,13 +52,21 @@ namespace DrumKit
 		void ScanFolder();
 
 		static TriggerLocation GetTriggerLocation(std::string location);
+		static std::string GetTriggerLocationStr(TriggerLocation triggerLocation);
 		static InstrumentType GetInstrumentType(std::string type);
+		static std::string GetInstrumentTypeStr(InstrumentType type);
 		static Sound::InstrumentSoundType GetSoundType(std::string type);
+		static std::string GetSoundTypeStr(Sound::InstrumentSoundType soundType);
 
 		std::string kitsPath;
 		std::vector<std::string> filesPaths;
 
+		static std::map<InstrumentType, std::string> instrumentsTypes;
+		static std::map<TriggerLocation, std::string> triggersLocations;
+		static std::map<Sound::InstrumentSoundType, std::string> soundsTypes;
+
 	};
+
 
 }
 

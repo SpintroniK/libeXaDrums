@@ -68,6 +68,24 @@ namespace eXaDrumsApi
 		return;
 	}
 
+	void eXaDrums::SetInstrumentVolume(int id, int volume)
+	{
+
+		float vol = float(volume) / 100.0f;
+
+		drumModule->SetInstrumentVolume(id, vol);
+
+		return;
+	}
+
+	int eXaDrums::GetInstrumentVolume(int id) const
+	{
+
+		int volume = (int) std::floor( 100.0f * drumModule->GetInstrumentVolume(id));
+
+		return volume;
+	}
+
 	void eXaDrums::GetKitNameById(int id, char* kitName, int& nameLength)
 	{
 

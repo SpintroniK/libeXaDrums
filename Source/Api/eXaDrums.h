@@ -19,6 +19,8 @@
 #include <memory>
 #include <atomic>
 
+#include <cmath>
+
 namespace eXaDrumsApi
 {
 
@@ -43,9 +45,10 @@ namespace eXaDrumsApi
 		void GetKitNameById(int id, char* kitName, int& nameLength);
 
 		// Instruments
+		void SetInstrumentVolume(int id, int volume);
+		int GetInstrumentVolume(int id) const;
 		int GetNumInstruments() const { return drumModule->GetNumInstruments(); }
 		void GetInstrumentName(int id, char* name, int& nameLength);
-		void SetInstrumentVolume(int id, float volume) { drumModule->SetInstrumentVolume(id, volume); }
 
 	private:
 

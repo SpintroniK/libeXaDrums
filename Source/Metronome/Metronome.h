@@ -30,10 +30,11 @@ namespace DrumKit
 
 		void GenerateSine();
 
+		void SetTempo(int tempo);
+
 		std::vector<short> GetData() const { return data; }
 		int GetTempo() const { return tempo; }
 
-		void SetTempo(int tempo);
 
 	private:
 
