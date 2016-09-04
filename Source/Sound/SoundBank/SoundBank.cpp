@@ -24,12 +24,18 @@ namespace Sound
 		return;
 	}
 
+
 	int SoundBank::AddSound(std::vector<short>& data)
+	{
+		return AddSound(data, 1.0f);
+	}
+
+	int SoundBank::AddSound(std::vector<short>& data, float volume)
 	{
 
 		// Add sound to collection
 		std::size_t sId = sounds.size();
-		sounds.push_back(Sound(sId, data));
+		sounds.push_back(Sound(sId, data, volume));
 
 		return sounds.back().GetId();
 	}

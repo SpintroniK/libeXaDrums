@@ -129,11 +129,11 @@ namespace DrumKit
 			//xxx Will change in the future
 			metronome->GenerateSine();
 			std::vector<short> data = metronome->GetData();
-			metronomeSoundId = soundBank->AddSound(data);
+			metronomeSoundId = soundBank->AddSound(data, 0.5f);
 			soundBank->LoopSound(metronomeSoundId, true);
 
 			//xxx Volume should be read from the GUI...
-			mixer->PlaySound(metronomeSoundId, 0.5f);
+			mixer->PlaySound(metronomeSoundId, 1.0f);
 
 		}
 		else
@@ -188,6 +188,12 @@ namespace DrumKit
 
 	void Module::Run()
 	{
+
+		//XXX To be removed if the mixer changes.
+		if(IsMetronomeEnabled())
+		{
+			mixer->PlaySound(metronomeSoundId, 1.0f);
+		}
 
 		while(isPlay)
 		{
