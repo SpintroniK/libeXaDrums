@@ -66,7 +66,7 @@ namespace Sound
 				const float volume = sound.GetVolume();
 				const float mix_volume = s.second;
 
-				if(sound.isLoop())
+				if(sound.IsLoop())
 				{
 					for(std::size_t i = 0; i < periodSize; i++)
 					{

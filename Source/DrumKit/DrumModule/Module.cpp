@@ -12,11 +12,10 @@ namespace DrumKit
 
 	Module::Module(std::string dir, std::shared_ptr<Sound::Mixer> mixer, std::shared_ptr<Metronome> metro)
 	: directory(dir),
-	  kitManager(dir + "Kits/"),
-	  kitId(0),
+	  kitManager(dir + "Kits/"),  kitId(0),
 	  isPlay(false),
 	  mixer(mixer),
-	  metronome(metro)
+	  metronome(metro), metronomeSoundId(-1)
 	{
 
 		this->soundProc = std::make_shared<Sound::SoundProcessor>(Sound::SoundProcessor());
@@ -87,23 +86,30 @@ namespace DrumKit
 	void Module::SelectKit(std::size_t id)
 	{
 
-
 		if(id > kits.size())
 		{
 			throw -1;
 		}
 
+		bool isMetronomeEnabled = IsMetronomeEnabled();
+
 		// Disable previous kit
 		kits[kitId].Disable();
 
-		// Clear sound bank
+		// Clear sound bank and mixer
 		soundBank->Clear();
+		mixer->Clear();
 
 		// Update kit id
 		kitId = id;
 
 		// Enable new kit
 		kits[kitId].Enable();
+
+		if(isMetronomeEnabled)
+		{
+			EnableMetronome(true);
+		}
 
 		return;
 	}
@@ -114,7 +120,50 @@ namespace DrumKit
 		return kits.at(id).GetName();
 	}
 
+	void Module::EnableMetronome(bool enable)
+	{
+
+		if(enable)
+		{
+
+			//xxx Will change in the future
+			metronome->GenerateSine();
+			std::vector<short> data = metronome->GetData();
+			metronomeSoundId = soundBank->AddSound(data);
+			soundBank->LoopSound(metronomeSoundId, true);
+
+			//xxx Volume should be read from the GUI...
+			mixer->PlaySound(metronomeSoundId, 0.5f);
+
+		}
+		else
+		{
+			if(metronomeSoundId != -1)
+			{
+				// Stop loop for metronome sound
+				soundBank->LoopSound(metronomeSoundId, false);
+			}
+		}
+
+
+		return;
+	}
+
 	// PRIVATE METHODS
+
+	bool Module::IsMetronomeEnabled() const
+	{
+
+		if(metronomeSoundId != -1)
+		{
+			if(soundBank->GetSound(metronomeSoundId).IsLoop())
+			{
+				return true;
+			}
+		}
+
+		return false;
+	}
 
 	void Module::LoadKits()
 	{

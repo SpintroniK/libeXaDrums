@@ -39,7 +39,7 @@ namespace Sound
 
 		void SetSoundVolume(int id, float volume) { sounds[id].SetVolume(volume); }
 
-		Sound GetSound(int id) const { return sounds[id]; }
+		const Sound& GetSound(int id) const { return sounds[id]; }
 
 
 	private:

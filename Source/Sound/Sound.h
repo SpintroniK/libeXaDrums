@@ -39,7 +39,7 @@ namespace Sound
 		std::size_t GetIndex() const { return idx; }
 		const short* GetData() const { return data.data(); }
 		inline const short GetValue(int i) const { return data[(i+idx)%length]; }
-		bool isLoop() const { return loop; }
+		bool IsLoop() const { return loop; }
 
 
 

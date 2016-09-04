@@ -55,6 +55,7 @@ namespace DrumKit
 		void Start();
 		void Stop();
 		void GetDirectory(std::string& dir) const;
+		void EnableMetronome(bool enable);
 
 
 	private:
@@ -62,6 +63,7 @@ namespace DrumKit
 		void LoadKits();
 		void Run();
 		void CreateTriggers(std::vector<TriggerParameters> const& trigParams);
+		bool IsMetronomeEnabled() const;
 
 
 		// Module
@@ -83,6 +85,7 @@ namespace DrumKit
 		std::shared_ptr<Sound::Mixer> mixer;
 		std::shared_ptr<Metronome> metronome;
 
+		int metronomeSoundId;
 
 	};
 
