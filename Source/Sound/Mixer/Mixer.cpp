@@ -23,6 +23,7 @@ namespace Sound
 	}
 
 
+
 	void Mixer::PlaySound(int id, float volume)
 	{
 
@@ -45,9 +46,22 @@ namespace Sound
 		return;
 	}
 
+	void Mixer::StopSound(int id)
+	{
+
+		std::lock_guard<std::mutex> lock(mixerMutex);
+
+		playList.erase(std::remove_if(playList.begin(), playList.end(), [&id](std::pair<int, float>& s) { return id == s.first; }), playList.end());
+
+
+		return;
+	}
+
 
 	void Mixer::Mix(std::vector<short>& buffer)
 	{
+
+		std::lock_guard<std::mutex> lock(mixerMutex);
 
 		// Fill buffer with zeros
 		std::fill(buffer.begin(), buffer.end(), 0);

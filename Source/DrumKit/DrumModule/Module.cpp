@@ -15,7 +15,7 @@ namespace DrumKit
 	  kitManager(dir + "Kits/"),  kitId(0),
 	  isPlay(false),
 	  mixer(mixer),
-	  metronome(metro), metronomeSoundId(-1)
+	  metronome(metro), metronomeSoundId(-1), isMetronomeEnabled(false)
 	{
 
 		this->soundProc = std::make_shared<Sound::SoundProcessor>(Sound::SoundProcessor());
@@ -70,6 +70,11 @@ namespace DrumKit
 
 		mixer->Clear();
 
+		if(isMetronomeEnabled)
+		{
+			mixer->PlaySound(metronomeSoundId, 1.0f);
+		}
+
 		return;
 	}
 
@@ -90,8 +95,6 @@ namespace DrumKit
 		{
 			throw -1;
 		}
-
-		bool isMetronomeEnabled = IsMetronomeEnabled();
 
 		// Disable previous kit
 		kits[kitId].Disable();
@@ -129,10 +132,19 @@ namespace DrumKit
 			//xxx Will change in the future
 			metronome->GenerateSine();
 			std::vector<short> data = metronome->GetData();
-			metronomeSoundId = soundBank->AddSound(data, 0.5f);
-			soundBank->LoopSound(metronomeSoundId, true);
 
-			//xxx Volume should be read from the GUI...
+			if(metronomeSoundId == -1)
+			{
+				metronomeSoundId = soundBank->AddSound(data, 0.5f);
+			}
+			else
+			{
+				soundBank->ChangeSound(metronomeSoundId, data);
+			}
+
+			isMetronomeEnabled = true;
+
+			soundBank->LoopSound(metronomeSoundId, true);
 			mixer->PlaySound(metronomeSoundId, 1.0f);
 
 		}
@@ -140,9 +152,11 @@ namespace DrumKit
 		{
 			if(metronomeSoundId != -1)
 			{
-				// Stop loop for metronome sound
-				soundBank->LoopSound(metronomeSoundId, false);
+				// Stop metronome sound
+				mixer->StopSound(metronomeSoundId);
 			}
+
+			isMetronomeEnabled = false;
 		}
 
 
@@ -150,20 +164,6 @@ namespace DrumKit
 	}
 
 	// PRIVATE METHODS
-
-	bool Module::IsMetronomeEnabled() const
-	{
-
-		if(metronomeSoundId != -1)
-		{
-			if(soundBank->GetSound(metronomeSoundId).IsLoop())
-			{
-				return true;
-			}
-		}
-
-		return false;
-	}
 
 	void Module::LoadKits()
 	{
@@ -189,11 +189,6 @@ namespace DrumKit
 	void Module::Run()
 	{
 
-		//XXX To be removed if the mixer changes.
-		if(IsMetronomeEnabled())
-		{
-			mixer->PlaySound(metronomeSoundId, 1.0f);
-		}
 
 		while(isPlay)
 		{

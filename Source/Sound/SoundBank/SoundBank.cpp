@@ -40,6 +40,14 @@ namespace Sound
 		return sounds.back().GetId();
 	}
 
+	void SoundBank::ChangeSound(int id, std::vector<short>& data)
+	{
+
+		this->sounds[id].AlterData(data);
+
+		return;
+	}
+
 
 	int SoundBank::LoadSound(std::string filename)
 	{

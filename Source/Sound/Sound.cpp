@@ -11,15 +11,15 @@ namespace Sound
 {
 
 
-	Sound::Sound(int id, std::vector<short> soundData)
-	: id(id), volume(1.0f), loop(false), idx(0), data(soundData), length(data.size())
+	Sound::Sound(int id, std::vector<short> soundData, float volume)
+	: id(id), volume(volume), loop(false), idx(0), data(soundData), length(data.size())
 	{
 
 		return;
 	}
 
-	Sound::Sound(int id, std::vector<short> soundData, float volume)
-	: id(id), volume(volume), loop(false), idx(0), data(soundData), length(data.size())
+
+	Sound::Sound(int id, std::vector<short> soundData) : Sound(id, soundData, 1.0f)
 	{
 
 		return;
@@ -90,6 +90,15 @@ namespace Sound
 		return;
 	}
 
+	void Sound::AlterData(std::vector<short>& newData)
+	{
+
+		Seek(0);
+		data.assign(newData.cbegin(), newData.cend());
+		length = data.size();
+
+		return;
+	}
 
 
 	// PRIVATE

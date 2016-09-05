@@ -86,6 +86,7 @@ namespace DrumKit
 		std::shared_ptr<Metronome> metronome;
 
 		int metronomeSoundId;
+		bool isMetronomeEnabled;
 
 	};
 
