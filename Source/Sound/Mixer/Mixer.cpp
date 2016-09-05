@@ -10,7 +10,7 @@
 namespace Sound
 {
 
-	Mixer::Mixer()
+	Mixer::Mixer() : mixFinished(false)
 	{
 
 		return;
@@ -49,7 +49,9 @@ namespace Sound
 	void Mixer::StopSound(int id)
 	{
 
-		std::lock_guard<std::mutex> lock(mixerMutex);
+		std::unique_lock<std::mutex> lock(mixerMutex);
+
+		cv.wait(lock, [this](){ return mixFinished; });
 
 		playList.erase(std::remove_if(playList.begin(), playList.end(), [&id](std::pair<int, float>& s) { return id == s.first; }), playList.end());
 
@@ -61,7 +63,9 @@ namespace Sound
 	void Mixer::Mix(std::vector<short>& buffer)
 	{
 
-		std::lock_guard<std::mutex> lock(mixerMutex);
+		std::unique_lock<std::mutex> lock(mixerMutex);
+
+		mixFinished = false;
 
 		// Fill buffer with zeros
 		std::fill(buffer.begin(), buffer.end(), 0);
@@ -102,6 +106,9 @@ namespace Sound
 			}
 		}
 
+		mixFinished = true;
+
+		cv.notify_all();
 
 		return;
 	}

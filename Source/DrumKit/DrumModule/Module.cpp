@@ -57,23 +57,21 @@ namespace DrumKit
 
 	void Module::Start()
 	{
+
 		isPlay = true;
 		playThread = std::thread(&Module::Run, this);
+
 		return;
 	}
 
 
 	void Module::Stop()
 	{
+
 		isPlay = false;
 		playThread.join();
 
 		mixer->Clear();
-
-		if(isMetronomeEnabled)
-		{
-			mixer->PlaySound(metronomeSoundId, 1.0f);
-		}
 
 		return;
 	}
@@ -100,8 +98,8 @@ namespace DrumKit
 		kits[kitId].Disable();
 
 		// Clear sound bank and mixer
-		soundBank->Clear();
 		mixer->Clear();
+		soundBank->Clear();
 
 		// Update kit id
 		kitId = id;
@@ -113,6 +111,7 @@ namespace DrumKit
 		{
 			EnableMetronome(true);
 		}
+
 
 		return;
 	}
@@ -128,32 +127,24 @@ namespace DrumKit
 
 		if(enable)
 		{
-
 			//xxx Will change in the future
 			metronome->GenerateSine();
 			std::vector<short> data = metronome->GetData();
 
-			if(metronomeSoundId == -1)
-			{
-				metronomeSoundId = soundBank->AddSound(data, 0.5f);
-			}
-			else
-			{
-				soundBank->ChangeSound(metronomeSoundId, data);
-			}
-
-			isMetronomeEnabled = true;
-
+			metronomeSoundId = soundBank->AddSound(data, 0.5f);
 			soundBank->LoopSound(metronomeSoundId, true);
 			mixer->PlaySound(metronomeSoundId, 1.0f);
 
+			isMetronomeEnabled = true;
 		}
 		else
 		{
+
 			if(metronomeSoundId != -1)
 			{
 				// Stop metronome sound
 				mixer->StopSound(metronomeSoundId);
+				soundBank->DeleteSound(metronomeSoundId);
 			}
 
 			isMetronomeEnabled = false;
@@ -189,6 +180,10 @@ namespace DrumKit
 	void Module::Run()
 	{
 
+		if(isMetronomeEnabled)
+		{
+			mixer->PlaySound(metronomeSoundId, 1.0f);
+		}
 
 		while(isPlay)
 		{
@@ -211,9 +206,7 @@ namespace DrumKit
 					instrumentPtr->GetSoundProps(soundId, volume);
 					mixer->PlaySound(soundId, volume);
 				}
-
 			}
-
 		}
 
 		return;

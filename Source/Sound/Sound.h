@@ -28,7 +28,6 @@ namespace Sound
 		void SetVolume(float volume);
 		void Seek(std::size_t index);
 		void AddToIndex(int offset);
-		void AlterData(std::vector<short>& newData);
 
 		bool HasMoreData(std::size_t length) const;
 		bool IsFinished() const { return idx >= data.size(); }

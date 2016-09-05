@@ -61,8 +61,8 @@ namespace eXaDrumsApi
 	void eXaDrums::Stop()
 	{
 
-		this->drumModule->Stop();
 		this->alsa->Stop();
+		this->drumModule->Stop();
 		isStarted = false;
 
 		return;

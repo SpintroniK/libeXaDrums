@@ -15,6 +15,7 @@
 #include <algorithm>
 #include <memory>
 #include <mutex>
+#include <condition_variable>
 
 namespace Sound
 {
@@ -41,7 +42,10 @@ namespace Sound
 		std::shared_ptr<SoundBank> soundBank;
 		std::vector<std::pair<int, float>> playList;
 
+		bool mixFinished;
+
 		mutable std::mutex mixerMutex;
+		std::condition_variable cv;
 
 	};
 

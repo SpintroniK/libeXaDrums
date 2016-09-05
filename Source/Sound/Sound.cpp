@@ -90,15 +90,6 @@ namespace Sound
 		return;
 	}
 
-	void Sound::AlterData(std::vector<short>& newData)
-	{
-
-		Seek(0);
-		data.assign(newData.cbegin(), newData.cend());
-		length = data.size();
-
-		return;
-	}
 
 
 	// PRIVATE

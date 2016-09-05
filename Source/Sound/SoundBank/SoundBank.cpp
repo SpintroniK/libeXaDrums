@@ -40,10 +40,10 @@ namespace Sound
 		return sounds.back().GetId();
 	}
 
-	void SoundBank::ChangeSound(int id, std::vector<short>& data)
+	void SoundBank::DeleteSound(int id)
 	{
 
-		this->sounds[id].AlterData(data);
+		sounds.erase(std::remove_if(sounds.begin(), sounds.end(), [&id](Sound& sound) { return id == sound.GetId(); }));
 
 		return;
 	}
