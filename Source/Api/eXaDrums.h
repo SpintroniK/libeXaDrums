@@ -38,7 +38,10 @@ namespace eXaDrumsApi
 		// Module
 		void Start();
 		void Stop();
-		void EnableMetronome(bool enable) { drumModule->EnableMetronome(enable); };
+
+		// Metronom
+		void EnableMetronome(bool enable) { drumModule->EnableMetronome(enable); }
+		void ChangeTempo(int tempo) { drumModule->ChangeTempo(tempo); }
 
 		// Kits
 		void SelectKit(int id);

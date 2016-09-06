@@ -55,7 +55,10 @@ namespace DrumKit
 		void Start();
 		void Stop();
 		void GetDirectory(std::string& dir) const;
+
+		// Metronome
 		void EnableMetronome(bool enable);
+		void ChangeTempo(int tempo);
 
 
 	private:

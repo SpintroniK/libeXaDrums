@@ -13,7 +13,7 @@ namespace DrumKit
 {
 
 	Metronome::Metronome(AlsaParams alsaParams) : alsaParameters(alsaParams),
-	tempo(120), rhythm(1), beatsPerMeasure(4)
+	tempo(120), rhythm(2), beatsPerMeasure(4)
  	{
 
 		return;

@@ -154,6 +154,19 @@ namespace DrumKit
 		return;
 	}
 
+	void Module::ChangeTempo(int tempo)
+	{
+
+		EnableMetronome(false);
+
+		metronome->SetTempo(tempo);
+
+		EnableMetronome(true);
+
+		return;
+	}
+
+
 	// PRIVATE METHODS
 
 	void Module::LoadKits()
