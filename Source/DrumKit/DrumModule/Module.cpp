@@ -157,11 +157,13 @@ namespace DrumKit
 	void Module::ChangeTempo(int tempo)
 	{
 
-		EnableMetronome(false);
-
 		metronome->SetTempo(tempo);
 
-		EnableMetronome(true);
+		if(isMetronomeEnabled)
+		{
+			EnableMetronome(false);
+			EnableMetronome(true);
+		}
 
 		return;
 	}
