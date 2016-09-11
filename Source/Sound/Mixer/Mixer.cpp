@@ -10,7 +10,7 @@
 namespace Sound
 {
 
-	Mixer::Mixer() : mixFinished(false)
+	Mixer::Mixer() : isDoneMixing(true)
 	{
 
 		return;
@@ -51,7 +51,7 @@ namespace Sound
 
 		std::unique_lock<std::mutex> lock(mixerMutex);
 
-		cv.wait(lock, [this](){ return mixFinished; });
+		cv.wait(lock, [this](){ return isDoneMixing; });
 
 		playList.erase(std::remove_if(playList.begin(), playList.end(), [&id](std::pair<int, float>& s) { return id == s.first; }), playList.end());
 
@@ -65,7 +65,7 @@ namespace Sound
 
 		std::unique_lock<std::mutex> lock(mixerMutex);
 
-		mixFinished = false;
+		isDoneMixing = false;
 
 		// Fill buffer with zeros
 		std::fill(buffer.begin(), buffer.end(), 0);
@@ -106,7 +106,7 @@ namespace Sound
 			}
 		}
 
-		mixFinished = true;
+		isDoneMixing = true;
 
 		cv.notify_all();
 

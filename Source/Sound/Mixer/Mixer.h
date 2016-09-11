@@ -42,7 +42,7 @@ namespace Sound
 		std::shared_ptr<SoundBank> soundBank;
 		std::vector<std::pair<int, float>> playList;
 
-		bool mixFinished;
+		bool isDoneMixing;
 
 		mutable std::mutex mixerMutex;
 		std::condition_variable cv;
