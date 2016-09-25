@@ -207,6 +207,26 @@ namespace DrumKit
 		return;
 	}
 
+
+	bool KitManager::DeleteKit(const int& id)
+	{
+
+		const std::string& filePath = filesPaths[id];
+
+		std::ifstream file(filePath.c_str());
+
+		if(file.good())
+		{
+			unlink(filePath.c_str());
+			this->ScanFolder();
+
+			return true;
+		}
+
+		return false;
+	}
+
+
 	// PRIVATE METHODS
 
 	void KitManager::ScanFolder()

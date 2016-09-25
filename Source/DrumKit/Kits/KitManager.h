@@ -23,10 +23,12 @@
 #include <algorithm>
 #include <iostream>
 #include <map>
+#include <fstream>
 
 #include <cmath>
 
 #include <dirent.h>
+#include <unistd.h>
 
 
 namespace DrumKit
@@ -42,6 +44,7 @@ namespace DrumKit
 
 		static void LoadKit(std::string file, KitParameters& parameters);
 		static void SaveKit(std::string file, KitParameters parameters);
+		bool DeleteKit(const int& id);
 
 		int GetNumKits() { return int(this->filesPaths.size()); }
 

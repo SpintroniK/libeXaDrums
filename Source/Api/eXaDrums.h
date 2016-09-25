@@ -40,19 +40,20 @@ namespace eXaDrumsApi
 		void Stop();
 
 		// Metronom
-		void EnableMetronome(bool enable) { drumModule->EnableMetronome(enable); }
+		void EnableMetronome(bool enable) { drumModule->EnableMetronome(enable); };
 		void ChangeTempo(int tempo) { drumModule->ChangeTempo(tempo); }
 
 		// Kits
 		void SelectKit(int id);
-		void SaveKitConfig(int id) const { drumModule->SaveKitConfig(id); }
-		int GetNumKits() const { return drumModule->GetNumKits(); }
+		void SaveKitConfig(int id) const { drumModule->SaveKitConfig(id); };
+		bool DeleteKit(const int& id) { return drumModule->DeleteKit(id); };
+		int GetNumKits() const { return drumModule->GetNumKits(); };
 		void GetKitNameById(int id, char* kitName, int& nameLength);
 
 		// Instruments
 		void SetInstrumentVolume(int id, int volume);
 		int GetInstrumentVolume(int id) const;
-		int GetNumInstruments() const { return drumModule->GetNumInstruments(); }
+		int GetNumInstruments() const { return drumModule->GetNumInstruments(); };
 		void GetInstrumentName(int id, char* name, int& nameLength);
 
 	private:

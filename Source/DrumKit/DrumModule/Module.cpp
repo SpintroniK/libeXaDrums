@@ -122,6 +122,19 @@ namespace DrumKit
 		return kits.at(id).GetName();
 	}
 
+	bool Module::DeleteKit(const int& id)
+	{
+
+		bool isSuccess = kitManager.DeleteKit(id);
+
+		if(isSuccess)
+		{
+			LoadKits();
+		}
+
+		return isSuccess;
+	}
+
 	void Module::EnableMetronome(bool enable)
 	{
 

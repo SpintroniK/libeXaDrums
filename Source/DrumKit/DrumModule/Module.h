@@ -40,16 +40,17 @@ namespace DrumKit
 		virtual ~Module();
 
 		// Kit
-		void SaveKitConfig(int id) const { kits[id].Save(); } ;
+		void SaveKitConfig(int id) const { kits[id].Save(); };
+		bool DeleteKit(const int& id);
 		void SelectKit(std::size_t id);
-		int GetNumKits() const { return (int) kits.size(); }
+		int GetNumKits() const { return (int) kits.size(); };
 		std::string GetKitNameById(int id) const;
 
 		// Instrument
-		void SetInstrumentVolume(int id, float volume) { kits[kitId].SetInstrumentVolume(id, volume); }
-		float GetInstrumentVolume(int id) const { return kits[kitId].GetInstrumentVolume(id); }
+		void SetInstrumentVolume(int id, float volume) { kits[kitId].SetInstrumentVolume(id, volume); };
+		float GetInstrumentVolume(int id) const { return kits[kitId].GetInstrumentVolume(id); };
 		std::string GetInstrumentName(std::size_t id) const;
-		int GetNumInstruments() const { return kits[kitId].GetNumInstruments(); }
+		int GetNumInstruments() const { return kits[kitId].GetNumInstruments(); };
 
 		// Module
 		void Start();
