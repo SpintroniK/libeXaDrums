@@ -27,9 +27,9 @@ namespace Util
 
 	public:
 
-		static std::string ClickTypeToString(const clickType& c);
-		static clickType ClickTypeFromString(const std::string& s);
-		static std::vector<clickType> GetClickTypesVector();
+		static std::string ClickTypeToString(const ClickType& c);
+		static ClickType ClickTypeFromString(const std::string& s);
+		static std::vector<ClickType> GetClickTypesVector();
 
 	private:
 
@@ -37,7 +37,7 @@ namespace Util
 		virtual ~Enums(){};
 
 
-		static const std::vector<clickType> clickTypes;
+		static const std::vector<ClickType> clickTypes;
 
 
 	};

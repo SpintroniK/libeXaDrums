@@ -12,7 +12,7 @@
 namespace DrumKit
 {
 
-	std::ostream& operator<<(std::ostream& o, const clickType& x)
+	std::ostream& operator<<(std::ostream& o, const ClickType& x)
 	{
 
 		std::string os;
@@ -20,8 +20,8 @@ namespace DrumKit
 		switch (x)
 		{
 
-		case clickType::Sine: 		os = "Sine"; 	break;
-		case clickType::Square: 	os = "Square"; 	break;
+		case ClickType::Sine: 		os = "Sine"; 	break;
+		case ClickType::Square: 	os = "Square"; 	break;
 		default: break;
 
 		}
@@ -29,9 +29,9 @@ namespace DrumKit
 		return o << os;
 	}
 
-	clickType operator*(clickType c) { return c; };
-	clickType begin(clickType x) { return clickType::First; };
-	clickType end(clickType x) { clickType l = clickType::Last; return ++l; };
+	ClickType operator*(ClickType c) { return c; };
+	ClickType begin(ClickType x) { return ClickType::First; };
+	ClickType end(ClickType x) { ClickType l = ClickType::Last; return ++l; };
 
 
 }

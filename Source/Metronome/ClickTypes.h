@@ -15,7 +15,7 @@
 namespace DrumKit
 {
 
-	enum class clickType
+	enum class ClickType
 	{
 
 		Sine,
@@ -26,12 +26,12 @@ namespace DrumKit
 
 	};
 
-	std::ostream& operator<<(std::ostream& o, const clickType& x);
+	std::ostream& operator<<(std::ostream& o, const ClickType& x);
 
-	inline clickType operator++(clickType& x) { return x = (clickType)(std::underlying_type<clickType>::type(x) + 1); };
-	clickType operator*(clickType c);
-	clickType begin(clickType x);
-	clickType end(clickType x);
+	inline ClickType operator++(ClickType& x) { return x = (ClickType)(std::underlying_type<ClickType>::type(x) + 1); };
+	ClickType operator*(ClickType c);
+	ClickType begin(ClickType x);
+	ClickType end(ClickType x);
 
 }
 

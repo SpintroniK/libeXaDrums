@@ -29,13 +29,13 @@ namespace Sound
 
 		std::lock_guard<std::mutex> lock(mixerMutex);
 
-		auto it = std::find_if(playList.begin(), playList.end(), [&id](std::pair<int, float>& s) { return id == s.first; });
+		auto s = std::find_if(playList.begin(), playList.end(), [&id](std::pair<int, float>& s) { return id == s.first; });
 
-		if(it != std::end(playList))
+		if(s != std::end(playList))
 		{
 			// The sound is already in playList
-			soundBank->sounds[(*it).first].Seek(0);
-			(*it).second = volume;
+			soundBank->sounds[s->first].Seek(0);
+			s->second = volume;
 		}
 		else
 		{
