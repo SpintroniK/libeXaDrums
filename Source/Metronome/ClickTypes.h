@@ -26,12 +26,29 @@ namespace DrumKit
 
 	};
 
-	std::ostream& operator<<(std::ostream& o, const ClickType& x);
 
-	ClickType operator++(ClickType& x);
-	ClickType operator*(ClickType c);
-	ClickType begin(ClickType x);
-	ClickType end(ClickType x);
+	inline std::ostream& operator<<(std::ostream& o, const ClickType& x)
+	{
+
+		std::string os;
+
+		switch (x)
+		{
+
+		case ClickType::Sine: 		os = "Sine"; 	break;
+		case ClickType::Square: 	os = "Square"; 	break;
+		default: break;
+
+		}
+
+		return o << os;
+	}
+
+
+	inline ClickType operator++(ClickType& x) { return x = (ClickType)(std::underlying_type<ClickType>::type(x) + 1); };
+	inline ClickType operator*(ClickType c) { return c; };
+	inline ClickType begin(ClickType x) { return ClickType::First; };
+	inline ClickType end(ClickType x) { ClickType l = ClickType::Last; return ++l; };
 
 }
 

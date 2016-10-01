@@ -4,16 +4,13 @@
 
 # Add inputs and outputs from these tool invocations to the build variables 
 CPP_SRCS += \
-../Source/DrumKit/Instruments/Instrument.cpp \
-../Source/DrumKit/Instruments/InstrumentType.cpp 
+../Source/DrumKit/Instruments/Instrument.cpp 
 
 OBJS += \
-./Source/DrumKit/Instruments/Instrument.o \
-./Source/DrumKit/Instruments/InstrumentType.o 
+./Source/DrumKit/Instruments/Instrument.o 
 
 CPP_DEPS += \
-./Source/DrumKit/Instruments/Instrument.d \
-./Source/DrumKit/Instruments/InstrumentType.d 
+./Source/DrumKit/Instruments/Instrument.d 
 
 
 # Each subdirectory must supply rules for building sources it contributes

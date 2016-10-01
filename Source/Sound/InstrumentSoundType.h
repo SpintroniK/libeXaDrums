@@ -28,12 +28,30 @@ namespace Sound
 	};
 
 
-	std::ostream& operator<<(std::ostream& o, const InstrumentSoundType& x);
+	inline std::ostream& operator<<(std::ostream& o, const InstrumentSoundType& x)
+	{
 
-	InstrumentSoundType operator++(InstrumentSoundType& x);
-	InstrumentSoundType operator*(InstrumentSoundType x);
-	InstrumentSoundType begin(InstrumentSoundType x);
-	InstrumentSoundType end(InstrumentSoundType x);
+		std::string os;
+
+		switch (x)
+		{
+
+		case InstrumentSoundType::Default:		os = "DrumHead";	break;
+		case InstrumentSoundType::RimShot:		os = "RimShot";		break;
+		case InstrumentSoundType::ClosingHiHat:	os = "ClosingHiHat";break;
+
+
+		default: break;
+
+		}
+
+		return o << os;
+	}
+
+	inline InstrumentSoundType operator++(InstrumentSoundType& x) { return x = (InstrumentSoundType)(std::underlying_type<InstrumentSoundType>::type(x) + 1); };
+	inline InstrumentSoundType operator*(InstrumentSoundType x) { return x; };
+	inline InstrumentSoundType begin(InstrumentSoundType x) { return InstrumentSoundType::First; };
+	inline InstrumentSoundType end(InstrumentSoundType x) { InstrumentSoundType l = InstrumentSoundType::Last; return ++l; };
 
 }
 

@@ -32,12 +32,32 @@ namespace DrumKit
 	};
 
 
-	std::ostream& operator<<(std::ostream& o, const InstrumentType& x);
+	inline std::ostream& operator<<(std::ostream& o, const InstrumentType& x)
+	{
 
-	InstrumentType operator++(InstrumentType& x);
-	InstrumentType operator*(InstrumentType i);
-	InstrumentType begin(InstrumentType x);
-	InstrumentType end(InstrumentType x);
+		std::string os;
+
+		switch (x)
+		{
+
+		case InstrumentType::TestDrum:	os = "TestDrum"; 	break;
+		case InstrumentType::Drum:	 	os = "Drum"; 		break;
+		case InstrumentType::Cymbal:	os = "Cymbal"; 		break;
+		case InstrumentType::HiHat:		os = "HiHat"; 		break;
+		case InstrumentType::BassDrum:	os = "BassDrum"; 	break;
+
+
+		default: break;
+
+		}
+
+		return o << os;
+	}
+
+	inline InstrumentType operator++(InstrumentType& x) { return x = (InstrumentType)(std::underlying_type<InstrumentType>::type(x) + 1); };
+	inline InstrumentType operator*(InstrumentType i) { return i; };
+	inline InstrumentType begin(InstrumentType x) { return InstrumentType::First; };
+	inline InstrumentType end(InstrumentType x) { InstrumentType l = InstrumentType::Last; return ++l; };
 
 
 }

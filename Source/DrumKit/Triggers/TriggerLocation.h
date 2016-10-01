@@ -26,13 +26,29 @@ namespace DrumKit
 	};
 
 
+	inline std::ostream& operator<<(std::ostream& o, const TriggerLocation& x)
+	{
 
-	std::ostream& operator<<(std::ostream& o, const TriggerLocation& x);
+		std::string os;
 
-	TriggerLocation operator++(TriggerLocation& x);
-	TriggerLocation operator*(TriggerLocation t);
-	TriggerLocation begin(TriggerLocation x);
-	TriggerLocation end(TriggerLocation x);
+		switch (x)
+		{
+
+		case TriggerLocation::DrumHead:	os = "DrumHead";	break;
+		case TriggerLocation::Rim:		os = "Rim";			break;
+
+
+		default: break;
+
+		}
+
+		return o << os;
+	}
+
+	inline TriggerLocation operator++(TriggerLocation& x) { return x = (TriggerLocation)(std::underlying_type<TriggerLocation>::type(x) + 1); };
+	inline TriggerLocation operator*(TriggerLocation i) { return i; };
+	inline TriggerLocation begin(TriggerLocation x) { return TriggerLocation::First; };
+	inline TriggerLocation end(TriggerLocation x) { TriggerLocation l = TriggerLocation::Last; return ++l; };
 
 }
 
