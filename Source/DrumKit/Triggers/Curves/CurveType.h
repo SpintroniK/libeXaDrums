@@ -14,8 +14,37 @@ namespace DrumKit
 	enum class CurveType
 	{
 		exponential,
-		linear
+		linear,
+
+		First = exponential,
+		Last = linear
 	};
+
+
+	inline std::ostream& operator<<(std::ostream& o, const CurveType& x)
+	{
+
+		std::string os;
+
+		switch (x)
+		{
+
+		case CurveType::exponential:	os = "exponential";	break;
+		case CurveType::linear:			os = "linear";		break;
+
+
+		default: break;
+
+		}
+
+		return o << os;
+	}
+
+
+	inline CurveType operator++(CurveType& x) { return x = (CurveType)(std::underlying_type<CurveType>::type(x) + 1); };
+	inline CurveType operator*(CurveType x) { return x; };
+	inline CurveType begin(CurveType x) { return CurveType::First; };
+	inline CurveType end(CurveType x) { CurveType l = CurveType::Last; return ++l; };
 
 
 }

@@ -52,7 +52,7 @@ namespace DrumKit
 			trigParams.sensorId = std::atoi(trigger->Attribute("sensorId"));
 
 			// Get trigger type
-			trigParams.type = GetTriggerType(trigger->Attribute("sensorType"));
+			trigParams.type = Util::Enums::TriggerTypeFromString(trigger->Attribute("sensorType"));
 
 			// Read xml elements
 			XMLElement* threshold = trigger->FirstChildElement("Threshold");
@@ -63,7 +63,7 @@ namespace DrumKit
 			trigParams.threshold = (short) std::atoi(threshold->GetText());
 			trigParams.scanTime = (unsigned int) std::atoi(scanTime->GetText());
 			trigParams.maskTime = std::atoi(maskTime->GetText());
-			trigParams.response = GetCurveType(response->GetText());
+			trigParams.response = Util::Enums::CurveTypeFromString(response->GetText());
 
 			//XXX Forcing sensor type to HDD (should real from sensor config. file)
 			trigParams.sensorType = IO::SensorType::Hdd;
@@ -76,42 +76,6 @@ namespace DrumKit
 	}
 
 	// PRIVATE METHODS
-
-	TriggerType TriggerManager::GetTriggerType(std::string type)
-	{
-
-		TriggerType triggerType;
-
-		if(type == "Continuous")
-		{
-			triggerType = TriggerType::Continuous;
-		}
-		else
-		{
-			triggerType = TriggerType::Discrete;
-		}
-
-		return triggerType;
-	}
-
-
-	CurveType TriggerManager::GetCurveType(std::string type)
-	{
-
-		CurveType curveType;
-
-		// Add definitions to dic
-		if(type == "exponential")
-		{
-			curveType = CurveType::exponential;
-		}
-		else
-		{
-			curveType = CurveType::linear;
-		}
-
-		return curveType;
-	}
 
 
 } /* namespace DrumKit */

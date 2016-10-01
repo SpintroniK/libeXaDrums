@@ -11,7 +11,10 @@
 
 #include "../Metronome/ClickTypes.h"
 #include "../DrumKit/Instruments/InstrumentType.h"
+#include "../DrumKit/Triggers/TriggerType.h"
 #include "../DrumKit/Triggers/TriggerLocation.h"
+#include "../DrumKit/Triggers/Curves/CurveType.h"
+#include "../IO/SensorType.h"
 #include "../Sound/InstrumentSoundType.h"
 
 #include <string>
@@ -21,6 +24,7 @@
 
 using namespace DrumKit;
 using namespace Sound;
+using namespace IO;
 
 namespace Util
 {
@@ -41,10 +45,25 @@ namespace Util
 		static std::string InstrumentTypeToString(const InstrumentType& x);
 		static std::vector<InstrumentType> GetInstrumentTypes();
 
+		// Trigger type
+		static TriggerType TriggerTypeFromString(const std::string& s);
+		static std::string TriggerTypeToString(const TriggerType& x);
+		static std::vector<TriggerType> GetTriggerTypes();
+
 		// Trigger location
 		static TriggerLocation TriggerLocationFromString(const std::string& s);
 		static std::string TriggerLocationToString(const TriggerLocation& x);
 		static std::vector<TriggerLocation> GetTriggerLocations();
+
+		// Cruves types
+		static CurveType CurveTypeFromString(const std::string& s);
+		static std::string CurveTypeToString(const CurveType& x);
+		static std::vector<CurveType> GetCurveTypes();
+
+		// Sensors types
+		static SensorType SensorTypeFromString(const std::string& s);
+		static std::string SensorTypeToString(const SensorType& x);
+		static std::vector<SensorType> GetSensorTypes();
 
 		// Instrument sound type
 		static InstrumentSoundType InstrumentSoundTypeFromString(const std::string& s);
@@ -60,7 +79,10 @@ namespace Util
 
 		static const std::vector<ClickType> clickTypes;
 		static const std::vector<InstrumentType> instrumentTypes;
+		static const std::vector<TriggerType> triggerTypes;
 		static const std::vector<TriggerLocation> triggerLocations;
+		static const std::vector<CurveType> curveTypes;
+		static const std::vector<SensorType> sensorTypes;
 		static const std::vector<InstrumentSoundType> instrumentSoundsTypes;
 
 

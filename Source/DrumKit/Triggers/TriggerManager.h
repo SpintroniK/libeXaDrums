@@ -8,6 +8,8 @@
 #ifndef SOURCE_DRUMKIT_TRIGGERS_TRIGGERMANAGER_H_
 #define SOURCE_DRUMKIT_TRIGGERS_TRIGGERMANAGER_H_
 
+#include "../../Util/Enums.h"
+
 #include "Curves/CurveType.h"
 #include "TriggerParameters.h"
 #include "TriggerLocation.h"
@@ -31,10 +33,6 @@ namespace DrumKit
 		static void LoadTriggersConfig(std::string moduleDir, std::vector<TriggerParameters>& trigsParams);
 
 	private:
-
-		static CurveType GetCurveType(std::string type);
-		static TriggerType GetTriggerType(std::string type);
-		static TriggerLocation GetTriggerLocation(std::string location);
 
 	};
 

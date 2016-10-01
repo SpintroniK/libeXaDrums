@@ -15,7 +15,10 @@ namespace Util
 
 	const std::vector<ClickType> Enums::clickTypes = Enums::GetClickTypes();
 	const std::vector<InstrumentType> Enums::instrumentTypes = Enums::GetInstrumentTypes();
+	const std::vector<TriggerType> Enums::triggerTypes = Enums::GetTriggerTypes();
 	const std::vector<TriggerLocation> Enums::triggerLocations = Enums::GetTriggerLocations();
+	const std::vector<CurveType> Enums::curveTypes = Enums::GetCurveTypes();
+	const std::vector<SensorType> Enums::sensorTypes = Enums::GetSensorTypes();
 	const std::vector<InstrumentSoundType> Enums::instrumentSoundsTypes = Enums::GetInstrumentSoundTypes();
 
 
@@ -107,6 +110,48 @@ namespace Util
 		}
 	}
 
+	// Triggers types
+
+	TriggerType Enums::TriggerTypeFromString(const std::string& s)
+	{
+
+		auto it = std::find_if(triggerTypes.cbegin(), triggerTypes.cend(), [&s](const TriggerType& x) { std::stringstream ss; ss << x; return ss.str() == s; });
+
+		return (*it);
+	}
+
+	std::string Enums::TriggerTypeToString(const TriggerType& x)
+	{
+
+		auto it = std::find(triggerTypes.cbegin(), triggerTypes.cend(), x);
+
+		std::stringstream ss;
+		ss << (*it);
+
+		return ss.str();
+	}
+
+	std::vector<TriggerType> Enums::GetTriggerTypes()
+	{
+
+		if(triggerTypes.empty())
+		{
+
+			std::vector<TriggerType> v;
+
+			for(auto const& c : TriggerType())
+			{
+				v.push_back(c);
+			}
+
+			return v;
+		}
+		else
+		{
+			return triggerTypes;
+		}
+	}
+
 
 	// Triggers locations
 
@@ -148,6 +193,94 @@ namespace Util
 		else
 		{
 			return triggerLocations;
+		}
+	}
+
+
+	// Curves types
+
+	CurveType Enums::CurveTypeFromString(const std::string& s)
+	{
+
+		auto it = std::find_if(curveTypes.cbegin(), curveTypes.cend(), [&s](const CurveType& x) { std::stringstream ss; ss << x; return ss.str() == s; });
+
+		return (*it);
+	}
+
+	std::string Enums::CurveTypeToString(const CurveType& x)
+	{
+
+		auto it = std::find(curveTypes.cbegin(), curveTypes.cend(), x);
+
+		std::stringstream ss;
+		ss << (*it);
+
+		return ss.str();
+	}
+
+	std::vector<CurveType> Enums::GetCurveTypes()
+	{
+
+		if(curveTypes.empty())
+		{
+
+			std::vector<CurveType> v;
+
+			for(auto const& t : CurveType())
+			{
+				v.push_back(t);
+			}
+
+			return v;
+		}
+		else
+		{
+			return curveTypes;
+		}
+	}
+
+
+	// Sensors tyoes
+
+
+	SensorType Enums::SensorTypeFromString(const std::string& s)
+	{
+
+		auto it = std::find_if(sensorTypes.cbegin(), sensorTypes.cend(), [&s](const SensorType& x) { std::stringstream ss; ss << x; return ss.str() == s; });
+
+		return (*it);
+	}
+
+
+	std::string Enums::SensorTypeToString(const SensorType& x)
+	{
+
+		auto it = std::find(sensorTypes.cbegin(), sensorTypes.cend(), x);
+
+		std::stringstream ss;
+		ss << (*it);
+
+		return ss.str();
+	}
+
+	std::vector<SensorType> Enums::GetSensorTypes()
+	{
+
+		if(sensorTypes.empty())
+		{
+
+			std::vector<SensorType> v;
+
+			for(auto const& t : SensorType())
+			{
+				v.push_back(t);
+			}
+
+			return v;
+		}
+		else
+		{
+			return sensorTypes;
 		}
 	}
 
