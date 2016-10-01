@@ -4,12 +4,15 @@
 
 # Add inputs and outputs from these tool invocations to the build variables 
 CPP_SRCS += \
+../Source/Sound/InstrumentSoundType.cpp \
 ../Source/Sound/Sound.cpp 
 
 OBJS += \
+./Source/Sound/InstrumentSoundType.o \
 ./Source/Sound/Sound.o 
 
 CPP_DEPS += \
+./Source/Sound/InstrumentSoundType.d \
 ./Source/Sound/Sound.d 
 
 

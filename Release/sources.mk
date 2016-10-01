@@ -34,8 +34,8 @@ Source/DrumKit/Triggers/Triggers \
 Source/IO \
 Source/Metronome \
 Source/Sound/Alsa \
-Source/Sound/Mixer \
 Source/Sound \
+Source/Sound/Mixer \
 Source/Sound/SoundBank \
 Source/Sound/SoundProcessor \
 Source/Util \

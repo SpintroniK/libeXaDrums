@@ -23,7 +23,7 @@ namespace Sound
 
 		case InstrumentSoundType::Default:		os = "DrumHead";	break;
 		case InstrumentSoundType::RimShot:		os = "RimShot";		break;
-		case InstrumentSoundType::ClosingHiHat:	os = "Rim";			break;
+		case InstrumentSoundType::ClosingHiHat:	os = "ClosingHiHat";break;
 
 
 		default: break;
