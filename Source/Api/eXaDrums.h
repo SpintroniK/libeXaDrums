@@ -14,6 +14,8 @@
 #include "../Metronome/Metronome.h"
 #include "../DrumKit/DrumModule/Module.h"
 
+#include "../Util/Enums.h"
+
 #include <string>
 #include <vector>
 #include <memory>
@@ -39,9 +41,12 @@ namespace eXaDrumsApi
 		void Start();
 		void Stop();
 
-		// Metronom
+		// Metronome
 		void EnableMetronome(bool enable) { drumModule->EnableMetronome(enable); };
-		void ChangeTempo(int tempo) { drumModule->ChangeTempo(tempo); }
+		void ChangeTempo(int tempo) { drumModule->ChangeTempo(tempo); };
+		int GetNumClickTypes() const { return int(Util::Enums::GetClickTypes().size()); };
+		void GetClickTypeById(int id, char* kitName, int& nameLength) const;
+
 
 		// Kits
 		void SelectKit(int id);

@@ -68,6 +68,18 @@ namespace eXaDrumsApi
 		return;
 	}
 
+
+	void eXaDrums::GetClickTypeById(int id, char* kitName, int& nameLength) const
+	{
+
+		std::string clickType = Util::Enums::ClickTypeToString(Util::Enums::GetClickTypes()[id]);
+
+		CppStringToC(clickType, kitName, nameLength);
+
+		return;
+	}
+
+
 	void eXaDrums::SetInstrumentVolume(int id, int volume)
 	{
 
