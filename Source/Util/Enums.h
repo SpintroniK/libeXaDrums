@@ -10,6 +10,7 @@
 
 
 #include "../Metronome/ClickTypes.h"
+#include "../DrumKit/Instruments/InstrumentType.h"
 
 #include <string>
 #include <algorithm>
@@ -27,9 +28,15 @@ namespace Util
 
 	public:
 
+		// Click type
 		static std::string ClickTypeToString(const ClickType& c);
 		static ClickType ClickTypeFromString(const std::string& s);
-		static std::vector<ClickType> GetClickTypesVector();
+		static std::vector<ClickType> GetClickTypes();
+
+		// Instrument type
+		static InstrumentType InstrumentTypeFromString(const std::string& s);
+		static std::string InstrumentTypeToString(const InstrumentType& s);
+		static std::vector<InstrumentType> GetInstrumentTypes();
 
 	private:
 
@@ -38,6 +45,7 @@ namespace Util
 
 
 		static const std::vector<ClickType> clickTypes;
+		static const std::vector<InstrumentType> instrumentTypes;
 
 
 	};

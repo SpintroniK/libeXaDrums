@@ -94,7 +94,7 @@ namespace DrumKit
 			instrumentParameters.soundsInfo.swap(soundsInfo);
 
 			// Populate instrumentParameters
-			InstrumentType instrumentType = GetInstrumentType(instrument->Attribute("type"));
+			InstrumentType instrumentType = Util::Enums::InstrumentTypeFromString(instrument->Attribute("type"));
 			instrumentParameters.instrumentType = instrumentType;
 			instrumentParameters.instrumentName = instrumentName->GetText();
 
@@ -148,7 +148,7 @@ namespace DrumKit
 			XMLElement* instrument = doc.NewElement("Instrument");
 
 			// Set type
-			std::string instrumentType = GetInstrumentTypeStr(instrumentParameters.instrumentType);
+			std::string instrumentType = Util::Enums::InstrumentTypeToString(instrumentParameters.instrumentType);
 			instrument->SetAttribute("type", instrumentType.c_str());
 
 			// Set volume
@@ -297,26 +297,9 @@ namespace DrumKit
 		return location;
 	}
 
-	InstrumentType KitManager::GetInstrumentType(std::string typeStr)
-	{
 
-		InstrumentType instrumentType;
 
-		auto it = std::find_if(instrumentsTypes.cbegin(), instrumentsTypes.cend(), [&typeStr](std::pair<InstrumentType, std::string> const& v){ return typeStr ==  v.second; });
-
-		if(it != std::end(instrumentsTypes))
-		{
-			instrumentType = (*it).first;
-		}
-		else
-		{
-			throw -1;
-		}
-
-		return instrumentType;
-	}
-
-	std::string KitManager::GetInstrumentTypeStr(InstrumentType type)
+	/*std::string KitManager::GetInstrumentTypeStr(InstrumentType type)
 	{
 
 		std::string typeStr;
@@ -333,7 +316,7 @@ namespace DrumKit
 		}
 
 		return typeStr;
-	}
+	}*/
 
 	Sound::InstrumentSoundType KitManager::GetSoundType(std::string type)
 	{

@@ -12,14 +12,14 @@ namespace DrumKit
 {
 
 
-	std::map<InstrumentType, std::string> KitManager::instrumentsTypes =
+	/*std::map<InstrumentType, std::string> KitManager::instrumentsTypes =
 	{
 			{InstrumentType::HiHat, 	"HiHat"},
 			{InstrumentType::Cymbal, 	"Cymbal"},
 			{InstrumentType::BassDrum, 	"BassDrum"},
 			{InstrumentType::TestDrum, 	"TestDrum"},
 			{InstrumentType::Drum, 		"Drum"}
-	};
+	};*/
 
 	std::map<TriggerLocation, std::string> KitManager::triggersLocations =
 	{

@@ -11,7 +11,10 @@
 namespace Util
 {
 
-	const std::vector<ClickType> Enums::clickTypes = Enums::GetClickTypesVector();
+
+	const std::vector<ClickType> Enums::clickTypes = Enums::GetClickTypes();
+	const std::vector<InstrumentType> Enums::instrumentTypes = Enums::GetInstrumentTypes();
+
 
 	std::string Enums::ClickTypeToString(const ClickType& c)
 	{
@@ -45,7 +48,7 @@ namespace Util
 
 
 
-	std::vector<ClickType> Enums::GetClickTypesVector()
+	std::vector<ClickType> Enums::GetClickTypes()
 	{
 
 		if(clickTypes.size() == 0)
@@ -63,6 +66,58 @@ namespace Util
 		else
 		{
 			return clickTypes;
+		}
+	}
+
+
+	std::string Enums::InstrumentTypeToString(const InstrumentType& i)
+	{
+
+		auto it = std::find(instrumentTypes.cbegin(), instrumentTypes.cend(), i);
+
+		if(it != std::end(instrumentTypes))
+		{
+
+			std::stringstream ss;
+			ss << (*it);
+
+			return ss.str();
+		}
+
+		return std::string();
+	}
+
+	InstrumentType Enums::InstrumentTypeFromString(const std::string& s)
+	{
+
+		auto it = std::find_if(instrumentTypes.cbegin(), instrumentTypes.cend(), [&s](const InstrumentType& i) { std::stringstream ss; ss << i; return ss.str() == s; });
+
+		if(it != std::end(instrumentTypes))
+		{
+			return (*it);
+		}
+
+		return InstrumentType::Last;
+	}
+
+	std::vector<InstrumentType> Enums::GetInstrumentTypes()
+	{
+
+		if(instrumentTypes.size() == 0)
+		{
+
+			std::vector<InstrumentType> v;
+
+			for(auto const& c : InstrumentType())
+			{
+				v.push_back(c);
+			}
+
+			return v;
+		}
+		else
+		{
+			return instrumentTypes;
 		}
 	}
 
