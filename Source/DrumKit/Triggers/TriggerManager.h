@@ -9,6 +9,7 @@
 #define SOURCE_DRUMKIT_TRIGGERS_TRIGGERMANAGER_H_
 
 #include "../../Util/Enums.h"
+#include "../../IO/SensorType.h"
 
 #include "Curves/CurveType.h"
 #include "TriggerParameters.h"
@@ -30,9 +31,11 @@ namespace DrumKit
 		TriggerManager();
 		virtual ~TriggerManager();
 
-		static void LoadTriggersConfig(std::string moduleDir, std::vector<TriggerParameters>& trigsParams);
+		static void LoadTriggersConfig(const std::string& moduleDir, std::vector<TriggerParameters>& trigsParams);
 
 	private:
+
+		static void LoadSensorsConfig(const std::string& moduleDir, SensorType& sensorType);
 
 	};
 
