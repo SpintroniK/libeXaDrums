@@ -11,47 +11,39 @@
 namespace Util
 {
 
+	// Initialise vectors
 
 	const std::vector<ClickType> Enums::clickTypes = Enums::GetClickTypes();
 	const std::vector<InstrumentType> Enums::instrumentTypes = Enums::GetInstrumentTypes();
+	const std::vector<TriggerLocation> Enums::triggerLocations = Enums::GetTriggerLocations();
+	const std::vector<InstrumentSoundType> Enums::instrumentSoundsTypes = Enums::GetInstrumentSoundTypes();
 
 
-	std::string Enums::ClickTypeToString(const ClickType& c)
-	{
-
-		auto it = std::find(clickTypes.cbegin(), clickTypes.cend(), c);
-
-		if(it != std::end(clickTypes))
-		{
-
-			std::stringstream ss;
-			ss << (*it);
-
-			return ss.str();
-		}
-
-		return std::string();
-	}
+	// Click types
 
 	ClickType Enums::ClickTypeFromString(const std::string& s)
 	{
 
-		auto it = std::find_if(clickTypes.cbegin(), clickTypes.cend(), [&s](const ClickType& c) { std::stringstream ss; ss << c; return ss.str() == s; });
+		auto it = std::find_if(clickTypes.cbegin(), clickTypes.cend(), [&s](const ClickType& x) { std::stringstream ss; ss << x; return ss.str() == s; });
 
-		if(it != std::end(clickTypes))
-		{
-			return (*it);
-		}
-
-		return ClickType::Last;
+		return (*it);
 	}
 
+	std::string Enums::ClickTypeToString(const ClickType& x)
+	{
 
+		auto it = std::find(clickTypes.cbegin(), clickTypes.cend(), x);
+
+		std::stringstream ss;
+		ss << (*it);
+
+		return ss.str();
+	}
 
 	std::vector<ClickType> Enums::GetClickTypes()
 	{
 
-		if(clickTypes.size() == 0)
+		if(clickTypes.empty())
 		{
 
 			std::vector<ClickType> v;
@@ -70,40 +62,34 @@ namespace Util
 	}
 
 
-	std::string Enums::InstrumentTypeToString(const InstrumentType& i)
-	{
+	// Instrument types
 
-		auto it = std::find(instrumentTypes.cbegin(), instrumentTypes.cend(), i);
-
-		if(it != std::end(instrumentTypes))
-		{
-
-			std::stringstream ss;
-			ss << (*it);
-
-			return ss.str();
-		}
-
-		return std::string();
-	}
 
 	InstrumentType Enums::InstrumentTypeFromString(const std::string& s)
 	{
 
-		auto it = std::find_if(instrumentTypes.cbegin(), instrumentTypes.cend(), [&s](const InstrumentType& i) { std::stringstream ss; ss << i; return ss.str() == s; });
+		auto it = std::find_if(instrumentTypes.cbegin(), instrumentTypes.cend(), [&s](const InstrumentType& x) { std::stringstream ss; ss << x; return ss.str() == s; });
 
-		if(it != std::end(instrumentTypes))
-		{
-			return (*it);
-		}
-
-		return InstrumentType::Last;
+		return (*it);
 	}
+
+
+	std::string Enums::InstrumentTypeToString(const InstrumentType& x)
+	{
+
+		auto it = std::find(instrumentTypes.cbegin(), instrumentTypes.cend(), x);
+
+		std::stringstream ss;
+		ss << (*it);
+
+		return ss.str();
+	}
+
 
 	std::vector<InstrumentType> Enums::GetInstrumentTypes()
 	{
 
-		if(instrumentTypes.size() == 0)
+		if(instrumentTypes.empty())
 		{
 
 			std::vector<InstrumentType> v;
@@ -120,6 +106,94 @@ namespace Util
 			return instrumentTypes;
 		}
 	}
+
+
+	// Triggers locations
+
+	TriggerLocation Enums::TriggerLocationFromString(const std::string& s)
+	{
+
+		auto it = std::find_if(triggerLocations.cbegin(), triggerLocations.cend(), [&s](const TriggerLocation& x) { std::stringstream ss; ss << x; return ss.str() == s; });
+
+		return (*it);
+	}
+
+	std::string Enums::TriggerLocationToString(const TriggerLocation& x)
+	{
+
+		auto it = std::find(triggerLocations.cbegin(), triggerLocations.cend(), x);
+
+		std::stringstream ss;
+		ss << (*it);
+
+		return ss.str();
+	}
+
+
+	std::vector<TriggerLocation> Enums::GetTriggerLocations()
+	{
+
+		if(triggerLocations.empty())
+		{
+
+			std::vector<TriggerLocation> v;
+
+			for(auto const& t : TriggerLocation())
+			{
+				v.push_back(t);
+			}
+
+			return v;
+		}
+		else
+		{
+			return triggerLocations;
+		}
+	}
+
+
+	// Instrument sounds types
+
+	InstrumentSoundType Enums::InstrumentSoundTypeFromString(const std::string& s)
+	{
+
+		auto it = std::find_if(instrumentSoundsTypes.cbegin(), instrumentSoundsTypes.cend(), [&s](const InstrumentSoundType& x) { std::stringstream ss; ss << x; return ss.str() == s; });
+
+		return (*it);
+	}
+
+	std::string Enums::InstrumentSoundTypeToString(const InstrumentSoundType& x)
+	{
+
+		auto it = std::find(instrumentSoundsTypes.cbegin(), instrumentSoundsTypes.cend(), x);
+
+		std::stringstream ss;
+		ss << (*it);
+
+		return ss.str();
+	}
+
+	std::vector<InstrumentSoundType> Enums::GetInstrumentSoundTypes()
+	{
+
+		if(instrumentSoundsTypes.empty())
+		{
+
+			std::vector<InstrumentSoundType> v;
+
+			for(auto const& t : InstrumentSoundType())
+			{
+				v.push_back(t);
+			}
+
+			return v;
+		}
+		else
+		{
+			return instrumentSoundsTypes;
+		}
+	}
+
 
 }
 

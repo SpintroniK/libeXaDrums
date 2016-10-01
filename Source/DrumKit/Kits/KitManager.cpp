@@ -6,7 +6,6 @@
  */
 
 #include "KitManager.h"
-#include "maps.hpp"
 
 using namespace tinyxml2;
 
@@ -64,7 +63,7 @@ namespace DrumKit
 			for(XMLElement* trigger = firstTrigger; trigger != nullptr; trigger = trigger->NextSiblingElement())
 			{
 				int triggerId = std::atoi(trigger->GetText());
-				TriggerLocation triggerLoc = GetTriggerLocation(trigger->Attribute("location"));
+				TriggerLocation triggerLoc = Util::Enums::TriggerLocationFromString(trigger->Attribute("location"));
 				instrumentParameters.triggersIdsAndLocations.push_back(std::make_pair(triggerId, triggerLoc));
 			}
 
@@ -83,7 +82,7 @@ namespace DrumKit
 
 				soundInfo.id = soundId;
 				soundInfo.soundLocation = sound->GetText();
-				soundInfo.type = GetSoundType(sound->Attribute("type"));
+				soundInfo.type = Util::Enums::InstrumentSoundTypeFromString(sound->Attribute("type"));
 
 				soundsInfo.push_back(soundInfo);
 
@@ -168,7 +167,7 @@ namespace DrumKit
 				XMLElement* trigger = doc.NewElement("trigger");
 
 				// Set location
-				std::string location = GetTriggerLocationStr(triggerLoc.second);
+				std::string location = Util::Enums::TriggerLocationToString(triggerLoc.second);
 				trigger->SetAttribute("location", location.c_str());
 
 				// Set id
@@ -186,7 +185,7 @@ namespace DrumKit
 				XMLElement* sound = doc.NewElement("sound");
 
 				// Set type
-				std::string type = GetSoundTypeStr(soundInfo.type);
+				std::string type = Util::Enums::InstrumentSoundTypeToString(soundInfo.type);
 				sound->SetAttribute("type", type.c_str());
 
 				// Set file path
@@ -259,102 +258,7 @@ namespace DrumKit
 
 	// PRIVATE
 
-	TriggerLocation KitManager::GetTriggerLocation(std::string location)
-	{
 
-		TriggerLocation triggerLocation;
-
-		auto it = std::find_if(triggersLocations.cbegin(), triggersLocations.cend(), [&location](std::pair<TriggerLocation, std::string> const& v){ return location ==  v.second; });
-
-		if(it != std::end(triggersLocations))
-		{
-			triggerLocation = (*it).first;
-		}
-		else
-		{
-			throw -1;
-		}
-
-		return triggerLocation;
-	}
-
-	std::string KitManager::GetTriggerLocationStr(TriggerLocation triggerLocation)
-	{
-
-		std::string location;
-
-		auto it = std::find_if(triggersLocations.cbegin(), triggersLocations.cend(), [&triggerLocation](std::pair<TriggerLocation, std::string> const& v){ return triggerLocation ==  v.first; });
-
-		if(it != std::end(triggersLocations))
-		{
-			location = (*it).second;
-		}
-		else
-		{
-			throw -1;
-		}
-
-		return location;
-	}
-
-
-
-	/*std::string KitManager::GetInstrumentTypeStr(InstrumentType type)
-	{
-
-		std::string typeStr;
-
-		auto it = std::find_if(instrumentsTypes.cbegin(), instrumentsTypes.cend(), [&type](std::pair<InstrumentType, std::string> const& v){ return type ==  v.first; });
-
-		if(it != std::end(instrumentsTypes))
-		{
-			typeStr = (*it).second;
-		}
-		else
-		{
-			throw -1;
-		}
-
-		return typeStr;
-	}*/
-
-	Sound::InstrumentSoundType KitManager::GetSoundType(std::string type)
-	{
-
-		Sound::InstrumentSoundType soundType;
-
-		auto it = std::find_if(soundsTypes.cbegin(), soundsTypes.cend(), [&type](std::pair<Sound::InstrumentSoundType, std::string> const& v){ return type ==  v.second; });
-
-		if(it != std::end(soundsTypes))
-		{
-			soundType = (*it).first;
-		}
-		else
-		{
-			throw -1;
-		}
-
-		return soundType;
-	}
-
-	std::string KitManager::GetSoundTypeStr(Sound::InstrumentSoundType soundType)
-	{
-
-		std::string type;
-
-		auto it = std::find_if(soundsTypes.cbegin(), soundsTypes.cend(), [&soundType](std::pair<Sound::InstrumentSoundType, std::string> const& v){ return soundType ==  v.first; });
-
-		if(it != std::end(soundsTypes))
-		{
-			type = (*it).second;
-		}
-		else
-		{
-			throw -1;
-		}
-
-		return type;
-	}
 
 
 } /* namespace DrumKit */

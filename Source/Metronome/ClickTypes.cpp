@@ -29,6 +29,8 @@ namespace DrumKit
 		return o << os;
 	}
 
+
+	ClickType operator++(ClickType& x) { return x = (ClickType)(std::underlying_type<ClickType>::type(x) + 1); };
 	ClickType operator*(ClickType c) { return c; };
 	ClickType begin(ClickType x) { return ClickType::First; };
 	ClickType end(ClickType x) { ClickType l = ClickType::Last; return ++l; };

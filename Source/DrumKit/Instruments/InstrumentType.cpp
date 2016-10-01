@@ -34,7 +34,7 @@ namespace DrumKit
 		return o << os;
 	}
 
-
+	InstrumentType operator++(InstrumentType& x) { return x = (InstrumentType)(std::underlying_type<InstrumentType>::type(x) + 1); };
 	InstrumentType operator*(InstrumentType i) { return i; };
 	InstrumentType begin(InstrumentType x) { return InstrumentType::First; };
 	InstrumentType end(InstrumentType x) { InstrumentType l = InstrumentType::Last; return ++l; };

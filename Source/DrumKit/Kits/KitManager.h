@@ -8,8 +8,8 @@
 #ifndef SOURCE_DRUMKIT_KITS_KITMANAGER_H_
 #define SOURCE_DRUMKIT_KITS_KITMANAGER_H_
 
-#include "../../Sound/SoundProcessor/InstrumentSoundType.h"
 #include "../../Util/Enums.h"
+#include "../../Sound/InstrumentSoundType.h"
 
 #include "../Instruments/InstrumentType.h"
 #include "../Instruments/InstrumentSoundInfo.h"
@@ -23,7 +23,6 @@
 #include <string>
 #include <algorithm>
 #include <iostream>
-#include <map>
 #include <fstream>
 
 #include <cmath>
@@ -55,18 +54,12 @@ namespace DrumKit
 
 		void ScanFolder();
 
-		static TriggerLocation GetTriggerLocation(std::string location);
-		static std::string GetTriggerLocationStr(TriggerLocation triggerLocation);
-		//static std::string GetInstrumentTypeStr(InstrumentType type);
 		static Sound::InstrumentSoundType GetSoundType(std::string type);
 		static std::string GetSoundTypeStr(Sound::InstrumentSoundType soundType);
 
 		std::string kitsPath;
 		std::vector<std::string> filesPaths;
 
-		//static std::map<InstrumentType, std::string> instrumentsTypes;
-		static std::map<TriggerLocation, std::string> triggersLocations;
-		static std::map<Sound::InstrumentSoundType, std::string> soundsTypes;
 
 	};
 

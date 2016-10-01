@@ -34,7 +34,7 @@ namespace DrumKit
 
 	std::ostream& operator<<(std::ostream& o, const InstrumentType& x);
 
-	inline InstrumentType operator++(InstrumentType& x) { return x = (InstrumentType)(std::underlying_type<InstrumentType>::type(x) + 1); };
+	InstrumentType operator++(InstrumentType& x);
 	InstrumentType operator*(InstrumentType i);
 	InstrumentType begin(InstrumentType x);
 	InstrumentType end(InstrumentType x);

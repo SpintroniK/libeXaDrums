@@ -9,7 +9,7 @@
 #define SOURCE_DRUMKIT_INSTRUMENTS_INSTRUMENTSOUNDINFO_H_
 
 
-#include "../../Sound/SoundProcessor/InstrumentSoundType.h"
+#include "../../Sound/InstrumentSoundType.h"
 
 #include <string>
 

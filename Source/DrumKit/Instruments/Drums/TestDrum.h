@@ -9,7 +9,7 @@
 #define LIBEXADRUMS_SOURCE_DRUMKIT_DRUM_H_
 
 #include "../../../Sound/SoundBank/SoundBank.h"
-#include "../../../Sound/SoundProcessor/InstrumentSoundType.h"
+#include "../../../Sound/InstrumentSoundType.h"
 #include "../../../Sound/SoundProcessor/SoundProcessor.h"
 
 #include "../../Triggers/Triggers/Trigger.h"

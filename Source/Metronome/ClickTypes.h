@@ -28,7 +28,7 @@ namespace DrumKit
 
 	std::ostream& operator<<(std::ostream& o, const ClickType& x);
 
-	inline ClickType operator++(ClickType& x) { return x = (ClickType)(std::underlying_type<ClickType>::type(x) + 1); };
+	ClickType operator++(ClickType& x);
 	ClickType operator*(ClickType c);
 	ClickType begin(ClickType x);
 	ClickType end(ClickType x);
