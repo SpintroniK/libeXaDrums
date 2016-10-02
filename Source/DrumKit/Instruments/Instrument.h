@@ -22,6 +22,8 @@
 #include <memory>
 #include <algorithm>
 
+using namespace Sound;
+
 namespace DrumKit
 {
 
@@ -30,7 +32,7 @@ namespace DrumKit
 
 	public:
 
-		Instrument(InstrumentParameters parameters, std::shared_ptr<Sound::SoundBank> sb);
+		Instrument(InstrumentParameters parameters, std::shared_ptr<SoundBank> sb);
 		virtual ~Instrument();
 
 
@@ -49,7 +51,7 @@ namespace DrumKit
 	protected:
 
 		InstrumentParameters parameters;
-		std::shared_ptr<Sound::SoundBank> soundBank;
+		std::shared_ptr<SoundBank> soundBank;
 		//std::map<int, int> soundIds;
 
 
