@@ -171,6 +171,22 @@ namespace DrumKit
 	{
 
 		metronome->SetTempo(tempo);
+		RestartMetronome();
+
+		return;
+	}
+
+	void Module::SetClickType(const ClickType& type)
+	{
+
+		metronome->SetClickType(type);
+		RestartMetronome();
+
+		return;
+	}
+
+	void Module::RestartMetronome()
+	{
 
 		if(isMetronomeEnabled)
 		{

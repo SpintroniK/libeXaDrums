@@ -48,6 +48,7 @@ namespace eXaDrumsApi
 		void ChangeTempo(int tempo) { drumModule->ChangeTempo(tempo); };
 		int GetNumClickTypes() const { return int(Util::Enums::GetClickTypes().size()); };
 		void GetClickTypeById(int id, char* kitName, int& nameLength) const;
+		void SetClickType(int id) { drumModule->SetClickType(Util::Enums::GetClickTypes()[id]); };
 
 
 		// Kits

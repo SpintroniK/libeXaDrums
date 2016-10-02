@@ -32,7 +32,7 @@ namespace DrumKit
 
 		void GenerateClick();
 
-		void SetClickType(const ClickType& type);
+		void SetClickType(const ClickType& type) { clickType = type; };
 		void SetTempo(int tempo);
 
 		ClickType GetClickType() const { return clickType; }
