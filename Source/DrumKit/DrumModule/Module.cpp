@@ -10,7 +10,7 @@
 namespace DrumKit
 {
 
-	Module::Module(std::string dir, std::shared_ptr<Sound::Mixer> mixer, std::shared_ptr<Metronome> metro)
+	Module::Module(std::string dir, std::shared_ptr<Mixer> mixer, std::shared_ptr<Metronome> metro)
 	: directory(dir),
 	  kitManager(dir + "Kits/"),  kitId(0),
 	  isPlay(false),
@@ -18,8 +18,8 @@ namespace DrumKit
 	  metronome(metro), metronomeSoundId(-1), isMetronomeEnabled(false)
 	{
 
-		this->soundProc = std::make_shared<Sound::SoundProcessor>(Sound::SoundProcessor());
-		this->soundBank = std::make_shared<Sound::SoundBank>(Sound::SoundBank(dir));
+		this->soundProc = std::make_shared<SoundProcessor>(SoundProcessor());
+		this->soundBank = std::make_shared<SoundBank>(SoundBank(dir));
 
 		mixer->SetSoundBank(soundBank);
 

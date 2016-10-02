@@ -20,10 +20,10 @@ namespace eXaDrumsApi
 
 		std::string moduleLoc(dataLocation);
 
-		Sound::AlsaParameters::LoadAlsaParameters(moduleLoc + "alsaConfig.xml", this->alsaParams);
+		AlsaParameters::LoadAlsaParameters(moduleLoc + "alsaConfig.xml", this->alsaParams);
 
-		this->mixer = std::shared_ptr<Sound::Mixer>(new Sound::Mixer());
-		this->alsa = std::unique_ptr<Sound::Alsa>(new Sound::Alsa(this->alsaParams, this->mixer));
+		this->mixer = std::shared_ptr<Mixer>(new Mixer());
+		this->alsa = std::unique_ptr<Alsa>(new Alsa(this->alsaParams, this->mixer));
 
 
 		this->metronome = std::shared_ptr<DrumKit::Metronome>(new DrumKit::Metronome(this->alsaParams));

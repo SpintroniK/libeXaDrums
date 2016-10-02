@@ -23,6 +23,8 @@
 
 #include <cmath>
 
+using namespace Sound;
+
 namespace eXaDrumsApi
 {
 
@@ -67,10 +69,10 @@ namespace eXaDrumsApi
 
 		std::unique_ptr<DrumKit::Module> drumModule;
 
-		Sound::AlsaParams alsaParams;
-		std::unique_ptr<Sound::Alsa> alsa;
-		std::shared_ptr<Sound::Mixer> mixer;
-		std::shared_ptr<DrumKit::Metronome> metronome;
+		AlsaParams alsaParams;
+		std::unique_ptr<Alsa> alsa;
+		std::shared_ptr<Mixer> mixer;
+		std::shared_ptr<Metronome> metronome;
 
 		std::atomic<bool> isStarted;
 
