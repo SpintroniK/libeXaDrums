@@ -141,7 +141,7 @@ namespace DrumKit
 		if(enable)
 		{
 			//xxx Will change in the future
-			metronome->GenerateSine();
+			metronome->GenerateClick();
 			std::vector<short> data = metronome->GetData();
 
 			metronomeSoundId = soundBank->AddSound(data, 0.5f);

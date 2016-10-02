@@ -8,10 +8,10 @@
 #ifndef RASPIDRUMS_SOURCE_DRUMKIT_MODULE_H_
 #define RASPIDRUMS_SOURCE_DRUMKIT_MODULE_H_
 
-
 #include "../../Sound/SoundProcessor/SoundProcessor.h"
 #include "../../Sound/Mixer/Mixer.h"
 #include "../../Sound/SoundBank/SoundBank.h"
+
 #include "../../Metronome/Metronome.h"
 
 #include "../Triggers/TriggerManager.h"

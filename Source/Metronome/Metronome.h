@@ -10,6 +10,8 @@
 
 #include "../Sound/Alsa/Alsa.h"
 
+#include "ClickTypes.h"
+
 #include <vector>
 #include <limits>
 
@@ -28,19 +30,28 @@ namespace DrumKit
 		Metronome(Sound::AlsaParams alsaParams);
 		virtual ~Metronome();
 
-		void GenerateSine();
+		void GenerateClick();
 
+		void SetClickType(const ClickType& type);
 		void SetTempo(int tempo);
 
-		std::vector<short> GetData() const { return data; }
+		ClickType GetClickType() const { return clickType; }
 		int GetTempo() const { return tempo; }
+		std::vector<short> GetData() const { return data; }
 
 
 	private:
 
+		void GenerateSine();
+		void GenerateSquare();
+
+		int GetNumSamples() const;
+		int GetBeatsRate() const;
+
 		Sound::AlsaParams alsaParameters;
 
 		// Metronome parameters
+		ClickType clickType;
 		int tempo;
 		int rhythm;
 		int beatsPerMeasure;
