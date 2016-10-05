@@ -9,11 +9,16 @@
 #define SOURCE_METRONOME_METRONOME_H_
 
 #include "../Sound/Alsa/Alsa.h"
+#include "../Util/Enums.h"
 
 #include "ClickTypes.h"
+#include "MetronomeParameters.h"
+
+#include <tinyxml2.h>
 
 #include <vector>
 #include <limits>
+#include <string>
 
 #include <cmath>
 
@@ -27,20 +32,28 @@ namespace DrumKit
 
 	public:
 
-		Metronome(Sound::AlsaParams alsaParams);
+		Metronome(AlsaParams alsaParams);
+		Metronome(AlsaParams alsaParams, MetronomeParameters params);
 		virtual ~Metronome();
 
 		void GenerateClick();
 
-		void SetClickType(const ClickType& type) { clickType = type; };
+		void SetParameters(const MetronomeParameters& params) { parameters = params; }
+		void SetClickType(const ClickType& type) { parameters.clickType = type; };
 		void SetTempo(int tempo);
 
-		ClickType GetClickType() const { return clickType; }
-		int GetTempo() const { return tempo; }
+		MetronomeParameters GetParameters() const { return parameters; }
+		ClickType GetClickType() const { return parameters.clickType; }
+		int GetTempo() const { return parameters.tempo; }
 		std::vector<short> GetData() const { return data; }
 
 
+		static void LoadConfig(const std::string& filePath, MetronomeParameters& params);
+		static void SaveConfig(const std::string& filePath, const MetronomeParameters& params);
+
+
 	private:
+
 
 		void GenerateSine();
 		void GenerateSquare();
@@ -48,13 +61,13 @@ namespace DrumKit
 		int GetNumSamples() const;
 		int GetBeatsRate() const;
 
-		Sound::AlsaParams alsaParameters;
+		AlsaParams alsaParameters;
 
 		// Metronome parameters
-		ClickType clickType;
-		int tempo;
-		int rhythm;
-		int beatsPerMeasure;
+		MetronomeParameters parameters;
+
+		std::vector<int> bpmeasList;
+		std::vector<int> rhythmList;
 
 		std::vector<short> data;
 

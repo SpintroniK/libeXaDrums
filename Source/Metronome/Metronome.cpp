@@ -8,16 +8,29 @@
 #include "Metronome.h"
 
 using namespace Sound;
+using namespace tinyxml2;
 
 namespace DrumKit
 {
 
-	Metronome::Metronome(AlsaParams alsaParams) : alsaParameters(alsaParams),
-	clickType(ClickType::First), tempo(120), rhythm(2), beatsPerMeasure(4)
- 	{
+	Metronome::Metronome(AlsaParams alsaParams) : Metronome(alsaParams, MetronomeParameters())
+	{
+
 
 		return;
 	}
+
+	Metronome::Metronome(AlsaParams alsaParams, MetronomeParameters params) : alsaParameters(alsaParams), parameters(params)
+ 	{
+
+		bpmeasList = std::vector<int>{1, 2, 3, 4, 5, 6, 7, 8};
+		rhythmList = std::vector<int>{1, 2, 4};
+
+
+		return;
+	}
+
+
 
 	Metronome::~Metronome()
 	{
@@ -29,7 +42,7 @@ namespace DrumKit
 	void Metronome::GenerateClick()
 	{
 
-		switch (this->clickType)
+		switch (this->parameters.clickType)
 		{
 			case ClickType::Sine: 	GenerateSine();		break;
 			case ClickType::Square: GenerateSquare();	break;
@@ -41,13 +54,72 @@ namespace DrumKit
 		return;
 	}
 
+
+
+	void Metronome::SetTempo(int t)
+	{
+
+		parameters.tempo = t;
+
+
+
+		if(parameters.tempo >= 250) parameters.tempo = 250;
+		if(parameters.tempo <= 40) parameters.tempo = 40;
+
+		return;
+	}
+
+
+	void Metronome::LoadConfig(const std::string& filePath, MetronomeParameters& params)
+	{
+
+
+
+		return;
+	}
+
+	void Metronome::SaveConfig(const std::string& filePath, const MetronomeParameters& params)
+	{
+
+		// Create document
+		XMLDocument doc;
+
+		// Add root element
+		XMLElement* root = doc.NewElement("Metronome");
+		doc.InsertFirstChild(root);
+
+		// Create elements
+		XMLElement* tempo = doc.NewElement("Tempo");
+		XMLElement* rhythm = doc.NewElement("Rhythm");
+		XMLElement* beatsPerMeasure = doc.NewElement("BeatsPerMeasure");
+		XMLElement* clickType = doc.NewElement("ClickType");
+
+		// Add values and elements to document
+		tempo->SetText(params.tempo);
+		rhythm->SetText(params.rhythm);
+		beatsPerMeasure->SetText(params.beatsPerMeasure);
+		clickType->SetText(Util::Enums::ClickTypeToString(params.clickType).c_str());
+
+		// Add elements to document
+		root->InsertEndChild(tempo);
+		root->InsertEndChild(rhythm);
+		root->InsertEndChild(beatsPerMeasure);
+		root->InsertEndChild(clickType);
+
+		// Save file
+		doc.SaveFile(filePath.c_str());
+
+		return;
+	}
+
+
 	// Private Methods
 
 	int Metronome::GetNumSamples() const
 	{
 		// Calculate number of samples to generate the measure
-		float beatsPerSecond = rhythm * float(tempo) / 60.0f;
-		float measureTime = beatsPerMeasure / beatsPerSecond;
+		float beatsPerSecond = parameters.rhythm * float(parameters.tempo) / 60.0f;
+		float measureTime = parameters.beatsPerMeasure / beatsPerSecond;
 		int numSamples = alsaParameters.sampleRate * measureTime;
 
 		return numSamples;
@@ -56,7 +128,7 @@ namespace DrumKit
 	int Metronome::GetBeatsRate() const
 	{
 		// Get number of samples between each click
-		float beatsPerSecond = rhythm * float(tempo) / 60.0f;
+		float beatsPerSecond = parameters.rhythm * float(parameters.tempo) / 60.0f;
 		float beatsFreq = 1/beatsPerSecond;
 		int beatsRate = std::floor(alsaParameters.sampleRate*beatsFreq);
 
@@ -94,7 +166,7 @@ namespace DrumKit
 	        if(i > click && i < click + clickSamples)
 	        {
 
-	        	if(n % beatsPerMeasure == 0)
+	        	if(n % parameters.beatsPerMeasure == 0)
 	        	{
 	        		mul = 2;
 	        	}
@@ -156,7 +228,7 @@ namespace DrumKit
 	        if(i > click && i < click + clickSamples)
 	        {
 
-	        	if(n % beatsPerMeasure == 0)
+	        	if(n % parameters.beatsPerMeasure == 0)
 	        	{
 	        		mul = 2;
 	        	}
@@ -186,16 +258,5 @@ namespace DrumKit
 		return;
 	}
 
-
-	void Metronome::SetTempo(int t)
-	{
-
-		tempo = t;
-
-		if(tempo >= 250) tempo = 250;
-		if(tempo <= 40) tempo = 40;
-
-		return;
-	}
 
 } /* namespace DrumKit */
