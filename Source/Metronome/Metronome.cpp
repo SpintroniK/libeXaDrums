@@ -59,12 +59,7 @@ namespace DrumKit
 	void Metronome::SetTempo(int t)
 	{
 
-		parameters.tempo = t;
-
-
-
-		if(parameters.tempo >= 250) parameters.tempo = 250;
-		if(parameters.tempo <= 40) parameters.tempo = 40;
+		parameters.tempo = std::min<int>(std::max<int>(t, 40), 250);
 
 		return;
 	}
@@ -73,7 +68,25 @@ namespace DrumKit
 	void Metronome::LoadConfig(const std::string& filePath, MetronomeParameters& params)
 	{
 
+		XMLDocument doc;
 
+		if(doc.LoadFile(filePath.c_str()) != XML_SUCCESS)
+		{
+			throw -1;
+		}
+
+		// Get elements
+		XMLElement* root = doc.RootElement();
+		XMLElement* tempo = root->FirstChildElement("Tempo");
+		XMLElement* rhythm = root->FirstChildElement("Rhythm");
+		XMLElement* beatsPerMeasure = root->FirstChildElement("BeatsPerMeasure");
+		XMLElement* clickType = root->FirstChildElement("ClickType");
+
+		// Get values
+		params.tempo = std::atoi(tempo->GetText());
+		params.rhythm = std::atoi(rhythm->GetText());
+		params.beatsPerMeasure = std::atoi(beatsPerMeasure->GetText());
+		params.clickType = Util::Enums::ClickTypeFromString(clickType->GetText());
 
 		return;
 	}

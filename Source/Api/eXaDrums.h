@@ -70,7 +70,6 @@ namespace eXaDrumsApi
 
 		std::unique_ptr<DrumKit::Module> drumModule;
 
-		AlsaParams alsaParams;
 		std::unique_ptr<Alsa> alsa;
 		std::shared_ptr<Mixer> mixer;
 		std::shared_ptr<Metronome> metronome;

@@ -10,24 +10,25 @@
 namespace eXaDrumsApi
 {
 
-	eXaDrums::eXaDrums(const char* dataLocation)
-	: drumModule(nullptr),
-	  alsaParams(),
-	  alsa(nullptr),
-	  mixer(nullptr),
-	  isStarted(false)
+	eXaDrums::eXaDrums(const char* dataLocation) : isStarted(false)
 	{
 
 		std::string moduleLoc(dataLocation);
 
-		AlsaParameters::LoadAlsaParameters(moduleLoc + "alsaConfig.xml", this->alsaParams);
+		// Load alsa parameters
+		AlsaParams alsaParams;
+		AlsaParameters::LoadAlsaParameters(moduleLoc + "alsaConfig.xml", alsaParams);
 
+		// Create mixer and alsa
 		this->mixer = std::shared_ptr<Mixer>(new Mixer());
-		this->alsa = std::unique_ptr<Alsa>(new Alsa(this->alsaParams, this->mixer));
+		this->alsa = std::unique_ptr<Alsa>(new Alsa(alsaParams, this->mixer));
 
+		// Load metronome parameters
+		MetronomeParameters metronomeParams;
+		Metronome::LoadConfig(moduleLoc + "metronomeConfig.xml", metronomeParams);
+		this->metronome = std::shared_ptr<DrumKit::Metronome>(new DrumKit::Metronome(alsaParams, metronomeParams));
 
-		this->metronome = std::shared_ptr<DrumKit::Metronome>(new DrumKit::Metronome(this->alsaParams));
-
+		// Create drum module
 		this->drumModule = std::unique_ptr<DrumKit::Module>(new DrumKit::Module(moduleLoc, this->mixer, this->metronome));
 
 		return;

@@ -12,7 +12,7 @@ using namespace std::chrono;
 namespace Sound
 {
 
-	Alsa::Alsa(AlsaParams& parameters, std::shared_ptr<Mixer> const& mix)
+	Alsa::Alsa(AlsaParams parameters, std::shared_ptr<Mixer> const& mix)
 	: params(parameters), mixer(mix), play(false), rec(false)
 
 	{
