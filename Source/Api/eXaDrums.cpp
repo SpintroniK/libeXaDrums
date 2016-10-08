@@ -69,6 +69,7 @@ namespace eXaDrumsApi
 		return;
 	}
 
+	// Metronome
 
 	void eXaDrums::GetClickTypeById(int id, char* kitName, int& nameLength) const
 	{
@@ -76,6 +77,25 @@ namespace eXaDrumsApi
 		std::string clickType = Util::Enums::ClickTypeToString(Util::Enums::GetClickTypes()[id]);
 
 		CppStringToC(clickType, kitName, nameLength);
+
+		return;
+	}
+
+
+	void eXaDrums::GetRhythmList(int* data) const
+	{
+
+		std::vector<int> rhythmList = this->metronome->GetRhythmList();
+		std::copy(rhythmList.cbegin(), rhythmList.cend(), data);
+
+		return;
+	}
+
+	void eXaDrums::GetBpmeasList(int* data) const
+	{
+
+		std::vector<int> bpmeasList = this->metronome->GetBpmeasList();
+		std::copy(bpmeasList.cbegin(), bpmeasList.cend(), data);
 
 		return;
 	}

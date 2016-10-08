@@ -49,6 +49,10 @@ namespace eXaDrumsApi
 		int GetNumClickTypes() const { return int(Util::Enums::GetClickTypes().size()); };
 		void GetClickTypeById(int id, char* kitName, int& nameLength) const;
 		void SetClickType(int id) { drumModule->SetClickType(Util::Enums::GetClickTypes()[id]); };
+		int GetNumRhythms() const { return (int)this->metronome->GetRhythmList().size(); };
+		void GetRhythmList(int* data) const;
+		int GetNumBpmeas() const { return (int)this->metronome->GetBpmeasList().size(); };
+		void GetBpmeasList(int* data) const;
 
 
 		// Kits

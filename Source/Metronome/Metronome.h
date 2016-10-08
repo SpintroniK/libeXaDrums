@@ -45,6 +45,8 @@ namespace DrumKit
 		MetronomeParameters GetParameters() const { return parameters; }
 		ClickType GetClickType() const { return parameters.clickType; }
 		int GetTempo() const { return parameters.tempo; }
+		std::vector<int> GetRhythmList() const { return rhythmList; }
+		std::vector<int> GetBpmeasList() const { return bpmeasList; }
 		std::vector<short> GetData() const { return data; }
 
 
