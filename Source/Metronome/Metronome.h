@@ -39,12 +39,17 @@ namespace DrumKit
 		void GenerateClick();
 
 		void SetParameters(const MetronomeParameters& params) { parameters = params; }
-		void SetClickType(const ClickType& type) { parameters.clickType = type; };
+		void SetClickType(const ClickType& type) { parameters.clickType = type; }
+		void SetRhythm(int rhythm) { parameters.rhythm = rhythm; }
+		void SetBpmeas(int bpmeas) { parameters.beatsPerMeasure = bpmeas; }
 		void SetTempo(int tempo);
 
 		MetronomeParameters GetParameters() const { return parameters; }
 		ClickType GetClickType() const { return parameters.clickType; }
 		int GetTempo() const { return parameters.tempo; }
+		int GetRhythm() const { return parameters.rhythm; }
+		int GetBpmeas() const { return parameters.beatsPerMeasure; }
+
 		std::vector<int> GetRhythmList() const { return rhythmList; }
 		std::vector<int> GetBpmeasList() const { return bpmeasList; }
 		std::vector<short> GetData() const { return data; }

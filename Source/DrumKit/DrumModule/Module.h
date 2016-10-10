@@ -61,7 +61,6 @@ namespace DrumKit
 		// Metronome
 		void EnableMetronome(bool enable);
 		void ChangeTempo(int tempo);
-		void SetClickType(const ClickType& type);
 		void RestartMetronome();
 
 

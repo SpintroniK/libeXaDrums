@@ -176,15 +176,6 @@ namespace DrumKit
 		return;
 	}
 
-	void Module::SetClickType(const ClickType& type)
-	{
-
-		metronome->SetClickType(type);
-		RestartMetronome();
-
-		return;
-	}
-
 	void Module::RestartMetronome()
 	{
 

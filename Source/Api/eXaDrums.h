@@ -44,28 +44,37 @@ namespace eXaDrumsApi
 		void Stop();
 
 		// Metronome
-		void EnableMetronome(bool enable) { drumModule->EnableMetronome(enable); };
-		void ChangeTempo(int tempo) { drumModule->ChangeTempo(tempo); };
-		int GetNumClickTypes() const { return int(Util::Enums::GetClickTypes().size()); };
+		void EnableMetronome(bool enable) { drumModule->EnableMetronome(enable); }
+		void RestartMetronome() { drumModule->RestartMetronome(); }
+		void ChangeTempo(int tempo) { drumModule->ChangeTempo(tempo); }
+
+		int GetNumClickTypes() const { return int(Util::Enums::GetClickTypes().size()); }
 		void GetClickTypeById(int id, char* kitName, int& nameLength) const;
-		void SetClickType(int id) { drumModule->SetClickType(Util::Enums::GetClickTypes()[id]); };
-		int GetNumRhythms() const { return (int)this->metronome->GetRhythmList().size(); };
+		void SetClickType(int id) { metronome->SetClickType(Util::Enums::GetClickTypes()[id]); }
+		int GetClickTypeId() const;
+
+		int GetNumRhythms() const { return (int)this->metronome->GetRhythmList().size(); }
 		void GetRhythmList(int* data) const;
-		int GetNumBpmeas() const { return (int)this->metronome->GetBpmeasList().size(); };
+		int GetRhythm() const { return this->metronome->GetRhythm(); }
+		void SetRhythm(int rhythm) { this->metronome->SetRhythm(rhythm); }
+
+		int GetNumBpmeas() const { return (int)this->metronome->GetBpmeasList().size(); }
 		void GetBpmeasList(int* data) const;
+		int GetBpmeas() const { return this->metronome->GetBpmeas(); }
+		void SetBpmeas(int bpmeas) { this->metronome->SetBpmeas(bpmeas); }
 
 
 		// Kits
 		void SelectKit(int id);
-		void SaveKitConfig(int id) const { drumModule->SaveKitConfig(id); };
-		bool DeleteKit(const int& id) { return drumModule->DeleteKit(id); };
-		int GetNumKits() const { return drumModule->GetNumKits(); };
+		void SaveKitConfig(int id) const { drumModule->SaveKitConfig(id); }
+		bool DeleteKit(const int& id) { return drumModule->DeleteKit(id); }
+		int GetNumKits() const { return drumModule->GetNumKits(); }
 		void GetKitNameById(int id, char* kitName, int& nameLength);
 
 		// Instruments
 		void SetInstrumentVolume(int id, int volume);
 		int GetInstrumentVolume(int id) const;
-		int GetNumInstruments() const { return drumModule->GetNumInstruments(); };
+		int GetNumInstruments() const { return drumModule->GetNumInstruments(); }
 		void GetInstrumentName(int id, char* name, int& nameLength);
 
 	private:

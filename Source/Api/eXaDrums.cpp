@@ -81,6 +81,18 @@ namespace eXaDrumsApi
 		return;
 	}
 
+	int eXaDrums::GetClickTypeId() const
+	{
+
+		ClickType clickType = metronome->GetClickType();
+		const std::vector<ClickType>& clickTypes = Util::Enums::GetClickTypes();
+
+		auto it = std::find(clickTypes.cbegin(), clickTypes.cend(), clickType);
+		int index = std::distance(clickTypes.cbegin(), it);
+
+		return index;
+	}
+
 
 	void eXaDrums::GetRhythmList(int* data) const
 	{
