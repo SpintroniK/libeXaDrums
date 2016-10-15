@@ -4,17 +4,20 @@
 
 # Add inputs and outputs from these tool invocations to the build variables 
 CPP_SRCS += \
-../Source/DrumKit/KitManager/KitManager.cpp 
+../Source/DrumKit/Kits/Kit.cpp \
+../Source/DrumKit/Kits/KitManager.cpp 
 
 OBJS += \
-./Source/DrumKit/KitManager/KitManager.o 
+./Source/DrumKit/Kits/Kit.o \
+./Source/DrumKit/Kits/KitManager.o 
 
 CPP_DEPS += \
-./Source/DrumKit/KitManager/KitManager.d 
+./Source/DrumKit/Kits/Kit.d \
+./Source/DrumKit/Kits/KitManager.d 
 
 
 # Each subdirectory must supply rules for building sources it contributes
-Source/DrumKit/KitManager/%.o: ../Source/DrumKit/KitManager/%.cpp
+Source/DrumKit/Kits/%.o: ../Source/DrumKit/Kits/%.cpp
 	@echo 'Building file: $<'
 	@echo 'Invoking: Cross G++ Compiler'
 	g++ -std=c++0x -O3 -Wall -c -fmessage-length=0 -fPIC -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@)" -o "$@" "$<"

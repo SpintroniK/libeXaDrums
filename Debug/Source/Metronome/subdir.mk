@@ -4,20 +4,20 @@
 
 # Add inputs and outputs from these tool invocations to the build variables 
 CPP_SRCS += \
-../Source/Sound/SoundProcessor/Curves/Curves.cpp 
+../Source/Metronome/Metronome.cpp 
 
 OBJS += \
-./Source/Sound/SoundProcessor/Curves/Curves.o 
+./Source/Metronome/Metronome.o 
 
 CPP_DEPS += \
-./Source/Sound/SoundProcessor/Curves/Curves.d 
+./Source/Metronome/Metronome.d 
 
 
 # Each subdirectory must supply rules for building sources it contributes
-Source/Sound/SoundProcessor/Curves/%.o: ../Source/Sound/SoundProcessor/Curves/%.cpp
+Source/Metronome/%.o: ../Source/Metronome/%.cpp
 	@echo 'Building file: $<'
 	@echo 'Invoking: Cross G++ Compiler'
-	g++ -std=c++0x -O3 -Wall -c -fmessage-length=0 -fPIC -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@)" -o "$@" "$<"
+	g++ -std=c++0x -O0 -g3 -Wall -c -fmessage-length=0 -fPIC -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@)" -o "$@" "$<"
 	@echo 'Finished building: $<'
 	@echo ' '
 
