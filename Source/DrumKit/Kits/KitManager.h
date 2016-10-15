@@ -30,7 +30,6 @@
 #include <dirent.h>
 #include <unistd.h>
 
-using namespace Sound;
 
 namespace DrumKit
 {
@@ -55,8 +54,8 @@ namespace DrumKit
 
 		void ScanFolder();
 
-		static InstrumentSoundType GetSoundType(std::string type);
-		static std::string GetSoundTypeStr(InstrumentSoundType soundType);
+		static Sound::InstrumentSoundType GetSoundType(std::string type);
+		static std::string GetSoundTypeStr(Sound::InstrumentSoundType soundType);
 
 		std::string kitsPath;
 		std::vector<std::string> filesPaths;

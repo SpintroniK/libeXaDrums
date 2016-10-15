@@ -21,7 +21,6 @@
 #include <string>
 #include <memory>
 
-using namespace Sound;
 
 namespace DrumKit
 {
@@ -31,7 +30,7 @@ namespace DrumKit
 
 	public:
 
-		TestDrum(InstrumentParameters parameters, std::shared_ptr<SoundBank> sb);
+		TestDrum(InstrumentParameters parameters, std::shared_ptr<Sound::SoundBank> sb);
 		virtual ~TestDrum();
 
 		virtual void SetTriggers(std::vector<TriggerPtr> const& triggers);

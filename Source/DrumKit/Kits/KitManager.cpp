@@ -7,6 +7,7 @@
 
 #include "KitManager.h"
 
+using namespace Sound;
 using namespace tinyxml2;
 
 namespace DrumKit

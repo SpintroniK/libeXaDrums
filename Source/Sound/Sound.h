@@ -38,6 +38,7 @@ namespace Sound
 		float GetVolume() const { return this->volume; }
 		std::size_t GetIndex() const { return idx; }
 		const short* GetData() const { return data.data(); }
+		const std::vector<short> GetInternalData() const { return data; }
 		inline const short GetValue(int i) const { return data[(i+idx)%length]; }
 		bool IsLoop() const { return loop; }
 

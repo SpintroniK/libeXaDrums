@@ -7,6 +7,8 @@
 
 #include "Module.h"
 
+using namespace Sound;
+
 namespace DrumKit
 {
 
@@ -18,7 +20,6 @@ namespace DrumKit
 	  metronome(metro), metronomeSoundId(-1), isMetronomeEnabled(false)
 	{
 
-		this->soundProc = std::make_shared<SoundProcessor>(SoundProcessor());
 		this->soundBank = std::make_shared<SoundBank>(SoundBank(dir));
 
 		mixer->SetSoundBank(soundBank);

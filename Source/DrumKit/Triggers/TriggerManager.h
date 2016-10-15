@@ -35,7 +35,7 @@ namespace DrumKit
 
 	private:
 
-		static void LoadSensorsConfig(const std::string& moduleDir, SensorType& sensorType);
+		static void LoadSensorsConfig(const std::string& moduleDir, IO::SensorType& sensorType);
 
 	};
 

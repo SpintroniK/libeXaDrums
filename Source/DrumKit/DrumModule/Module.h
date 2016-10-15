@@ -10,7 +10,6 @@
 
 #include "../../Metronome/Metronome.h"
 
-#include "../../Sound/SoundProcessor/SoundProcessor.h"
 #include "../../Sound/Mixer/Mixer.h"
 #include "../../Sound/SoundBank/SoundBank.h"
 
@@ -27,7 +26,6 @@
 #include <algorithm>
 #include <functional>
 
-using namespace Sound;
 
 namespace DrumKit
 {
@@ -37,7 +35,7 @@ namespace DrumKit
 
 	public:
 
-		Module(std::string dir, std::shared_ptr<Mixer> mixer, std::shared_ptr<Metronome> metro);
+		Module(std::string dir, std::shared_ptr<Sound::Mixer> mixer, std::shared_ptr<Metronome> metro);
 		virtual ~Module();
 
 		// Kit
@@ -86,9 +84,8 @@ namespace DrumKit
 		std::vector<TriggerPtr> triggers;
 
 		// Sound
-		std::shared_ptr<SoundBank> soundBank;
-		std::shared_ptr<SoundProcessor> soundProc;
-		std::shared_ptr<Mixer> mixer;
+		std::shared_ptr<Sound::SoundBank> soundBank;
+		std::shared_ptr<Sound::Mixer> mixer;
 		std::shared_ptr<Metronome> metronome;
 
 		int metronomeSoundId;

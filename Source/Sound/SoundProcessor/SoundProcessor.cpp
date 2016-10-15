@@ -11,20 +11,6 @@
 namespace Sound
 {
 
-	SoundProcessor::SoundProcessor()
-	{
-
-		return;
-	}
-
-	SoundProcessor::~SoundProcessor()
-	{
-
-
-		return;
-	}
-
-
 
 
 

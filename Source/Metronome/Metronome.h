@@ -32,8 +32,8 @@ namespace DrumKit
 
 	public:
 
-		Metronome(AlsaParams alsaParams);
-		Metronome(AlsaParams alsaParams, MetronomeParameters params);
+		Metronome(Sound::AlsaParams alsaParams);
+		Metronome(Sound::AlsaParams alsaParams, MetronomeParameters params);
 		virtual ~Metronome();
 
 		void GenerateClick();
@@ -68,7 +68,7 @@ namespace DrumKit
 		int GetNumSamples() const;
 		int GetBeatsRate() const;
 
-		AlsaParams alsaParameters;
+		Sound::AlsaParams alsaParameters;
 
 		// Metronome parameters
 		MetronomeParameters parameters;

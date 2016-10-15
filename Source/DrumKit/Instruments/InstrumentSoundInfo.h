@@ -13,7 +13,6 @@
 
 #include <string>
 
-using namespace Sound;
 
 namespace DrumKit
 {
@@ -23,7 +22,7 @@ namespace DrumKit
 
 		int id;
 		std::string soundLocation;
-		InstrumentSoundType type;
+		Sound::InstrumentSoundType type;
 
 
 	};

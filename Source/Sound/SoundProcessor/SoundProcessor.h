@@ -9,14 +9,10 @@
 #define SOURCE_SOUND_SOUNDPROCESSOR_SOUNDPROCESSOR_H_
 
 
-#include "../Alsa/AlsaParams.h"
 #include "../Sound.h"
 
 #include <vector>
 #include <algorithm>
-#include <utility>
-#include <memory>
-#include <functional>
 
 
 namespace Sound
@@ -27,12 +23,11 @@ namespace Sound
 
 	public:
 
-		SoundProcessor();
-		virtual ~SoundProcessor();
-
-
 
 	private:
+
+		SoundProcessor() {};
+		virtual ~SoundProcessor() {};
 
 
 	};

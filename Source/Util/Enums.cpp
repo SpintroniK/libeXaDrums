@@ -7,6 +7,9 @@
 
 #include "Enums.h"
 
+using namespace DrumKit;
+using namespace Sound;
+using namespace IO;
 
 namespace Util
 {

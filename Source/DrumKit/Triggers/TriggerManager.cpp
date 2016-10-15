@@ -80,7 +80,7 @@ namespace DrumKit
 
 	// PRIVATE METHODS
 
-	void TriggerManager::LoadSensorsConfig(const std::string& moduleDir, SensorType& sensorType)
+	void TriggerManager::LoadSensorsConfig(const std::string& moduleDir, IO::SensorType& sensorType)
 	{
 
 		std::string file(moduleDir + "sensorsConfig.xml");

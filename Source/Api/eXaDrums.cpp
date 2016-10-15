@@ -7,6 +7,9 @@
 
 #include "eXaDrums.h"
 
+using namespace Sound;
+using namespace DrumKit;
+
 namespace eXaDrumsApi
 {
 

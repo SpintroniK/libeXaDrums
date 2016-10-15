@@ -22,9 +22,6 @@
 #include <vector>
 #include <sstream>
 
-using namespace DrumKit;
-using namespace Sound;
-using namespace IO;
 
 namespace Util
 {
@@ -36,39 +33,39 @@ namespace Util
 	public:
 
 		// Click type
-		static ClickType ClickTypeFromString(const std::string& s);
-		static std::string ClickTypeToString(const ClickType& x);
-		static std::vector<ClickType> GetClickTypes();
+		static DrumKit::ClickType ClickTypeFromString(const std::string& s);
+		static std::string ClickTypeToString(const DrumKit::ClickType& x);
+		static std::vector<DrumKit::ClickType> GetClickTypes();
 
 		// Instrument type
-		static InstrumentType InstrumentTypeFromString(const std::string& s);
-		static std::string InstrumentTypeToString(const InstrumentType& x);
-		static std::vector<InstrumentType> GetInstrumentTypes();
+		static DrumKit::InstrumentType InstrumentTypeFromString(const std::string& s);
+		static std::string InstrumentTypeToString(const DrumKit::InstrumentType& x);
+		static std::vector<DrumKit::InstrumentType> GetInstrumentTypes();
 
 		// Trigger type
-		static TriggerType TriggerTypeFromString(const std::string& s);
-		static std::string TriggerTypeToString(const TriggerType& x);
-		static std::vector<TriggerType> GetTriggerTypes();
+		static DrumKit::TriggerType TriggerTypeFromString(const std::string& s);
+		static std::string TriggerTypeToString(const DrumKit::TriggerType& x);
+		static std::vector<DrumKit::TriggerType> GetTriggerTypes();
 
 		// Trigger location
-		static TriggerLocation TriggerLocationFromString(const std::string& s);
-		static std::string TriggerLocationToString(const TriggerLocation& x);
-		static std::vector<TriggerLocation> GetTriggerLocations();
+		static DrumKit::TriggerLocation TriggerLocationFromString(const std::string& s);
+		static std::string TriggerLocationToString(const DrumKit::TriggerLocation& x);
+		static std::vector<DrumKit::TriggerLocation> GetTriggerLocations();
 
 		// Cruves types
-		static CurveType CurveTypeFromString(const std::string& s);
-		static std::string CurveTypeToString(const CurveType& x);
-		static std::vector<CurveType> GetCurveTypes();
+		static DrumKit::CurveType CurveTypeFromString(const std::string& s);
+		static std::string CurveTypeToString(const DrumKit::CurveType& x);
+		static std::vector<DrumKit::CurveType> GetCurveTypes();
 
 		// Sensors types
-		static SensorType SensorTypeFromString(const std::string& s);
-		static std::string SensorTypeToString(const SensorType& x);
-		static std::vector<SensorType> GetSensorTypes();
+		static IO::SensorType SensorTypeFromString(const std::string& s);
+		static std::string SensorTypeToString(const IO::SensorType& x);
+		static std::vector<IO::SensorType> GetSensorTypes();
 
 		// Instrument sound type
-		static InstrumentSoundType InstrumentSoundTypeFromString(const std::string& s);
-		static std::string InstrumentSoundTypeToString(const InstrumentSoundType& x);
-		static std::vector<InstrumentSoundType> GetInstrumentSoundTypes();
+		static Sound::InstrumentSoundType InstrumentSoundTypeFromString(const std::string& s);
+		static std::string InstrumentSoundTypeToString(const Sound::InstrumentSoundType& x);
+		static std::vector<Sound::InstrumentSoundType> GetInstrumentSoundTypes();
 
 
 	private:
@@ -77,13 +74,13 @@ namespace Util
 		virtual ~Enums(){};
 
 
-		static const std::vector<ClickType> clickTypes;
-		static const std::vector<InstrumentType> instrumentTypes;
-		static const std::vector<TriggerType> triggerTypes;
-		static const std::vector<TriggerLocation> triggerLocations;
-		static const std::vector<CurveType> curveTypes;
-		static const std::vector<SensorType> sensorTypes;
-		static const std::vector<InstrumentSoundType> instrumentSoundsTypes;
+		static const std::vector<DrumKit::ClickType> clickTypes;
+		static const std::vector<DrumKit::InstrumentType> instrumentTypes;
+		static const std::vector<DrumKit::TriggerType> triggerTypes;
+		static const std::vector<DrumKit::TriggerLocation> triggerLocations;
+		static const std::vector<DrumKit::CurveType> curveTypes;
+		static const std::vector<IO::SensorType> sensorTypes;
+		static const std::vector<Sound::InstrumentSoundType> instrumentSoundsTypes;
 
 
 	};
