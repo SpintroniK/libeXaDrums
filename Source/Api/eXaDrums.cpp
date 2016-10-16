@@ -13,14 +13,16 @@ using namespace DrumKit;
 namespace eXaDrumsApi
 {
 
-	eXaDrums::eXaDrums(const char* dataLocation) : isStarted(false)
+	const std::string eXaDrums::metronomeConfigFile = "metronomeConfig.xml";
+	const std::string eXaDrums::alsaConfigFile = "alsaConfig.xml";
+
+	eXaDrums::eXaDrums(const char* dataLoc) : dataLocation(dataLoc), isStarted(false)
 	{
 
-		std::string moduleLoc(dataLocation);
 
 		// Load alsa parameters
 		AlsaParams alsaParams;
-		AlsaParameters::LoadAlsaParameters(moduleLoc + "alsaConfig.xml", alsaParams);
+		AlsaParameters::LoadAlsaParameters(dataLocation + alsaConfigFile, alsaParams);
 
 		// Create mixer and alsa
 		this->mixer = std::make_shared<Mixer>();
@@ -28,11 +30,11 @@ namespace eXaDrumsApi
 
 		// Load metronome parameters
 		MetronomeParameters metronomeParams;
-		Metronome::LoadConfig(moduleLoc + "metronomeConfig.xml", metronomeParams);
+		Metronome::LoadConfig(dataLocation + metronomeConfigFile, metronomeParams);
 		this->metronome = std::make_shared<Metronome>(alsaParams, metronomeParams);
 
 		// Create drum module
-		this->drumModule = std::unique_ptr<Module>(new Module(moduleLoc, this->mixer, this->metronome));
+		this->drumModule = std::unique_ptr<Module>(new Module(dataLocation, this->mixer, this->metronome));
 
 		return;
 	}

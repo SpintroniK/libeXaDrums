@@ -46,6 +46,8 @@ namespace eXaDrumsApi
 		void EnableMetronome(bool enable) { drumModule->EnableMetronome(enable); }
 		void RestartMetronome() { drumModule->RestartMetronome(); }
 		void ChangeTempo(int tempo) { drumModule->ChangeTempo(tempo); }
+		int GetTempo() const  { return metronome->GetTempo(); }
+		void SaveMetronomeConfig() { metronome->SaveConfig(dataLocation + metronomeConfigFile, metronome->GetParameters()); }
 
 		int GetNumClickTypes() const { return int(Util::Enums::GetClickTypes().size()); }
 		void GetClickTypeById(int id, char* kitName, int& nameLength) const;
@@ -79,6 +81,11 @@ namespace eXaDrumsApi
 	private:
 
 		void CppStringToC(std::string input, char* str, int& length) const;
+
+		static const std::string metronomeConfigFile;
+		static const std::string alsaConfigFile;
+
+		std::string dataLocation;
 
 		std::unique_ptr<DrumKit::Module> drumModule;
 
