@@ -23,16 +23,16 @@ namespace eXaDrumsApi
 		AlsaParameters::LoadAlsaParameters(moduleLoc + "alsaConfig.xml", alsaParams);
 
 		// Create mixer and alsa
-		this->mixer = std::shared_ptr<Mixer>(new Mixer());
+		this->mixer = std::make_shared<Mixer>();
 		this->alsa = std::unique_ptr<Alsa>(new Alsa(alsaParams, this->mixer));
 
 		// Load metronome parameters
 		MetronomeParameters metronomeParams;
 		Metronome::LoadConfig(moduleLoc + "metronomeConfig.xml", metronomeParams);
-		this->metronome = std::shared_ptr<DrumKit::Metronome>(new DrumKit::Metronome(alsaParams, metronomeParams));
+		this->metronome = std::make_shared<Metronome>(alsaParams, metronomeParams);
 
 		// Create drum module
-		this->drumModule = std::unique_ptr<DrumKit::Module>(new DrumKit::Module(moduleLoc, this->mixer, this->metronome));
+		this->drumModule = std::unique_ptr<Module>(new Module(moduleLoc, this->mixer, this->metronome));
 
 		return;
 	}

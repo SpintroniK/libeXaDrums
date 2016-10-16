@@ -20,7 +20,7 @@ namespace DrumKit
 	  metronome(metro), metronomeSoundId(-1), isMetronomeEnabled(false)
 	{
 
-		this->soundBank = std::make_shared<SoundBank>(SoundBank(dir));
+		this->soundBank = std::make_shared<SoundBank>(dir);
 
 		mixer->SetSoundBank(soundBank);
 
