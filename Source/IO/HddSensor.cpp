@@ -10,21 +10,13 @@
 namespace IO
 {
 
-	HddSensor::HddSensor(const char* filePath)
-	: index(0)
+
+	const std::vector<std::string> HddSensor::dataFiles({"out.raw", "out.raw", "hihat.raw"});
+
+
+	HddSensor::HddSensor(const char* dataFolder) : path(dataFolder), index(0)
 	{
 
-		std::string fileLoc(filePath);
-
-		file = new std::ifstream(fileLoc, std::ios::in|std::ifstream::binary);
-
-		if(!file->good())
-			throw - 1;
-
-		short val;
-
-		while(file->read((char*)&val, sizeof(short)))
-			value.push_back(val);
 
 		return;
 	}
@@ -32,8 +24,6 @@ namespace IO
 	HddSensor::~HddSensor()
 	{
 
-		file->close();
-		delete file;
 
 		return;
 	}
@@ -42,17 +32,51 @@ namespace IO
 	short HddSensor::GetData(char channel)
 	{
 
-		//std::this_thread::sleep_for(std::chrono::microseconds(10));
+
+		if(data.empty())
+		{
+			ReadData(channel);
+		}
 
 		// Artificial delay (works well in Debug with my laptop...)
 		for(int i = 0; i < 2500; i++);
 
-		short val = value[++index];
+		short val = data[++index];
 
-		if(index == value.size())
+		if(index == data.size())
+		{
 			index = 0;
+		}
 
 		return val;
+	}
+
+	// Private Methods
+
+	void HddSensor::ReadData(char channel)
+	{
+
+		std::string fileName = dataFiles[channel];
+		std::string fileLoc(path + fileName);
+
+		std::ifstream file(fileLoc, std::ifstream::binary);
+
+		if(!file.good())
+		{
+			throw - 1;
+		}
+
+		short val;
+
+		while(file.read((char*)&val, sizeof(short)))
+		{
+			data.push_back(val);
+		}
+
+		file.close();
+
+
+		return;
 	}
 
 }

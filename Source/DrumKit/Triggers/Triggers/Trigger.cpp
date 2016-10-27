@@ -27,28 +27,17 @@ namespace DrumKit
 		// Default state values
 		state.isTrig = false;
 		state.sensorId = triggerParams.sensorId;
-		state.strength = 0.0f;
+		state.value = 0.0f;
 
-		const std::string sensorLoc("/home/jeremy/Desktop/Prog/eXaDrums/eXaDrums/out.raw");
+		const std::string dataFolder("/home/jeremy/Desktop/Prog/eXaDrums/eXaDrums/");
 
 		switch(triggerParams.sensorType)
 		{
 
-		case IO::SensorType::Hdd:
+		case IO::SensorType::Hdd: this->sensor = std::unique_ptr<IO::ISensor>(new IO::HddSensor(dataFolder.c_str())); break;
+		case IO::SensorType::Spi: this->sensor = std::unique_ptr<IO::ISensor>(new IO::SpiSensor()); break;
 
-			this->sensor = std::unique_ptr<IO::ISensor>(new IO::HddSensor(sensorLoc.c_str()));
-
-			break;
-
-		case IO::SensorType::Spi:
-
-			this->sensor = std::unique_ptr<IO::ISensor>(new IO::SpiSensor());
-
-			break;
-
-		default:
-			throw -1;
-			break;
+		default: throw -1; break;
 
 		}
 

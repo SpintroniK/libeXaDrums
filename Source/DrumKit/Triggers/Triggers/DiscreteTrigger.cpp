@@ -34,7 +34,7 @@ namespace DrumKit
 		std::lock_guard<std::mutex> lock(triggerMutex);
 
 		// Reset state value
-		state.strength = 0.0f;
+		state.value = 0.0f;
 		state.isTrig = false;
 
 		// Read sensor date
@@ -69,7 +69,7 @@ namespace DrumKit
 				out = true;
 
 				// Update trigger state
-				state.strength = maxVelocity/numSamples;
+				state.value = maxVelocity/numSamples;
 				state.isTrig = true;
 			}
 

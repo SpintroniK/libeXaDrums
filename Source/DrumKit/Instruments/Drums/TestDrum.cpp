@@ -119,15 +119,15 @@ namespace DrumKit
 
 		if(headTriggerState.isTrig)
 		{
-			if(drumHeadTrigger->GetTriggerState().strength > 0.25f)
+			if(drumHeadTrigger->GetTriggerState().value > 0.25f)
 			{
 				id = drumHeadSoundId;
-				volume = headTriggerState.strength;
+				volume = headTriggerState.value;
 			}
 			else
 			{
 				id = drumRimSoundId;
-				volume = rimTriggerState.strength;
+				volume = rimTriggerState.value;
 			}
 		}
 

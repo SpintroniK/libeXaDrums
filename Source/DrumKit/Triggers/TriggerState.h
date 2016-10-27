@@ -16,7 +16,7 @@ namespace DrumKit
 	{
 
 		int sensorId;
-		float strength;
+		float value;
 		bool isTrig;
 
 	};

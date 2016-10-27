@@ -34,9 +34,13 @@ namespace IO
 
 	private:
 
-		std::ifstream* file;
-		std::vector<short> value;
+		static const std::vector<std::string> dataFiles;
 
+
+		void ReadData(char channel);
+
+		std::string path;
+		std::vector<short> data;
 		unsigned int index;
 
 	};
