@@ -15,11 +15,9 @@
 #include <iostream>
 #include <vector>
 #include <memory>
-#include <mutex>
 
 #include <cmath>
 
-using namespace std::chrono;
 
 namespace DrumKit
 {
@@ -39,7 +37,7 @@ namespace DrumKit
 
 	private:
 
-		mutable std::mutex triggerMutex;
+		//mutable std::mutex triggerMutex;
 
 	};
 

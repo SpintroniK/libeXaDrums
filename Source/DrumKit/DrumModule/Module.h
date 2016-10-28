@@ -14,6 +14,8 @@
 #include "../../Sound/SoundBank/SoundBank.h"
 
 #include "../Triggers/TriggerManager.h"
+#include "../Triggers/Triggers/DiscreteTrigger.h"
+#include "../Triggers/Triggers/ContinuousTrigger.h"
 
 #include "../Kits/KitManager.h"
 #include "../Kits/Kit.h"

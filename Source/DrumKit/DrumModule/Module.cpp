@@ -260,7 +260,8 @@ namespace DrumKit
 			switch (triggerParameters.type)
 			{
 
-			case TriggerType::Discrete: triggerPtr = TriggerPtr(new DiscreteTrigger(triggerParameters)); break;
+			case TriggerType::Discrete:   triggerPtr = TriggerPtr(new DiscreteTrigger(triggerParameters));   break;
+			case TriggerType::Continuous: triggerPtr = TriggerPtr(new ContinuousTrigger(triggerParameters)); break;
 
 			default: throw -1; break;
 

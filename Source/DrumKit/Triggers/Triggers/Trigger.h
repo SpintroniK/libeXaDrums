@@ -21,7 +21,6 @@
 #include <memory>
 
 
-using namespace std::chrono;
 
 namespace DrumKit
 {
@@ -49,7 +48,7 @@ namespace DrumKit
 
 		TriggerParameters triggerParameters;
 
-		high_resolution_clock::time_point t0;
+		std::chrono::high_resolution_clock::time_point t0;
 
 		static constexpr float numSamples = 2048.0f;
 

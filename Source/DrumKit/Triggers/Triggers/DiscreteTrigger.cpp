@@ -31,7 +31,7 @@ namespace DrumKit
 	{
 
 
-		std::lock_guard<std::mutex> lock(triggerMutex);
+		//std::lock_guard<std::mutex> lock(triggerMutex);
 
 		// Reset state value
 		state.value = 0.0f;

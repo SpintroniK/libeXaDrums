@@ -8,6 +8,8 @@
 
 #include "Trigger.h"
 
+using namespace std::chrono;
+
 namespace DrumKit
 {
 
