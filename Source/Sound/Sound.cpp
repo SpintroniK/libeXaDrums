@@ -25,6 +25,18 @@ namespace Sound
 		return;
 	}
 
+	Sound::Sound(std::vector<short> soundData, float volume) : Sound(-1, soundData, volume)
+	{
+
+		return;
+	}
+
+	Sound::Sound(std::vector<short> soundData) : Sound(-1, soundData, 1.0f)
+	{
+
+		return;
+	}
+
 	Sound::~Sound()
 	{
 

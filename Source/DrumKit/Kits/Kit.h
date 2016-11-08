@@ -16,6 +16,7 @@
 #include "../Instruments/InstrumentParameters.h"
 #include "../Instruments/Instrument.h"
 #include "../Instruments/Drums/TestDrum.h"
+#include "../Instruments/Cymbals/TestHiHat.h"
 #include "../Triggers/TriggerType.h"
 #include "../Triggers/Triggers/Trigger.h"
 

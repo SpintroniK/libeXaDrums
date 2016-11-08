@@ -10,10 +10,8 @@
 namespace DrumKit
 {
 
-	TestDrum::TestDrum(InstrumentParameters parameters, std::shared_ptr<Sound::SoundBank> soundBank)
-	: Instrument(parameters, soundBank),
-	  drumHeadTrigger(nullptr), drumRimTrigger(nullptr),
-	  drumHeadSoundId(0), drumRimSoundId(0)
+	TestDrum::TestDrum(InstrumentParameters parameters, std::shared_ptr<Sound::SoundBank> soundBank): Instrument(parameters, soundBank),
+	drumHeadSoundId(0), drumRimSoundId(0)
 	{
 
 
@@ -38,17 +36,13 @@ namespace DrumKit
 		for(const TriggerPtr& triggerPtr : triggers)
 		{
 
-			auto triggerIdAndLocation = std::find_if(parameters.triggersIdsAndLocations.cbegin(),
-					parameters.triggersIdsAndLocations.cend(),
-					[triggerPtr](std::pair<int, TriggerLocation> const& idAndLocation)
-					{
-						return (idAndLocation.first == triggerPtr->GetId());
-					});
+			auto triggerIdAndLocation = std::find_if(parameters.triggersIdsAndLocations.cbegin(), parameters.triggersIdsAndLocations.cend(),
+					[triggerPtr](std::pair<int, TriggerLocation> const& idAndLocation) { return (idAndLocation.first == triggerPtr->GetId()); });
 
 			if(triggerIdAndLocation != std::end(parameters.triggersIdsAndLocations))
 			{
 
-				TriggerLocation triggerLocation =  (*triggerIdAndLocation).second;
+				TriggerLocation triggerLocation =  triggerIdAndLocation->second;
 
 				switch (triggerLocation)
 				{

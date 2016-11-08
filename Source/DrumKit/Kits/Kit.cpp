@@ -77,6 +77,7 @@ namespace DrumKit
 			{
 
 			case InstrumentType::TestDrum: instrumentPtr = InstrumentPtr(new TestDrum(instrumentParameters, soundBank)); break;
+			case InstrumentType::HiHat: instrumentPtr = InstrumentPtr(new TestHiHat(instrumentParameters, soundBank)); break;
 
 			default: throw -1; break;
 

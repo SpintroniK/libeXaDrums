@@ -27,7 +27,7 @@ namespace DrumKit
 		BassDrum,
 
 		First = TestDrum,
-		Last = Cymbal
+		Last = BassDrum
 
 	};
 

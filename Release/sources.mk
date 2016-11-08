@@ -25,6 +25,7 @@ CPP_DEPS :=
 SUBDIRS := \
 Source/Api \
 Source/DrumKit/DrumModule \
+Source/DrumKit/Instruments/Cymbals \
 Source/DrumKit/Instruments/Drums \
 Source/DrumKit/Instruments \
 Source/DrumKit/Kits \

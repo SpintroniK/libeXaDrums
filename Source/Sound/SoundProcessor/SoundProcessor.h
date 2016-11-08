@@ -14,6 +14,8 @@
 #include <vector>
 #include <algorithm>
 
+#include <cmath>
+
 
 namespace Sound
 {
@@ -22,6 +24,8 @@ namespace Sound
 	{
 
 	public:
+
+		static Sound Muffle(const Sound& sound, float m);
 
 
 	private:

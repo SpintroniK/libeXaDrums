@@ -20,6 +20,8 @@ namespace Sound
 
 	public:
 
+		Sound(std::vector<short> soundData);
+		Sound(std::vector<short> soundData, float volume);
 		Sound(int id, std::vector<short> soundData);
 		Sound(int id, std::vector<short> soundData, float volume);
 
