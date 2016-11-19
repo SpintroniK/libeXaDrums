@@ -44,18 +44,18 @@ namespace DrumKit
 
 		static void LoadKit(std::string file, KitParameters& parameters);
 		static void SaveKit(std::string file, KitParameters parameters);
+
 		bool DeleteKit(const int& id);
 
 		int GetNumKits() { return int(this->filesPaths.size()); }
-
 		std::vector<std::string> GetKitsLocations() const { return filesPaths; }
 
 	private:
 
-		void ScanFolder();
-
 		static Sound::InstrumentSoundType GetSoundType(std::string type);
 		static std::string GetSoundTypeStr(Sound::InstrumentSoundType soundType);
+
+		void ScanFolder();
 
 		std::string kitsPath;
 		std::vector<std::string> filesPaths;

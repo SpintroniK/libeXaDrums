@@ -5,14 +5,17 @@
 # Add inputs and outputs from these tool invocations to the build variables 
 CPP_SRCS += \
 ../Source/DrumKit/Kits/Kit.cpp \
+../Source/DrumKit/Kits/KitCreator.cpp \
 ../Source/DrumKit/Kits/KitManager.cpp 
 
 OBJS += \
 ./Source/DrumKit/Kits/Kit.o \
+./Source/DrumKit/Kits/KitCreator.o \
 ./Source/DrumKit/Kits/KitManager.o 
 
 CPP_DEPS += \
 ./Source/DrumKit/Kits/Kit.d \
+./Source/DrumKit/Kits/KitCreator.d \
 ./Source/DrumKit/Kits/KitManager.d 
 
 

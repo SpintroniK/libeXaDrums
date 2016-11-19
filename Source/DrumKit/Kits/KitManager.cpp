@@ -43,7 +43,7 @@ namespace DrumKit
 		XMLElement* root = doc.RootElement();
 
 		XMLElement* kitName = root->FirstChildElement("kitName");
-		XMLElement* kitFolder = root->FirstChildElement("kitFolder");
+		//XMLElement* kitFolder = root->FirstChildElement("kitFolder");
 
 		XMLElement* firstInstrument = root->FirstChildElement("Instrument");
 
@@ -112,7 +112,7 @@ namespace DrumKit
 		}
 
 		parameters.kitName = kitName->GetText();
-		parameters.kitFolder = kitFolder->GetText();
+		//parameters.kitFolder = kitFolder->GetText();
 
 		parameters.configFilePath = file;
 
@@ -136,7 +136,7 @@ namespace DrumKit
 
 		// Add values and attributes to elements
 		kitName->SetText(parameters.kitName.c_str());
-		kitFolder->SetText(parameters.kitFolder.c_str());
+		//kitFolder->SetText(parameters.kitFolder.c_str());
 
 		// Add elements to document
 		root->InsertEndChild(kitName);

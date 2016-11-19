@@ -20,10 +20,7 @@ namespace DrumKit
 	{
 
 		std::string kitName;
-		std::string kitFolder;
-
 		std::string configFilePath;
-
 		std::vector<InstrumentParameters> instrumentParameters;
 
 	};
