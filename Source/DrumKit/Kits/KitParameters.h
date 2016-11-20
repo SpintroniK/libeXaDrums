@@ -19,6 +19,8 @@ namespace DrumKit
 	struct KitParameters
 	{
 
+		KitParameters() : kitName(), configFilePath(), instrumentParameters() {}
+
 		std::string kitName;
 		std::string configFilePath;
 		std::vector<InstrumentParameters> instrumentParameters;

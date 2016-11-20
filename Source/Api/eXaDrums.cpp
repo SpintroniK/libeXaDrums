@@ -45,6 +45,14 @@ namespace eXaDrumsApi
 		return;
 	}
 
+	void eXaDrums::GetDataLocation(char* location, int& strLength) const
+	{
+
+		CppStringToC(this->dataLocation, location, strLength);
+
+		return;
+	}
+
 
 	void eXaDrums::SelectKit(int id)
 	{

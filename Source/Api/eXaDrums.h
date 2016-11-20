@@ -37,6 +37,7 @@ namespace eXaDrumsApi
 
 		// eXaDrums
 		bool IsStarted() const { return isStarted; }
+		void GetDataLocation(char* location, int& strLength) const;
 
 		// Module
 		void Start();
