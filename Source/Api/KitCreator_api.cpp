@@ -23,6 +23,9 @@ namespace eXaDrumsApi
 	KitCreator::~KitCreator()
 	{
 
+		// Delete controller
+		delete &controller;
+
 		return;
 	}
 
