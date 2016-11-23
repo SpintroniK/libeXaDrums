@@ -10,8 +10,11 @@
 namespace DrumKit
 {
 
-	KitCreator::KitCreator()
+	KitCreator::KitCreator(const std::string& dataLoc)
 	{
+
+		kitsDirectory = std::string(dataLoc) + "Kits/";
+
 
 		return;
 	}
@@ -34,8 +37,16 @@ namespace DrumKit
 	void KitCreator::CreateFromModel(const std::string& file)
 	{
 
-		KitManager::LoadKit(file, this->parameters);
+		KitManager::LoadKit(this->kitsDirectory + file, this->parameters);
 		this->instrument = InstrumentParameters();
+
+		return;
+	}
+
+	void KitCreator::SaveKit(const std::string& file)
+	{
+
+		KitManager::SaveKit(this->kitsDirectory + file, this->parameters);
 
 		return;
 	}
@@ -110,7 +121,7 @@ namespace DrumKit
 		SetInstrumentName("Test instrument 1");
 
 		// Get an instrument type
-		const std::string instrumentType = Util::Enums::InstrumentTypeToString(InstrumentType::Drum);
+		const std::string instrumentType = Util::Enums::InstrumentTypeToString(InstrumentType::TestDrum);
 		SetInstrumentType(instrumentType);
 
 		SetInstrumentVolume(1.0f);
@@ -143,6 +154,8 @@ namespace DrumKit
 		}
 
 		AddInstrumentToKit();
+
+		this->SaveKit("testKit_.xml");
 
 
 		return;

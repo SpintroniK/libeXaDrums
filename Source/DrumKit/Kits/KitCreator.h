@@ -25,13 +25,14 @@ namespace DrumKit
 
 	public:
 
-		KitCreator();
+		KitCreator(const std::string& dataLoc);
 		virtual ~KitCreator();
 
 		// Kit
 		void CreateNewKit();
 		void CreateFromModel(const std::string& file);
 		void SetKitName(const std::string& name) { parameters.kitName = name; };
+		void SaveKit(const std::string& file);
 
 		// Instruments
 		void CreateNewInstrument();
@@ -47,6 +48,7 @@ namespace DrumKit
 
 		void Test();
 
+		std::string kitsDirectory;
 		KitParameters parameters;
 		InstrumentParameters instrument;
 

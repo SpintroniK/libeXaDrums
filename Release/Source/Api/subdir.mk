@@ -4,12 +4,15 @@
 
 # Add inputs and outputs from these tool invocations to the build variables 
 CPP_SRCS += \
+../Source/Api/KitCreator_api.cpp \
 ../Source/Api/eXaDrums.cpp 
 
 OBJS += \
+./Source/Api/KitCreator_api.o \
 ./Source/Api/eXaDrums.o 
 
 CPP_DEPS += \
+./Source/Api/KitCreator_api.d \
 ./Source/Api/eXaDrums.d 
 
 
