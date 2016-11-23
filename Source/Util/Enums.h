@@ -18,9 +18,7 @@
 #include "../Sound/InstrumentSoundType.h"
 
 #include <string>
-#include <algorithm>
 #include <vector>
-#include <sstream>
 
 
 namespace Util

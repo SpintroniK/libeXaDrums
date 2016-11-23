@@ -9,16 +9,12 @@
 #define SOURCE_DRUMKIT_INSTRUMENTS_CYMBALS_TESTHIHAT_H_
 
 #include "../../../Sound/SoundBank/SoundBank.h"
-#include "../../../Sound/InstrumentSoundType.h"
-#include "../../../Sound/SoundProcessor/SoundProcessor.h"
 
 #include "../../Triggers/Triggers/Trigger.h"
 
 #include "../Instrument.h"
 
-#include <functional>
 #include <vector>
-#include <string>
 #include <memory>
 
 #include <cmath>

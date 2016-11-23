@@ -12,7 +12,6 @@
 #include "../Sound.h"
 
 #include <vector>
-#include <algorithm>
 #include <memory>
 #include <mutex>
 #include <condition_variable>

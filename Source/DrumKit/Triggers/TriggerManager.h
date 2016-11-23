@@ -8,14 +8,11 @@
 #ifndef SOURCE_DRUMKIT_TRIGGERS_TRIGGERMANAGER_H_
 #define SOURCE_DRUMKIT_TRIGGERS_TRIGGERMANAGER_H_
 
-#include "../../Util/Enums.h"
+
 #include "../../IO/SensorType.h"
 
-#include "Curves/CurveType.h"
 #include "TriggerParameters.h"
-#include "TriggerLocation.h"
 
-#include <tinyxml2.h>
 
 #include <string>
 #include <vector>

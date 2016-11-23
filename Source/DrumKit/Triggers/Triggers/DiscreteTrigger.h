@@ -11,13 +11,6 @@
 #include "Trigger.h"
 #include "../TriggerParameters.h"
 
-#include <chrono>
-#include <iostream>
-#include <vector>
-#include <memory>
-
-#include <cmath>
-
 
 namespace DrumKit
 {

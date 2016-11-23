@@ -7,6 +7,11 @@
 
 #include "TestHiHat.h"
 
+#include "../../../Sound/InstrumentSoundType.h"
+#include "../../../Sound/SoundProcessor/SoundProcessor.h"
+
+#include <algorithm>
+
 namespace DrumKit
 {
 

@@ -5,7 +5,13 @@
  *      Author: jeremy
  */
 
-#include "../../../DrumKit/Triggers/Curves/Curves.h"
+#include "Curves.h"
+
+#include <algorithm>
+#include <numeric>
+#include <map>
+#include <cmath>
+
 
 namespace DrumKit
 {

@@ -7,6 +7,13 @@
 
 #include "eXaDrums.h"
 
+
+#include "../Sound/Alsa/AlsaParameters.h"
+
+#include <vector>
+#include <algorithm>
+
+
 using namespace Sound;
 using namespace DrumKit;
 

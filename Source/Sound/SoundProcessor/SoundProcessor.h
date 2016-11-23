@@ -11,11 +11,6 @@
 
 #include "../Sound.h"
 
-#include <vector>
-#include <algorithm>
-
-#include <cmath>
-
 
 namespace Sound
 {

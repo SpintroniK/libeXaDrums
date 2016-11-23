@@ -7,6 +7,11 @@
 
 #include "TestDrum.h"
 
+#include "../../../Sound/InstrumentSoundType.h"
+
+#include <algorithm>
+
+
 namespace DrumKit
 {
 

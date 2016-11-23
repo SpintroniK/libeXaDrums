@@ -8,6 +8,14 @@
 #include "TriggerManager.h"
 
 
+#include "../../Util/Enums.h"
+
+#include "Curves/CurveType.h"
+#include "TriggerLocation.h"
+
+#include <tinyxml2.h>
+
+
 using namespace tinyxml2;
 
 namespace DrumKit

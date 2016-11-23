@@ -14,8 +14,6 @@
 #include "KitManager.h"
 
 #include <string>
-#include <vector>
-#include <utility>
 
 namespace DrumKit
 {

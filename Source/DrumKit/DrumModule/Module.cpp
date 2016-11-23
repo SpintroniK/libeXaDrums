@@ -5,7 +5,13 @@
  *      Author: jeremy
  */
 
+
 #include "Module.h"
+
+#include <thread>
+#include <algorithm>
+#include <functional>
+
 
 using namespace Sound;
 

@@ -10,8 +10,6 @@
 
 #include "AlsaParams.h"
 
-#include <tinyxml2.h>
-
 #include <string>
 #include <map>
 

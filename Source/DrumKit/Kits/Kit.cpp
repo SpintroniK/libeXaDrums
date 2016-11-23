@@ -7,6 +7,12 @@
 
 #include "Kit.h"
 
+#include "../Triggers/TriggerType.h"
+#include "../Instruments/Drums/TestDrum.h"
+#include "../Instruments/Cymbals/TestHiHat.h"
+
+#include <algorithm>
+
 namespace DrumKit
 {
 

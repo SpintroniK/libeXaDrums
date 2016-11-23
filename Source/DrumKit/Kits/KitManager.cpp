@@ -7,6 +7,24 @@
 
 #include "KitManager.h"
 
+#include "../../Util/Enums.h"
+
+#include "../Instruments/InstrumentType.h"
+#include "../Instruments/InstrumentSoundInfo.h"
+#include "../Triggers/TriggerLocation.h"
+
+#include <tinyxml2.h>
+
+#include <algorithm>
+#include <iostream>
+#include <fstream>
+
+#include <cmath>
+
+#include <dirent.h>
+#include <unistd.h>
+
+
 using namespace Sound;
 using namespace tinyxml2;
 

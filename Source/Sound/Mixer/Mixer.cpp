@@ -7,6 +7,9 @@
 
 #include "Mixer.h"
 
+
+#include <algorithm>
+
 namespace Sound
 {
 

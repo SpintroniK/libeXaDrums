@@ -8,6 +8,12 @@
 
 #include "Trigger.h"
 
+#include "../../../IO/HddSensor.h"
+#include "../../../IO/SpiSensor.h"
+
+#include <string>
+
+
 using namespace std::chrono;
 
 namespace DrumKit

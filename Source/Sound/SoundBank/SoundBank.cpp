@@ -7,6 +7,11 @@
 
 #include "SoundBank.h"
 
+#include <fstream>
+#include <algorithm>
+
+#include <dirent.h>
+
 namespace Sound
 {
 

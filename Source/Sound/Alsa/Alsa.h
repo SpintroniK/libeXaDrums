@@ -13,13 +13,9 @@
 #include "../Mixer/Mixer.h"
 #include "AlsaParams.h"
 
-#include <alsa/asoundlib.h>
 
 #include <thread>
 #include <atomic>
-#include <chrono>
-#include <iomanip>
-#include <iostream>
 #include <vector>
 
 namespace Sound

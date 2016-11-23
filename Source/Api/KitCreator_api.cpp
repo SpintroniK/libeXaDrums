@@ -7,7 +7,6 @@
 
 #include "KitCreator_api.h"
 
-#include <string>
 
 namespace eXaDrumsApi
 {

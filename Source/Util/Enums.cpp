@@ -7,6 +7,11 @@
 
 #include "Enums.h"
 
+
+#include <sstream>
+#include <algorithm>
+
+
 using namespace DrumKit;
 using namespace Sound;
 using namespace IO;

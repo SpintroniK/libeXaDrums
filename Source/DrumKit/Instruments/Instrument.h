@@ -9,18 +9,14 @@
 #define SOURCE_DRUMKIT_INSTRUMENTS_INSTRUMENT_H_
 
 
-#include "../../Sound/SoundProcessor/SoundProcessor.h"
 #include "../../Sound/SoundBank/SoundBank.h"
-#include "../../Sound/Sound.h"
 
 #include "../Triggers/Triggers/Trigger.h"
 
 #include "InstrumentParameters.h"
 
 #include <vector>
-#include <string>
 #include <memory>
-#include <algorithm>
 
 
 namespace DrumKit

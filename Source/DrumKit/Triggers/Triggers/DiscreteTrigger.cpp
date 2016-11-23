@@ -7,6 +7,11 @@
 
 #include "DiscreteTrigger.h"
 
+#include <chrono>
+
+#include <cmath>
+
+
 using namespace std::chrono;
 
 namespace DrumKit

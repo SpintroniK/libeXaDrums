@@ -9,15 +9,12 @@
 #define LIBEXADRUMS_SOURCE_API_EXADRUMKIT_H_
 
 #include "../Sound/Alsa/Alsa.h"
-#include "../Sound/Alsa/AlsaParameters.h"
 #include "../Sound/Mixer/Mixer.h"
 #include "../Metronome/Metronome.h"
 #include "../DrumKit/DrumModule/Module.h"
-
 #include "../Util/Enums.h"
 
 #include <string>
-#include <vector>
 #include <memory>
 #include <atomic>
 

@@ -10,16 +10,12 @@
 
 
 #include "../../../IO/ISensor.h"
-#include "../../../IO/HddSensor.h"
-#include "../../../IO/SpiSensor.h"
 
 #include "../TriggerParameters.h"
 #include "../TriggerState.h"
 
 #include <chrono>
-#include <string>
 #include <memory>
-
 
 
 namespace DrumKit

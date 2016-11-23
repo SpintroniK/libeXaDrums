@@ -7,7 +7,13 @@
 
 #include "Serial.h"
 
-#include <iostream>
+#include <cstdio>      // Standard input / output functions
+#include <cstdlib>
+#include <cstring>     // String function definitions
+#include <unistd.h>     // UNIX standard function definitions
+#include <fcntl.h>      // File control definitions
+#include <cerrno>      // Error number definitions
+#include <termios.h>    // POSIX terminal control definitions
 
 namespace IO
 {
@@ -88,7 +94,7 @@ namespace IO
 		/* Error Handling */
 		if(tcgetattr(this->handle, &tty) != 0 )
 		{
-		   std::cout << "Error " << errno << " from tcgetattr: " << strerror(errno) << std::endl;
+		   //std::cout << "Error " << errno << " from tcgetattr: " << strerror(errno) << std::endl;
 		}
 
 		/* Save old tty parameters */
@@ -116,7 +122,7 @@ namespace IO
 		tcflush(this->handle, TCIFLUSH);
 		if(tcsetattr (this->handle, TCSANOW, &tty) != 0)
 		{
-		   std::cout << "Error " << errno << " from tcsetattr" << std::endl;
+		   //std::cout << "Error " << errno << " from tcsetattr" << std::endl;
 		}
 
 

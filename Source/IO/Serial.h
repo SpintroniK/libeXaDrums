@@ -13,14 +13,6 @@
 
 #include <string>
 
-#include <cstdio>      // Standard input / output functions
-#include <cstdlib>
-#include <cstring>     // String function definitions
-#include <unistd.h>     // UNIX standard function definitions
-#include <fcntl.h>      // File control definitions
-#include <cerrno>      // Error number definitions
-#include <termios.h>    // POSIX terminal control definitions
-
 namespace IO
 {
 

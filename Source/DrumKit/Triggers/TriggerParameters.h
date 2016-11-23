@@ -13,7 +13,6 @@
 #include "Curves/CurveType.h"
 #include "TriggerType.h"
 
-#include <vector>
 
 namespace DrumKit
 {

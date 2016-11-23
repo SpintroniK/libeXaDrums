@@ -7,6 +7,12 @@
 
 #include "Alsa.h"
 
+#include <alsa/asoundlib.h>
+
+#include <chrono>
+#include <iomanip>
+#include <iostream>
+
 using namespace std::chrono;
 
 namespace Sound

@@ -8,6 +8,11 @@
 
 #include "SoundProcessor.h"
 
+#include <vector>
+#include <algorithm>
+
+#include <cmath>
+
 namespace Sound
 {
 

@@ -8,9 +8,9 @@
 #ifndef SOURCE_METRONOME_CLICKTYPES_H_
 #define SOURCE_METRONOME_CLICKTYPES_H_
 
-#include <vector>
-#include <algorithm>
 #include <sstream>
+#include <string>
+#include <type_traits>
 
 namespace DrumKit
 {

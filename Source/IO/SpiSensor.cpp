@@ -8,6 +8,9 @@
 #include "SpiSensor.h"
 
 
+#include <bcm2835.h>
+
+
 namespace IO
 {
 

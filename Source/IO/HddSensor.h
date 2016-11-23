@@ -11,13 +11,8 @@
 
 #include "ISensor.h"
 
-#include <fstream>
 #include <string>
 #include <vector>
-#include <iterator>
-#include <thread>
-#include <chrono>
-
 
 namespace IO
 {

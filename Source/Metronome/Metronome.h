@@ -8,21 +8,16 @@
 #ifndef SOURCE_METRONOME_METRONOME_H_
 #define SOURCE_METRONOME_METRONOME_H_
 
-#include "../Sound/Alsa/Alsa.h"
-#include "../Util/Enums.h"
+#include "../Sound/Alsa/AlsaParams.h"
 
 #include "ClickTypes.h"
 #include "MetronomeParameters.h"
 
-#include <tinyxml2.h>
 
 #include <vector>
-#include <limits>
 #include <string>
 
-#include <cmath>
 
-#define _USE_MATH_DEFINES
 
 namespace DrumKit
 {

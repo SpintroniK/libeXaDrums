@@ -20,13 +20,12 @@
 #include "../Kits/KitManager.h"
 #include "../Kits/Kit.h"
 
-#include <vector>
+
 #include <string>
-#include <thread>
+#include <vector>
 #include <atomic>
+#include <thread>
 #include <memory>
-#include <algorithm>
-#include <functional>
 
 
 namespace DrumKit

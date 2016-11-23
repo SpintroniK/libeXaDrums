@@ -9,10 +9,7 @@
 #define LIBEXADRUMS_SOURCE_DRUMKIT_CURVES_CURVES_H_
 
 #include <vector>
-#include <algorithm>
-#include <numeric>
-#include <map>
-#include <cmath>
+
 
 namespace DrumKit
 {

@@ -7,6 +7,9 @@
 
 #include "KitCreator.h"
 
+#include <string>
+
+
 namespace DrumKit
 {
 

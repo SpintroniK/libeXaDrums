@@ -8,27 +8,13 @@
 #ifndef SOURCE_DRUMKIT_KITS_KITMANAGER_H_
 #define SOURCE_DRUMKIT_KITS_KITMANAGER_H_
 
-#include "../../Util/Enums.h"
-#include "../../Sound/InstrumentSoundType.h"
-
-#include "../Instruments/InstrumentType.h"
-#include "../Instruments/InstrumentSoundInfo.h"
-#include "../Triggers/TriggerLocation.h"
 
 #include "KitParameters.h"
 
-#include <tinyxml2.h>
+#include "../../Sound/InstrumentSoundType.h"
 
 #include <vector>
 #include <string>
-#include <algorithm>
-#include <iostream>
-#include <fstream>
-
-#include <cmath>
-
-#include <dirent.h>
-#include <unistd.h>
 
 
 namespace DrumKit

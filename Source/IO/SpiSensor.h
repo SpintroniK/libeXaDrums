@@ -11,10 +11,7 @@
 
 #include "ISensor.h"
 
-#include <bcm2835.h>
-
-#include <iostream>
-
+#include <cstdlib>
 
 namespace IO
 {

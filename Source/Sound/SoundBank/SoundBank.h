@@ -12,9 +12,6 @@
 
 #include <string>
 #include <vector>
-#include <fstream>
-
-#include <dirent.h>
 
 namespace Sound
 {

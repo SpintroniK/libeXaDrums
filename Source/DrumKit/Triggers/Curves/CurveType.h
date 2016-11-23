@@ -8,6 +8,11 @@
 #ifndef LIBEXADRUMS_SOURCE_DRUMKIT_CURVES_CURVE_H_
 #define LIBEXADRUMS_SOURCE_DRUMKIT_CURVES_CURVE_H_
 
+#include <sstream>
+#include <string>
+#include <type_traits>
+
+
 namespace DrumKit
 {
 

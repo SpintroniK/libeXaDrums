@@ -7,6 +7,16 @@
 
 #include "Metronome.h"
 
+#include "../Util/Enums.h"
+
+#include <tinyxml2.h>
+
+#include <limits>
+
+#include <cmath>
+
+#define _USE_MATH_DEFINES
+
 using namespace Sound;
 using namespace tinyxml2;
 

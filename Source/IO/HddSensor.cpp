@@ -7,6 +7,8 @@
 
 #include "HddSensor.h"
 
+#include <fstream>
+
 namespace IO
 {
 

@@ -8,6 +8,10 @@
 #ifndef LIBEXADRUMS_SOURCE_IO_SENSORTYPE_H_
 #define LIBEXADRUMS_SOURCE_IO_SENSORTYPE_H_
 
+#include <sstream>
+#include <string>
+#include <type_traits>
+
 namespace IO
 {
 
