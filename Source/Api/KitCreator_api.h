@@ -11,6 +11,7 @@
 
 #include "../DrumKit/Kits/KitCreator.h"
 
+#include <string>
 #include <memory>
 
 namespace eXaDrumsApi
@@ -23,6 +24,25 @@ namespace eXaDrumsApi
 
 		KitCreator(const char* dataLocation);
 		virtual ~KitCreator();
+
+		// Kit
+		void CreateNewKit() { controller.CreateNewKit(); }
+		void CreateFromModel(const char* loc) { controller.CreateFromModel(std::string(loc)); }
+		void SetKitName(const char* name) { controller.SetKitName(std::string(name)); }
+		void SaveKit(const char* file) { controller.SaveKit(std::string(file)); }
+
+
+		// Instrument
+		void CreateNewInstrument() { controller.CreateNewInstrument(); }
+		void AddInstrumentToKit() { controller.AddInstrumentToKit(); }
+		void SetInstrumentName(const char* name) { controller.SetInstrumentName(std::string(name)); }
+		void SetInstrumentType(const char* type) { controller.SetInstrumentType(std::string(type)); }
+		void SetInstrumentVolume(const float volume) { controller.SetInstrumentVolume(volume); }
+		void AddInstrumentSound(const char* file, const char* type) { controller.AddInstrumentSound(std::string(file), std::string(type)); }
+		void AddInstrumentTrigger(const int id, const char* location) { controller.AddInstrumentTrigger(id, std::string(location)); }
+
+
+
 
 	private:
 
