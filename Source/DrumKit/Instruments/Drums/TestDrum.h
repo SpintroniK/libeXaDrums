@@ -29,6 +29,10 @@ namespace DrumKit
 		TestDrum(InstrumentParameters parameters, std::shared_ptr<Sound::SoundBank> sb);
 		virtual ~TestDrum();
 
+
+		static const int numTriggers = 2;
+		static const int numSounds = 2;
+
 		virtual void SetTriggers(std::vector<TriggerPtr> const& triggers);
 		virtual void SetSound(InstrumentSoundInfo const& soundInfo);
 		virtual void SetVolume(float volume);
@@ -37,8 +41,6 @@ namespace DrumKit
 		virtual void GetSoundProps(int& id, float& volume) const;
 
 	private:
-
-		static const int numTriggers = 2;
 
 		TriggerPtr drumHeadTrigger;
 		TriggerPtr drumRimTrigger;

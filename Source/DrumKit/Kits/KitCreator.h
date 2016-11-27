@@ -30,7 +30,7 @@ namespace DrumKit
 		void CreateNewKit();
 		void CreateFromModel(const std::string& file);
 		void SetKitName(const std::string& name) { parameters.kitName = name; };
-		void SaveKit(const std::string& file);
+		void SaveKit(const std::string& file) const;
 
 		// Instruments
 		void CreateNewInstrument();
@@ -40,6 +40,9 @@ namespace DrumKit
 		void SetInstrumentVolume(const float v) { this->instrument.volume = v; }
 		void AddInstrumentSound(const std::string& file, const std::string& type);
 		void AddInstrumentTrigger(const int id, const std::string& location);
+
+		int GetNumSounds(const std::string& instrumentType) const;
+		int GetNumTriggers(const std::string& instrumentType) const;
 
 
 	private:

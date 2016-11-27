@@ -30,6 +30,9 @@ namespace DrumKit
 		TestHiHat(InstrumentParameters parameters, std::shared_ptr<Sound::SoundBank> soundBank);
 		virtual ~TestHiHat();
 
+		static const int numTriggers = 2;
+		static const int numSounds = 1;
+
 		virtual void SetTriggers(std::vector<TriggerPtr> const& triggers);
 		virtual void SetSound(InstrumentSoundInfo const& soundInfo);
 		virtual void SetVolume(float volume);
@@ -37,9 +40,10 @@ namespace DrumKit
 		virtual bool IsTriggerEvent() const;
 		virtual void GetSoundProps(int& id, float& volume) const;
 
+
+
 	private:
 
-		static const int numTriggers = 2;
 
 		TriggerPtr cymbalTrigger;
 		TriggerPtr pedalTrigger;

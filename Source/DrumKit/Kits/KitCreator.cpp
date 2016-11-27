@@ -7,6 +7,9 @@
 
 #include "KitCreator.h"
 
+#include "../Instruments/Cymbals/TestHiHat.h"
+#include "../Instruments/Drums/TestDrum.h"
+
 #include <string>
 
 
@@ -46,7 +49,7 @@ namespace DrumKit
 		return;
 	}
 
-	void KitCreator::SaveKit(const std::string& file)
+	void KitCreator::SaveKit(const std::string& file) const
 	{
 
 		KitManager::SaveKit(this->kitsDirectory + file, this->parameters);
@@ -109,6 +112,36 @@ namespace DrumKit
 		return;
 	}
 
+
+	int KitCreator::GetNumSounds(const std::string& instrumentType) const
+	{
+
+		InstrumentType type = Util::Enums::InstrumentTypeFromString(instrumentType);
+
+		switch (type)
+		{
+			case InstrumentType::TestDrum: return TestDrum::numSounds;
+			case InstrumentType::HiHat: return TestHiHat::numSounds;
+
+			default: throw -1; break;
+		}
+
+	}
+
+	int KitCreator::GetNumTriggers(const std::string& instrumentType) const
+	{
+
+		InstrumentType type = Util::Enums::InstrumentTypeFromString(instrumentType);
+
+		switch (type)
+		{
+			case InstrumentType::TestDrum: return TestDrum::numTriggers;
+			case InstrumentType::HiHat: return TestHiHat::numTriggers;
+
+			default: throw -1; break;
+		}
+
+	}
 
 	// Private Methods
 

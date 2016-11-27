@@ -29,7 +29,7 @@ namespace eXaDrumsApi
 		void CreateNewKit() { controller.CreateNewKit(); }
 		void CreateFromModel(const char* loc) { controller.CreateFromModel(std::string(loc)); }
 		void SetKitName(const char* name) { controller.SetKitName(std::string(name)); }
-		void SaveKit(const char* file) { controller.SaveKit(std::string(file)); }
+		void SaveKit(const char* file) const { controller.SaveKit(std::string(file)); }
 
 
 		// Instrument
@@ -41,7 +41,8 @@ namespace eXaDrumsApi
 		void AddInstrumentSound(const char* file, const char* type) { controller.AddInstrumentSound(std::string(file), std::string(type)); }
 		void AddInstrumentTrigger(const int id, const char* location) { controller.AddInstrumentTrigger(id, std::string(location)); }
 
-
+		int GetNumSounds(const char* type) const { return controller.GetNumSounds(type); }
+		int GetNumTriggers(const char* type) const { return controller.GetNumTriggers(type); }
 
 
 	private:
