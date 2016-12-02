@@ -10,8 +10,6 @@
 #include "../Instruments/Cymbals/TestHiHat.h"
 #include "../Instruments/Drums/TestDrum.h"
 
-#include <string>
-
 
 namespace DrumKit
 {
@@ -141,6 +139,16 @@ namespace DrumKit
 			default: throw -1; break;
 		}
 
+	}
+
+
+	std::string KitCreator::GetInstrumentTypeById(int id) const
+	{
+
+		InstrumentType type = Util::Enums::GetInstrumentTypes()[id];
+		std::string typeStr = Util::Enums::InstrumentTypeToString(type);
+
+		return typeStr;
 	}
 
 	// Private Methods

@@ -41,8 +41,12 @@ namespace eXaDrumsApi
 		void AddInstrumentSound(const char* file, const char* type) { controller.AddInstrumentSound(std::string(file), std::string(type)); }
 		void AddInstrumentTrigger(const int id, const char* location) { controller.AddInstrumentTrigger(id, std::string(location)); }
 
+
+		// Util
 		int GetNumSounds(const char* type) const { return controller.GetNumSounds(type); }
 		int GetNumTriggers(const char* type) const { return controller.GetNumTriggers(type); }
+		int GetNumInstrumentTypes() const { return controller.GetNumInstrumentTypes(); }
+		void GetInstrumentTypeById(int id,  char* name, int& length) const;
 
 
 	private:

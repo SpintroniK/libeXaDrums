@@ -28,4 +28,20 @@ namespace eXaDrumsApi
 		return;
 	}
 
+
+	void KitCreator::GetInstrumentTypeById(int id,  char* name, int& length) const
+	{
+
+		std::string typeName = controller.GetInstrumentTypeById(id);
+
+		// Get string's length
+		length = typeName.length();
+
+		// Copy string to char*
+		typeName.copy(name, length);
+
+		return;
+	}
+
+
 } /* namespace eXaDrumsApi */
