@@ -12,10 +12,17 @@
 
 #include <algorithm>
 
+
+using namespace Sound;
+
 namespace DrumKit
 {
 
-	TestHiHat::TestHiHat(InstrumentParameters parameters, std::shared_ptr<Sound::SoundBank> soundBank) : Instrument(parameters, soundBank),	cymbalSoundId(0)
+
+	const std::vector<TriggerLocation> TestHiHat::triggersLocations{TriggerLocation::DrumHead, TriggerLocation::Rim};
+	const std::vector<InstrumentSoundType> TestHiHat::soundsTypes{InstrumentSoundType::Default};
+
+	TestHiHat::TestHiHat(InstrumentParameters parameters, std::shared_ptr<SoundBank> soundBank) : Instrument(parameters, soundBank), cymbalSoundId(0)
 	{
 
 		return;
@@ -30,7 +37,7 @@ namespace DrumKit
 	void TestHiHat::SetTriggers(const std::vector<TriggerPtr>& triggers)
 	{
 
-		if(parameters.triggersIdsAndLocations.size() != numTriggers)
+		if(parameters.triggersIdsAndLocations.size() != triggersLocations.size())
 		{
 			throw -1;
 		}
@@ -63,12 +70,12 @@ namespace DrumKit
 	void TestHiHat::SetSound(const InstrumentSoundInfo& soundInfo)
 	{
 
-		Sound::InstrumentSoundType soundType = soundInfo.type;
+		InstrumentSoundType soundType = soundInfo.type;
 		std::string soundLocation = soundInfo.soundLocation;
 
 		switch (soundType)
 		{
-			case Sound::InstrumentSoundType::Default:
+			case InstrumentSoundType::Default:
 			{
 				cymbalSoundId = soundBank->LoadSound(soundLocation, parameters.volume);
 				const Sound::Sound& cymbalSound = soundBank->GetSound(cymbalSoundId);
@@ -77,7 +84,7 @@ namespace DrumKit
 				for(int i = 0; i < 10; i++)
 				{
 
-					Sound::Sound newSound = Sound::SoundProcessor::Muffle(cymbalSoundData, 0.25f/float(i + 1));
+					Sound::Sound newSound = SoundProcessor::Muffle(cymbalSoundData, 0.25f/float(i + 1));
 					std::vector<short> newSoundData = newSound.GetInternalData();
 					int newSoundId = soundBank->AddSound(newSoundData, parameters.volume);
 

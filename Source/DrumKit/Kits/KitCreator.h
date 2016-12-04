@@ -29,6 +29,7 @@ namespace DrumKit
 		// Kit
 		void CreateNewKit();
 		void CreateFromModel(const std::string& file);
+		int GetNumInstruments() const { return (int)this->parameters.instrumentParameters.size(); }
 		void SetKitName(const std::string& name) { parameters.kitName = name; };
 		void SaveKit(const std::string& file) const;
 
@@ -41,9 +42,10 @@ namespace DrumKit
 		void AddInstrumentSound(const std::string& file, const std::string& type);
 		void AddInstrumentTrigger(const int id, const std::string& location);
 
-		// Util
 		int GetNumSounds(const std::string& instrumentType) const;
+		std::string GetSoundTypeById(const std::string& instrumentType, int id) const;
 		int GetNumTriggers(const std::string& instrumentType) const;
+		std::string GetTriggerTypeById(const std::string& instrumentType, int id) const;
 		int GetNumInstrumentTypes() const { return (int) Util::Enums::GetInstrumentTypes().size(); }
 		std::string GetInstrumentTypeById(int id) const;
 

@@ -28,6 +28,30 @@ namespace eXaDrumsApi
 		return;
 	}
 
+	void KitCreator::GetSoundTypeById(const char* type, int id, char* soundType, int& length) const
+	{
+
+		std::string instrumentType(type);
+		std::string soundTypeStr =  controller.GetSoundTypeById(instrumentType, id);
+
+		length = soundTypeStr.length();
+		soundTypeStr.copy(soundType, length);
+
+		return;
+	}
+
+	void KitCreator::GetTriggerTypeById(const char* type, int id, char* triggerType, int& length) const
+	{
+
+		std::string instrumentType(type);
+		std::string triggerTypeStr = controller.GetTriggerTypeById(instrumentType, id);
+
+		length = triggerTypeStr.length();
+		triggerTypeStr.copy(triggerType, length);
+
+		return;
+	}
+
 
 	void KitCreator::GetInstrumentTypeById(int id,  char* name, int& length) const
 	{

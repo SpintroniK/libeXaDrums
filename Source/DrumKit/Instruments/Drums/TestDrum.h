@@ -9,6 +9,7 @@
 #define LIBEXADRUMS_SOURCE_DRUMKIT_DRUM_H_
 
 #include "../../../Sound/SoundBank/SoundBank.h"
+#include "../../../Sound/InstrumentSoundType.h"
 
 #include "../../Triggers/Triggers/Trigger.h"
 
@@ -29,9 +30,8 @@ namespace DrumKit
 		TestDrum(InstrumentParameters parameters, std::shared_ptr<Sound::SoundBank> sb);
 		virtual ~TestDrum();
 
-
-		static const int numTriggers = 2;
-		static const int numSounds = 2;
+		static const std::vector<TriggerLocation> triggersLocations;
+		static const std::vector<Sound::InstrumentSoundType> soundsTypes;
 
 		virtual void SetTriggers(std::vector<TriggerPtr> const& triggers);
 		virtual void SetSound(InstrumentSoundInfo const& soundInfo);

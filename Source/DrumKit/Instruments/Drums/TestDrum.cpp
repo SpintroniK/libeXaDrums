@@ -7,15 +7,19 @@
 
 #include "TestDrum.h"
 
-#include "../../../Sound/InstrumentSoundType.h"
 
 #include <algorithm>
 
+using namespace Sound;
 
 namespace DrumKit
 {
 
-	TestDrum::TestDrum(InstrumentParameters parameters, std::shared_ptr<Sound::SoundBank> soundBank): Instrument(parameters, soundBank),
+	const std::vector<TriggerLocation> TestDrum::triggersLocations{TriggerLocation::DrumHead, TriggerLocation::Rim};
+	const std::vector<InstrumentSoundType> TestDrum::soundsTypes{InstrumentSoundType::Default, InstrumentSoundType::RimShot};
+
+
+	TestDrum::TestDrum(InstrumentParameters parameters, std::shared_ptr<SoundBank> soundBank): Instrument(parameters, soundBank),
 	drumHeadSoundId(0), drumRimSoundId(0)
 	{
 
@@ -33,7 +37,7 @@ namespace DrumKit
 	void TestDrum::SetTriggers(std::vector<TriggerPtr> const& triggers)
 	{
 
-		if(parameters.triggersIdsAndLocations.size() != numTriggers)
+		if(parameters.triggersIdsAndLocations.size() != triggersLocations.size())
 		{
 			throw -1;
 		}
@@ -66,13 +70,13 @@ namespace DrumKit
 	void TestDrum::SetSound(InstrumentSoundInfo const& soundInfo)
 	{
 
-		Sound::InstrumentSoundType soundType = soundInfo.type;
+		InstrumentSoundType soundType = soundInfo.type;
 		std::string soundLocation = soundInfo.soundLocation;
 
 		switch (soundType)
 		{
-			case Sound::InstrumentSoundType::RimShot: drumRimSoundId = soundBank->LoadSound(soundLocation, parameters.volume); break;
-			case Sound::InstrumentSoundType::Default: drumHeadSoundId = soundBank->LoadSound(soundLocation, parameters.volume); break;
+			case InstrumentSoundType::RimShot: drumRimSoundId = soundBank->LoadSound(soundLocation, parameters.volume); break;
+			case InstrumentSoundType::Default: drumHeadSoundId = soundBank->LoadSound(soundLocation, parameters.volume); break;
 
 			default: throw -1; break;
 		}
