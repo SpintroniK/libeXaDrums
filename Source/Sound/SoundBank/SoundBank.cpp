@@ -18,7 +18,6 @@ namespace Sound
 	SoundBank::SoundBank(std::string dataFolder) : soundBankFolder(dataFolder + "SoundBank/")
 	{
 
-		LoadSounds();
 
 		return;
 	}
@@ -103,16 +102,16 @@ namespace Sound
 
 	}
 
-	/// PRIVATE METHODS
 
-	void SoundBank::LoadSounds()
+	std::vector<std::string> SoundBank::GetSoundNames(std::string dataFolder)
 	{
 
-		// Clear existing sounds paths
-		soundsPaths.clear();
+		std::vector<std::string> paths;
+
+		std::string location = dataFolder + "SoundBank/";
 
 		struct dirent* ent;
-		DIR* directory = opendir(soundBankFolder.c_str());
+		DIR* directory = opendir(location.c_str());
 
 		// Scan directory
 		while((ent = readdir(directory)) != NULL)
@@ -122,7 +121,7 @@ namespace Sound
 			{
 
 				// Get directory path
-				std::string soundsDirPath = soundBankFolder + std::string(ent->d_name) + "/";
+				std::string soundsDirPath = location + std::string(ent->d_name) + "/";
 
 				struct dirent* dir;
 				DIR* soundsDir = opendir(soundsDirPath.c_str());
@@ -136,7 +135,7 @@ namespace Sound
 
 					if(fileExtension == "raw")
 					{
-						soundsPaths.push_back(soundsDirPath + fileName);
+						paths.push_back(fileName);
 					}
 
 				}
@@ -147,8 +146,7 @@ namespace Sound
 
 		closedir(directory);
 
-
-		return;
+		return paths;
 	}
 
 

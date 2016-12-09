@@ -51,6 +51,10 @@ namespace eXaDrumsApi
 		int GetNumInstrumentTypes() const { return controller.GetNumInstrumentTypes(); }
 		void GetInstrumentTypeById(int id,  char* name, int& length) const;
 
+		// Sounds
+		int GetNumSoundFiles() const { return controller.GetNumSoundFiles(); }
+		void GetSoundFileById(int id, char* name, int& length) const;
+
 
 	private:
 

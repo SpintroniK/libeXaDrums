@@ -42,12 +42,17 @@ namespace DrumKit
 		void AddInstrumentSound(const std::string& file, const std::string& type);
 		void AddInstrumentTrigger(const int id, const std::string& location);
 
+		// Util
 		int GetNumSounds(const std::string& instrumentType) const;
 		std::string GetSoundTypeById(const std::string& instrumentType, int id) const;
 		int GetNumTriggers(const std::string& instrumentType) const;
 		std::string GetTriggerTypeById(const std::string& instrumentType, int id) const;
 		int GetNumInstrumentTypes() const { return (int) Util::Enums::GetInstrumentTypes().size(); }
 		std::string GetInstrumentTypeById(int id) const;
+
+		// Sounds
+		int GetNumSoundFiles() const { return (int) soundFiles.size(); }
+		std::string GetSoundFileById(int id) const { return soundFiles[id]; }
 
 
 	private:
@@ -57,6 +62,8 @@ namespace DrumKit
 		std::string kitsDirectory;
 		KitParameters parameters;
 		InstrumentParameters instrument;
+
+		std::vector<std::string> soundFiles;
 
 
 	};

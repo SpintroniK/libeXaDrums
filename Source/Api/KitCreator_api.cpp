@@ -67,5 +67,16 @@ namespace eXaDrumsApi
 		return;
 	}
 
+	void KitCreator::GetSoundFileById(int id, char* name, int& length) const
+	{
+
+		std::string fileName = controller.GetSoundFileById(id);
+
+		length = fileName.length();
+		fileName.copy(name, length);
+
+		return;
+	}
+
 
 } /* namespace eXaDrumsApi */

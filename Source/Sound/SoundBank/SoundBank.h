@@ -28,6 +28,8 @@ namespace Sound
 		SoundBank(std::string dataFolder);
 		virtual ~SoundBank();
 
+		static std::vector<std::string> GetSoundNames(std::string dataFolder);
+
 		int LoadSound(std::string filename);
 		int LoadSound(std::string filename, float volume);
 		int AddSound(std::vector<short>& soundData);
@@ -43,10 +45,8 @@ namespace Sound
 
 	private:
 
-		void LoadSounds();
 
 		std::string soundBankFolder;
-		std::vector<std::string> soundsPaths;
 		std::vector<Sound> sounds;
 
 

@@ -7,6 +7,8 @@
 
 #include "KitCreator.h"
 
+#include "../../Sound/SoundBank/SoundBank.h"
+
 #include "../Instruments/Cymbals/TestHiHat.h"
 #include "../Instruments/Drums/TestDrum.h"
 
@@ -21,6 +23,7 @@ namespace DrumKit
 
 		kitsDirectory = std::string(dataLoc) + "Kits/";
 
+		soundFiles = SoundBank::GetSoundNames(dataLoc);
 
 		return;
 	}
@@ -189,6 +192,8 @@ namespace DrumKit
 
 		return typeStr;
 	}
+
+
 
 	// Private Methods
 
