@@ -31,6 +31,7 @@ namespace eXaDrumsApi
 		int GetNumInstruments() const { return controller.GetNumInstruments(); }
 		void SetKitName(const char* name) { controller.SetKitName(std::string(name)); }
 		void SaveKit(const char* file) const { controller.SaveKit(std::string(file)); }
+		void SaveKit() const { controller.SaveKit(); }
 
 
 		// Instrument

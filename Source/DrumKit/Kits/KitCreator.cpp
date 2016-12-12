@@ -23,7 +23,7 @@ namespace DrumKit
 
 		kitsDirectory = std::string(dataLoc) + "Kits/";
 
-		soundFiles = SoundBank::GetSoundNames(dataLoc);
+		soundFiles = SoundBank::GetSoundFiles(dataLoc);
 
 		return;
 	}
@@ -56,6 +56,15 @@ namespace DrumKit
 	{
 
 		KitManager::SaveKit(this->kitsDirectory + file, this->parameters);
+
+		return;
+	}
+
+	void KitCreator::SaveKit() const
+	{
+
+		std::string file = this->parameters.kitName + ".xml";
+		SaveKit(file);
 
 		return;
 	}

@@ -147,7 +147,6 @@ namespace DrumKit
 
 		if(enable)
 		{
-			//xxx Will change in the future
 			metronome->GenerateClick();
 			std::vector<short> data = metronome->GetData();
 

@@ -28,7 +28,7 @@ namespace Sound
 		SoundBank(std::string dataFolder);
 		virtual ~SoundBank();
 
-		static std::vector<std::string> GetSoundNames(std::string dataFolder);
+		static std::vector<std::string> GetSoundFiles(std::string dataFolder);
 
 		int LoadSound(std::string filename);
 		int LoadSound(std::string filename, float volume);

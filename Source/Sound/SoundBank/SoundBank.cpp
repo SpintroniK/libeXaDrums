@@ -103,7 +103,7 @@ namespace Sound
 	}
 
 
-	std::vector<std::string> SoundBank::GetSoundNames(std::string dataFolder)
+	std::vector<std::string> SoundBank::GetSoundFiles(std::string dataFolder)
 	{
 
 		std::vector<std::string> paths;
@@ -122,6 +122,7 @@ namespace Sound
 
 				// Get directory path
 				std::string soundsDirPath = location + std::string(ent->d_name) + "/";
+				std::string dirName = std::string(ent->d_name) + "/";
 
 				struct dirent* dir;
 				DIR* soundsDir = opendir(soundsDirPath.c_str());
@@ -135,7 +136,7 @@ namespace Sound
 
 					if(fileExtension == "raw")
 					{
-						paths.push_back(fileName);
+						paths.push_back(dirName + fileName);
 					}
 
 				}

@@ -32,6 +32,7 @@ namespace DrumKit
 		int GetNumInstruments() const { return (int)this->parameters.instrumentParameters.size(); }
 		void SetKitName(const std::string& name) { parameters.kitName = name; };
 		void SaveKit(const std::string& file) const;
+		void SaveKit() const;
 
 		// Instruments
 		void CreateNewInstrument();
