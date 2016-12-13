@@ -67,6 +67,7 @@ namespace eXaDrumsApi
 		void SelectKit(int id);
 		void SaveKitConfig(int id) const { drumModule->SaveKitConfig(id); }
 		bool DeleteKit(const int& id) { return drumModule->DeleteKit(id); }
+		void ReloadKits() { drumModule->ReloadKits(); }
 		int GetNumKits() const { return drumModule->GetNumKits(); }
 		void GetKitNameById(int id, char* kitName, int& nameLength);
 

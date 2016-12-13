@@ -43,6 +43,7 @@ namespace DrumKit
 		void SaveKitConfig(int id) const { kits[id].Save(); };
 		bool DeleteKit(const int& id);
 		void SelectKit(std::size_t id);
+		void ReloadKits();
 		int GetNumKits() const { return (int) kits.size(); };
 		std::string GetKitNameById(int id) const;
 

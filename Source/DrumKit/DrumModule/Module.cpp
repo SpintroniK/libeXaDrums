@@ -142,6 +142,15 @@ namespace DrumKit
 		return isSuccess;
 	}
 
+	void Module::ReloadKits()
+	{
+
+		kitManager.ReScan();
+		LoadKits();
+
+		return;
+	}
+
 	void Module::EnableMetronome(bool enable)
 	{
 

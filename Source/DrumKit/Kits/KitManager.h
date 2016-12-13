@@ -32,6 +32,7 @@ namespace DrumKit
 		static void SaveKit(std::string file, KitParameters parameters);
 
 		bool DeleteKit(const int& id);
+		void ReScan() { ScanFolder(); }
 
 		int GetNumKits() { return int(this->filesPaths.size()); }
 		std::vector<std::string> GetKitsLocations() const { return filesPaths; }
