@@ -7,6 +7,7 @@
 
 #include "KitCreator_api.h"
 
+#include <algorithm>
 
 namespace eXaDrumsApi
 {
@@ -74,6 +75,24 @@ namespace eXaDrumsApi
 
 		length = fileName.length();
 		fileName.copy(name, length);
+
+		return;
+	}
+
+	// Private Methods
+
+	void KitCreator::GetTriggersIds_(int* data, int& size) const
+	{
+
+		if(data == nullptr)
+		{
+			size = (int) controller.GetTriggersIds().size();
+			return;
+		}
+
+		std::vector<int> trigsIds = controller.GetTriggersIds();
+		std::copy(trigsIds.cbegin(), trigsIds.cend(), data);
+		size = trigsIds.size();
 
 		return;
 	}

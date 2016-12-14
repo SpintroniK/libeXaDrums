@@ -52,6 +52,9 @@ namespace eXaDrumsApi
 		int GetNumInstrumentTypes() const { return controller.GetNumInstrumentTypes(); }
 		void GetInstrumentTypeById(int id,  char* name, int& length) const;
 
+		// Triggers
+		std::vector<int> GetTriggersIds() const;
+
 		// Sounds
 		int GetNumSoundFiles() const { return controller.GetNumSoundFiles(); }
 		void GetSoundFileById(int id, char* name, int& length) const;
@@ -59,10 +62,14 @@ namespace eXaDrumsApi
 
 	private:
 
+		void GetTriggersIds_(int* data, int& size) const;
+
 		DrumKit::KitCreator& controller;
 
 	};
 
 } /* namespace eXaDrumsApi */
+
+#include "KitCreator_api.hpp"
 
 #endif /* SOURCE_API_KITCREATOR_API_H_ */

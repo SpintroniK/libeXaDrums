@@ -51,6 +51,10 @@ namespace DrumKit
 		int GetNumInstrumentTypes() const { return (int) Util::Enums::GetInstrumentTypes().size(); }
 		std::string GetInstrumentTypeById(int id) const;
 
+		// Triggers
+		int GetNumTriggers() const { return (int) triggersIds.size(); }
+		std::vector<int> GetTriggersIds() const { return triggersIds; }
+
 		// Sounds
 		int GetNumSoundFiles() const { return (int) soundFiles.size(); }
 		std::string GetSoundFileById(int id) const { return soundFiles[id]; }
@@ -64,6 +68,7 @@ namespace DrumKit
 		KitParameters parameters;
 		InstrumentParameters instrument;
 
+		std::vector<int> triggersIds;
 		std::vector<std::string> soundFiles;
 
 

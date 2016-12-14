@@ -9,9 +9,11 @@
 
 #include "../../Sound/SoundBank/SoundBank.h"
 
+#include "../Triggers/TriggerManager.h"
 #include "../Instruments/Cymbals/TestHiHat.h"
 #include "../Instruments/Drums/TestDrum.h"
 
+#include <algorithm>
 
 using namespace Sound;
 
@@ -24,6 +26,10 @@ namespace DrumKit
 		kitsDirectory = std::string(dataLoc) + "Kits/";
 
 		soundFiles = SoundBank::GetSoundFiles(dataLoc);
+
+		std::vector<TriggerParameters> trigsParams;
+		TriggerManager::LoadTriggersConfig(dataLoc, trigsParams);
+		std::transform(trigsParams.cbegin(), trigsParams.cend(), std::back_inserter(triggersIds), [&](const TriggerParameters& p) { return p.sensorId; });
 
 		return;
 	}
