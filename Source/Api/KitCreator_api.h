@@ -12,7 +12,7 @@
 #include "../DrumKit/Kits/KitCreator.h"
 
 #include <string>
-#include <memory>
+#include <vector>
 
 namespace eXaDrumsApi
 {
@@ -56,14 +56,18 @@ namespace eXaDrumsApi
 		std::vector<int> GetTriggersIds() const;
 
 		// Sounds
-		int GetNumSoundFiles() const { return controller.GetNumSoundFiles(); }
-		void GetSoundFileById(int id, char* name, int& length) const;
+		std::vector<std::string> GetSoundFiles();
 
 
 	private:
 
-		void GetTriggersIds_(int* data, int& size) const;
+		void GetTriggersIds_(int* data, unsigned int& size) const;
+		void GetSoundFiles_(const char** data, unsigned int& size);
 
+		// Local copies of all the vectors of strings
+		std::vector<std::string> soundsFiles;
+
+		// Controller
 		DrumKit::KitCreator& controller;
 
 	};

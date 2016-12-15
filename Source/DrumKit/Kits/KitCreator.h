@@ -56,8 +56,7 @@ namespace DrumKit
 		std::vector<int> GetTriggersIds() const { return triggersIds; }
 
 		// Sounds
-		int GetNumSoundFiles() const { return (int) soundFiles.size(); }
-		std::string GetSoundFileById(int id) const { return soundFiles[id]; }
+		std::vector<std::string> GetSoundFiles() const { return soundFiles; }
 
 
 	private:

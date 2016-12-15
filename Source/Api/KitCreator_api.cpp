@@ -8,14 +8,14 @@
 #include "KitCreator_api.h"
 
 #include <algorithm>
+#include <memory>
+
 
 namespace eXaDrumsApi
 {
 
 	KitCreator::KitCreator(const char* dataLocation) : controller(*new DrumKit::KitCreator(dataLocation))
 	{
-
-
 
 		return;
 	}
@@ -68,31 +68,43 @@ namespace eXaDrumsApi
 		return;
 	}
 
-	void KitCreator::GetSoundFileById(int id, char* name, int& length) const
-	{
-
-		std::string fileName = controller.GetSoundFileById(id);
-
-		length = fileName.length();
-		fileName.copy(name, length);
-
-		return;
-	}
 
 	// Private Methods
 
-	void KitCreator::GetTriggersIds_(int* data, int& size) const
+	void KitCreator::GetTriggersIds_(int* data, unsigned int& size) const
 	{
 
 		if(data == nullptr)
 		{
-			size = (int) controller.GetTriggersIds().size();
+			size = controller.GetTriggersIds().size();
 			return;
 		}
 
 		std::vector<int> trigsIds = controller.GetTriggersIds();
 		std::copy(trigsIds.cbegin(), trigsIds.cend(), data);
 		size = trigsIds.size();
+
+		return;
+	}
+
+	void KitCreator::GetSoundFiles_(const char** data, unsigned int& size)
+	{
+
+		if(data == (const char**) nullptr)
+		{
+			size = controller.GetSoundFiles().size();
+			return;
+		}
+
+		this->soundsFiles.clear();
+		this->soundsFiles = controller.GetSoundFiles();
+
+		unsigned int numElements = std::min<unsigned int>(size, soundsFiles.size());
+
+		for(unsigned int i = 0; i < numElements; i++)
+		{
+			data[i] = soundsFiles[i].c_str();
+		}
 
 		return;
 	}
