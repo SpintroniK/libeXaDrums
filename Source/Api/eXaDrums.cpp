@@ -16,6 +16,7 @@
 
 using namespace Sound;
 using namespace DrumKit;
+using namespace Util;
 
 namespace eXaDrumsApi
 {
@@ -52,22 +53,7 @@ namespace eXaDrumsApi
 		return;
 	}
 
-	void eXaDrums::GetDataLocation(char* location, int& strLength) const
-	{
-
-		CppStringToC(this->dataLocation, location, strLength);
-
-		return;
-	}
-
-
-	void eXaDrums::SelectKit(int id)
-	{
-
-		this->drumModule->SelectKit(id);
-
-		return;
-	}
+	// Module
 
 	void eXaDrums::Start()
 	{
@@ -91,21 +77,50 @@ namespace eXaDrumsApi
 
 	// Metronome
 
-	void eXaDrums::GetClickTypeById(int id, char* kitName, int& nameLength) const
+	void eXaDrums::EnableMetronome(bool enable) const
+	{
+		drumModule->EnableMetronome(enable);
+		return;
+	}
+
+	void eXaDrums::RestartMetronome() const
+	{
+		drumModule->RestartMetronome();
+		return;
+	}
+
+	void eXaDrums::ChangeTempo(int tempo) const
+	{
+		drumModule->ChangeTempo(tempo);
+		return;
+	}
+
+	int eXaDrums::GetTempo() const
+	{
+		return metronome->GetTempo();
+	}
+
+	void eXaDrums::SaveMetronomeConfig() const
+	{
+		metronome->SaveConfig(dataLocation + metronomeConfigFile, metronome->GetParameters());
+		return;
+	}
+
+
+	void eXaDrums::SetClickType(int id)
 	{
 
-		std::string clickType = Util::Enums::ClickTypeToString(Util::Enums::GetClickTypes()[id]);
+		ClickType type = Enums::GetClickTypes()[id];
+		metronome->SetClickType(type);
 
-		CppStringToC(clickType, kitName, nameLength);
-
-		return;
+		 return;
 	}
 
 	int eXaDrums::GetClickTypeId() const
 	{
 
 		ClickType clickType = metronome->GetClickType();
-		const std::vector<ClickType>& clickTypes = Util::Enums::GetClickTypes();
+		const std::vector<ClickType>& clickTypes = Enums::GetClickTypes();
 
 		auto it = std::find(clickTypes.cbegin(), clickTypes.cend(), clickType);
 		int index = std::distance(clickTypes.cbegin(), it);
@@ -113,25 +128,58 @@ namespace eXaDrumsApi
 		return index;
 	}
 
+	int eXaDrums::GetRhythm() const
+	{
+		return this->metronome->GetRhythm();
+	}
 
-	void eXaDrums::GetRhythmList(int* data) const
+	void eXaDrums::SetRhythm(int rhythm)
+	{
+		this->metronome->SetRhythm(rhythm);
+	}
+
+	int eXaDrums::GetBpmeas() const
+	{
+		return this->metronome->GetBpmeas();
+	}
+
+	void eXaDrums::SetBpmeas(int bpmeas)
+	{
+		this->metronome->SetBpmeas(bpmeas);
+		return;
+	}
+
+	void eXaDrums::SelectKit(int id)
 	{
 
-		std::vector<int> rhythmList = this->metronome->GetRhythmList();
-		std::copy(rhythmList.cbegin(), rhythmList.cend(), data);
+		this->drumModule->SelectKit(id);
 
 		return;
 	}
 
-	void eXaDrums::GetBpmeasList(int* data) const
+	void eXaDrums::SaveKitConfig(int id) const
+	{
+		drumModule->SaveKitConfig(id);
+		return;
+	}
+
+	bool eXaDrums::DeleteKit(const int& id)
+	{
+		return drumModule->DeleteKit(id);
+	}
+
+	void eXaDrums::ReloadKits()
 	{
 
-		std::vector<int> bpmeasList = this->metronome->GetBpmeasList();
-		std::copy(bpmeasList.cbegin(), bpmeasList.cend(), data);
+		drumModule->ReloadKits();
 
 		return;
 	}
 
+	int eXaDrums::GetNumKits() const
+	{
+		return drumModule->GetNumKits();
+	}
 
 	void eXaDrums::SetInstrumentVolume(int id, int volume)
 	{
@@ -151,34 +199,113 @@ namespace eXaDrumsApi
 		return volume;
 	}
 
-	void eXaDrums::GetKitNameById(int id, char* kitName, int& nameLength)
+
+	// Private Methods
+
+	const char* eXaDrums::GetDataLocation_() const
+	{
+		return this->dataLocation.c_str();
+	}
+
+
+	void eXaDrums::GetClicksTypes_(const char** data, unsigned int& size)
 	{
 
-		std::string kit = this->drumModule->GetKitNameById(id);
+		if(data == nullptr)
+		{
+			size = Enums::GetClickTypes().size();
+			return;
+		}
 
-		CppStringToC(kit, kitName, nameLength);
+		this->clicksTypes.clear();
+		{
+			std::vector<ClickType> types = Enums::GetClickTypes();
+			std::transform(types.cbegin(), types.cend(), std::back_inserter(clicksTypes), [](const ClickType& t) { return Enums::ClickTypeToString(t); });
+		}
+
+		unsigned int numElements = std::min<unsigned int>(size, clicksTypes.size());
+
+		for(unsigned int i = 0; i < numElements; i++)
+		{
+			data[i] = clicksTypes[i].c_str();
+		}
 
 		return;
 	}
 
-	void eXaDrums::GetInstrumentName(int id, char* name, int& nameLength)
+	void eXaDrums::GetRhythms_(int* data, unsigned int& size) const
 	{
 
-		std::string inst = this->drumModule->GetInstrumentName(id);
+		if(data == nullptr)
+		{
+			size = this->metronome->GetRhythmList().size();
+			return;
+		}
 
-		CppStringToC(inst, name, nameLength);
+		std::vector<int> rhythms = this->metronome->GetRhythmList();
+		std::copy(rhythms.cbegin(), rhythms.cend(), data);
+		size = rhythms.size();
 
 		return;
 	}
 
-	void eXaDrums::CppStringToC(std::string input, char* str, int& length) const
+	void eXaDrums::GetBpms_(int* data, unsigned int& size) const
 	{
 
-		// Get string's length
-		length = input.length();
+		if(data == nullptr)
+		{
+			size = this->metronome->GetBpmeasList().size();
+			return;
+		}
 
-		// Copy string to char*
-		input.copy(str, length);
+		std::vector<int> bpms = this->metronome->GetBpmeasList();
+		std::copy(bpms.cbegin(), bpms.cend(), data);
+		size = bpms.size();
+
+		return;
+	}
+
+
+	void eXaDrums::GetKitsNames_(const char** data, unsigned int& size)
+	{
+
+		if(data == nullptr)
+		{
+			size = drumModule->GetKitsNames().size();
+			return;
+		}
+
+		this->kitsNames.clear();
+		this->kitsNames = drumModule->GetKitsNames();
+
+		unsigned int numElements = std::min<unsigned int>(size, kitsNames.size());
+
+		for(unsigned int i = 0; i < numElements; i++)
+		{
+			data[i] = kitsNames[i].c_str();
+		}
+
+		return;
+	}
+
+	void eXaDrums::GetInstrumentsNames_(const char** data, unsigned int& size)
+	{
+
+		if(data == nullptr)
+		{
+			size = drumModule->GetInstrumentsNames().size();
+			return;
+		}
+
+		this->instrumentsNames.clear();
+		this->instrumentsNames = drumModule->GetInstrumentsNames();
+
+		unsigned int numElements = std::min<unsigned int>(size, instrumentsNames.size());
+
+		for(unsigned int i = 0; i < numElements; i++)
+		{
+			data[i] = instrumentsNames[i].c_str();
+		}
 
 		return;
 	}

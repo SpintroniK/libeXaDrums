@@ -65,7 +65,7 @@ namespace eXaDrumsApi
 		void GetInstrumentsTypes_(const char** data, unsigned int& size);
 		void GetTriggersLocations_(const char* instrumentType, const char** data, unsigned int& size);
 
-		// Local copies of all the vectors of strings
+		// Local copies of all the enums
 		std::vector<std::string> soundsFiles;
 		std::vector<std::string> soundsTypes;
 		std::vector<std::string> instrumentsTypes;

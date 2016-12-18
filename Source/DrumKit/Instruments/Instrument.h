@@ -40,6 +40,7 @@ namespace DrumKit
 
 		virtual int GetId() const { return this->parameters.id; }
 		virtual float GetVolume() const { return this->parameters.volume; }
+		virtual std::string GetName() const { return this->parameters.instrumentName; }
 
 
 

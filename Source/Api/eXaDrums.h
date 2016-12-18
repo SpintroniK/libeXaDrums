@@ -34,52 +34,54 @@ namespace eXaDrumsApi
 
 		// eXaDrums
 		bool IsStarted() const { return isStarted; }
-		void GetDataLocation(char* location, int& strLength) const;
+		std::string GetDataLocation() const { return std::string(this->GetDataLocation_()); }
 
 		// Module
 		void Start();
 		void Stop();
 
 		// Metronome
-		void EnableMetronome(bool enable) { drumModule->EnableMetronome(enable); }
-		void RestartMetronome() { drumModule->RestartMetronome(); }
-		void ChangeTempo(int tempo) { drumModule->ChangeTempo(tempo); }
-		int GetTempo() const  { return metronome->GetTempo(); }
-		void SaveMetronomeConfig() { metronome->SaveConfig(dataLocation + metronomeConfigFile, metronome->GetParameters()); }
+		void EnableMetronome(bool enable) const;
+		void RestartMetronome() const;
+		void ChangeTempo(int tempo) const;
+		int GetTempo() const;
+		void SaveMetronomeConfig() const;
 
-		int GetNumClickTypes() const { return int(Util::Enums::GetClickTypes().size()); }
-		void GetClickTypeById(int id, char* kitName, int& nameLength) const;
-		void SetClickType(int id) { metronome->SetClickType(Util::Enums::GetClickTypes()[id]); }
+		std::vector<std::string> GetClicksTypes();
+		void SetClickType(int id);
 		int GetClickTypeId() const;
 
-		int GetNumRhythms() const { return (int)this->metronome->GetRhythmList().size(); }
-		void GetRhythmList(int* data) const;
-		int GetRhythm() const { return this->metronome->GetRhythm(); }
-		void SetRhythm(int rhythm) { this->metronome->SetRhythm(rhythm); }
+		std::vector<int> GetRhythms() const;
+		int GetRhythm() const;
+		void SetRhythm(int rhythm);
 
-		int GetNumBpmeas() const { return (int)this->metronome->GetBpmeasList().size(); }
-		void GetBpmeasList(int* data) const;
-		int GetBpmeas() const { return this->metronome->GetBpmeas(); }
-		void SetBpmeas(int bpmeas) { this->metronome->SetBpmeas(bpmeas); }
+		std::vector<int> GetBpms() const;
+		int GetBpmeas() const;
+		void SetBpmeas(int bpmeas);
 
 
 		// Kits
 		void SelectKit(int id);
-		void SaveKitConfig(int id) const { drumModule->SaveKitConfig(id); }
-		bool DeleteKit(const int& id) { return drumModule->DeleteKit(id); }
-		void ReloadKits() { drumModule->ReloadKits(); }
-		int GetNumKits() const { return drumModule->GetNumKits(); }
-		void GetKitNameById(int id, char* kitName, int& nameLength);
+		void SaveKitConfig(int id) const;
+		bool DeleteKit(const int& id);
+		void ReloadKits();
+		int GetNumKits() const;
+		std::vector<std::string> GetKitsNames();
 
 		// Instruments
 		void SetInstrumentVolume(int id, int volume);
 		int GetInstrumentVolume(int id) const;
-		int GetNumInstruments() const { return drumModule->GetNumInstruments(); }
-		void GetInstrumentName(int id, char* name, int& nameLength);
+		std::vector<std::string> GetInstrumentsNames();
 
 	private:
 
-		void CppStringToC(std::string input, char* str, int& length) const;
+		const char* GetDataLocation_() const;
+		void GetClicksTypes_(const char** data, unsigned int& size);
+		void GetRhythms_(int* data, unsigned int& size) const;
+		void GetBpms_(int* data, unsigned int& size) const;
+		void GetKitsNames_(const char** data, unsigned int& size);
+		void GetInstrumentsNames_(const char** data, unsigned int& size);
+
 
 		static const std::string metronomeConfigFile;
 		static const std::string alsaConfigFile;
@@ -94,10 +96,14 @@ namespace eXaDrumsApi
 
 		std::atomic<bool> isStarted;
 
+		// Local copies of all the enums
+		std::vector<std::string> clicksTypes;
+		std::vector<std::string> kitsNames;
+		std::vector<std::string> instrumentsNames;
 
 	};
-
-
 }
+
+#include "eXaDrums.hpp"
 
 #endif /* LIBEXADRUMS_SOURCE_API_EXADRUMKIT_H_ */

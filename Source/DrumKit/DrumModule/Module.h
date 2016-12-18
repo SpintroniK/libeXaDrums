@@ -45,12 +45,12 @@ namespace DrumKit
 		void SelectKit(std::size_t id);
 		void ReloadKits();
 		int GetNumKits() const { return (int) kits.size(); };
-		std::string GetKitNameById(int id) const;
+		std::vector<std::string> GetKitsNames() const;
+		std::vector<std::string> GetInstrumentsNames() const;
 
 		// Instrument
 		void SetInstrumentVolume(int id, float volume) { kits[kitId].SetInstrumentVolume(id, volume); };
 		float GetInstrumentVolume(int id) const { return kits[kitId].GetInstrumentVolume(id); };
-		std::string GetInstrumentName(std::size_t id) const;
 		int GetNumInstruments() const { return kits[kitId].GetNumInstruments(); };
 
 		// Module

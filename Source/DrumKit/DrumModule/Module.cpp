@@ -54,13 +54,6 @@ namespace DrumKit
 		return;
 	}
 
-	std::string Module::GetInstrumentName(std::size_t id) const
-	{
-
-		std::string name(kits[kitId].GetInstrumentName(id));
-
-		return name;
-	}
 
 	void Module::Start()
 	{
@@ -123,11 +116,26 @@ namespace DrumKit
 		return;
 	}
 
-	std::string Module::GetKitNameById(int id) const
+	std::vector<std::string> Module::GetKitsNames() const
 	{
 
-		return kits.at(id).GetName();
+		std::vector<std::string> names;
+		std::transform(kits.cbegin(), kits.cend(), std::back_inserter(names), [](const Kit& k) { return k.GetName(); });
+
+		return names;
 	}
+
+	std::vector<std::string> Module::GetInstrumentsNames() const
+	{
+
+		const std::vector<InstrumentPtr>& instruments = kits[kitId].GetInstruments();
+
+		std::vector<std::string> names;
+		std::transform(instruments.cbegin(), instruments.cend(), std::back_inserter(names), [](const InstrumentPtr i) { return i->GetName(); });
+
+		return names;
+	}
+
 
 	bool Module::DeleteKit(const int& id)
 	{
