@@ -44,28 +44,32 @@ namespace eXaDrumsApi
 		void AddInstrumentTrigger(const int id, const char* location) { controller.AddInstrumentTrigger(id, std::string(location)); }
 
 
-		// Util
-		int GetNumSounds(const char* type) const { return controller.GetNumSounds(type); }
-		void GetSoundTypeById(const char* type, int id, char* soundType, int& length) const;
-		int GetNumTriggers(const char* type) const { return controller.GetNumTriggers(type); }
-		void GetTriggerTypeById(const char* type, int id, char* triggerType, int& length) const;
-		int GetNumInstrumentTypes() const { return controller.GetNumInstrumentTypes(); }
-		void GetInstrumentTypeById(int id,  char* name, int& length) const;
+		// Enums
+		// Instruments
+		std::vector<std::string> GetInstrumentsTypes();
 
 		// Triggers
 		std::vector<int> GetTriggersIds() const;
+		std::vector<std::string> GetTriggersLocations(const std::string instrumentType);
 
 		// Sounds
-		std::vector<std::string> GetSoundFiles();
+		std::vector<std::string> GetSoundsFiles();
+		std::vector<std::string> GetSoundsTypes(const std::string instrumentType);
 
 
 	private:
 
 		void GetTriggersIds_(int* data, unsigned int& size) const;
 		void GetSoundFiles_(const char** data, unsigned int& size);
+		void GetSoundTypes_(const char* instrumentType, const char** data, unsigned int& size);
+		void GetInstrumentsTypes_(const char** data, unsigned int& size);
+		void GetTriggersLocations_(const char* instrumentType, const char** data, unsigned int& size);
 
 		// Local copies of all the vectors of strings
 		std::vector<std::string> soundsFiles;
+		std::vector<std::string> soundsTypes;
+		std::vector<std::string> instrumentsTypes;
+		std::vector<std::string> triggersLocations;
 
 		// Controller
 		DrumKit::KitCreator& controller;

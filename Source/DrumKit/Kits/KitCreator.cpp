@@ -16,6 +16,7 @@
 #include <algorithm>
 
 using namespace Sound;
+using namespace Util;
 
 namespace DrumKit
 {
@@ -25,8 +26,10 @@ namespace DrumKit
 
 		kitsDirectory = std::string(dataLoc) + "Kits/";
 
+		// Sound Files
 		soundFiles = SoundBank::GetSoundFiles(dataLoc);
 
+		// Triggers
 		std::vector<TriggerParameters> trigsParams;
 		TriggerManager::LoadTriggersConfig(dataLoc, trigsParams);
 		std::transform(trigsParams.cbegin(), trigsParams.cend(), std::back_inserter(triggersIds), [&](const TriggerParameters& p) { return p.sensorId; });
@@ -96,7 +99,7 @@ namespace DrumKit
 	void KitCreator::SetInstrumentType(const std::string& typeStr)
 	{
 
-		InstrumentType type =  Util::Enums::InstrumentTypeFromString(typeStr);
+		InstrumentType type =  Enums::InstrumentTypeFromString(typeStr);
 		this->instrument.instrumentType = type;
 
 		return;
@@ -105,7 +108,7 @@ namespace DrumKit
 	void KitCreator::AddInstrumentSound(const std::string& file, const std::string& typeStr)
 	{
 
-		InstrumentSoundType soundType = Util::Enums::InstrumentSoundTypeFromString(typeStr);
+		InstrumentSoundType soundType = Enums::InstrumentSoundTypeFromString(typeStr);
 
 		InstrumentSoundInfo instrumentSoundInfo;
 		{
@@ -123,7 +126,7 @@ namespace DrumKit
 	{
 
 
-		TriggerLocation trigLoc = Util::Enums::TriggerLocationFromString(location);
+		TriggerLocation trigLoc = Enums::TriggerLocationFromString(location);
 
 		this->instrument.triggersIdsAndLocations.push_back(std::pair<int, TriggerLocation>{id, trigLoc});
 
@@ -131,83 +134,61 @@ namespace DrumKit
 	}
 
 
-	int KitCreator::GetNumSounds(const std::string& instrumentType) const
+	std::vector<std::string> KitCreator::GetSoundTypes(const std::string& instrumentType) const
 	{
 
-		InstrumentType type = Util::Enums::InstrumentTypeFromString(instrumentType);
+		InstrumentType type = Enums::InstrumentTypeFromString(instrumentType);
 
-		switch (type)
-		{
-			case InstrumentType::TestDrum: return (int)TestDrum::soundsTypes.size(); break;
-			case InstrumentType::HiHat: return (int)TestHiHat::soundsTypes.size(); break;
-
-			default: throw -1; break;
-		}
-
-	}
-
-
-	std::string KitCreator::GetSoundTypeById(const std::string& instrumentType, int id) const
-	{
-
-		InstrumentType type = Util::Enums::InstrumentTypeFromString(instrumentType);
-
-		InstrumentSoundType soundType;
+		std::vector<InstrumentSoundType> sndTypes;
 
 		switch(type)
 		{
-			case InstrumentType::TestDrum: soundType = TestDrum::soundsTypes[id]; break;
-			case InstrumentType::HiHat: soundType = TestHiHat::soundsTypes[id]; break;
+			case InstrumentType::TestDrum: sndTypes = TestDrum::soundsTypes; break;
+			case InstrumentType::HiHat: sndTypes = TestHiHat::soundsTypes; break;
 
 			default: throw -1; break;
 		}
 
-		return Util::Enums::InstrumentSoundTypeToString(soundType);
+		std::vector<std::string> soundsTypes;
+		std::transform(sndTypes.cbegin(), sndTypes.cend(), std::back_inserter(soundsTypes), [](const InstrumentSoundType& t) { return Enums::InstrumentSoundTypeToString(t); });
+
+		return soundsTypes;
 	}
 
-	std::string KitCreator::GetTriggerTypeById(const std::string& instrumentType, int id) const
+
+	std::vector<std::string> KitCreator::GetTriggersLocations(const std::string& instrumentType) const
 	{
 
-		InstrumentType type = Util::Enums::InstrumentTypeFromString(instrumentType);
+		InstrumentType type = Enums::InstrumentTypeFromString(instrumentType);
 
-		TriggerLocation triggerType;
+		std::vector<TriggerLocation> trigsLocs;
 
 		switch(type)
 		{
-			case InstrumentType::TestDrum: triggerType = TestDrum::triggersLocations[id]; break;
-			case InstrumentType::HiHat: triggerType = TestHiHat::triggersLocations[id]; break;
+			case InstrumentType::TestDrum: trigsLocs = TestDrum::triggersLocations; break;
+			case InstrumentType::HiHat: trigsLocs = TestHiHat::triggersLocations; break;
 
 			default: throw -1; break;
 		}
 
-		return Util::Enums::TriggerLocationToString(triggerType);
+		std::vector<std::string> triggersLocations;
+		std::transform(trigsLocs.cbegin(), trigsLocs.cend(), std::back_inserter(triggersLocations), [](const TriggerLocation& l) { return Enums::TriggerLocationToString(l); });
+
+		return triggersLocations;
 	}
 
-	int KitCreator::GetNumTriggers(const std::string& instrumentType) const
+
+
+	std::vector<std::string> KitCreator::GetInstrumentsTypes() const
 	{
 
-		InstrumentType type = Util::Enums::InstrumentTypeFromString(instrumentType);
+		std::vector<InstrumentType> types = Enums::GetInstrumentTypes();
 
-		switch (type)
-		{
-			case InstrumentType::TestDrum: return (int)TestDrum::triggersLocations.size(); break;
-			case InstrumentType::HiHat: return (int)TestHiHat::triggersLocations.size(); break;
+		std::vector<std::string> instrumentTypes;
+		std::transform(types.cbegin(), types.cend(), std::back_inserter(instrumentTypes), [](const InstrumentType& t) { return Enums::InstrumentTypeToString(t); });
 
-			default: throw -1; break;
-		}
-
+		return instrumentTypes;
 	}
-
-
-	std::string KitCreator::GetInstrumentTypeById(int id) const
-	{
-
-		InstrumentType type = Util::Enums::GetInstrumentTypes()[id];
-		std::string typeStr = Util::Enums::InstrumentTypeToString(type);
-
-		return typeStr;
-	}
-
 
 
 	// Private Methods
@@ -224,7 +205,7 @@ namespace DrumKit
 		SetInstrumentName("Test instrument 1");
 
 		// Get an instrument type
-		const std::string instrumentType = Util::Enums::InstrumentTypeToString(InstrumentType::TestDrum);
+		const std::string instrumentType = Enums::InstrumentTypeToString(InstrumentType::TestDrum);
 		SetInstrumentType(instrumentType);
 
 		SetInstrumentVolume(1.0f);
@@ -234,12 +215,12 @@ namespace DrumKit
 		std::string instrumentSoundType;
 		{
 			soundLocation = "SnareDrum/snare1.raw";
-			instrumentSoundType = Util::Enums::InstrumentSoundTypeToString(InstrumentSoundType::Default);
+			instrumentSoundType = Enums::InstrumentSoundTypeToString(InstrumentSoundType::Default);
 			AddInstrumentSound(soundLocation, instrumentSoundType);
 
 			// And another one
 			soundLocation = "SnareDrum/edge1.raw";
-			instrumentSoundType = Util::Enums::InstrumentSoundTypeToString(InstrumentSoundType::RimShot);
+			instrumentSoundType = Enums::InstrumentSoundTypeToString(InstrumentSoundType::RimShot);
 			AddInstrumentSound(soundLocation, instrumentSoundType);
 		}
 
@@ -248,11 +229,11 @@ namespace DrumKit
 		std::string triggerLocation;
 		{
 			id = 0;
-			triggerLocation = Util::Enums::TriggerLocationToString(TriggerLocation::DrumHead);
+			triggerLocation = Enums::TriggerLocationToString(TriggerLocation::DrumHead);
 			AddInstrumentTrigger(id, triggerLocation);
 
 			id = 1;
-			triggerLocation = Util::Enums::TriggerLocationToString(TriggerLocation::Rim);
+			triggerLocation = Enums::TriggerLocationToString(TriggerLocation::Rim);
 			AddInstrumentTrigger(id, triggerLocation);
 		}
 
