@@ -26,22 +26,22 @@ namespace eXaDrumsApi
 		virtual ~KitCreator();
 
 		// Kit
-		void CreateNewKit() { controller.CreateNewKit(); }
-		void CreateFromModel(const char* loc) { controller.CreateFromModel(std::string(loc)); }
-		int GetNumInstruments() const { return controller.GetNumInstruments(); }
-		void SetKitName(const char* name) { controller.SetKitName(std::string(name)); }
-		void SaveKit(const char* file) const { controller.SaveKit(std::string(file)); }
-		void SaveKit() const { controller.SaveKit(); }
+		void CreateNewKit();
+		void CreateFromModel(const char* loc);
+		int GetNumInstruments() const;
+		void SetKitName(const char* name);
+		void SaveKit(const char* file) const;
+		void SaveKit() const;
 
 
 		// Instrument
-		void CreateNewInstrument() { controller.CreateNewInstrument(); }
-		void AddInstrumentToKit() { controller.AddInstrumentToKit(); }
-		void SetInstrumentName(const char* name) { controller.SetInstrumentName(std::string(name)); }
-		void SetInstrumentType(const char* type) { controller.SetInstrumentType(std::string(type)); }
-		void SetInstrumentVolume(const float volume) { controller.SetInstrumentVolume(volume); }
-		void AddInstrumentSound(const char* file, const char* type) { controller.AddInstrumentSound(std::string(file), std::string(type)); }
-		void AddInstrumentTrigger(const int id, const char* location) { controller.AddInstrumentTrigger(id, std::string(location)); }
+		void CreateNewInstrument();
+		void AddInstrumentToKit();
+		void SetInstrumentName(const char* name);
+		void SetInstrumentType(const char* type);
+		void SetInstrumentVolume(const float volume);
+		void AddInstrumentSound(const char* file, const char* type);
+		void AddInstrumentTrigger(const int id, const char* location);
 
 
 		// Enums

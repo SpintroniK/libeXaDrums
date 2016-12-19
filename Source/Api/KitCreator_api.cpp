@@ -30,6 +30,85 @@ namespace eXaDrumsApi
 	}
 
 
+	// Kit
+	void KitCreator::CreateNewKit()
+	{
+		controller.CreateNewKit();
+		return;
+	}
+
+	void KitCreator::CreateFromModel(const char* loc)
+	{
+		controller.CreateFromModel(std::string(loc));
+		return;
+	}
+
+	int KitCreator::GetNumInstruments() const
+	{
+		return controller.GetNumInstruments();
+	}
+
+	void KitCreator::SetKitName(const char* name)
+	{
+		controller.SetKitName(std::string(name));
+		return;
+	}
+
+	void KitCreator::SaveKit(const char* file) const
+	{
+		controller.SaveKit(std::string(file));
+		return;
+	}
+
+	void KitCreator::SaveKit() const
+	{
+		controller.SaveKit();
+		return;
+	}
+
+	// Instrument
+	void KitCreator::CreateNewInstrument()
+	{
+		controller.CreateNewInstrument();
+		return;
+	}
+
+	void KitCreator::AddInstrumentToKit()
+	{
+		controller.AddInstrumentToKit();
+		return;
+	}
+
+	void KitCreator::SetInstrumentName(const char* name)
+	{
+		controller.SetInstrumentName(std::string(name));
+		return;
+	}
+
+	void KitCreator::SetInstrumentType(const char* type)
+	{
+		controller.SetInstrumentType(std::string(type));
+		return;
+	}
+
+	void KitCreator::SetInstrumentVolume(const float volume)
+	{
+		controller.SetInstrumentVolume(volume);
+		return;
+	}
+
+	void KitCreator::AddInstrumentSound(const char* file, const char* type)
+	{
+		controller.AddInstrumentSound(std::string(file), std::string(type));
+		return;
+	}
+
+	void KitCreator::AddInstrumentTrigger(const int id, const char* location)
+	{
+		controller.AddInstrumentTrigger(id, std::string(location));
+		return;
+	}
+
 
 	// Private Methods
 
