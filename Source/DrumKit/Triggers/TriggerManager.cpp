@@ -17,6 +17,7 @@
 
 
 using namespace tinyxml2;
+using namespace Util;
 
 namespace DrumKit
 {
@@ -62,7 +63,7 @@ namespace DrumKit
 			trigParams.sensorId = std::atoi(trigger->Attribute("sensorId"));
 
 			// Get trigger type
-			trigParams.type = Util::Enums::TriggerTypeFromString(trigger->Attribute("sensorType"));
+			trigParams.type = Enums<TriggerType>::ToElement(trigger->Attribute("sensorType"));
 
 			// Read xml elements
 			XMLElement* threshold = trigger->FirstChildElement("Threshold");
@@ -73,7 +74,7 @@ namespace DrumKit
 			trigParams.threshold = (short) std::atoi(threshold->GetText());
 			trigParams.scanTime = (unsigned int) std::atoi(scanTime->GetText());
 			trigParams.maskTime = std::atoi(maskTime->GetText());
-			trigParams.response = Util::Enums::CurveTypeFromString(response->GetText());
+			trigParams.response = Enums<CurveType>::ToElement(response->GetText());
 
 			//XXX Reading only sensor type
 			LoadSensorsConfig(moduleDir, trigParams.sensorType);
@@ -106,7 +107,7 @@ namespace DrumKit
 		//XMLElement* resolution = root->FirstChildElement("Resolution");
 		XMLElement* type = root->FirstChildElement("Type");
 
-		sensorType = Util::Enums::SensorTypeFromString(type->GetText());
+		sensorType = Enums<IO::SensorType>::ToElement(type->GetText());
 
 		return;
 	}

@@ -27,6 +27,7 @@
 
 using namespace Sound;
 using namespace tinyxml2;
+using namespace Util;
 
 namespace DrumKit
 {
@@ -82,7 +83,7 @@ namespace DrumKit
 			for(XMLElement* trigger = firstTrigger; trigger != nullptr; trigger = trigger->NextSiblingElement())
 			{
 				int triggerId = std::atoi(trigger->GetText());
-				TriggerLocation triggerLoc = Util::Enums::TriggerLocationFromString(trigger->Attribute("location"));
+				TriggerLocation triggerLoc = Enums<TriggerLocation>::ToElement(trigger->Attribute("location"));
 				instrumentParameters.triggersIdsAndLocations.push_back(std::make_pair(triggerId, triggerLoc));
 			}
 
@@ -101,7 +102,7 @@ namespace DrumKit
 
 				soundInfo.id = soundId;
 				soundInfo.soundLocation = sound->GetText();
-				soundInfo.type = Util::Enums::InstrumentSoundTypeFromString(sound->Attribute("type"));
+				soundInfo.type = Enums<InstrumentSoundType>::ToElement(sound->Attribute("type"));
 
 				soundsInfo.push_back(soundInfo);
 
@@ -112,7 +113,7 @@ namespace DrumKit
 			instrumentParameters.soundsInfo.swap(soundsInfo);
 
 			// Populate instrumentParameters
-			InstrumentType instrumentType = Util::Enums::InstrumentTypeFromString(instrument->Attribute("type"));
+			InstrumentType instrumentType = Enums<InstrumentType>::ToElement(instrument->Attribute("type"));
 			instrumentParameters.instrumentType = instrumentType;
 			instrumentParameters.instrumentName = instrumentName->GetText();
 
@@ -166,7 +167,7 @@ namespace DrumKit
 			XMLElement* instrument = doc.NewElement("Instrument");
 
 			// Set type
-			std::string instrumentType = Util::Enums::InstrumentTypeToString(instrumentParameters.instrumentType);
+			std::string instrumentType = Enums<InstrumentType>::ToString(instrumentParameters.instrumentType);
 			instrument->SetAttribute("type", instrumentType.c_str());
 
 			// Set volume
@@ -186,7 +187,7 @@ namespace DrumKit
 				XMLElement* trigger = doc.NewElement("trigger");
 
 				// Set location
-				std::string location = Util::Enums::TriggerLocationToString(triggerLoc.second);
+				std::string location = Enums<TriggerLocation>::ToString(triggerLoc.second);
 				trigger->SetAttribute("location", location.c_str());
 
 				// Set id
@@ -204,7 +205,7 @@ namespace DrumKit
 				XMLElement* sound = doc.NewElement("sound");
 
 				// Set type
-				std::string type = Util::Enums::InstrumentSoundTypeToString(soundInfo.type);
+				std::string type = Enums<InstrumentSoundType>::ToString(soundInfo.type);
 				sound->SetAttribute("type", type.c_str());
 
 				// Set file path

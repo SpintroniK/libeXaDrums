@@ -99,7 +99,7 @@ namespace DrumKit
 	void KitCreator::SetInstrumentType(const std::string& typeStr)
 	{
 
-		InstrumentType type =  Enums::InstrumentTypeFromString(typeStr);
+		InstrumentType type =  Enums<InstrumentType>::ToElement(typeStr);
 		this->instrument.instrumentType = type;
 
 		return;
@@ -108,7 +108,7 @@ namespace DrumKit
 	void KitCreator::AddInstrumentSound(const std::string& file, const std::string& typeStr)
 	{
 
-		InstrumentSoundType soundType = Enums::InstrumentSoundTypeFromString(typeStr);
+		InstrumentSoundType soundType = Enums<InstrumentSoundType>::ToElement(typeStr);
 
 		InstrumentSoundInfo instrumentSoundInfo;
 		{
@@ -126,7 +126,7 @@ namespace DrumKit
 	{
 
 
-		TriggerLocation trigLoc = Enums::TriggerLocationFromString(location);
+		TriggerLocation trigLoc = Enums<TriggerLocation>::ToElement(location);
 
 		this->instrument.triggersIdsAndLocations.push_back(std::pair<int, TriggerLocation>{id, trigLoc});
 
@@ -137,7 +137,7 @@ namespace DrumKit
 	std::vector<std::string> KitCreator::GetSoundTypes(const std::string& instrumentType) const
 	{
 
-		InstrumentType type = Enums::InstrumentTypeFromString(instrumentType);
+		InstrumentType type = Enums<InstrumentType>::ToElement(instrumentType);
 
 		std::vector<InstrumentSoundType> sndTypes;
 
@@ -150,7 +150,7 @@ namespace DrumKit
 		}
 
 		std::vector<std::string> soundsTypes;
-		std::transform(sndTypes.cbegin(), sndTypes.cend(), std::back_inserter(soundsTypes), [](const InstrumentSoundType& t) { return Enums::InstrumentSoundTypeToString(t); });
+		std::transform(sndTypes.cbegin(), sndTypes.cend(), std::back_inserter(soundsTypes), [](const InstrumentSoundType& t) { return Enums<InstrumentSoundType>::ToString(t); });
 
 		return soundsTypes;
 	}
@@ -159,7 +159,7 @@ namespace DrumKit
 	std::vector<std::string> KitCreator::GetTriggersLocations(const std::string& instrumentType) const
 	{
 
-		InstrumentType type = Enums::InstrumentTypeFromString(instrumentType);
+		InstrumentType type = Enums<InstrumentType>::ToElement(instrumentType);
 
 		std::vector<TriggerLocation> trigsLocs;
 
@@ -172,7 +172,7 @@ namespace DrumKit
 		}
 
 		std::vector<std::string> triggersLocations;
-		std::transform(trigsLocs.cbegin(), trigsLocs.cend(), std::back_inserter(triggersLocations), [](const TriggerLocation& l) { return Enums::TriggerLocationToString(l); });
+		std::transform(trigsLocs.cbegin(), trigsLocs.cend(), std::back_inserter(triggersLocations), [](const TriggerLocation& l) { return Enums<TriggerLocation>::ToString(l); });
 
 		return triggersLocations;
 	}
@@ -182,10 +182,10 @@ namespace DrumKit
 	std::vector<std::string> KitCreator::GetInstrumentsTypes() const
 	{
 
-		std::vector<InstrumentType> types = Enums::GetInstrumentTypes();
+		std::vector<InstrumentType> types = Enums<InstrumentType>::GetEnumVector();
 
 		std::vector<std::string> instrumentTypes;
-		std::transform(types.cbegin(), types.cend(), std::back_inserter(instrumentTypes), [](const InstrumentType& t) { return Enums::InstrumentTypeToString(t); });
+		std::transform(types.cbegin(), types.cend(), std::back_inserter(instrumentTypes), [](const InstrumentType& t) { return Enums<InstrumentType>::ToString(t); });
 
 		return instrumentTypes;
 	}
@@ -205,7 +205,7 @@ namespace DrumKit
 		SetInstrumentName("Test instrument 1");
 
 		// Get an instrument type
-		const std::string instrumentType = Enums::InstrumentTypeToString(InstrumentType::TestDrum);
+		const std::string instrumentType = Enums<InstrumentType>::ToString(InstrumentType::TestDrum);
 		SetInstrumentType(instrumentType);
 
 		SetInstrumentVolume(1.0f);
@@ -215,12 +215,12 @@ namespace DrumKit
 		std::string instrumentSoundType;
 		{
 			soundLocation = "SnareDrum/snare1.raw";
-			instrumentSoundType = Enums::InstrumentSoundTypeToString(InstrumentSoundType::Default);
+			instrumentSoundType = Enums<InstrumentSoundType>::ToString(InstrumentSoundType::Default);
 			AddInstrumentSound(soundLocation, instrumentSoundType);
 
 			// And another one
 			soundLocation = "SnareDrum/edge1.raw";
-			instrumentSoundType = Enums::InstrumentSoundTypeToString(InstrumentSoundType::RimShot);
+			instrumentSoundType = Enums<InstrumentSoundType>::ToString(InstrumentSoundType::RimShot);
 			AddInstrumentSound(soundLocation, instrumentSoundType);
 		}
 
@@ -229,11 +229,11 @@ namespace DrumKit
 		std::string triggerLocation;
 		{
 			id = 0;
-			triggerLocation = Enums::TriggerLocationToString(TriggerLocation::DrumHead);
+			triggerLocation = Enums<TriggerLocation>::ToString(TriggerLocation::DrumHead);
 			AddInstrumentTrigger(id, triggerLocation);
 
 			id = 1;
-			triggerLocation = Enums::TriggerLocationToString(TriggerLocation::Rim);
+			triggerLocation = Enums<TriggerLocation>::ToString(TriggerLocation::Rim);
 			AddInstrumentTrigger(id, triggerLocation);
 		}
 

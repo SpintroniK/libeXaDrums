@@ -39,5 +39,4 @@ Source/Sound/Mixer \
 Source/Sound \
 Source/Sound/SoundBank \
 Source/Sound/SoundProcessor \
-Source/Util \
 
