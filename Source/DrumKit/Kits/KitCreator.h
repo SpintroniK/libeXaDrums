@@ -46,6 +46,7 @@ namespace DrumKit
 		// Enums
 		// Instruments
 		std::vector<std::string> GetInstrumentsTypes() const;
+		std::vector<std::string> GetInstrumentsNames() const;
 
 		// Triggers
 		std::vector<int> GetTriggersIds() const { return triggersIds; }

@@ -73,6 +73,21 @@ namespace eXaDrumsApi
 		return v;
 	}
 
+	inline std::vector<std::string> KitCreator::GetInstrumentsNames()
+	{
+
+		unsigned int size;
+		GetInstrumentsNames_(nullptr, size);
+
+		std::vector<const char*> data(size);
+		GetInstrumentsNames_(data.data(), size);
+
+		std::vector<std::string> v(size);
+		std::copy(data.cbegin(), data.cend(), v.begin());
+
+		return v;
+	}
+
 	inline std::vector<std::string> KitCreator::GetTriggersLocations(const std::string instrumentType)
 	{
 

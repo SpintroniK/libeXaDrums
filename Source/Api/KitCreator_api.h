@@ -47,6 +47,7 @@ namespace eXaDrumsApi
 		// Enums
 		// Instruments
 		std::vector<std::string> GetInstrumentsTypes();
+		std::vector<std::string> GetInstrumentsNames();
 
 		// Triggers
 		std::vector<int> GetTriggersIds() const;
@@ -63,6 +64,7 @@ namespace eXaDrumsApi
 		void GetSoundFiles_(const char** data, unsigned int& size);
 		void GetSoundTypes_(const char* instrumentType, const char** data, unsigned int& size);
 		void GetInstrumentsTypes_(const char** data, unsigned int& size);
+		void GetInstrumentsNames_(const char** data, unsigned int& size);
 		void GetTriggersLocations_(const char* instrumentType, const char** data, unsigned int& size);
 
 		// Local copies of all the enums
@@ -70,6 +72,7 @@ namespace eXaDrumsApi
 		std::vector<std::string> soundsTypes;
 		std::vector<std::string> instrumentsTypes;
 		std::vector<std::string> triggersLocations;
+		std::vector<std::string> instrumentsNames;
 
 		// Controller
 		DrumKit::KitCreator& controller;

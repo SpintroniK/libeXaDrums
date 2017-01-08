@@ -207,6 +207,16 @@ namespace eXaDrumsApi
 		return this->dataLocation.c_str();
 	}
 
+	const char* eXaDrums::GetKitDataFileName_()
+	{
+
+		std::string kitLocation = this->drumModule->GetKitLocation();
+		std::size_t pos = kitLocation.find_last_of("/");
+
+		this->kitDataFileName = kitLocation.substr(pos + 1, std::string::npos);
+
+		return this->kitDataFileName.c_str();
+	}
 
 	void eXaDrums::GetClicksTypes_(const char** data, unsigned int& size)
 	{

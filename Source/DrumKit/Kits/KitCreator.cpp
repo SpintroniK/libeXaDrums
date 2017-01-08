@@ -72,8 +72,17 @@ namespace DrumKit
 	void KitCreator::SaveKit() const
 	{
 
-		std::string file = this->parameters.kitName + ".xml";
-		SaveKit(file);
+		std::string configFilePath = this->parameters.configFilePath;
+
+		if(configFilePath.empty())
+		{
+			std::string file = this->parameters.kitName + ".xml";
+			SaveKit(file);
+		}
+		else
+		{
+			SaveKit(configFilePath);
+		}
 
 		return;
 	}
@@ -190,6 +199,16 @@ namespace DrumKit
 		return instrumentTypes;
 	}
 
+	std::vector<std::string> KitCreator::GetInstrumentsNames() const
+	{
+
+		const std::vector<InstrumentParameters>& instruments = this->parameters.instrumentParameters;
+
+		std::vector<std::string> instrumentsNames;
+		std::transform(instruments.cbegin(), instruments.cend(), std::back_inserter(instrumentsNames),[](const InstrumentParameters& i) { return i.instrumentName; });
+
+		return instrumentsNames;
+	}
 
 	// Private Methods
 

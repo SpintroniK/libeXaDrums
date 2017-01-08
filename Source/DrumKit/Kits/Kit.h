@@ -37,6 +37,7 @@ namespace DrumKit
 
 			void SetInstrumentVolume(int id, float volume);
 
+			std::string GetConfigFilePath() const { return parameters.configFilePath; }
 			float GetInstrumentVolume(int id) const { return instruments[id]->GetVolume(); }
 			std::string GetInstrumentName(std::size_t id) const;
 			std::string GetName() const { return parameters.kitName; }

@@ -15,6 +15,16 @@
 namespace eXaDrumsApi
 {
 
+	inline std::string eXaDrums::GetDataLocation() const
+	{
+		return std::string(this->GetDataLocation_());
+	}
+
+	inline std::string eXaDrums::GetKitDataFileName()
+	{
+		return std::string(this->GetKitDataFileName_());
+	}
+
 	inline std::vector<std::string> eXaDrums::GetClicksTypes()
 	{
 

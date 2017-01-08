@@ -194,6 +194,28 @@ namespace eXaDrumsApi
 		return;
 	}
 
+	void KitCreator::GetInstrumentsNames_(const char** data, unsigned int& size)
+	{
+
+		if(data == nullptr)
+		{
+			size = controller.GetInstrumentsNames().size();
+			return;
+		}
+
+		this->instrumentsNames.clear();
+		this->instrumentsNames = controller.GetInstrumentsNames();
+
+		unsigned int numElements = std::min<unsigned int>(size, instrumentsNames.size());
+
+		for(unsigned int i = 0; i < numElements; i++)
+		{
+			data[i] = instrumentsNames[i].c_str();
+		}
+
+		return;
+	}
+
 	void KitCreator::GetTriggersLocations_(const char* instrumentType, const char** data, unsigned int& size)
 	{
 

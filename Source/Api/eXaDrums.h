@@ -34,7 +34,7 @@ namespace eXaDrumsApi
 
 		// eXaDrums
 		bool IsStarted() const { return isStarted; }
-		std::string GetDataLocation() const { return std::string(this->GetDataLocation_()); }
+		std::string GetDataLocation() const;
 
 		// Module
 		void Start();
@@ -66,6 +66,7 @@ namespace eXaDrumsApi
 		bool DeleteKit(const int& id);
 		void ReloadKits();
 		int GetNumKits() const;
+		std::string GetKitDataFileName();
 		std::vector<std::string> GetKitsNames();
 
 		// Instruments
@@ -76,6 +77,7 @@ namespace eXaDrumsApi
 	private:
 
 		const char* GetDataLocation_() const;
+		const char* GetKitDataFileName_();
 		void GetClicksTypes_(const char** data, unsigned int& size);
 		void GetRhythms_(int* data, unsigned int& size) const;
 		void GetBpms_(int* data, unsigned int& size) const;
@@ -87,6 +89,7 @@ namespace eXaDrumsApi
 		static const std::string alsaConfigFile;
 
 		std::string dataLocation;
+		std::string kitDataFileName;
 
 		std::unique_ptr<DrumKit::Module> drumModule;
 
