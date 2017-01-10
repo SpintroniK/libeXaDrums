@@ -16,6 +16,23 @@
 namespace eXaDrumsApi
 {
 
+	inline std::string KitCreator::GetInstrumentType(int i)
+	{
+		return std::string(GetInstrumentType_(i));
+	}
+
+	inline std::vector<int> KitCreator::GetInstrumentTriggersIds(int i) const
+	{
+
+		unsigned int size;
+		GetInstrumentTriggersIds_(i, nullptr, size);
+
+		std::vector<int> trigsIds(size);
+		GetInstrumentTriggersIds_(i, trigsIds.data(), size);
+
+		return trigsIds;
+	}
+
 	inline std::vector<int> KitCreator::GetTriggersIds() const
 	{
 
@@ -26,6 +43,51 @@ namespace eXaDrumsApi
 		GetTriggersIds_(trigsIds.data(), size);
 
 		return trigsIds;
+	}
+
+	inline std::vector<std::string> KitCreator::GetInstrumentTriggersLocations(int i)
+	{
+
+		unsigned int size;
+		GetInstrumentTriggersLocations_(i, nullptr, size);
+
+		std::vector<const char*> data(size);
+		GetInstrumentTriggersLocations_(i, data.data(), size);
+
+		std::vector<std::string> v(size);
+		std::copy(data.cbegin(), data.cend(), v.begin());
+
+		return v;
+	}
+
+	inline std::vector<std::string> KitCreator::GetInstrumentSoundsTypes(int i)
+	{
+
+		unsigned int size;
+		GetInstrumentSoundsTypes_(i, nullptr, size);
+
+		std::vector<const char*> data(size);
+		GetInstrumentSoundsTypes_(i, data.data(), size);
+
+		std::vector<std::string> v(size);
+		std::copy(data.cbegin(), data.cend(), v.begin());
+
+		return v;
+	}
+
+	inline std::vector<std::string> KitCreator::GetInstrumentSoundsLocs(int i)
+	{
+
+		unsigned int size;
+		GetInstrumentSoundsLocs_(i, nullptr, size);
+
+		std::vector<const char*> data(size);
+		GetInstrumentSoundsLocs_(i, data.data(), size);
+
+		std::vector<std::string> v(size);
+		std::copy(data.cbegin(), data.cend(), v.begin());
+
+		return v;
 	}
 
 	inline std::vector<std::string> KitCreator::GetSoundsFiles()
@@ -102,6 +164,7 @@ namespace eXaDrumsApi
 
 		return v;
 	}
+
 
 }
 

@@ -112,6 +112,30 @@ namespace eXaDrumsApi
 
 	// Private Methods
 
+	const char* KitCreator::GetInstrumentType_(int i)
+	{
+
+		this->instrumentType = controller.GetInstrumentType(i);
+
+		return this->instrumentType.c_str();
+	}
+
+	void KitCreator::GetInstrumentTriggersIds_(int i, int* data, unsigned int& size) const
+	{
+
+		if(data == nullptr)
+		{
+			size = controller.GetInstrumentsTriggersIds(i).size();
+			return;
+		}
+
+		std::vector<int> trigsIds = controller.GetInstrumentsTriggersIds(i);
+		std::copy(trigsIds.cbegin(), trigsIds.cend(), data);
+		size = trigsIds.size();
+
+		return;
+	}
+
 	void KitCreator::GetTriggersIds_(int* data, unsigned int& size) const
 	{
 
@@ -124,6 +148,94 @@ namespace eXaDrumsApi
 		std::vector<int> trigsIds = controller.GetTriggersIds();
 		std::copy(trigsIds.cbegin(), trigsIds.cend(), data);
 		size = trigsIds.size();
+
+		return;
+	}
+
+	void KitCreator::GetInstrumentTriggersLocations_(int i, const char** data, unsigned int& size)
+	{
+
+		if(data == nullptr)
+		{
+			size = controller.GetInstrumentTriggersLocations(i).size();
+			return;
+		}
+
+		this->instrumentTriggersLocations.clear();
+		this->instrumentTriggersLocations = controller.GetInstrumentTriggersLocations(i);
+
+		unsigned int numElements = std::min<unsigned int>(size, instrumentTriggersLocations.size());
+
+		for(unsigned int i = 0; i < numElements; i++)
+		{
+			data[i] = instrumentTriggersLocations[i].c_str();
+		}
+
+		return;
+	}
+
+	void KitCreator::GetInstrumentSoundsTypes_(int i, const char** data, unsigned int& size)
+	{
+
+		if(data == nullptr)
+		{
+			size = controller.GetInstrumentSoundsTypes(i).size();
+			return;
+		}
+
+		this->instrumentSoundsTypes.clear();
+		this->instrumentSoundsTypes = controller.GetInstrumentSoundsTypes(i);
+
+		unsigned int numElements = std::min<unsigned int>(size, instrumentSoundsTypes.size());
+
+		for(unsigned int i = 0; i < numElements; i++)
+		{
+			data[i] = instrumentSoundsTypes[i].c_str();
+		}
+
+		return;
+	}
+	void KitCreator::GetSoundTypes_(const char* instrumentType, const char** data, unsigned int& size)
+	{
+
+		if(data == nullptr)
+		{
+			size = controller.GetSoundTypes(std::string(instrumentType)).size();
+			return;
+		}
+
+		this->soundsTypes.clear();
+		this->soundsTypes = controller.GetSoundTypes(std::string(instrumentType));
+
+		unsigned int numElements = std::min<unsigned int>(size, soundsTypes.size());
+
+		for(unsigned int i = 0; i < numElements; i++)
+		{
+			data[i] = soundsTypes[i].c_str();
+		}
+
+		return;
+	}
+
+
+	void KitCreator::GetInstrumentSoundsLocs_(int i, const char** data, unsigned int& size)
+	{
+
+		if(data == nullptr)
+		{
+			size = controller.GetInstrumentSoundsLocs(i).size();
+			return;
+		}
+
+		this->instrumentSoundsLocs.clear();
+		this->instrumentSoundsLocs = controller.GetInstrumentSoundsLocs(i);
+
+		unsigned int numElements = std::min<unsigned int>(size, instrumentSoundsLocs.size());
+
+		for(unsigned int i = 0; i < numElements; i++)
+		{
+			data[i] = instrumentSoundsLocs[i].c_str();
+		}
 
 		return;
 	}
@@ -150,27 +262,7 @@ namespace eXaDrumsApi
 		return;
 	}
 
-	void KitCreator::GetSoundTypes_(const char* instrumentType, const char** data, unsigned int& size)
-	{
 
-		if(data == nullptr)
-		{
-			size = controller.GetSoundTypes(std::string(instrumentType)).size();
-			return;
-		}
-
-		this->soundsTypes.clear();
-		this->soundsTypes = controller.GetSoundTypes(std::string(instrumentType));
-
-		unsigned int numElements = std::min<unsigned int>(size, soundsTypes.size());
-
-		for(unsigned int i = 0; i < numElements; i++)
-		{
-			data[i] = soundsTypes[i].c_str();
-		}
-
-		return;
-	}
 
 	void KitCreator::GetInstrumentsTypes_(const char** data, unsigned int& size)
 	{

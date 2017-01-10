@@ -43,6 +43,11 @@ namespace eXaDrumsApi
 		void AddInstrumentSound(const char* file, const char* type);
 		void AddInstrumentTrigger(const int id, const char* location);
 
+		std::string GetInstrumentType(int i);
+		std::vector<int> GetInstrumentTriggersIds(int i) const;
+		std::vector<std::string> GetInstrumentTriggersLocations(int i);
+		std::vector<std::string> GetInstrumentSoundsTypes(int i);
+		std::vector<std::string> GetInstrumentSoundsLocs(int i);
 
 		// Enums
 		// Instruments
@@ -60,12 +65,25 @@ namespace eXaDrumsApi
 
 	private:
 
+		const char* GetInstrumentType_(int i);
+
+		void GetInstrumentTriggersIds_(int i, int* data, unsigned int& size) const;
 		void GetTriggersIds_(int* data, unsigned int& size) const;
-		void GetSoundFiles_(const char** data, unsigned int& size);
+
+		void GetInstrumentTriggersLocations_(int i, const char** data, unsigned int& size);
+		void GetTriggersLocations_(const char* instrumentType, const char** data, unsigned int& size);
+
+		void GetInstrumentSoundsTypes_(int i, const char** data, unsigned int& size);
 		void GetSoundTypes_(const char* instrumentType, const char** data, unsigned int& size);
+
+		void GetInstrumentSoundsLocs_(int i, const char** data, unsigned int& size);
+		void GetSoundFiles_(const char** data, unsigned int& size);
+
 		void GetInstrumentsTypes_(const char** data, unsigned int& size);
 		void GetInstrumentsNames_(const char** data, unsigned int& size);
-		void GetTriggersLocations_(const char* instrumentType, const char** data, unsigned int& size);
+
+		// Local copies of all the strings
+		std::string instrumentType;
 
 		// Local copies of all the enums
 		std::vector<std::string> soundsFiles;
@@ -73,6 +91,9 @@ namespace eXaDrumsApi
 		std::vector<std::string> instrumentsTypes;
 		std::vector<std::string> triggersLocations;
 		std::vector<std::string> instrumentsNames;
+		std::vector<std::string> instrumentTriggersLocations;
+		std::vector<std::string> instrumentSoundsTypes;
+		std::vector<std::string> instrumentSoundsLocs;
 
 		// Controller
 		DrumKit::KitCreator& controller;

@@ -43,6 +43,12 @@ namespace DrumKit
 		void AddInstrumentSound(const std::string& file, const std::string& type);
 		void AddInstrumentTrigger(const int id, const std::string& location);
 
+		std::string GetInstrumentType(int i) const;
+		std::vector<int> GetInstrumentsTriggersIds(int i) const;
+		std::vector<std::string> GetInstrumentTriggersLocations(int i) const;
+		std::vector<std::string> GetInstrumentSoundsTypes(int i) const;
+		std::vector<std::string> GetInstrumentSoundsLocs(int i) const;
+
 		// Enums
 		// Instruments
 		std::vector<std::string> GetInstrumentsTypes() const;

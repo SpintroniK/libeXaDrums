@@ -142,6 +142,59 @@ namespace DrumKit
 		return;
 	}
 
+	std::string KitCreator::GetInstrumentType(int i) const
+	{
+
+		InstrumentType type = parameters.instrumentParameters[i].instrumentType;
+		std::string typeStr = Enums<InstrumentType>::ToString(type);
+
+		return typeStr;
+	}
+
+	std::vector<int> KitCreator::GetInstrumentsTriggersIds(int i) const
+	{
+
+		const auto& triggers = parameters.instrumentParameters[i].triggersIdsAndLocations;
+
+		std::vector<int> triggersIds(triggers.size());
+		std::transform(triggers.cbegin(), triggers.cend(), triggersIds.begin(), [](const std::pair<int, TriggerLocation>& t){ return t.first; });
+
+		return triggersIds;
+	}
+
+	std::vector<std::string> KitCreator::GetInstrumentTriggersLocations(int i) const
+	{
+
+		const auto& trigs = parameters.instrumentParameters[i].triggersIdsAndLocations;
+
+		std::vector<std::string> triggersLocations(trigs.size());
+		std::transform(trigs.cbegin(), trigs.cend(), triggersLocations.begin(), [](const std::pair<int, TriggerLocation>& t){ return Enums<TriggerLocation>::ToString(t.second); });
+
+		return triggersLocations;
+	}
+
+	std::vector<std::string> KitCreator::GetInstrumentSoundsTypes(int i) const
+	{
+
+		const auto& sounds = parameters.instrumentParameters[i].soundsInfo;
+
+		std::vector<std::string> soundsTypes(sounds.size());
+		std::transform(sounds.cbegin(), sounds.cend(), soundsTypes.begin(), [](const InstrumentSoundInfo& s) { return Enums<InstrumentSoundType>::ToString(s.type); });
+
+		return soundsTypes;
+	}
+
+	std::vector<std::string> KitCreator::GetInstrumentSoundsLocs(int i) const
+	{
+
+		const auto& sounds = parameters.instrumentParameters[i].soundsInfo;
+
+		std::vector<std::string> soundsLocs(sounds.size());
+		std::transform(sounds.cbegin(), sounds.cend(), soundsLocs.begin(), [](const InstrumentSoundInfo& s) { return s.soundLocation; });
+
+		return soundsLocs;
+	}
+
 
 	std::vector<std::string> KitCreator::GetSoundTypes(const std::string& instrumentType) const
 	{
