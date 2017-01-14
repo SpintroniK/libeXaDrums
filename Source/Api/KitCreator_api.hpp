@@ -16,6 +16,51 @@
 namespace eXaDrumsApi
 {
 
+	inline void KitCreator::SetInstrumentTriggersIdsAndLocs(int id, const std::vector<std::pair<int, std::string>>& trigsIdsAndLocs)
+	{
+
+		// Retrieve triggers ids
+		std::vector<int> ids;
+		std::transform(trigsIdsAndLocs.cbegin(), trigsIdsAndLocs.cend(), std::back_inserter(ids), [](const std::pair<int, std::string>& p) { return p.first; });
+
+
+		// Retrieve triggers locations
+		std::vector<std::string> trigsLocs;
+		std::transform(trigsIdsAndLocs.cbegin(), trigsIdsAndLocs.cend(), std::back_inserter(trigsLocs), [](const std::pair<int, std::string>& p) { return p.second; });
+
+		// Create trigger locations pointers
+		std::vector<const char*> locs(trigsLocs.size());
+		std::transform(trigsLocs.cbegin(), trigsLocs.cend(), locs.begin(), [](const std::string& s) { return s.c_str();});
+
+		SetInstrumentTriggersIdsAndLocs_(id, ids.data(), locs.data(), trigsIdsAndLocs.size());
+
+		return;
+	}
+
+	inline void KitCreator::SetInstrumentSoundsTypesAndLocs(int id, const std::vector<std::pair<std::string, std::string>>& sndTypesAndLocs)
+	{
+
+		// Retrieve sounds types
+		std::vector<std::string> sndTypes;
+		std::transform(sndTypesAndLocs.cbegin(), sndTypesAndLocs.cend(), std::back_inserter(sndTypes), [](const std::pair<std::string, std::string>& p){ return p.first; });
+
+		// Retrieve sounds locations
+		std::vector<std::string> sndLocs;
+		std::transform(sndTypesAndLocs.cbegin(), sndTypesAndLocs.cend(), std::back_inserter(sndLocs), [](const std::pair<std::string, std::string>& p){ return p.second; });
+
+		// Create sound types pointers
+		std::vector<const char*> types(sndTypes.size());
+		std::transform(sndTypes.cbegin(), sndTypes.cend(), types.begin(), [](const std::string& s) { return s.c_str(); });
+
+		// Create sound locations pointers
+		std::vector<const char*> locs(sndLocs.size());
+		std::transform(sndLocs.cbegin(), sndLocs.cend(), locs.begin(), [](const std::string& s) { return s.c_str(); });
+
+		SetInstrumentSoundsTypesAndLocs_(id, types.data(), locs.data(), sndTypesAndLocs.size());
+
+		return;
+	}
+
 	inline std::string KitCreator::GetInstrumentType(int i)
 	{
 		return std::string(GetInstrumentType_(i));

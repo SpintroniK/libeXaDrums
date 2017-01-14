@@ -14,6 +14,7 @@
 #include "KitManager.h"
 
 #include <string>
+#include <utility>
 
 namespace DrumKit
 {
@@ -31,7 +32,7 @@ namespace DrumKit
 		void CreateFromModel(const std::string& file);
 		int GetNumInstruments() const { return (int)this->parameters.instrumentParameters.size(); }
 		void SetKitName(const std::string& name) { parameters.kitName = name; };
-		void SaveKit(const std::string& file) const;
+		void SaveKit(const std::string& file, bool fullPath = false) const;
 		void SaveKit() const;
 
 		// Instruments
@@ -42,6 +43,9 @@ namespace DrumKit
 		void SetInstrumentVolume(const float v) { this->instrument.volume = v; }
 		void AddInstrumentSound(const std::string& file, const std::string& type);
 		void AddInstrumentTrigger(const int id, const std::string& location);
+
+		void SetInstrumentTriggersIdsAndLocs(int id, const std::vector<std::pair<int, std::string>>& trigsIdsAndLocs);
+		void SetInstrumentSoundsTypesAndLocs(int id, const std::vector<std::pair<std::string, std::string>>& sndsTypesAndLocs);
 
 		std::string GetInstrumentType(int i) const;
 		std::vector<int> GetInstrumentsTriggersIds(int i) const;

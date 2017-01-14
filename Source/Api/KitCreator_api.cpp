@@ -112,6 +112,42 @@ namespace eXaDrumsApi
 
 	// Private Methods
 
+	void KitCreator::SetInstrumentTriggersIdsAndLocs_(int id, int* ids, const char** locs, unsigned int size)
+	{
+
+		std::vector<int> trigsIds(ids, ids + size);
+		std::vector<std::string> trigsLocs(locs, locs + size);
+
+		std::vector<std::pair<int, std::string>> trigs;
+
+		for(std::size_t i = 0; i < size; i++)
+		{
+			trigs.push_back({trigsIds[i], trigsLocs[i]});
+		}
+
+		controller.SetInstrumentTriggersIdsAndLocs(id, trigs);
+
+		return;
+	}
+
+	void KitCreator::SetInstrumentSoundsTypesAndLocs_(int id, const char** types, const char** locs, unsigned int size)
+	{
+
+		std::vector<std::string> sndTypes(types, types + size);
+		std::vector<std::string> sndLocs(locs, locs + size);
+
+		std::vector<std::pair<std::string, std::string>> sounds;
+
+		for(std::size_t i = 0; i < size; i++)
+		{
+			sounds.push_back({sndTypes[i], sndLocs[i]});
+		}
+
+		controller.SetInstrumentSoundsTypesAndLocs(id, sounds);
+
+		return;
+	}
+
 	const char* KitCreator::GetInstrumentType_(int i)
 	{
 

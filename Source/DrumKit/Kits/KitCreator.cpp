@@ -61,10 +61,18 @@ namespace DrumKit
 		return;
 	}
 
-	void KitCreator::SaveKit(const std::string& file) const
+	void KitCreator::SaveKit(const std::string& file, bool fullPath) const
 	{
 
-		KitManager::SaveKit(this->kitsDirectory + file, this->parameters);
+		if(fullPath)
+		{
+			KitManager::SaveKit(file, this->parameters);
+		}
+		else
+		{
+			KitManager::SaveKit(this->kitsDirectory + file, this->parameters);
+		}
+
 
 		return;
 	}
@@ -81,7 +89,7 @@ namespace DrumKit
 		}
 		else
 		{
-			SaveKit(configFilePath);
+			SaveKit(configFilePath, true);
 		}
 
 		return;
@@ -138,6 +146,39 @@ namespace DrumKit
 		TriggerLocation trigLoc = Enums<TriggerLocation>::ToElement(location);
 
 		this->instrument.triggersIdsAndLocations.push_back(std::pair<int, TriggerLocation>{id, trigLoc});
+
+		return;
+	}
+
+
+	void KitCreator::SetInstrumentTriggersIdsAndLocs(int id, const std::vector<std::pair<int, std::string>>& trigsIdsAndLocs)
+	{
+
+		InstrumentParameters& instrument = parameters.instrumentParameters[id];
+
+		for(std::size_t i = 0; i < trigsIdsAndLocs.size(); i++)
+		{
+			instrument.triggersIdsAndLocations[i].first = trigsIdsAndLocs[i].first;
+
+			TriggerLocation trigLoc = Enums<TriggerLocation>::ToElement(trigsIdsAndLocs[i].second);
+			instrument.triggersIdsAndLocations[i].second = trigLoc;
+		}
+
+		return;
+	}
+
+	void KitCreator::SetInstrumentSoundsTypesAndLocs(int id, const std::vector<std::pair<std::string, std::string>>& sndsTypesAndLocs)
+	{
+
+		InstrumentParameters& instrument = parameters.instrumentParameters[id];
+
+		for(std::size_t i = 0; i < sndsTypesAndLocs.size(); i++)
+		{
+
+			instrument.soundsInfo[i].type  = Enums<InstrumentSoundType>::ToElement(sndsTypesAndLocs[i].first);
+			instrument.soundsInfo[i].soundLocation = sndsTypesAndLocs[i].second;
+
+		}
 
 		return;
 	}

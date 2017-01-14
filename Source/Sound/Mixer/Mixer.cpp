@@ -63,7 +63,7 @@ namespace Sound
 	}
 
 
-	void Mixer::Mix(std::vector<short>& buffer)
+	void Mixer::Mix(std::vector<short>& buffer) noexcept
 	{
 
 		std::unique_lock<std::mutex> lock(mixerMutex);

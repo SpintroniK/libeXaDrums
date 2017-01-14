@@ -13,6 +13,7 @@
 
 #include <string>
 #include <vector>
+#include <utility>
 
 namespace eXaDrumsApi
 {
@@ -43,6 +44,9 @@ namespace eXaDrumsApi
 		void AddInstrumentSound(const char* file, const char* type);
 		void AddInstrumentTrigger(const int id, const char* location);
 
+		void SetInstrumentTriggersIdsAndLocs(int id, const std::vector<std::pair<int, std::string>>& trigsIdsAndLocs);
+		void SetInstrumentSoundsTypesAndLocs(int id, const std::vector<std::pair<std::string, std::string>>& sndTypesAndLocs);
+
 		std::string GetInstrumentType(int i);
 		std::vector<int> GetInstrumentTriggersIds(int i) const;
 		std::vector<std::string> GetInstrumentTriggersLocations(int i);
@@ -64,6 +68,9 @@ namespace eXaDrumsApi
 
 
 	private:
+
+		void SetInstrumentTriggersIdsAndLocs_(int id, int* ids, const char** locs, unsigned int size);
+		void SetInstrumentSoundsTypesAndLocs_(int id, const char** types, const char** locs, unsigned int size);
 
 		const char* GetInstrumentType_(int i);
 

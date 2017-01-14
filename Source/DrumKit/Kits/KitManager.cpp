@@ -220,8 +220,10 @@ namespace DrumKit
 			root->InsertEndChild(instrument);
 		}
 
+
 		// Save file
 		doc.SaveFile(file.c_str());
+
 
 		return;
 	}
