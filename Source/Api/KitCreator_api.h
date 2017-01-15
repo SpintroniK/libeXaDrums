@@ -44,6 +44,7 @@ namespace eXaDrumsApi
 		void AddInstrumentSound(const char* file, const char* type);
 		void AddInstrumentTrigger(const int id, const char* location);
 
+		void SetInstrumentName(int id, const char* name);
 		void SetInstrumentTriggersIdsAndLocs(int id, const std::vector<std::pair<int, std::string>>& trigsIdsAndLocs);
 		void SetInstrumentSoundsTypesAndLocs(int id, const std::vector<std::pair<std::string, std::string>>& sndTypesAndLocs);
 
