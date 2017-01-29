@@ -20,6 +20,7 @@
 #include <fstream>
 
 #include <cmath>
+#include <cctype>
 
 #include <dirent.h>
 #include <unistd.h>
@@ -271,8 +272,14 @@ namespace DrumKit
 
 		closedir(directory);
 
-		// Sort
-		std::sort(this->filesPaths.begin(), this->filesPaths.end());
+		// Sort (had to be improved to take capital letters into account)
+		std::sort(filesPaths.begin(), filesPaths.end(), [](const std::string& lhs, const std::string& rhs)
+		{
+			const auto result = std::mismatch(lhs.cbegin(), lhs.cend(), rhs.cbegin(), [](const char& lhs, const char& rhs){return std::tolower(lhs) == std::tolower(rhs);});
+			return result.second != rhs.cend() && (result.first == lhs.cend() || std::tolower(*result.first) < std::tolower(*result.second));
+		});
+
+		//std::sort(this->filesPaths.begin(), this->filesPaths.end());
 
 		return;
 	}
