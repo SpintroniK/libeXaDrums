@@ -76,7 +76,7 @@ namespace Sound
 		std::size_t periodSize = buffer.size();
 
 		// Mix sounds
-		for(std::pair<int, float> const& s : playList)
+		for(const auto& s : playList)
 		{
 
 			Sound& sound = soundBank->sounds[s.first];

@@ -10,6 +10,7 @@
 
 
 #include "../../IO/SensorType.h"
+#include "../../IO/SensorsConfig.h"
 
 #include "TriggerParameters.h"
 
@@ -32,7 +33,7 @@ namespace DrumKit
 
 	private:
 
-		static void LoadSensorsConfig(const std::string& moduleDir, IO::SensorType& sensorType);
+		static void LoadSensorsConfig(const std::string& moduleDir, IO::SensorsConfig& sensorConfig);
 
 	};
 

@@ -76,9 +76,11 @@ namespace DrumKit
 			trigParams.maskTime = std::atoi(maskTime->GetText());
 			trigParams.response = Enums<CurveType>::ToElement(response->GetText());
 
-			//XXX Reading only sensor type
-			LoadSensorsConfig(moduleDir, trigParams.sensorType);
-			//trigParams.sensorType = IO::SensorType::Hdd;
+			// Retrieve sensor type
+			IO::SensorsConfig sensorsConfig;
+			LoadSensorsConfig(moduleDir, sensorsConfig);
+
+			trigParams.sensorType = sensorsConfig.sensorType;
 
 			trigsParams.push_back(trigParams);
 		}
@@ -89,7 +91,7 @@ namespace DrumKit
 
 	// PRIVATE METHODS
 
-	void TriggerManager::LoadSensorsConfig(const std::string& moduleDir, IO::SensorType& sensorType)
+	void TriggerManager::LoadSensorsConfig(const std::string& moduleDir, IO::SensorsConfig& sensorConfig)
 	{
 
 		std::string file(moduleDir + "sensorsConfig.xml");
@@ -103,11 +105,13 @@ namespace DrumKit
 
 		XMLElement* root = doc.RootElement();
 
-		//XMLElement* samplingRate = root->FirstChildElement("SamplingRate");
-		//XMLElement* resolution = root->FirstChildElement("Resolution");
+		XMLElement* samplingRate = root->FirstChildElement("SamplingRate");
+		XMLElement* resolution = root->FirstChildElement("Resolution");
 		XMLElement* type = root->FirstChildElement("Type");
 
-		sensorType = Enums<IO::SensorType>::ToElement(type->GetText());
+		sensorConfig.samplingRate = std::stoi(samplingRate->GetText());
+		sensorConfig.resolution = std::stoi(resolution->GetText());
+		sensorConfig.sensorType = Enums<IO::SensorType>::ToElement(type->GetText());
 
 		return;
 	}
