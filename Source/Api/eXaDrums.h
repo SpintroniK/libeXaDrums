@@ -8,24 +8,26 @@
 #ifndef LIBEXADRUMS_SOURCE_API_EXADRUMKIT_H_
 #define LIBEXADRUMS_SOURCE_API_EXADRUMKIT_H_
 
-#include "../Sound/Alsa/Alsa.h"
-#include "../Sound/Mixer/Mixer.h"
-#include "../Metronome/Metronome.h"
-#include "../DrumKit/DrumModule/Module.h"
-#include "../Util/Enums.h"
+
+#include "../Sound/Alsa/AlsaParameters.h"
 
 #include <string>
+#include <vector>
 #include <memory>
 #include <atomic>
 
 #include <cmath>
 
+namespace DrumKit { class Module; class Metronome; }
+namespace Sound { class Alsa; class Mixer;}
 
 namespace eXaDrumsApi
 {
 
 	class eXaDrums
 	{
+
+		friend class Config;
 
 	public:
 
@@ -74,6 +76,7 @@ namespace eXaDrumsApi
 		int GetInstrumentVolume(int id) const;
 		std::vector<std::string> GetInstrumentsNames();
 
+
 	private:
 
 		const char* GetDataLocation_() const;
@@ -90,6 +93,9 @@ namespace eXaDrumsApi
 
 		std::string dataLocation;
 		std::string kitDataFileName;
+
+		// Configurations
+		Sound::AlsaParams alsaParams;
 
 		std::unique_ptr<DrumKit::Module> drumModule;
 

@@ -69,7 +69,7 @@ namespace DrumKit
 
 		void LoadKits();
 		void Run();
-		void CreateTriggers(std::vector<TriggerParameters> const& trigParams);
+		void CreateTriggers(const std::vector<TriggerParameters>& trigParams);
 		bool IsMetronomeEnabled() const;
 
 

@@ -22,18 +22,7 @@ using namespace Util;
 namespace DrumKit
 {
 
-	TriggerManager::TriggerManager()
-	{
 
-
-		return;
-	}
-
-	TriggerManager::~TriggerManager()
-	{
-
-		return;
-	}
 
 	void TriggerManager::LoadTriggersConfig(const std::string& moduleDir, std::vector<TriggerParameters>& trigsParams)
 	{
@@ -89,7 +78,6 @@ namespace DrumKit
 		return;
 	}
 
-	// PRIVATE METHODS
 
 	void TriggerManager::LoadSensorsConfig(const std::string& moduleDir, IO::SensorsConfig& sensorConfig)
 	{

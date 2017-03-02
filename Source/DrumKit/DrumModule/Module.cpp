@@ -58,7 +58,7 @@ namespace DrumKit
 	void Module::Start()
 	{
 
-		isPlay = true;
+		isPlay.store(true);
 		playThread = std::thread(&Module::Run, this);
 
 		return;
@@ -68,7 +68,7 @@ namespace DrumKit
 	void Module::Stop()
 	{
 
-		isPlay = false;
+		isPlay.store(false);
 		playThread.join();
 
 		mixer->Clear();
@@ -243,7 +243,7 @@ namespace DrumKit
 			mixer->PlaySound(metronomeSoundId, 1.0f);
 		}
 
-		while(isPlay)
+		while(isPlay.load())
 		{
 
 			// Refresh triggers
@@ -252,7 +252,7 @@ namespace DrumKit
 
 			// Check instruments triggers and send sounds to mixer if necessary
 			const std::vector<InstrumentPtr>& instruments = kits[kitId].GetInstruments();
-			for(InstrumentPtr const& instrumentPtr : instruments)
+			for(const InstrumentPtr& instrumentPtr : instruments)
 			{
 
 				bool isTriggerEvent = instrumentPtr->IsTriggerEvent();
@@ -271,10 +271,12 @@ namespace DrumKit
 	}
 
 
-	void Module::CreateTriggers(std::vector<TriggerParameters> const& triggersParameters)
+	void Module::CreateTriggers(const std::vector<TriggerParameters>& triggersParameters)
 	{
 
-		for(TriggerParameters const& triggerParameters : triggersParameters)
+		triggers.clear();
+
+		for(const TriggerParameters& triggerParameters : triggersParameters)
 		{
 
 			TriggerPtr triggerPtr = nullptr;
@@ -282,8 +284,8 @@ namespace DrumKit
 			switch (triggerParameters.type)
 			{
 
-			case TriggerType::Discrete:   triggerPtr = TriggerPtr(new DiscreteTrigger(triggerParameters));   break;
-			case TriggerType::Continuous: triggerPtr = TriggerPtr(new ContinuousTrigger(triggerParameters)); break;
+			case TriggerType::Discrete:   triggerPtr = std::make_shared<DiscreteTrigger>(triggerParameters);   break;
+			case TriggerType::Continuous: triggerPtr = std::make_shared<ContinuousTrigger>(triggerParameters); break;
 
 			default: throw -1; break;
 

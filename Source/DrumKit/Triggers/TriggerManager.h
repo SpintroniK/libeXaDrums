@@ -26,14 +26,14 @@ namespace DrumKit
 
 	public:
 
-		TriggerManager();
-		virtual ~TriggerManager();
-
 		static void LoadTriggersConfig(const std::string& moduleDir, std::vector<TriggerParameters>& trigsParams);
+		static void LoadSensorsConfig(const std::string& moduleDir, IO::SensorsConfig& sensorConfig);
 
 	private:
 
-		static void LoadSensorsConfig(const std::string& moduleDir, IO::SensorsConfig& sensorConfig);
+		TriggerManager() = delete;
+		virtual ~TriggerManager() = delete;
+
 
 	};
 
