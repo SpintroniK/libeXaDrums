@@ -32,12 +32,12 @@ namespace eXaDrumsApi
 		std::vector<std::string> GetSensorsTypes();
 		int GetSensorsSamplingRate() const { return sensorsConfig.samplingRate; }
 		int GetSensorsResolution() const { return sensorsConfig.resolution; }
-		std::string GetSensorsType() const;
+		std::string GetSensorsType();
 
 	private:
 
 
-		const char* GetSensorsType_() const;
+		const char* GetSensorsType_();
 		void GetSensorsTypes_(const char** types, unsigned int& size);
 
 
@@ -45,6 +45,9 @@ namespace eXaDrumsApi
 
 		// Sensors config
 		IO::SensorsConfig sensorsConfig;
+
+		// Local copies of items
+		std::string sensorType;
 
 		// Local copies of enums
 		std::vector<std::string> sensorsTypes;

@@ -68,9 +68,12 @@ namespace eXaDrumsApi
 		return;
 	}
 
-	const char* Config::GetSensorsType_() const
+	const char* Config::GetSensorsType_()
 	{
-		return Enums<IO::SensorType>::ToString(this->sensorsConfig.sensorType).c_str();
+
+		this->sensorType = Enums<IO::SensorType>::ToString(this->sensorsConfig.sensorType);
+
+		return this->sensorType.c_str();
 	}
 
 

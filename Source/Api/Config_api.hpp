@@ -29,7 +29,7 @@ namespace eXaDrumsApi
 		return vec;
 	}
 
-	inline std::string Config::GetSensorsType() const
+	inline std::string Config::GetSensorsType()
 	{
 		return std::string(GetSensorsType_());
 	}
