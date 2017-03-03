@@ -7,12 +7,13 @@
 
 #include "eXaDrums.h"
 
-
 #include "../DrumKit/DrumModule/Module.h"
 #include "../Metronome/Metronome.h"
 #include "../Sound/Alsa/Alsa.h"
+#include "../Sound/Alsa/AlsaParameters.h"
 #include "../Sound/Mixer/Mixer.h"
 #include "../Util/Enums.h"
+#include "../DrumKit/Triggers/TriggerManager.h"
 
 #include <vector>
 #include <algorithm>
@@ -33,19 +34,24 @@ namespace eXaDrumsApi
 
 
 		// Load alsa parameters
-		AlsaParameters::LoadAlsaParameters(dataLocation + alsaConfigFile, this->alsaParams);
+		AlsaParams alsaParams;
+		AlsaParameters::LoadAlsaParameters(dataLocation + alsaConfigFile, alsaParams);
 
 		// Create mixer and alsa
 		this->mixer = std::make_shared<Mixer>();
-		this->alsa = std::unique_ptr<Alsa>(new Alsa(this->alsaParams, this->mixer));
+		this->alsa = std::unique_ptr<Alsa>(new Alsa(alsaParams, this->mixer));
 
 		// Load metronome parameters
 		MetronomeParameters metronomeParams;
 		Metronome::LoadConfig(dataLocation + metronomeConfigFile, metronomeParams);
-		this->metronome = std::make_shared<Metronome>(this->alsaParams, metronomeParams);
+		this->metronome = std::make_shared<Metronome>(alsaParams, metronomeParams);
+
+		// Load sensors parameters
+		IO::SensorsConfig sensorsConfig;
+		DrumKit::TriggerManager::LoadSensorsConfig(dataLocation, sensorsConfig);
 
 		// Create drum module
-		this->drumModule = std::unique_ptr<Module>(new Module(dataLocation, this->mixer, this->metronome));
+		this->drumModule = std::unique_ptr<Module>(new Module(dataLocation, sensorsConfig, this->mixer, this->metronome));
 
 		return;
 	}

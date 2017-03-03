@@ -30,9 +30,7 @@ namespace DrumKit
 		soundFiles = SoundBank::GetSoundFiles(dataLoc);
 
 		// Triggers
-		std::vector<TriggerParameters> trigsParams;
-		TriggerManager::LoadTriggersConfig(dataLoc, trigsParams);
-		std::transform(trigsParams.cbegin(), trigsParams.cend(), std::back_inserter(triggersIds), [&](const TriggerParameters& p) { return p.sensorId; });
+		triggersIds = TriggerManager::LoadTriggersIds(dataLoc);
 
 		return;
 	}

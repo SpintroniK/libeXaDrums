@@ -15,6 +15,8 @@
 
 #include <tinyxml2.h>
 
+#include <algorithm>
+
 
 using namespace tinyxml2;
 using namespace Util;
@@ -22,9 +24,27 @@ using namespace Util;
 namespace DrumKit
 {
 
+	std::vector<int> TriggerManager::LoadTriggersIds(const std::string& moduleDir)
+	{
+
+		// Set default sensors parameters
+		IO::SensorsConfig sensorsConfig;
+		sensorsConfig.resolution = 12;
+		sensorsConfig.samplingRate = 1000000;
+		sensorsConfig.sensorType = IO::SensorType::Hdd;
+
+		// Load triggers config with default sensor parameters
+		std::vector<TriggerParameters> trigsParams;
+		LoadTriggersConfig(moduleDir, sensorsConfig, trigsParams);
+
+		std::vector<int> triggersIds(trigsParams.size());
+		std::transform(trigsParams.cbegin(), trigsParams.cend(), triggersIds.begin(), [&](const TriggerParameters& p) { return p.sensorId; });
 
 
-	void TriggerManager::LoadTriggersConfig(const std::string& moduleDir, std::vector<TriggerParameters>& trigsParams)
+		return triggersIds;
+	}
+
+	void TriggerManager::LoadTriggersConfig(const std::string& moduleDir, const IO::SensorsConfig& sensorsConfig, std::vector<TriggerParameters>& trigsParams)
 	{
 
 		trigsParams.clear();
@@ -65,9 +85,6 @@ namespace DrumKit
 			trigParams.maskTime = std::atoi(maskTime->GetText());
 			trigParams.response = Enums<CurveType>::ToElement(response->GetText());
 
-			// Retrieve sensor type
-			IO::SensorsConfig sensorsConfig;
-			LoadSensorsConfig(moduleDir, sensorsConfig);
 
 			trigParams.sensorType = sensorsConfig.sensorType;
 

@@ -9,8 +9,6 @@
 #define LIBEXADRUMS_SOURCE_API_EXADRUMKIT_H_
 
 
-#include "../Sound/Alsa/AlsaParameters.h"
-
 #include <string>
 #include <vector>
 #include <memory>
@@ -93,9 +91,6 @@ namespace eXaDrumsApi
 
 		std::string dataLocation;
 		std::string kitDataFileName;
-
-		// Configurations
-		Sound::AlsaParams alsaParams;
 
 		std::unique_ptr<DrumKit::Module> drumModule;
 

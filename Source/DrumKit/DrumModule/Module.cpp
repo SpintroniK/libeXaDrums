@@ -8,6 +8,12 @@
 
 #include "Module.h"
 
+#include "../Triggers/TriggerManager.h"
+#include "../Triggers/Triggers/DiscreteTrigger.h"
+#include "../Triggers/Triggers/ContinuousTrigger.h"
+
+#include "../Kits/KitManager.h"
+
 #include <thread>
 #include <algorithm>
 #include <functional>
@@ -18,10 +24,11 @@ using namespace Sound;
 namespace DrumKit
 {
 
-	Module::Module(std::string dir, std::shared_ptr<Mixer> mixer, std::shared_ptr<Metronome> metro)
+	Module::Module(std::string dir, IO::SensorsConfig sConfig, std::shared_ptr<Mixer> mixer, std::shared_ptr<Metronome> metro)
 	: directory(dir),
 	  kitManager(dir + "Kits/"),  kitId(0),
 	  isPlay(false),
+	  sensorsConfig(sConfig),
 	  mixer(mixer),
 	  metronome(metro), metronomeSoundId(-1), isMetronomeEnabled(false)
 	{
@@ -33,7 +40,7 @@ namespace DrumKit
 
 		// Load triggers
 		std::vector<TriggerParameters> triggersParameters;
-		TriggerManager::LoadTriggersConfig(this->directory, triggersParameters);
+		TriggerManager::LoadTriggersConfig(this->directory, sensorsConfig, triggersParameters);
 
 		// Create Triggers
 		this->CreateTriggers(triggersParameters);

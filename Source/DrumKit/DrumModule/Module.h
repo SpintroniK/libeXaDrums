@@ -10,14 +10,11 @@
 
 #include "../../Metronome/Metronome.h"
 
+#include "../../IO/SensorsConfig.h"
+
 #include "../../Sound/Mixer/Mixer.h"
 #include "../../Sound/SoundBank/SoundBank.h"
 
-#include "../Triggers/TriggerManager.h"
-#include "../Triggers/Triggers/DiscreteTrigger.h"
-#include "../Triggers/Triggers/ContinuousTrigger.h"
-
-#include "../Kits/KitManager.h"
 #include "../Kits/Kit.h"
 
 
@@ -36,7 +33,7 @@ namespace DrumKit
 
 	public:
 
-		Module(std::string dir, std::shared_ptr<Sound::Mixer> mixer, std::shared_ptr<Metronome> metro);
+		Module(std::string dir, IO::SensorsConfig sConfig, std::shared_ptr<Sound::Mixer> mixer, std::shared_ptr<Metronome> metro);
 		virtual ~Module();
 
 		// Kit
@@ -64,6 +61,8 @@ namespace DrumKit
 		void ChangeTempo(int tempo);
 		void RestartMetronome();
 
+		// Config
+		IO::SensorsConfig GetSensorsConfig() const { return sensorsConfig; }
 
 	private:
 
@@ -85,6 +84,8 @@ namespace DrumKit
 
 		// Triggers
 		std::vector<TriggerPtr> triggers;
+
+		IO::SensorsConfig sensorsConfig;
 
 		// Sound
 		std::shared_ptr<Sound::SoundBank> soundBank;
