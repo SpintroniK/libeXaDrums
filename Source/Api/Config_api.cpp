@@ -9,31 +9,53 @@
 #include "Config_api.h"
 
 #include "../DrumKit/DrumModule/Module.h"
+#include "../DrumKit/Triggers/TriggerManager.h"
 #include "../Util/Enums.h"
 
 #include "eXaDrums.h"
 
 #include <algorithm>
 
+using namespace DrumKit;
 using namespace Util;
+
 
 namespace eXaDrumsApi
 {
 
 
-	Config::Config(eXaDrums& drums) : drumKit(drums)
+	Config::Config(eXaDrums& drums) : module(*drums.drumModule.get())
 	{
 
-		RefreshSesorsConfig();
+		RefreshSensorsConfig();
 
 		return;
 	}
 
 
-	void Config::RefreshSesorsConfig()
+	void Config::RefreshSensorsConfig()
 	{
 
-		this->sensorsConfig = drumKit.drumModule->GetSensorsConfig();
+		this->sensorsConfig = module.GetSensorsConfig();
+
+		return;
+	}
+
+	void Config::SaveSensorsConfig()
+	{
+
+		std::string dir;
+		module.GetDirectory(dir);
+
+		TriggerManager::SaveSensorsConfig(dir, sensorsConfig);
+
+		return;
+	}
+
+	void Config::SetSensorsType(const std::string& type)
+	{
+
+		sensorsConfig.sensorType = Enums<IO::SensorType>::ToElement(type);
 
 		return;
 	}

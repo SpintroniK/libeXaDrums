@@ -27,8 +27,8 @@ namespace Util
 
 	private:
 
-		Enums(){};
-		virtual ~Enums(){};
+		Enums() = delete;
+		virtual ~Enums() = delete;
 
 	};
 

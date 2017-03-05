@@ -33,7 +33,7 @@ namespace eXaDrumsApi
 		~eXaDrums();
 
 		// eXaDrums
-		bool IsStarted() const { return isStarted; }
+		bool IsStarted() const { return isStarted.load(); }
 		std::string GetDataLocation() const;
 
 		// Module

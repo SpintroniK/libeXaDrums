@@ -13,6 +13,8 @@
 #include <vector>
 #include <string>
 
+namespace DrumKit { class Module; }
+
 namespace eXaDrumsApi
 {
 
@@ -26,13 +28,20 @@ namespace eXaDrumsApi
 		Config(eXaDrums& drums);
 		virtual ~Config() = default;
 
-		void RefreshSesorsConfig();
+		void RefreshSensorsConfig();
+		void SaveSensorsConfig();
+
+
+		// Mutators
+		void SetSensorsSamplingRate(int sRate) { sensorsConfig.samplingRate = sRate; }
+		void SetSensorsResolution(int res) { sensorsConfig.resolution = res; }
+		void SetSensorsType(const std::string& type);
 
 		// Accessors
 		std::vector<std::string> GetSensorsTypes();
+		std::string GetSensorsType();
 		int GetSensorsSamplingRate() const { return sensorsConfig.samplingRate; }
 		int GetSensorsResolution() const { return sensorsConfig.resolution; }
-		std::string GetSensorsType();
 
 	private:
 
@@ -41,7 +50,7 @@ namespace eXaDrumsApi
 		void GetSensorsTypes_(const char** types, unsigned int& size);
 
 
-		eXaDrums& drumKit;
+		DrumKit::Module& module;
 
 		// Sensors config
 		IO::SensorsConfig sensorsConfig;

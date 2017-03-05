@@ -69,7 +69,7 @@ namespace eXaDrumsApi
 
 		this->alsa->Start();
 		this->drumModule->Start();
-		isStarted = true;
+		isStarted.store(true);
 
 		return;
 	}
@@ -79,7 +79,7 @@ namespace eXaDrumsApi
 
 		this->alsa->Stop();
 		this->drumModule->Stop();
-		isStarted = false;
+		isStarted.store(false);
 
 		return;
 	}

@@ -121,5 +121,37 @@ namespace DrumKit
 		return;
 	}
 
+	void TriggerManager::SaveSensorsConfig(const std::string& moduleDir, IO::SensorsConfig& sensorConfig)
+	{
+
+		std::string file(moduleDir + "sensorsConfig.xml");
+
+		XMLDocument doc;
+
+		// Add root element
+		XMLElement* root = doc.NewElement("SensorsConfig");
+		doc.InsertFirstChild(root);
+
+		// Create Elements
+		XMLElement* samplingRate = doc.NewElement("SamplingRate");
+		XMLElement* resolution = doc.NewElement("Resolution");
+		XMLElement* type = doc.NewElement("Type");
+
+		samplingRate->SetText(sensorConfig.samplingRate);
+		resolution->SetText(sensorConfig.resolution);
+
+		std::string typeStr = Enums<IO::SensorType>::ToString(sensorConfig.sensorType);
+		type->SetText(typeStr.c_str());
+
+		// Add elements to document
+		root->InsertEndChild(samplingRate);
+		root->InsertEndChild(resolution);
+		root->InsertEndChild(type);
+
+		doc.SaveFile(file.c_str());
+
+		return;
+	}
+
 
 } /* namespace DrumKit */
