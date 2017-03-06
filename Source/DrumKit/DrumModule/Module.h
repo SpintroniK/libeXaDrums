@@ -33,8 +33,8 @@ namespace DrumKit
 
 	public:
 
-		Module(std::string dir, IO::SensorsConfig sConfig, std::shared_ptr<Sound::Mixer> mixer, std::shared_ptr<Metronome> metro);
-		virtual ~Module();
+		Module(std::string dir, std::shared_ptr<Sound::Mixer> mixer, std::shared_ptr<Metronome> metro);
+		virtual ~Module() = default;
 
 		// Kit
 		void SaveKitConfig(int id) const { kits[id].Save(); };
@@ -42,6 +42,7 @@ namespace DrumKit
 		bool DeleteKit(const int& id);
 		void SelectKit(std::size_t id);
 		void ReloadKits();
+		int GetKitId() const { return kitId; }
 		int GetNumKits() const { return (int) kits.size(); };
 		std::vector<std::string> GetKitsNames() const;
 		std::vector<std::string> GetInstrumentsNames() const;
@@ -50,6 +51,9 @@ namespace DrumKit
 		void SetInstrumentVolume(int id, float volume) { kits[kitId].SetInstrumentVolume(id, volume); };
 		float GetInstrumentVolume(int id) const { return kits[kitId].GetInstrumentVolume(id); };
 		int GetNumInstruments() const { return kits[kitId].GetNumInstruments(); };
+
+		// Triggers
+		void ReloadTriggers();
 
 		// Module
 		void Start();
@@ -67,6 +71,7 @@ namespace DrumKit
 	private:
 
 		void LoadKits();
+		void LoadTriggers();
 		void Run();
 		void CreateTriggers(const std::vector<TriggerParameters>& trigParams);
 		bool IsMetronomeEnabled() const;

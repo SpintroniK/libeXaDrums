@@ -24,11 +24,10 @@ using namespace Sound;
 namespace DrumKit
 {
 
-	Module::Module(std::string dir, IO::SensorsConfig sConfig, std::shared_ptr<Mixer> mixer, std::shared_ptr<Metronome> metro)
+	Module::Module(std::string dir, std::shared_ptr<Mixer> mixer, std::shared_ptr<Metronome> metro)
 	: directory(dir),
 	  kitManager(dir + "Kits/"),  kitId(0),
 	  isPlay(false),
-	  sensorsConfig(sConfig),
 	  mixer(mixer),
 	  metronome(metro), metronomeSoundId(-1), isMetronomeEnabled(false)
 	{
@@ -38,25 +37,14 @@ namespace DrumKit
 		mixer->SetSoundBank(soundBank);
 
 
-		// Load triggers
-		std::vector<TriggerParameters> triggersParameters;
-		TriggerManager::LoadTriggersConfig(this->directory, sensorsConfig, triggersParameters);
-
-		// Create Triggers
-		this->CreateTriggers(triggersParameters);
+		// Load Triggers
+		LoadTriggers();
 
 		// Load all drum kits
 		LoadKits();
 
 		// Select current kit
 		SelectKit(kitId);
-
-		return;
-	}
-
-	Module::~Module()
-	{
-
 
 		return;
 	}
@@ -90,7 +78,6 @@ namespace DrumKit
 
 		return;
 	}
-
 
 
 	void Module::SelectKit(std::size_t id)
@@ -166,6 +153,14 @@ namespace DrumKit
 		return;
 	}
 
+	void Module::ReloadTriggers()
+	{
+
+		LoadTriggers();
+
+		return;
+	}
+
 	void Module::EnableMetronome(bool enable)
 	{
 
@@ -237,6 +232,22 @@ namespace DrumKit
 
 			return Kit(kitParams, this->triggers, this->soundBank);
 		});
+
+		return;
+	}
+
+	void Module::LoadTriggers()
+	{
+
+		// Update sensors configuration
+		TriggerManager::LoadSensorsConfig(this->directory, sensorsConfig);
+
+		// Load triggers
+		std::vector<TriggerParameters> triggersParameters;
+		TriggerManager::LoadTriggersConfig(this->directory, sensorsConfig, triggersParameters);
+
+		// Create Triggers
+		this->CreateTriggers(triggersParameters);
 
 		return;
 	}

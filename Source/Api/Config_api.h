@@ -49,7 +49,7 @@ namespace eXaDrumsApi
 		const char* GetSensorsType_();
 		void GetSensorsTypes_(const char** types, unsigned int& size);
 
-
+		eXaDrums& drumKit;
 		DrumKit::Module& module;
 
 		// Sensors config

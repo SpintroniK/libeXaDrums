@@ -13,7 +13,6 @@
 #include "../Sound/Alsa/AlsaParameters.h"
 #include "../Sound/Mixer/Mixer.h"
 #include "../Util/Enums.h"
-#include "../DrumKit/Triggers/TriggerManager.h"
 
 #include <vector>
 #include <algorithm>
@@ -46,12 +45,8 @@ namespace eXaDrumsApi
 		Metronome::LoadConfig(dataLocation + metronomeConfigFile, metronomeParams);
 		this->metronome = std::make_shared<Metronome>(alsaParams, metronomeParams);
 
-		// Load sensors parameters
-		IO::SensorsConfig sensorsConfig;
-		DrumKit::TriggerManager::LoadSensorsConfig(dataLocation, sensorsConfig);
-
 		// Create drum module
-		this->drumModule = std::unique_ptr<Module>(new Module(dataLocation, sensorsConfig, this->mixer, this->metronome));
+		this->drumModule = std::unique_ptr<Module>(new Module(dataLocation, this->mixer, this->metronome));
 
 		return;
 	}

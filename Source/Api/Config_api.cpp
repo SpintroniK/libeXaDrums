@@ -24,7 +24,7 @@ namespace eXaDrumsApi
 {
 
 
-	Config::Config(eXaDrums& drums) : module(*drums.drumModule.get())
+	Config::Config(eXaDrums& drums) : drumKit(drums), module(*drums.drumModule.get())
 	{
 
 		RefreshSensorsConfig();
@@ -48,6 +48,26 @@ namespace eXaDrumsApi
 		module.GetDirectory(dir);
 
 		TriggerManager::SaveSensorsConfig(dir, sensorsConfig);
+
+		bool isRestart = false;
+
+		if(drumKit.isStarted.load())
+		{
+			drumKit.Stop();
+			isRestart = true;
+		}
+
+		int kitId = module.GetKitId();
+
+		module.ReloadTriggers();
+		module.ReloadKits();
+
+		module.SelectKit(kitId);
+
+		if(isRestart)
+		{
+			drumKit.Start();
+		}
 
 		return;
 	}

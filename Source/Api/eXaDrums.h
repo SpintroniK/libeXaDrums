@@ -30,7 +30,7 @@ namespace eXaDrumsApi
 	public:
 
 		eXaDrums(const char* dataLocation);
-		~eXaDrums();
+		virtual ~eXaDrums();
 
 		// eXaDrums
 		bool IsStarted() const { return isStarted.load(); }
