@@ -32,6 +32,7 @@ namespace DrumKit
 		sensorsConfig.resolution = 12;
 		sensorsConfig.samplingRate = 1000000;
 		sensorsConfig.sensorType = IO::SensorType::Hdd;
+		sensorsConfig.hddDataFolder = "";
 
 		// Load triggers config with default sensor parameters
 		std::vector<TriggerParameters> trigsParams;
@@ -85,8 +86,9 @@ namespace DrumKit
 			trigParams.maskTime = std::atoi(maskTime->GetText());
 			trigParams.response = Enums<CurveType>::ToElement(response->GetText());
 
-
-			trigParams.sensorType = sensorsConfig.sensorType;
+			// Sensors configuation
+			trigParams.sensorConfig.sensorType = sensorsConfig.sensorType;
+			trigParams.sensorConfig.hddDataFolder = sensorsConfig.hddDataFolder;
 
 			trigsParams.push_back(trigParams);
 		}
@@ -113,10 +115,12 @@ namespace DrumKit
 		XMLElement* samplingRate = root->FirstChildElement("SamplingRate");
 		XMLElement* resolution = root->FirstChildElement("Resolution");
 		XMLElement* type = root->FirstChildElement("Type");
+		XMLElement* dataFolder = root->FirstChildElement("HddDataFolder");
 
 		sensorConfig.samplingRate = std::stoi(samplingRate->GetText());
 		sensorConfig.resolution = std::stoi(resolution->GetText());
 		sensorConfig.sensorType = Enums<IO::SensorType>::ToElement(type->GetText());
+		sensorConfig.hddDataFolder = std::string(dataFolder->GetText());
 
 		return;
 	}
@@ -136,6 +140,7 @@ namespace DrumKit
 		XMLElement* samplingRate = doc.NewElement("SamplingRate");
 		XMLElement* resolution = doc.NewElement("Resolution");
 		XMLElement* type = doc.NewElement("Type");
+		XMLElement* dataFolder = doc.NewElement("HddDataFolder");
 
 		samplingRate->SetText(sensorConfig.samplingRate);
 		resolution->SetText(sensorConfig.resolution);
@@ -143,10 +148,13 @@ namespace DrumKit
 		std::string typeStr = Enums<IO::SensorType>::ToString(sensorConfig.sensorType);
 		type->SetText(typeStr.c_str());
 
+		dataFolder->SetText(sensorConfig.hddDataFolder.c_str());
+
 		// Add elements to document
 		root->InsertEndChild(samplingRate);
 		root->InsertEndChild(resolution);
 		root->InsertEndChild(type);
+		root->InsertEndChild(dataFolder);
 
 		doc.SaveFile(file.c_str());
 

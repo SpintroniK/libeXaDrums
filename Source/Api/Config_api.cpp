@@ -72,16 +72,23 @@ namespace eXaDrumsApi
 		return;
 	}
 
-	void Config::SetSensorsType(const std::string& type)
-	{
-
-		sensorsConfig.sensorType = Enums<IO::SensorType>::ToElement(type);
-
-		return;
-	}
 
 
 	// Private Methods
+
+	void Config::SetSensorsType_(const char* type)
+	{
+
+		sensorsConfig.sensorType = Enums<IO::SensorType>::ToElement(std::string(type));
+		return;
+	}
+
+	void Config::SetSensorsDataFolder_(const char* folder)
+	{
+
+		sensorsConfig.hddDataFolder = std::string(folder);
+		return;
+	}
 
 	void Config::GetSensorsTypes_(const char** types, unsigned int& size)
 	{
@@ -116,6 +123,11 @@ namespace eXaDrumsApi
 		this->sensorType = Enums<IO::SensorType>::ToString(this->sensorsConfig.sensorType);
 
 		return this->sensorType.c_str();
+	}
+
+	const char* Config::GetSensorsDataFolder_() const
+	{
+		return this->sensorsConfig.hddDataFolder.c_str();
 	}
 
 

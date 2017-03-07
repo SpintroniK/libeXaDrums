@@ -13,6 +13,20 @@
 namespace eXaDrumsApi
 {
 
+	inline void Config::SetSensorsType(const std::string type)
+	{
+
+		SetSensorsType_(type.c_str());
+		return;
+	}
+
+	inline void Config::SetSensorsDataFolder(const std::string folder)
+	{
+
+		SetSensorsDataFolder_(folder.c_str());
+		return;
+	}
+
 	inline std::vector<std::string> Config::GetSensorsTypes()
 	{
 
@@ -34,6 +48,10 @@ namespace eXaDrumsApi
 		return std::string(GetSensorsType_());
 	}
 
+	inline std::string Config::GetSensorsDataFolder() const
+	{
+		return std::string(GetSensorsDataFolder_());
+	}
 
 }  // namespace eXaDrumsApi
 

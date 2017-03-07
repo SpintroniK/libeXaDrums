@@ -22,7 +22,7 @@ namespace IO
 
 	public:
 
-		HddSensor(const char* filePath);
+		HddSensor(const std::string& filePath);
 		virtual ~HddSensor();
 
 		short GetData(char channel);

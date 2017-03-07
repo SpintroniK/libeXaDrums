@@ -8,7 +8,7 @@
 #ifndef SOURCE_DRUMKIT_TRIGGERS_TRIGGERPARAMETERS_H_
 #define SOURCE_DRUMKIT_TRIGGERS_TRIGGERPARAMETERS_H_
 
-#include "../../IO/SensorType.h"
+#include "../../IO/SensorsConfig.h"
 
 #include "Curves/CurveType.h"
 #include "TriggerType.h"
@@ -24,9 +24,11 @@ namespace DrumKit
 		unsigned int scanTime;
 		short threshold;
 		int maskTime;
+
 		TriggerType type;
-		IO::SensorType sensorType;
 		CurveType response;
+
+		IO::SensorsConfig sensorConfig;
 	};
 
 }

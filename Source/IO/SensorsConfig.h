@@ -10,6 +10,7 @@
 
 #include "SensorType.h"
 
+#include <string>
 
 namespace IO
 {
@@ -21,6 +22,8 @@ namespace IO
 		int samplingRate;
 		int resolution;
 		SensorType sensorType;
+
+		std::string hddDataFolder;
 
 	};
 
