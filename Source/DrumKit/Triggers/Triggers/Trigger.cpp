@@ -13,6 +13,7 @@
 
 #include <string>
 
+#include <cmath>
 
 using namespace std::chrono;
 
@@ -21,7 +22,6 @@ namespace DrumKit
 
 	Trigger::Trigger(TriggerParameters triggerParams)
 	: triggerParameters(triggerParams),
-	  mean(2046),
 	  trig(false),
 	  out(false),
 	  trigTime(0),
@@ -31,6 +31,9 @@ namespace DrumKit
 	{
 
 		t0 = high_resolution_clock::now();
+
+		numSamples = std::pow(2.0f, triggerParams.sensorConfig.resolution) / 2.0f;
+		mean = numSamples;
 
 		// Default state values
 		state.isTrig = false;

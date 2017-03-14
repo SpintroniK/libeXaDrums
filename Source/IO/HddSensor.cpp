@@ -8,6 +8,8 @@
 #include "HddSensor.h"
 
 #include <fstream>
+#include <iostream>
+#include <ctime>
 
 namespace IO
 {
@@ -40,8 +42,11 @@ namespace IO
 			ReadData(channel);
 		}
 
-		// Artificial delay (works well in Debug with my laptop...)
-		for(int i = 0; i < 2500; i++);
+		// Wait for a few microseconds
+		{
+			clock_t endwait = clock() + (5.0f * (double)CLOCKS_PER_SEC) / 1000000.0f ;
+			while (clock() < endwait);
+		}
 
 		short val = data[++index];
 

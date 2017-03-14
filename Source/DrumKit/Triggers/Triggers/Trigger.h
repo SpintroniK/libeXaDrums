@@ -28,7 +28,7 @@ namespace DrumKit
 
 
 		Trigger(TriggerParameters trigParams);
-		virtual ~Trigger() {};
+		virtual ~Trigger() = default;
 
 		//virtual bool Trig(short value, float& strength) = 0;
 		virtual void Refresh() = 0;
@@ -46,7 +46,7 @@ namespace DrumKit
 
 		std::chrono::high_resolution_clock::time_point t0;
 
-		static constexpr float numSamples = 2048.0f;
+		float numSamples;
 
 		short mean;
 

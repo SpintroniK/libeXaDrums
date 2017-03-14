@@ -87,6 +87,8 @@ namespace DrumKit
 			trigParams.response = Enums<CurveType>::ToElement(response->GetText());
 
 			// Sensors configuation
+			trigParams.sensorConfig.samplingRate = sensorsConfig.samplingRate;
+			trigParams.sensorConfig.resolution = sensorsConfig.resolution;
 			trigParams.sensorConfig.sensorType = sensorsConfig.sensorType;
 			trigParams.sensorConfig.hddDataFolder = sensorsConfig.hddDataFolder;
 
