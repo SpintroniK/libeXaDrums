@@ -5,11 +5,11 @@
  *      Author: jeremy
  */
 
-#ifndef SOURCE_API_KITCREATOR_API_H_
-#define SOURCE_API_KITCREATOR_API_H_
+#ifndef SOURCE_API_KITCREATOR_KITCREATOR_API_H_
+#define SOURCE_API_KITCREATOR_KITCREATOR_API_H_
 
 
-#include "../DrumKit/Kits/KitCreator.h"
+#include "../../DrumKit/Kits/KitCreator.h"
 
 #include <string>
 #include <vector>
@@ -112,4 +112,4 @@ namespace eXaDrumsApi
 
 #include "KitCreator_api.hpp"
 
-#endif /* SOURCE_API_KITCREATOR_API_H_ */
+#endif /* SOURCE_API_KITCREATOR_KITCREATOR_API_H_ */

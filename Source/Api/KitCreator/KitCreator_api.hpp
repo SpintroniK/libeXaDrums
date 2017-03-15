@@ -5,8 +5,8 @@
  *      Author: jeremy
  */
 
-#ifndef SOURCE_API_KITCREATOR_API_HPP_
-#define SOURCE_API_KITCREATOR_API_HPP_
+#ifndef SOURCE_API_KITCREATOR_KITCREATOR_API_HPP_
+#define SOURCE_API_KITCREATOR_KITCREATOR_API_HPP_
 
 #include "KitCreator_api.h"
 
@@ -215,4 +215,4 @@ namespace eXaDrumsApi
 
 
 
-#endif /* SOURCE_API_KITCREATOR_API_HPP_ */
+#endif /* SOURCE_API_KITCREATOR_KITCREATOR_API_HPP_ */

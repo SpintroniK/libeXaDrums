@@ -5,10 +5,12 @@
  *      Author: jeremy
  */
 
-#ifndef SOURCE_API_CONFIG_API_HPP_
-#define SOURCE_API_CONFIG_API_HPP_
+#ifndef SOURCE_API_CONFIG_CONFIG_API_HPP_
+#define SOURCE_API_CONFIG_CONFIG_API_HPP_
 
 #include "Config_api.h"
+
+#include "TriggerParameters_api.h"
 
 namespace eXaDrumsApi
 {
@@ -43,6 +45,18 @@ namespace eXaDrumsApi
 		return vec;
 	}
 
+	inline std::vector<TriggerParameters> Config::GetTriggersParameters() const
+	{
+
+		unsigned int size = 0;
+		GetTriggersParameters_(nullptr, size);
+
+		std::vector<TriggerParameters> vec(size);
+		GetTriggersParameters_(vec.data(), size);
+
+		return vec;
+	}
+
 	inline std::string Config::GetSensorsType()
 	{
 		return std::string(GetSensorsType_());
@@ -57,4 +71,4 @@ namespace eXaDrumsApi
 
 
 
-#endif /* SOURCE_API_CONFIG_API_HPP_ */
+#endif /* SOURCE_API_CONFIG_CONFIG_API_HPP_ */

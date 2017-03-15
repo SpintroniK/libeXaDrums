@@ -8,15 +8,16 @@
 
 #include "Config_api.h"
 
-#include "../DrumKit/DrumModule/Module.h"
-#include "../DrumKit/Triggers/TriggerManager.h"
-#include "../Util/Enums.h"
+#include "TriggerParameters_api.h"
 
-#include "eXaDrums.h"
+#include "../../DrumKit/DrumModule/Module.h"
+#include "../../DrumKit/Triggers/TriggerManager.h"
+#include "../../Util/Enums.h"
+
+#include "../eXaDrums.h"
 
 #include <algorithm>
 
-using namespace DrumKit;
 using namespace Util;
 
 
@@ -47,7 +48,7 @@ namespace eXaDrumsApi
 		std::string dir;
 		module.GetDirectory(dir);
 
-		TriggerManager::SaveSensorsConfig(dir, sensorsConfig);
+		DrumKit::TriggerManager::SaveSensorsConfig(dir, sensorsConfig);
 
 		bool isRestart = false;
 
@@ -113,6 +114,28 @@ namespace eXaDrumsApi
 		{
 			types[i] = sensorsTypes[i].c_str();
 		}
+
+		return;
+	}
+
+
+	void Config::GetTriggersParameters_(TriggerParameters* const triggers, unsigned int& size) const
+	{
+
+		const std::vector<DrumKit::TriggerParameters>& trigsParams = this->module.GetTriggersParameters();
+
+		if(triggers == nullptr)
+		{
+			size = trigsParams.size();
+			return;
+		}
+
+		if(size != trigsParams.size())
+		{
+			throw -1;
+		}
+
+		std::copy(trigsParams.cbegin(), trigsParams.cend(), triggers);
 
 		return;
 	}

@@ -5,20 +5,19 @@
  *      Author: jeremy
  */
 
-#ifndef SOURCE_API_CONFIG_API_H_
-#define SOURCE_API_CONFIG_API_H_
+#ifndef SOURCE_API_CONFIG_CONFIG_API_H_
+#define SOURCE_API_CONFIG_CONFIG_API_H_
 
-#include "../IO/SensorsConfig.h"
+#include "../../IO/SensorsConfig.h"
 
 #include <vector>
 #include <string>
 
 namespace DrumKit { class Module; }
+namespace eXaDrumsApi{ class eXaDrums; struct TriggerParameters; }
 
 namespace eXaDrumsApi
 {
-
-	class eXaDrums;
 
 	class Config
 	{
@@ -40,6 +39,7 @@ namespace eXaDrumsApi
 
 		// Accessors
 		std::vector<std::string> GetSensorsTypes();
+		std::vector<TriggerParameters> GetTriggersParameters() const;
 		std::string GetSensorsType();
 		std::string GetSensorsDataFolder() const;
 		int GetSensorsSamplingRate() const { return sensorsConfig.samplingRate; }
@@ -53,6 +53,7 @@ namespace eXaDrumsApi
 		const char* GetSensorsType_();
 		const char* GetSensorsDataFolder_() const;
 		void GetSensorsTypes_(const char** types, unsigned int& size);
+		void GetTriggersParameters_(TriggerParameters* const triggers, unsigned int& size) const;
 
 		eXaDrums& drumKit;
 		DrumKit::Module& module;
@@ -72,4 +73,4 @@ namespace eXaDrumsApi
 
 #include "Config_api.hpp"
 
-#endif /* SOURCE_API_CONFIG_API_H_ */
+#endif /* SOURCE_API_CONFIG_CONFIG_API_H_ */

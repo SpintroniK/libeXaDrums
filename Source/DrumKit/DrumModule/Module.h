@@ -54,6 +54,7 @@ namespace DrumKit
 
 		// Triggers
 		void ReloadTriggers();
+		std::vector<TriggerParameters> GetTriggersParameters() const { return this->triggersParameters; }
 
 		// Module
 		void Start();
@@ -88,6 +89,7 @@ namespace DrumKit
 		std::atomic<bool> isPlay;
 
 		// Triggers
+		std::vector<TriggerParameters> triggersParameters;
 		std::vector<TriggerPtr> triggers;
 
 		IO::SensorsConfig sensorsConfig;

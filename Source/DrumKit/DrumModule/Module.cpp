@@ -240,14 +240,13 @@ namespace DrumKit
 	{
 
 		// Update sensors configuration
-		TriggerManager::LoadSensorsConfig(this->directory, sensorsConfig);
+		TriggerManager::LoadSensorsConfig(this->directory, this->sensorsConfig);
 
 		// Load triggers
-		std::vector<TriggerParameters> triggersParameters;
-		TriggerManager::LoadTriggersConfig(this->directory, sensorsConfig, triggersParameters);
+		TriggerManager::LoadTriggersConfig(this->directory, sensorsConfig, this->triggersParameters);
 
 		// Create Triggers
-		this->CreateTriggers(triggersParameters);
+		this->CreateTriggers(this->triggersParameters);
 
 		return;
 	}

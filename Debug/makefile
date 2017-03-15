@@ -23,6 +23,8 @@ RM := rm -rf
 -include Source/DrumKit/Instruments/Cymbals/subdir.mk
 -include Source/DrumKit/Instruments/subdir.mk
 -include Source/DrumKit/DrumModule/subdir.mk
+-include Source/Api/KitCreator/subdir.mk
+-include Source/Api/Config/subdir.mk
 -include Source/Api/subdir.mk
 -include subdir.mk
 -include objects.mk

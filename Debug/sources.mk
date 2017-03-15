@@ -23,6 +23,8 @@ CPP_DEPS :=
 
 # Every subdirectory with source files must be described here
 SUBDIRS := \
+Source/Api/Config \
+Source/Api/KitCreator \
 Source/Api \
 Source/DrumKit/DrumModule \
 Source/DrumKit/Instruments/Cymbals \

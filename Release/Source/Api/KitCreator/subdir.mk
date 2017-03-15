@@ -4,17 +4,17 @@
 
 # Add inputs and outputs from these tool invocations to the build variables 
 CPP_SRCS += \
-../Source/Api/eXaDrums.cpp 
+../Source/Api/KitCreator/KitCreator_api.cpp 
 
 OBJS += \
-./Source/Api/eXaDrums.o 
+./Source/Api/KitCreator/KitCreator_api.o 
 
 CPP_DEPS += \
-./Source/Api/eXaDrums.d 
+./Source/Api/KitCreator/KitCreator_api.d 
 
 
 # Each subdirectory must supply rules for building sources it contributes
-Source/Api/%.o: ../Source/Api/%.cpp
+Source/Api/KitCreator/%.o: ../Source/Api/KitCreator/%.cpp
 	@echo 'Building file: $<'
 	@echo 'Invoking: Cross G++ Compiler'
 	g++ -std=c++0x -O3 -Wall -c -fmessage-length=0 -fPIC -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@)" -o "$@" "$<"
