@@ -45,6 +45,38 @@ namespace eXaDrumsApi
 		return vec;
 	}
 
+	inline std::vector<std::string> Config::GetTriggersTypes()
+	{
+
+		unsigned int size = 0;
+		GetTriggersTypes_(nullptr, size);
+
+		std::vector<const char*> data(size);
+
+		GetTriggersTypes_(data.data(), size);
+
+		std::vector<std::string> vec(size);
+		std::copy(data.cbegin(), data.cend(), vec.begin());
+
+		return vec;
+	}
+
+	inline std::vector<std::string> Config::GetTriggersResponses()
+	{
+
+		unsigned int size = 0;
+		GetTriggersResponses_(nullptr, size);
+
+		std::vector<const char*> data(size);
+
+		GetTriggersResponses_(data.data(), size);
+
+		std::vector<std::string> vec(size);
+		std::copy(data.cbegin(), data.cend(), vec.begin());
+
+		return vec;
+	}
+
 	inline std::vector<TriggerParameters> Config::GetTriggersParameters() const
 	{
 
