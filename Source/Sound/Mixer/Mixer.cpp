@@ -13,8 +13,15 @@
 namespace Sound
 {
 
-	Mixer::Mixer() : isDoneMixing(true)
+	Mixer::Mixer()
 	{
+
+		// Set sounds states to false by default
+		for(auto& s : soundsStates)
+		{
+			s.store(false);
+		}
+
 
 		return;
 	}
@@ -30,21 +37,37 @@ namespace Sound
 	void Mixer::PlaySound(int id, float volume)
 	{
 
-		std::lock_guard<std::mutex> lock(mixerMutex);
 
 		auto s = std::find_if(playList.begin(), playList.end(), [&id](std::pair<int, float>& s) { return id == s.first; });
+
+		int index;
 
 		if(s != std::end(playList))
 		{
 			// The sound is already in playList
 			soundBank->sounds[s->first].Seek(0);
 			s->second = volume;
+
+			index = s - playList.begin();
 		}
 		else
 		{
 			// Add sound to playList
 			playList.push_back(std::pair<int, float>(id, volume));
+
+			if(playList.size() < nbStates)
+			{
+				index = playList.size() - 1;
+			}
+			else
+			{
+				throw -1;
+			}
+
 		}
+
+		// Update sound state
+		soundsStates[index].store(true);
 
 		return;
 	}
@@ -52,12 +75,13 @@ namespace Sound
 	void Mixer::StopSound(int id)
 	{
 
-		std::unique_lock<std::mutex> lock(mixerMutex);
+		// Find sound in the play list
+		auto s = std::find_if(playList.begin(), playList.end(), [&id](std::pair<int, float>& s) { return id == s.first; });
 
-		cv.wait(lock, [this](){ return isDoneMixing; });
-
-		playList.erase(std::remove_if(playList.begin(), playList.end(), [&id](std::pair<int, float>& s) { return id == s.first; }), playList.end());
-
+		if(s != playList.end())
+		{
+			soundsStates[s - playList.begin()].store(false);
+		}
 
 		return;
 	}
@@ -66,9 +90,6 @@ namespace Sound
 	void Mixer::Mix(std::vector<short>& buffer) noexcept
 	{
 
-		std::unique_lock<std::mutex> lock(mixerMutex);
-
-		isDoneMixing = false;
 
 		// Fill buffer with zeros
 		std::fill(buffer.begin(), buffer.end(), 0);
@@ -76,42 +97,43 @@ namespace Sound
 		std::size_t periodSize = buffer.size();
 
 		// Mix sounds
-		for(const auto& s : playList)
+		for(std::size_t si = 0; si < playList.size(); si++)
 		{
-
-			Sound& sound = soundBank->sounds[s.first];
-
-			if(sound.HasMoreData(periodSize))
+			if(soundsStates[si].load())
 			{
 
-				const float volume = sound.GetVolume();
-				const float mix_volume = s.second;
+				const auto& s = playList[si];
+				Sound& sound = soundBank->sounds[s.first];
 
-				if(sound.IsLoop())
+				if(sound.HasMoreData(periodSize))
 				{
-					for(std::size_t i = 0; i < periodSize; i++)
-					{
-						buffer[i] += volume * mix_volume * sound.GetValue(i);
-					}
-				}
-				else
-				{
-					const short* data = sound.GetData();
-					const std::size_t idx = sound.GetIndex();
 
-					for(std::size_t i = 0; i < periodSize; i++)
-					{
-						buffer[i] += volume * mix_volume *(*(data + idx + i));
-					}
-				}
+					const float volume = sound.GetVolume();
+					const float mix_volume = s.second;
 
-				sound.AddToIndex(periodSize);
+					if(sound.IsLoop())
+					{
+						for(std::size_t i = 0; i < periodSize; i++)
+						{
+							buffer[i] += volume * mix_volume * sound.GetValue(i);
+						}
+					}
+					else
+					{
+						const short* data = sound.GetData();
+						const std::size_t idx = sound.GetIndex();
+
+						for(std::size_t i = 0; i < periodSize; i++)
+						{
+							buffer[i] += volume * mix_volume *(*(data + idx + i));
+						}
+					}
+
+					sound.AddToIndex(periodSize);
+				}
 			}
 		}
 
-		isDoneMixing = true;
-
-		cv.notify_all();
 
 		return;
 	}

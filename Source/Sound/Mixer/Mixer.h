@@ -13,8 +13,9 @@
 
 #include <vector>
 #include <memory>
-#include <mutex>
-#include <condition_variable>
+#include <atomic>
+#include <array>
+
 
 namespace Sound
 {
@@ -38,13 +39,11 @@ namespace Sound
 
 	private:
 
+		static const std::size_t nbStates = 128;
+
 		std::shared_ptr<SoundBank> soundBank;
 		std::vector<std::pair<int, float>> playList;
-
-		bool isDoneMixing;
-
-		mutable std::mutex mixerMutex;
-		std::condition_variable cv;
+		std::array<std::atomic<bool>, nbStates> soundsStates;
 
 	};
 

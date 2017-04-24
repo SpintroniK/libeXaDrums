@@ -163,9 +163,7 @@ namespace Sound
 	void Alsa::StopRecord()
 	{
 
-		rec = false;
-
-		while(!recordThread.joinable());
+		rec.store(false);
 
 		recordThread.join();
 
@@ -184,16 +182,19 @@ namespace Sound
 
 		playThread = std::thread(&Alsa::Playback, this);
 
+		// Set maximum priority to the thread
+        sched_param sch_params;
+        sch_params.sched_priority = sched_get_priority_max(SCHED_FIFO);
+
+        pthread_setschedparam(playThread.native_handle(), SCHED_FIFO, &sch_params);
+
 		return;
 	}
 
 	void Alsa::StopPlayback()
 	{
 
-		play = false;
-
-		//while(!playThread.joinable());
-
+		play.store(false);
 		playThread.join();
 
 		return;
@@ -206,7 +207,8 @@ namespace Sound
 		int err = 0;
 		int frames = 0;
 
-		while(play)
+
+		while(play.load())
 		{
 
 			frames 	= params.periodSize;
@@ -218,6 +220,18 @@ namespace Sound
 
 				mixer->Mix(params.buffer);
 
+				/*time_point<high_resolution_clock>  t_end = high_resolution_clock::now();
+
+				auto d = duration<double, std::micro>(t_end-t_start).count();
+
+				if(d > 20)
+				{
+				   std::cout << std::fixed << std::setprecision(2)
+				   << "Wall clock time passed: "
+				   << d
+				   << " us" << std::endl;
+				}
+				*/
 
 				err = snd_pcm_writei(params.handle, params.buffer.data(), frames);
 
@@ -234,12 +248,6 @@ namespace Sound
 
 				frames -= err;
 
-				//time_point<high_resolution_clock>  t_end = high_resolution_clock::now();
-
-			  /* std::cout << std::fixed << std::setprecision(2)
-			   << "Wall clock time passed: "
-			   << duration<double, std::milli>(t_end-t_start).count()
-			   << " ms" << std::endl;*/
 
 			}
 
