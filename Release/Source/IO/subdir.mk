@@ -6,16 +6,19 @@
 CPP_SRCS += \
 ../Source/IO/HddSensor.cpp \
 ../Source/IO/Serial.cpp \
+../Source/IO/Spi.cpp \
 ../Source/IO/SpiSensor.cpp 
 
 OBJS += \
 ./Source/IO/HddSensor.o \
 ./Source/IO/Serial.o \
+./Source/IO/Spi.o \
 ./Source/IO/SpiSensor.o 
 
 CPP_DEPS += \
 ./Source/IO/HddSensor.d \
 ./Source/IO/Serial.d \
+./Source/IO/Spi.d \
 ./Source/IO/SpiSensor.d 
 
 
@@ -23,7 +26,7 @@ CPP_DEPS += \
 Source/IO/%.o: ../Source/IO/%.cpp
 	@echo 'Building file: $<'
 	@echo 'Invoking: Cross G++ Compiler'
-	g++ -std=c++0x -O3 -Wall -c -fmessage-length=0 -fPIC -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@)" -o "$@" "$<"
+	g++ -std=c++11 -O3 -Wall -c -fmessage-length=0 -fPIC -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@)" -o "$@" "$<"
 	@echo 'Finished building: $<'
 	@echo ' '
 

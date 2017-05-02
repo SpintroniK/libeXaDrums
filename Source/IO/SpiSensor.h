@@ -29,7 +29,7 @@ namespace IO
 
 	private:
 
-		static std::size_t numInstances;
+		//static std::size_t numInstances;
 
 	};
 
