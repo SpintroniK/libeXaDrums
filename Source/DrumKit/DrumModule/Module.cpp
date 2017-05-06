@@ -214,6 +214,22 @@ namespace DrumKit
 		return;
 	}
 
+	void Module::ChangeVolume(int volume)
+	{
+
+		if(isMetronomeEnabled)
+		{
+			soundBank->SetSoundVolume(metronomeSoundId, float(volume / 100.0f));
+		}
+
+		return;
+	}
+
+	float Module::GetClickVolume() const
+	{
+		return soundBank->GetSound(metronomeSoundId).GetVolume();
+	}
+
 	void Module::RestartMetronome()
 	{
 

@@ -99,9 +99,20 @@ namespace eXaDrumsApi
 		return;
 	}
 
+	void eXaDrums::ChangeVolume(int volume) const
+	{
+		drumModule->ChangeVolume(volume);
+		return;
+	}
+
 	int eXaDrums::GetTempo() const
 	{
 		return metronome->GetTempo();
+	}
+
+	int eXaDrums::GetClickVolume() const
+	{
+		return int(drumModule->GetClickVolume() * 100.0f);
 	}
 
 	void eXaDrums::SaveMetronomeConfig() const

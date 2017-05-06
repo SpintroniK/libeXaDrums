@@ -44,7 +44,9 @@ namespace eXaDrumsApi
 		void EnableMetronome(bool enable) const;
 		void RestartMetronome() const;
 		void ChangeTempo(int tempo) const;
+		void ChangeVolume(int volume) const;
 		int GetTempo() const;
+		int GetClickVolume() const;
 		void SaveMetronomeConfig() const;
 
 		std::vector<std::string> GetClicksTypes();
