@@ -29,12 +29,12 @@ namespace Sound
 	}
 
 
-	int SoundBank::AddSound(std::vector<short>& data)
+	int SoundBank::AddSound(const std::vector<short>& data)
 	{
 		return AddSound(data, 1.0f);
 	}
 
-	int SoundBank::AddSound(std::vector<short>& data, float volume)
+	int SoundBank::AddSound(const std::vector<short>& data, float volume)
 	{
 
 		// Add sound to collection
@@ -85,8 +85,7 @@ namespace Sound
 		std::vector<short> data;
 		data.resize(fileSize);
 
-		int i = 0;
-		while(soundFile.read((char*)&data[i], sizeof(short))) i++;
+		soundFile.read((char*)data.data(), sizeof(short) * fileSize);
 
 		//unsigned int duration = fileSize*sizeof(char)/sizeof(short);
 

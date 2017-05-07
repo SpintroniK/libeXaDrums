@@ -32,8 +32,8 @@ namespace Sound
 
 		int LoadSound(std::string filename);
 		int LoadSound(std::string filename, float volume);
-		int AddSound(std::vector<short>& soundData);
-		int AddSound(std::vector<short>& soundData, float volume);
+		int AddSound(const std::vector<short>& soundData);
+		int AddSound(const std::vector<short>& soundData, float volume);
 		void DeleteSound(int id);
 		void LoopSound(int id, bool s) { sounds[id].SetLoop(s); }
 		void Clear() { std::vector<Sound>().swap(sounds); }

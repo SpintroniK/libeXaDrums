@@ -67,7 +67,7 @@ namespace Sound
 		inline float GetVolume() const noexcept { return volume.load(); }
 		int GetIndex() const noexcept { return idx.load(); }
 		const short* GetData() const { return data.data(); }
-		const std::vector<short> GetInternalData() const { return data; }
+		const std::vector<short>& GetInternalData() const { return data; }
 		inline const short GetValue(int i) const noexcept { return data[(i + idx) % length]; }
 		bool IsLoop() const { return loop; }
 

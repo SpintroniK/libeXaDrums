@@ -22,7 +22,7 @@ namespace Sound
 
 		//XXX Need to check m!
 
-		std::vector<short> soundData = sound.GetInternalData();
+		const std::vector<short>& soundData = sound.GetInternalData();
 		std::vector<short> newSoundData(soundData.size());
 
 		int nm = m * soundData.size();

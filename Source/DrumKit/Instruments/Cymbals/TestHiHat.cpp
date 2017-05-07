@@ -73,19 +73,20 @@ namespace DrumKit
 		InstrumentSoundType soundType = soundInfo.type;
 		std::string soundLocation = soundInfo.soundLocation;
 
+
 		switch (soundType)
 		{
 			case InstrumentSoundType::Default:
 			{
 				cymbalSoundId = soundBank->LoadSound(soundLocation, parameters.volume);
 				const Sound::Sound& cymbalSound = soundBank->GetSound(cymbalSoundId);
-				const std::vector<short> cymbalSoundData = cymbalSound.GetInternalData();
+				const std::vector<short>& cymbalSoundData = cymbalSound.GetInternalData();
 
 				for(int i = 0; i < 10; i++)
 				{
 
-					Sound::Sound newSound = SoundProcessor::Muffle(cymbalSoundData, 0.25f/float(i + 1));
-					std::vector<short> newSoundData = newSound.GetInternalData();
+					const Sound::Sound& newSound = SoundProcessor::Muffle(cymbalSoundData, 0.25f/float(i + 1));
+					const std::vector<short>& newSoundData = newSound.GetInternalData();
 					int newSoundId = soundBank->AddSound(newSoundData, parameters.volume);
 
 					hiHatSoundsIds.push_back(newSoundId);
