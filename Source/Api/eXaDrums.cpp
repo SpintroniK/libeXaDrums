@@ -335,4 +335,11 @@ namespace eXaDrumsApi
 		return;
 	}
 
+	double eXaDrums::GetClickPosition() const
+	{
+		return drumModule->GetClickPosition();
+	}
+
 }
+
+

@@ -230,6 +230,24 @@ namespace DrumKit
 		return soundBank->GetSound(metronomeSoundId).GetVolume();
 	}
 
+
+	double Module::GetClickPosition() const
+	{
+
+		if(isMetronomeEnabled)
+		{
+			unsigned long pos = soundBank->GetSound(metronomeSoundId).GetIndex();
+			double relPos = double(pos) / double(soundBank->GetSound(metronomeSoundId).GetLength());
+			//fraction -= int(fraction);
+
+			return relPos;
+		}
+		else
+		{
+			return 0.0f;
+		}
+	}
+
 	void Module::RestartMetronome()
 	{
 
