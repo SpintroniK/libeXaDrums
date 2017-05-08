@@ -307,11 +307,30 @@ namespace DrumKit
 			mixer->PlaySound(metronomeSoundId, 1.0f);
 		}
 
+		lastTrigTime.store(0);
+		lastTrigValue.store(0);
+
 		while(isPlay.load())
 		{
 
 			// Refresh triggers
 			std::for_each(triggers.begin(), triggers.end(), [](TriggerPtr& triggerPtr) { triggerPtr->Refresh(); });
+
+			// Get most recent hit
+			{
+				auto it = std::max_element(triggers.cbegin(), triggers.cend(),
+						[](const TriggerPtr& t1, const TriggerPtr& t2) { return t1->GetTriggerState().trigTime < t2->GetTriggerState().trigTime; });
+
+
+				if(lastTrigTime.load() != (*it)->GetTriggerState().trigTime)
+				{
+					lastTrigValue.store(int((*it)->GetTriggerState().value * 100.0f));
+				}
+
+				lastTrigTime.store((*it)->GetTriggerState().trigTime);
+
+
+			}
 
 
 			// Check instruments triggers and send sounds to mixer if necessary

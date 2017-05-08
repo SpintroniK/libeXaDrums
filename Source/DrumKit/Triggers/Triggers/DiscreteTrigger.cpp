@@ -75,6 +75,7 @@ namespace DrumKit
 
 				// Update trigger state
 				state.value = maxVelocity/numSamples;
+				state.trigTime = (unsigned long long) time_point_cast<microseconds>(t).time_since_epoch().count();
 				state.isTrig = true;
 			}
 

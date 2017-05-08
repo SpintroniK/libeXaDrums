@@ -55,6 +55,8 @@ namespace DrumKit
 		// Triggers
 		void ReloadTriggers();
 		std::vector<TriggerParameters> GetTriggersParameters() const { return this->triggersParameters; }
+		unsigned long long GetLastTrigTime() const { return lastTrigTime.load(); }
+		int GetLastTrigValue() const { return lastTrigValue.load(); }
 
 		// Module
 		void Start();
@@ -94,6 +96,8 @@ namespace DrumKit
 		// Triggers
 		std::vector<TriggerParameters> triggersParameters;
 		std::vector<TriggerPtr> triggers;
+		std::atomic<unsigned long long> lastTrigTime;
+		std::atomic<int> lastTrigValue;
 
 		IO::SensorsConfig sensorsConfig;
 
