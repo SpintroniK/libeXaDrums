@@ -21,7 +21,7 @@ namespace DrumKit
 	{
 
 		int sensorId;
-		unsigned int scanTime;
+		int scanTime;
 		short threshold;
 		int maskTime;
 

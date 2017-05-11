@@ -96,7 +96,7 @@ namespace DrumKit
 		// Triggers
 		std::vector<TriggerParameters> triggersParameters;
 		std::vector<TriggerPtr> triggers;
-		std::atomic<unsigned long long> lastTrigTime;
+		std::atomic<long long> lastTrigTime;
 		std::atomic<int> lastTrigValue;
 
 		IO::SensorsConfig sensorsConfig;

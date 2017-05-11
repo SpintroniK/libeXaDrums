@@ -42,6 +42,7 @@ namespace Sound
 			// "swap" atomics
 			second.volume.store(first.volume.exchange(second.volume.load()));
 			second.idx.store(first.idx.exchange(second.idx.load()));
+			second.lastStartTime.store(first.lastStartTime.exchange(second.lastStartTime.load()));
 
 			return;
 		}
@@ -59,13 +60,14 @@ namespace Sound
 		void AddToIndex(int offset);
 
 		bool HasMoreData(std::size_t length) const;
-		bool IsFinished() const { return idx.load() >= data.size(); }
+		bool IsFinished() const { return idx.load() >= (int)data.size(); }
 
 		void SetLoop(bool s) { loop = s; }
 
 		int GetId() const { return this->id; }
 		inline float GetVolume() const noexcept { return volume.load(); }
 		unsigned long GetIndex() const noexcept { return idx.load(); }
+		unsigned long long GetLastStartTime() const noexcept { return lastStartTime.load(); }
 		int GetLength() const { return length; }
 		const short* GetData() const { return data.data(); }
 		const std::vector<short>& GetInternalData() const { return data; }
@@ -78,7 +80,8 @@ namespace Sound
 
 		int id;
 		bool loop;
-		std::atomic<unsigned long> idx;
+		std::atomic<long> idx;
+		std::atomic<long long> lastStartTime;
 		std::vector<short> data;
 		int length;
 		std::atomic<float> volume;

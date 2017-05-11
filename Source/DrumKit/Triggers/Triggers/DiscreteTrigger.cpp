@@ -53,7 +53,7 @@ namespace DrumKit
 
 		// Get current time
 		high_resolution_clock::time_point t = high_resolution_clock::now();
-		unsigned long long dt = (unsigned long long) duration<double, std::micro>(t - t0).count();
+		long long dt = (long long) duration<double, std::micro>(t - t0).count();
 
 		if(velocity > this->triggerParameters.threshold)
 		{
@@ -75,7 +75,7 @@ namespace DrumKit
 
 				// Update trigger state
 				state.value = maxVelocity/numSamples;
-				state.trigTime = (unsigned long long) time_point_cast<microseconds>(t).time_since_epoch().count();
+				state.trigTime = (long long) time_point_cast<microseconds>(t).time_since_epoch().count();
 				state.isTrig = true;
 			}
 

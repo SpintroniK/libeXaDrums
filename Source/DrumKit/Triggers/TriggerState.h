@@ -18,7 +18,7 @@ namespace DrumKit
 		int sensorId;
 		float value;
 		bool isTrig;
-		unsigned long long trigTime;
+		long long trigTime;
 
 	};
 

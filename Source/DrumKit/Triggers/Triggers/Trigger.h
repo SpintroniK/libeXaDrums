@@ -53,7 +53,7 @@ namespace DrumKit
 		bool trig;
 		bool out;
 
-		unsigned long long trigTime;
+		long long trigTime;
 
 		short velocity;
 		short maxVelocity;

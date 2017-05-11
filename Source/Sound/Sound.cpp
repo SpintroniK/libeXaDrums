@@ -7,6 +7,9 @@
 
 #include "Sound.h"
 
+#include <chrono>
+
+using namespace std::chrono;
 
 namespace Sound
 {
@@ -40,6 +43,8 @@ namespace Sound
 
 		volume.store(vol);
 		idx.store(0);
+
+		lastStartTime.store(time_point_cast<microseconds>(high_resolution_clock::now()).time_since_epoch().count());
 
 		return;
 	}
@@ -76,7 +81,7 @@ namespace Sound
 
 		if(loop) return true;
 
-		if(idx + length <= data.size())
+		if(idx.load() + length <= data.size())
 		{
 			return true;
 		}
@@ -89,19 +94,9 @@ namespace Sound
 	void Sound::SetVolume(float volume)
 	{
 
+		float newVolume = std::min<float>(std::max<float>(0., volume), 1.);
 
-		if(volume < 0.0f)
-		{
-			this->volume = 0.0f;
-		}
-		else if(volume > 1.0f)
-		{
-			this->volume = 1.0f;
-		}
-		else
-		{
-			this->volume = volume;
-		}
+		this->volume.store(newVolume);
 
 		return;
 	}
@@ -111,11 +106,18 @@ namespace Sound
 
 		if(!HasMoreData(offset))
 		{
-			idx = 0;
+			idx.store(0);
 		}
 		else
 		{
-			idx += offset;
+
+			long prevIdx = idx.fetch_add(offset);
+
+			if(prevIdx % length < offset)
+			{
+				this->lastStartTime.store(time_point_cast<microseconds>(high_resolution_clock::now()).time_since_epoch().count());
+			}
+
 		}
 
 		return;
@@ -125,7 +127,7 @@ namespace Sound
 	void Sound::Seek(std::size_t index)
 	{
 
-		idx = index;
+		idx.store(index);
 
 		return;
 	}

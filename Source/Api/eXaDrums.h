@@ -78,7 +78,7 @@ namespace eXaDrumsApi
 		std::vector<std::string> GetInstrumentsNames();
 
 		// Triggers
-		unsigned long long GetLastTrigTime() const;
+		long long GetLastTrigTime() const;
 		int GetLastTrigValue() const;
 
 	private:

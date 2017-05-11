@@ -16,8 +16,6 @@
 
 #include <thread>
 #include <algorithm>
-#include <functional>
-
 
 using namespace Sound;
 
@@ -322,12 +320,16 @@ namespace DrumKit
 						[](const TriggerPtr& t1, const TriggerPtr& t2) { return t1->GetTriggerState().trigTime < t2->GetTriggerState().trigTime; });
 
 
-				if(lastTrigTime.load() != (*it)->GetTriggerState().trigTime)
+				long long trigTime = (*it)->GetTriggerState().trigTime;
+				long long prevTrigTime = lastTrigTime.exchange(trigTime);
+
+				if(prevTrigTime != trigTime)
 				{
 					lastTrigValue.store(int((*it)->GetTriggerState().value * 100.0f));
-				}
 
-				lastTrigTime.store((*it)->GetTriggerState().trigTime);
+					//std::cout << double(trigTime - soundBank->GetSound(metronomeSoundId).GetLastStartTime()) / 1000. << std::endl;
+
+				}
 
 
 			}

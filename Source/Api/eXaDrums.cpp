@@ -214,7 +214,7 @@ namespace eXaDrumsApi
 		return volume;
 	}
 
-	unsigned long long eXaDrums::GetLastTrigTime() const
+	long long eXaDrums::GetLastTrigTime() const
 	{
 		return drumModule->GetLastTrigTime();
 	}
