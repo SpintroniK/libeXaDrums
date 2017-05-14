@@ -70,6 +70,7 @@ namespace DrumKit
 		float GetClickVolume() const;
 		void RestartMetronome();
 		double GetClickPosition() const;
+		long long GetLastClickTime() const;
 
 		// Config
 		IO::SensorsConfig GetSensorsConfig() const { return sensorsConfig; }

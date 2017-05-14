@@ -350,6 +350,12 @@ namespace eXaDrumsApi
 		return drumModule->GetClickPosition();
 	}
 
+	long long eXaDrums::GetLastClickTime() const
+	{
+		return drumModule->GetLastClickTime();
+	}
+
+
 }
 
 

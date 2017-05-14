@@ -14,7 +14,6 @@
 
 #include "../Kits/KitManager.h"
 
-#include <thread>
 #include <algorithm>
 
 using namespace Sound;
@@ -243,6 +242,19 @@ namespace DrumKit
 		else
 		{
 			return 0.0f;
+		}
+	}
+
+	long long Module::GetLastClickTime() const
+	{
+
+		if(isMetronomeEnabled)
+		{
+			return soundBank->GetSound(metronomeSoundId).GetLastStartTime();
+		}
+		else
+		{
+			return 0;
 		}
 	}
 

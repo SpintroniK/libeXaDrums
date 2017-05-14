@@ -49,6 +49,7 @@ namespace eXaDrumsApi
 		int GetClickVolume() const;
 		void SaveMetronomeConfig() const;
 		double GetClickPosition() const;
+		long long GetLastClickTime() const;
 
 		std::vector<std::string> GetClicksTypes();
 		void SetClickType(int id);
