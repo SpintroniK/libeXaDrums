@@ -19,6 +19,7 @@ RM := rm -rf
 -include Source/DrumKit/Triggers/Curves/subdir.mk
 -include Source/DrumKit/Triggers/subdir.mk
 -include Source/DrumKit/Kits/subdir.mk
+-include Source/DrumKit/Instruments/Pads/subdir.mk
 -include Source/DrumKit/Instruments/Drums/subdir.mk
 -include Source/DrumKit/Instruments/Cymbals/subdir.mk
 -include Source/DrumKit/Instruments/subdir.mk

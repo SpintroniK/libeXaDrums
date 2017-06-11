@@ -12,6 +12,7 @@
 #include "../Triggers/TriggerManager.h"
 #include "../Instruments/Cymbals/TestHiHat.h"
 #include "../Instruments/Drums/TestDrum.h"
+#include "../Instruments/Pads/Pad.h"
 
 #include <algorithm>
 
@@ -245,6 +246,7 @@ namespace DrumKit
 		switch(type)
 		{
 			case InstrumentType::TestDrum: sndTypes = TestDrum::soundsTypes; break;
+			case InstrumentType::Pad: sndTypes = Pad::soundsTypes; break;
 			case InstrumentType::HiHat: sndTypes = TestHiHat::soundsTypes; break;
 
 			default: throw -1; break;
@@ -267,6 +269,7 @@ namespace DrumKit
 		switch(type)
 		{
 			case InstrumentType::TestDrum: trigsLocs = TestDrum::triggersLocations; break;
+			case InstrumentType::Pad: trigsLocs = Pad::triggersLocations; break;
 			case InstrumentType::HiHat: trigsLocs = TestHiHat::triggersLocations; break;
 
 			default: throw -1; break;
