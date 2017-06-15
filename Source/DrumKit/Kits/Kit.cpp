@@ -8,9 +8,7 @@
 #include "Kit.h"
 
 #include "../Triggers/TriggerType.h"
-#include "../Instruments/Drums/TestDrum.h"
-#include "../Instruments/Cymbals/TestHiHat.h"
-#include "../Instruments/Pads/Pad.h"
+#include "../Instruments/InstrumentFactory.h"
 
 #include <algorithm>
 
@@ -79,17 +77,8 @@ namespace DrumKit
 		{
 
 			// Create instrument
-			InstrumentPtr instrumentPtr = nullptr;
-			switch(instrumentParameters.instrumentType)
-			{
+			InstrumentPtr instrumentPtr = InstrumentFactory::CreateInstrument(instrumentParameters.instrumentType, instrumentParameters, soundBank);
 
-			case InstrumentType::TestDrum: instrumentPtr = InstrumentPtr(new TestDrum(instrumentParameters, soundBank)); break;
-			case InstrumentType::Pad: instrumentPtr = InstrumentPtr(new Pad(instrumentParameters, soundBank)); break;
-			case InstrumentType::HiHat: instrumentPtr = InstrumentPtr(new TestHiHat(instrumentParameters, soundBank)); break;
-
-			default: throw -1; break;
-
-			}
 
 			// Create instrument's triggers
 			instrumentPtr->SetTriggers(this->triggers);

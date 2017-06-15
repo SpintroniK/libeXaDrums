@@ -10,9 +10,7 @@
 #include "../../Sound/SoundBank/SoundBank.h"
 
 #include "../Triggers/TriggerManager.h"
-#include "../Instruments/Cymbals/TestHiHat.h"
-#include "../Instruments/Drums/TestDrum.h"
-#include "../Instruments/Pads/Pad.h"
+#include "../Instruments/InstrumentFactory.h"
 
 #include <algorithm>
 
@@ -241,16 +239,7 @@ namespace DrumKit
 
 		InstrumentType type = Enums<InstrumentType>::ToElement(instrumentType);
 
-		std::vector<InstrumentSoundType> sndTypes;
-
-		switch(type)
-		{
-			case InstrumentType::TestDrum: sndTypes = TestDrum::soundsTypes; break;
-			case InstrumentType::Pad: sndTypes = Pad::soundsTypes; break;
-			case InstrumentType::HiHat: sndTypes = TestHiHat::soundsTypes; break;
-
-			default: throw -1; break;
-		}
+		std::vector<InstrumentSoundType> sndTypes = InstrumentFactory::GetSoundsTypes(type);
 
 		std::vector<std::string> soundsTypes;
 		std::transform(sndTypes.cbegin(), sndTypes.cend(), std::back_inserter(soundsTypes), [](const InstrumentSoundType& t) { return Enums<InstrumentSoundType>::ToString(t); });
@@ -264,16 +253,7 @@ namespace DrumKit
 
 		InstrumentType type = Enums<InstrumentType>::ToElement(instrumentType);
 
-		std::vector<TriggerLocation> trigsLocs;
-
-		switch(type)
-		{
-			case InstrumentType::TestDrum: trigsLocs = TestDrum::triggersLocations; break;
-			case InstrumentType::Pad: trigsLocs = Pad::triggersLocations; break;
-			case InstrumentType::HiHat: trigsLocs = TestHiHat::triggersLocations; break;
-
-			default: throw -1; break;
-		}
+		std::vector<TriggerLocation> trigsLocs = InstrumentFactory::GetTriggersTypes(type);
 
 		std::vector<std::string> triggersLocations;
 		std::transform(trigsLocs.cbegin(), trigsLocs.cend(), std::back_inserter(triggersLocations), [](const TriggerLocation& l) { return Enums<TriggerLocation>::ToString(l); });

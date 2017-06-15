@@ -21,13 +21,13 @@ namespace DrumKit
 
 		TestDrum,
 		Pad,
-		Drum,
-		Cymbal,
+		//Drum,
+		//Cymbal,
 		HiHat,
-		BassDrum,
+		//BassDrum,
 
 		First = TestDrum,
-		Last = BassDrum
+		Last = HiHat
 
 	};
 
@@ -42,10 +42,10 @@ namespace DrumKit
 
 		case InstrumentType::TestDrum:	os = "TestDrum"; 	break;
 		case InstrumentType::Pad:	 	os = "Pad"; 		break;
-		case InstrumentType::Drum:	 	os = "Drum"; 		break;
-		case InstrumentType::Cymbal:	os = "Cymbal"; 		break;
+		//case InstrumentType::Drum:	 	os = "Drum"; 		break;
+		//case InstrumentType::Cymbal:	os = "Cymbal"; 		break;
 		case InstrumentType::HiHat:		os = "HiHat"; 		break;
-		case InstrumentType::BassDrum:	os = "BassDrum"; 	break;
+		//case InstrumentType::BassDrum:	os = "BassDrum"; 	break;
 
 
 		default: break;
