@@ -73,8 +73,8 @@ namespace DrumKit
 
 	private:
 
-		InstrumentFactory(){};
-		~InstrumentFactory(){};
+		InstrumentFactory() = delete;
+		~InstrumentFactory() = delete;
 
 
 	};

@@ -9,8 +9,7 @@
 #include "Module.h"
 
 #include "../Triggers/TriggerManager.h"
-#include "../Triggers/Triggers/DiscreteTrigger.h"
-#include "../Triggers/Triggers/ContinuousTrigger.h"
+#include "../Triggers/TriggerFactory.h"
 
 #include "../Kits/KitManager.h"
 
@@ -376,17 +375,7 @@ namespace DrumKit
 		for(const TriggerParameters& triggerParameters : triggersParameters)
 		{
 
-			TriggerPtr triggerPtr = nullptr;
-
-			switch (triggerParameters.type)
-			{
-
-			case TriggerType::Discrete:   triggerPtr = std::make_shared<DiscreteTrigger>(triggerParameters);   break;
-			case TriggerType::Continuous: triggerPtr = std::make_shared<ContinuousTrigger>(triggerParameters); break;
-
-			default: throw -1; break;
-
-			}
+			TriggerPtr triggerPtr = TriggerFactory::CreateTrigger(triggerParameters);
 
 			triggers.push_back(triggerPtr);
 
