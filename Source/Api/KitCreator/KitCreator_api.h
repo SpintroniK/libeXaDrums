@@ -37,6 +37,7 @@ namespace eXaDrumsApi
 
 		// Instrument
 		void CreateNewInstrument();
+		void RemoveInstrument(int i);
 		void AddInstrumentToKit();
 		void SetInstrumentName(const char* name);
 		void SetInstrumentType(const char* type);

@@ -73,6 +73,12 @@ namespace eXaDrumsApi
 		return;
 	}
 
+	void KitCreator::RemoveInstrument(int i)
+	{
+		controller.RemoveInstrument(i);
+		return;
+	}
+
 	void KitCreator::AddInstrumentToKit()
 	{
 		controller.AddInstrumentToKit();
