@@ -301,6 +301,8 @@ namespace DrumKit
 		// Load triggers
 		TriggerManager::LoadTriggersConfig(this->directory, sensorsConfig, this->triggersParameters);
 
+		TriggerManager::SaveTriggersConfig(this->directory, this->triggersParameters);
+
 		// Create Triggers
 		this->CreateTriggers(this->triggersParameters);
 

@@ -99,6 +99,51 @@ namespace DrumKit
 		return;
 	}
 
+	void TriggerManager::SaveTriggersConfig(const std::string& moduleDir, const std::vector<TriggerParameters>& trigsParams)
+	{
+
+		std::string file(moduleDir + "triggersConfig.xml");
+
+		// Create document
+		XMLDocument doc;
+
+		// Add root element
+		XMLElement* root = doc.NewElement("Triggers");
+		doc.InsertFirstChild(root);
+
+		// Add triggers configurations
+		for(const auto& trigger : trigsParams)
+		{
+			XMLElement* trig = doc.NewElement("Trigger");
+
+			std::string sensorTypeStr = Enums<TriggerType>::ToString(trigger.type);
+			trig->SetAttribute("sensorType", sensorTypeStr.c_str());
+			trig->SetAttribute("sensorId", trigger.sensorId);
+
+			XMLElement* threshold = doc.NewElement("Threshold");
+			XMLElement* scanTime = doc.NewElement("ScanTime");
+			XMLElement* maskTime = doc.NewElement("MaskTime");
+			XMLElement* response = doc.NewElement("Response");
+
+			threshold->SetText(trigger.threshold);
+			scanTime->SetText(trigger.scanTime);
+			maskTime->SetText(trigger.maskTime);
+			response->SetText(Enums<CurveType>::ToString(trigger.response).c_str());
+
+			trig->InsertEndChild(threshold);
+			trig->InsertEndChild(scanTime);
+			trig->InsertEndChild(maskTime);
+			trig->InsertEndChild(response);
+
+			root->InsertEndChild(trig);
+		}
+
+
+		// Save file
+		doc.SaveFile(file.c_str());
+
+		return;
+	}
 
 	void TriggerManager::LoadSensorsConfig(const std::string& moduleDir, IO::SensorsConfig& sensorConfig)
 	{
@@ -165,3 +210,4 @@ namespace DrumKit
 
 
 } /* namespace DrumKit */
+

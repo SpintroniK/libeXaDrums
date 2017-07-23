@@ -50,6 +50,14 @@ namespace eXaDrumsApi
 
 		DrumKit::TriggerManager::SaveSensorsConfig(dir, sensorsConfig);
 
+		RestartModule();
+
+		return;
+	}
+
+	void Config::RestartModule()
+	{
+
 		bool isRestart = false;
 
 		if(drumKit.isStarted.load())
@@ -73,7 +81,43 @@ namespace eXaDrumsApi
 		return;
 	}
 
+	void Config::SaveTriggersConfig()
+	{
 
+		std::string dir;
+		module.GetDirectory(dir);
+
+		// Conversion to internal type
+		std::vector<DrumKit::TriggerParameters> trigsParams(triggersParameters.size());
+		std::transform(triggersParameters.begin(), triggersParameters.end(), trigsParams.begin(), [](eXaDrumsApi::TriggerParameters& tp) { return (DrumKit::TriggerParameters)tp; });
+
+		DrumKit::TriggerManager::SaveTriggersConfig(dir, trigsParams);
+
+		RestartModule();
+
+		return;
+	}
+
+	void Config::LoadTriggersConfig()
+	{
+
+		std::string dir;
+		module.GetDirectory(dir);
+
+		// Load sensors config first
+		IO::SensorsConfig sensorConfig;
+		DrumKit::TriggerManager::LoadSensorsConfig(dir, sensorConfig);
+
+		std::vector<DrumKit::TriggerParameters> trigsParams;
+		DrumKit::TriggerManager::LoadTriggersConfig(dir, sensorConfig, trigsParams);
+
+		// Conversion and copy of the triggers parameters
+		this->triggersParameters.clear();
+		this->triggersParameters.resize(trigsParams.size());
+		std::transform(trigsParams.begin(), trigsParams.end(), triggersParameters.begin(), [](DrumKit::TriggerParameters& tp) { return (eXaDrumsApi::TriggerParameters)tp; });
+
+		return;
+	}
 
 	// Private Methods
 
@@ -88,6 +132,17 @@ namespace eXaDrumsApi
 	{
 
 		sensorsConfig.hddDataFolder = std::string(folder);
+		return;
+	}
+
+	void Config::SetTriggersParameters_(const TriggerParameters* params, unsigned int size)
+	{
+
+		std::vector<TriggerParameters> trigParams(params, params + size);
+
+		this->triggersParameters.clear();
+		this->triggersParameters = trigParams;
+
 		return;
 	}
 

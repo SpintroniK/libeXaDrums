@@ -29,6 +29,8 @@ namespace eXaDrumsApi
 
 		void RefreshSensorsConfig();
 		void SaveSensorsConfig();
+		void SaveTriggersConfig();
+		void LoadTriggersConfig();
 
 
 		// Mutators
@@ -36,6 +38,7 @@ namespace eXaDrumsApi
 		void SetSensorsResolution(int res) { sensorsConfig.resolution = res; }
 		void SetSensorsType(const std::string type);
 		void SetSensorsDataFolder(const std::string folder);
+		void SetTriggersParameters(const std::vector<TriggerParameters>& params);
 
 		// Accessors
 		std::vector<std::string> GetSensorsTypes();
@@ -49,8 +52,11 @@ namespace eXaDrumsApi
 
 	private:
 
+		void RestartModule();
+
 		void SetSensorsType_(const char* type);
 		void SetSensorsDataFolder_(const char* folder);
+		void SetTriggersParameters_(const TriggerParameters* params, unsigned int size);
 
 		const char* GetSensorsType_();
 		const char* GetSensorsDataFolder_() const;
@@ -64,6 +70,9 @@ namespace eXaDrumsApi
 
 		// Sensors config
 		IO::SensorsConfig sensorsConfig;
+
+		// Triggers config
+		std::vector<TriggerParameters> triggersParameters;
 
 		// Local copies of items
 		std::string sensorType;

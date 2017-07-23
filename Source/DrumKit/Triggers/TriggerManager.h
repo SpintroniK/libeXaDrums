@@ -27,6 +27,7 @@ namespace DrumKit
 	public:
 
 		static void LoadTriggersConfig(const std::string& moduleDir, const IO::SensorsConfig& sensorsConfig, std::vector<TriggerParameters>& trigsParams);
+		static void SaveTriggersConfig(const std::string& moduleDir, const std::vector<TriggerParameters>& trigsParams);
 		static std::vector<int> LoadTriggersIds(const std::string& moduleDir);
 		static void LoadSensorsConfig(const std::string& moduleDir, IO::SensorsConfig& sensorConfig);
 		static void SaveSensorsConfig(const std::string& moduleDir, IO::SensorsConfig& sensorConfig);

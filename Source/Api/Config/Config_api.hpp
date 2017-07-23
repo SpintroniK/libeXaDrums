@@ -29,6 +29,15 @@ namespace eXaDrumsApi
 		return;
 	}
 
+
+	inline void Config::SetTriggersParameters(const std::vector<TriggerParameters>& params)
+	{
+
+		SetTriggersParameters_(params.data(), params.size());
+
+		return;
+	}
+
 	inline std::vector<std::string> Config::GetSensorsTypes()
 	{
 
