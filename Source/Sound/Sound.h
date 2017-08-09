@@ -56,23 +56,23 @@ namespace Sound
 
 
 		void SetVolume(float volume);
-		void Seek(std::size_t index);
-		void AddToIndex(int offset);
+		//void AddToIndex(int offset);
 
-		bool HasMoreData(std::size_t length) const;
-		bool IsFinished() const { return idx.load() >= (int)data.size(); }
+		bool HasMoreData(std::size_t index, std::size_t length) const;
+		//bool IsFinished() const { return idx.load() >= (int)data.size(); }
+		inline void StoreIndex(long i) { idx.store(i); }
+		void SetStartTime();
+		inline void SetLoop(bool s) { loop = s; }
 
-		void SetLoop(bool s) { loop = s; }
-
-		int GetId() const { return this->id; }
+		inline int GetId() const { return this->id; }
 		inline float GetVolume() const noexcept { return volume.load(); }
-		unsigned long GetIndex() const noexcept { return idx.load(); }
-		unsigned long long GetLastStartTime() const noexcept { return lastStartTime.load(); }
-		int GetLength() const { return length; }
-		const short* GetData() const { return data.data(); }
+		inline unsigned long LoadIndex() const noexcept { return idx.load(); }
+		inline unsigned long long GetLastStartTime() const noexcept { return lastStartTime.load(); }
+		inline int GetLength() const { return length; }
+		inline const short* GetData() const { return data.data(); }
 		const std::vector<short>& GetInternalData() const { return data; }
-		inline const short GetValue(int i) const noexcept { return data[(i + idx) % length]; }
-		bool IsLoop() const { return loop; }
+		inline const short GetValue(int i) const noexcept { return data[i % length]; }
+		inline bool IsLoop() const { return loop; }
 
 
 

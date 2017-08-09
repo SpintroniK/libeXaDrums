@@ -76,12 +76,12 @@ namespace Sound
 
 
 
-	bool Sound::HasMoreData(std::size_t length) const
+	bool Sound::HasMoreData(std::size_t index, std::size_t length) const
 	{
 
 		if(loop) return true;
 
-		if(idx.load() + length <= data.size())
+		if(index + length <= data.size())
 		{
 			return true;
 		}
@@ -101,7 +101,15 @@ namespace Sound
 		return;
 	}
 
-	void Sound::AddToIndex(int offset)
+	void Sound::SetStartTime()
+	{
+
+		this->lastStartTime.store(time_point_cast<microseconds>(high_resolution_clock::now()).time_since_epoch().count());
+
+		return;
+	}
+
+	/*void Sound::AddToIndex(int offset)
 	{
 
 		if(!HasMoreData(offset))
@@ -121,17 +129,7 @@ namespace Sound
 		}
 
 		return;
-	}
-
-
-	void Sound::Seek(std::size_t index)
-	{
-
-		idx.store(index);
-
-		return;
-	}
-
+	}*/
 
 
 	// PRIVATE

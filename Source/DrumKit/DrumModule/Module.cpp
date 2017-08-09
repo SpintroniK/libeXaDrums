@@ -232,7 +232,7 @@ namespace DrumKit
 
 		if(isMetronomeEnabled)
 		{
-			unsigned long pos = soundBank->GetSound(metronomeSoundId).GetIndex();
+			unsigned long pos = soundBank->GetSound(metronomeSoundId).LoadIndex();
 			double relPos = double(pos) / double(soundBank->GetSound(metronomeSoundId).GetLength());
 			//fraction -= int(fraction);
 

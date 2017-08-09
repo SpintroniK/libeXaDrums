@@ -9,12 +9,12 @@
 #define MIXER_H_
 
 #include "../SoundBank/SoundBank.h"
+#include "../SoundState.h"
 #include "../Sound.h"
 
 #include <vector>
 #include <memory>
 #include <atomic>
-#include <array>
 
 
 namespace Sound
@@ -42,8 +42,7 @@ namespace Sound
 		static const std::size_t nbStates = 128;
 
 		std::shared_ptr<SoundBank> soundBank;
-		std::vector<std::pair<int, float>> playList;
-		std::array<std::atomic<bool>, nbStates> soundsStates;
+		std::vector<SoundState> playList;
 
 	};
 
