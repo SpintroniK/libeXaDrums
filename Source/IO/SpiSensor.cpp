@@ -21,7 +21,6 @@ namespace IO
 	SpiSensor::SpiSensor()
 	{
 
-		Spi::getInstance().Open(2000000, 0);
 
 		/*if(numInstances == 0)
 		{
@@ -52,8 +51,6 @@ namespace IO
 	SpiSensor::~SpiSensor()
 	{
 
-		Spi::getInstance().Close();
-
 		/*numInstances--;
 
 		if(numInstances == 0)
@@ -81,7 +78,7 @@ namespace IO
 
 		// Receive data
 		//bcm2835_spi_transfernb(mosi, miso, 3);
-		Spi::getInstance().dataRW(mosi, 3);
+		Spi::get().dataRW(mosi, 3);
 
 		// Calculate value from received bits
 		//short value = ((miso[0] & 0x01) << 11) | (miso[1] << 3) | ((miso[2] >> 5) & 0x07);

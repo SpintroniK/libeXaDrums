@@ -10,6 +10,7 @@
 
 #include "../Triggers/TriggerManager.h"
 #include "../Triggers/TriggerFactory.h"
+#include "../../IO/Spi.h"
 
 #include "../Kits/KitManager.h"
 
@@ -298,6 +299,11 @@ namespace DrumKit
 		// Update sensors configuration
 		TriggerManager::LoadSensorsConfig(this->directory, this->sensorsConfig);
 
+
+		IO::Spi::get().Close();
+		IO::Spi::get().Open(sensorsConfig.samplingRate, 0);
+
+
 		// Load triggers
 		TriggerManager::LoadTriggersConfig(this->directory, sensorsConfig, this->triggersParameters);
 
@@ -371,6 +377,7 @@ namespace DrumKit
 
 	void Module::CreateTriggers(const std::vector<TriggerParameters>& triggersParameters)
 	{
+
 
 		triggers.clear();
 

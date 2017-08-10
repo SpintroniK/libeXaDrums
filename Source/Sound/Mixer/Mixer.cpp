@@ -7,9 +7,7 @@
 
 #include "Mixer.h"
 
-
 #include <algorithm>
-#include <iostream>
 
 namespace Sound
 {
@@ -43,14 +41,6 @@ namespace Sound
 			s->index = 0;
 			s->isPlaying.store(true);
 
-
-			for(const auto& snd : playList)
-			{
-
-				std::cout << snd.id << "\t" << snd.isPlaying.load() << std::endl;
-
-			}
-			std::cout << "***************" << std::endl;
 		}
 		else
 		{

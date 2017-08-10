@@ -20,7 +20,7 @@ namespace IO
 
 	public:
 
-        static Spi& getInstance()
+        static Spi& get()
         {
             static Spi instance;
             return instance;
