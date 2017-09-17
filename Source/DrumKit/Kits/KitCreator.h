@@ -24,7 +24,7 @@ namespace DrumKit
 
 	public:
 
-		KitCreator(const std::string& dataLoc);
+		explicit KitCreator(const std::string& dataLoc);
 		virtual ~KitCreator();
 
 		// Kit
@@ -39,13 +39,13 @@ namespace DrumKit
 		void CreateNewInstrument();
 		void RemoveInstrument(int i);
 		void AddInstrumentToKit();
-		void SetInstrumentName(const std::string name) { this->instrument.instrumentName = name; }
+		void SetInstrumentName(const std::string& name) { this->instrument.instrumentName = name; }
 		void SetInstrumentType(const std::string& type);
 		void SetInstrumentVolume(const float v) { this->instrument.volume = v; }
 		void AddInstrumentSound(const std::string& file, const std::string& type);
 		void AddInstrumentTrigger(const int id, const std::string& location);
 
-		void SetInstrumentName(int id, std::string name) { this->parameters.instrumentParameters[id].instrumentName = name; }
+		void SetInstrumentName(int id, const std::string& name) { this->parameters.instrumentParameters[id].instrumentName = name; }
 		void SetInstrumentTriggersIdsAndLocs(int id, const std::vector<std::pair<int, std::string>>& trigsIdsAndLocs);
 		void SetInstrumentSoundsTypesAndLocs(int id, const std::vector<std::pair<std::string, std::string>>& sndsTypesAndLocs);
 

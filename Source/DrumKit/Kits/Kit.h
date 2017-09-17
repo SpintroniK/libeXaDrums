@@ -28,7 +28,7 @@ namespace DrumKit
 
 		public:
 
-			Kit(KitParameters params, std::vector<TriggerPtr> const& trigs, std::shared_ptr<Sound::SoundBank> sb);
+			Kit(const KitParameters& params, std::vector<TriggerPtr> const& trigs, std::shared_ptr<Sound::SoundBank> sb);
 			virtual ~Kit();
 
 			void Enable();

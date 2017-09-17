@@ -15,8 +15,8 @@
 namespace DrumKit
 {
 
-	Kit::Kit(KitParameters params, std::vector<TriggerPtr> const& trigs, std::shared_ptr<Sound::SoundBank> sb)
-	: parameters(params), triggers(trigs), soundBank(sb)
+	Kit::Kit(const KitParameters& params, std::vector<TriggerPtr> const& trigs, std::shared_ptr<Sound::SoundBank> sb)
+	: parameters(params), triggers(trigs), soundBank(std::move(sb))
 	{
 
 		return;

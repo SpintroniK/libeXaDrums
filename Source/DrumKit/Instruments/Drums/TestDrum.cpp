@@ -27,12 +27,6 @@ namespace DrumKit
 		return;
 	}
 
-	TestDrum::~TestDrum()
-	{
-
-		return;
-	}
-
 
 	void TestDrum::SetTriggers(std::vector<TriggerPtr> const& triggers)
 	{

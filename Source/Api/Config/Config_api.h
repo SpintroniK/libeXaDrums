@@ -24,7 +24,7 @@ namespace eXaDrumsApi
 
 	public:
 
-		Config(eXaDrums& drums);
+		explicit Config(eXaDrums& drums);
 		virtual ~Config() = default;
 
 		void RefreshSensorsConfig();
@@ -36,8 +36,8 @@ namespace eXaDrumsApi
 		// Mutators
 		void SetSensorsSamplingRate(int sRate) { sensorsConfig.samplingRate = sRate; }
 		void SetSensorsResolution(int res) { sensorsConfig.resolution = res; }
-		void SetSensorsType(const std::string type);
-		void SetSensorsDataFolder(const std::string folder);
+		void SetSensorsType(const std::string& type);
+		void SetSensorsDataFolder(const std::string& folder);
 		void SetTriggersParameters(const std::vector<TriggerParameters>& params);
 
 		// Accessors

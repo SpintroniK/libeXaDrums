@@ -18,19 +18,11 @@ namespace DrumKit
 {
 
 
-	DiscreteTrigger::DiscreteTrigger(TriggerParameters triggerParams) : Trigger(triggerParams)
+	DiscreteTrigger::DiscreteTrigger(const TriggerParameters& triggerParams) : Trigger(triggerParams)
 	{
 
 		return;
 	}
-
-	DiscreteTrigger::~DiscreteTrigger()
-	{
-
-
-		return;
-	}
-
 
 	void DiscreteTrigger::Refresh()
 	{

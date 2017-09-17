@@ -10,17 +10,12 @@
 namespace DrumKit
 {
 
-	ContinuousTrigger::ContinuousTrigger(TriggerParameters triggerParams) : Trigger(triggerParams)
+	ContinuousTrigger::ContinuousTrigger(const TriggerParameters& triggerParams) : Trigger(triggerParams)
 	{
 
 		return;
 	}
 
-	ContinuousTrigger::~ContinuousTrigger()
-	{
-
-		return;
-	}
 
 	void ContinuousTrigger::Refresh()
 	{

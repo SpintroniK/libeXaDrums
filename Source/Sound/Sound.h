@@ -18,15 +18,18 @@ namespace Sound
 	class Sound
 	{
 
+		friend class SoundBank;
+		friend class SoundProcessor;
+
 	public:
 
 		Sound();
 		Sound(Sound& s);
 		Sound(Sound&& s);
-		Sound(std::vector<short> soundData);
-		Sound(std::vector<short> soundData, float volume);
-		Sound(int id, std::vector<short> soundData);
-		Sound(int id, std::vector<short> soundData, float vol);
+		explicit Sound(const std::vector<short>& soundData);
+		Sound(const std::vector<short>& soundData, float volume);
+		Sound(int id, const std::vector<short>& soundData);
+		Sound(int id, const std::vector<short>& soundData, float vol);
 
 		virtual ~Sound();
 

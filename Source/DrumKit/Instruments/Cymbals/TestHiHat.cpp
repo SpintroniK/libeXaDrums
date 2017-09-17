@@ -27,12 +27,6 @@ namespace DrumKit
 		return;
 	}
 
-	TestHiHat::~TestHiHat()
-	{
-
-		return;
-	}
-
 	void TestHiHat::SetTriggers(const std::vector<TriggerPtr>& triggers)
 	{
 
@@ -84,14 +78,11 @@ namespace DrumKit
 				{
 
 					const Sound::Sound& cymbalSound = soundBank->GetSound(cymbalSoundId);
-					const std::vector<short>& cymbalSoundData = cymbalSound.GetInternalData();
-					const Sound::Sound& newSound = SoundProcessor::Muffle(cymbalSoundData, 0.25f/float(i + 1));
-					const std::vector<short>& newSoundData = newSound.GetInternalData();
-					int newSoundId = soundBank->AddSound(newSoundData, parameters.volume);
+					Sound::Sound&& newSound = SoundProcessor::Muffle(cymbalSound, 0.25f/float(i + 1));
+					int newSoundId = soundBank->AddSound(std::move(newSound), parameters.volume);
 
 					hiHatSoundsIds.push_back(newSoundId);
 				}
-
 
 				break;
 			}

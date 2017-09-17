@@ -37,7 +37,7 @@ namespace Sound
 	}
 
 
-	Sound::Sound(int id, std::vector<short> soundData, float vol)
+	Sound::Sound(int id, const std::vector<short>& soundData, float vol)
 	: id(id), loop(false), data(soundData), length(data.size())
 	{
 
@@ -50,19 +50,19 @@ namespace Sound
 	}
 
 
-	Sound::Sound(int id, std::vector<short> soundData) : Sound(id, soundData, 1.0f)
+	Sound::Sound(int id, const std::vector<short>& soundData) : Sound(id, soundData, 1.0f)
 	{
 
 		return;
 	}
 
-	Sound::Sound(std::vector<short> soundData, float volume) : Sound(-1, soundData, volume)
+	Sound::Sound(const std::vector<short>& soundData, float volume) : Sound(-1, soundData, volume)
 	{
 
 		return;
 	}
 
-	Sound::Sound(std::vector<short> soundData) : Sound(-1, soundData, 1.0f)
+	Sound::Sound(const std::vector<short>& soundData) : Sound(-1, soundData, 1.0f)
 	{
 
 		return;

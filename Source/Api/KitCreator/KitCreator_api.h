@@ -23,7 +23,7 @@ namespace eXaDrumsApi
 
 	public:
 
-		KitCreator(const char* dataLocation);
+		explicit KitCreator(const char* dataLocation);
 		virtual ~KitCreator();
 
 		// Kit
@@ -62,11 +62,11 @@ namespace eXaDrumsApi
 
 		// Triggers
 		std::vector<int> GetTriggersIds() const;
-		std::vector<std::string> GetTriggersLocations(const std::string instrumentType);
+		std::vector<std::string> GetTriggersLocations(const std::string& instrumentType);
 
 		// Sounds
 		std::vector<std::string> GetSoundsFiles();
-		std::vector<std::string> GetSoundsTypes(const std::string instrumentType);
+		std::vector<std::string> GetSoundsTypes(const std::string& instrumentType);
 
 
 	private:

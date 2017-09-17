@@ -27,7 +27,7 @@ namespace DrumKit
 
 	public:
 
-		Metronome(Sound::AlsaParams alsaParams);
+		explicit Metronome(Sound::AlsaParams alsaParams);
 		Metronome(Sound::AlsaParams alsaParams, MetronomeParameters params);
 		virtual ~Metronome();
 

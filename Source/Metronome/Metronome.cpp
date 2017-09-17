@@ -178,14 +178,12 @@ namespace DrumKit
 
 		int n = 0;
 		int mul = 1;
-		std::size_t click;
 		double phase = 0;
 		short amplitude = std::numeric_limits<short>::max();
 
 		for(std::size_t i = 0; i < data.size(); i++)
 		{
-
-			click = n * beatsRate;// + correction;
+			std::size_t click = n * beatsRate;// + correction;
 
 	        if(i > click && i < click + clickSamples)
 	        {
@@ -240,14 +238,13 @@ namespace DrumKit
 
 		int n = 0;
 		int mul = 1;
-		std::size_t click;
 		double phase = 0;
 		short amplitude = std::numeric_limits<short>::max();
 
 		for(std::size_t i = 0; i < data.size(); i++)
 		{
 
-			click = n * beatsRate;// + correction;
+			std::size_t click = n * beatsRate;// + correction;
 
 	        if(i > click && i < click + clickSamples)
 	        {

@@ -27,17 +27,17 @@ namespace DrumKit
 	public:
 
 		Pad(InstrumentParameters parameters, std::shared_ptr<Sound::SoundBank> sb);
-		virtual ~Pad();
+		~Pad() = default;
 
 		static const std::vector<TriggerLocation> triggersLocations;
 		static const std::vector<Sound::InstrumentSoundType> soundsTypes;
 
-		virtual void SetTriggers(std::vector<TriggerPtr> const& triggers) override;
-		virtual void SetSound(InstrumentSoundInfo const& soundInfo) override;
-		virtual void SetVolume(float volume) override;
+		virtual void SetTriggers(std::vector<TriggerPtr> const& triggers) final;
+		virtual void SetSound(InstrumentSoundInfo const& soundInfo) final;
+		virtual void SetVolume(float volume) final;
 
-		virtual void GetSoundProps(int& id, float& volume) const override;
-		virtual bool IsTriggerEvent() const override;
+		virtual void GetSoundProps(int& id, float& volume) const final;
+		virtual bool IsTriggerEvent() const final;
 
 	private:
 

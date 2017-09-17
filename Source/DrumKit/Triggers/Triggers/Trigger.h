@@ -27,8 +27,7 @@ namespace DrumKit
 	public:
 
 
-		Trigger(TriggerParameters trigParams);
-		virtual ~Trigger() = default;
+		explicit Trigger(TriggerParameters trigParams);
 
 		//virtual bool Trig(short value, float& strength) = 0;
 		virtual void Refresh() = 0;
@@ -39,6 +38,8 @@ namespace DrumKit
 
 
 	protected:
+
+		virtual ~Trigger() = default;
 
 		virtual short GetSensorData() const { return sensor->GetData(triggerParameters.sensorId); }
 

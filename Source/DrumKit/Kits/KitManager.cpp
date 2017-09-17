@@ -33,7 +33,7 @@ using namespace Util;
 namespace DrumKit
 {
 
-	KitManager::KitManager(std::string kitsPath) : kitsPath(kitsPath)
+	KitManager::KitManager(const std::string& kitsPath) : kitsPath(kitsPath)
 	{
 
 		this->ScanFolder();

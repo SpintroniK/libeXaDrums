@@ -25,7 +25,7 @@ namespace DrumKit
 
 	public:
 
-		KitManager(std::string kitsPath);
+		explicit KitManager(const std::string& kitsPath);
 		virtual ~KitManager();
 
 		static void LoadKit(std::string file, KitParameters& parameters);

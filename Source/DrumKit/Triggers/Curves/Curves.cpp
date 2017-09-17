@@ -47,7 +47,7 @@ namespace DrumKit
 		std::vector<float> expVector(normLin.size());
 
 		// Create exponential function
-		auto expFunc = [](float v) { return std::exp(v) - 1; };
+		auto expFunc = [](float v) { return std::expm1(v); };
 
 		// Create non-normalised exponential vector
 		std::transform(normLin.begin(), normLin.end(), expVector.begin(), expFunc);

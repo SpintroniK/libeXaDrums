@@ -20,10 +20,10 @@ namespace DrumKit
 
 	public:
 
-		DiscreteTrigger(TriggerParameters triggerParams);
-		virtual ~DiscreteTrigger();
+		explicit DiscreteTrigger(const TriggerParameters& triggerParams);
+		~DiscreteTrigger() = default;
 
-		virtual void Refresh();
+		virtual void Refresh() final;
 		//virtual bool Trig(short value, float& strength);
 		//bool GetState() const { return trig; }
 

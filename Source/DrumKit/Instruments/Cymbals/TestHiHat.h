@@ -29,17 +29,17 @@ namespace DrumKit
 	public:
 
 		TestHiHat(InstrumentParameters parameters, std::shared_ptr<Sound::SoundBank> soundBank);
-		virtual ~TestHiHat();
+		~TestHiHat() = default;
 
 		static const std::vector<TriggerLocation> triggersLocations;
 		static const std::vector<Sound::InstrumentSoundType> soundsTypes;
 
-		virtual void SetTriggers(std::vector<TriggerPtr> const& triggers);
-		virtual void SetSound(InstrumentSoundInfo const& soundInfo);
-		virtual void SetVolume(float volume);
+		virtual void SetTriggers(std::vector<TriggerPtr> const& triggers) final;
+		virtual void SetSound(InstrumentSoundInfo const& soundInfo) final;
+		virtual void SetVolume(float volume) final;
 
-		virtual bool IsTriggerEvent() const;
-		virtual void GetSoundProps(int& id, float& volume) const;
+		virtual bool IsTriggerEvent() const final;
+		virtual void GetSoundProps(int& id, float& volume) const final;
 
 
 

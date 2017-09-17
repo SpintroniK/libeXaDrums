@@ -11,20 +11,13 @@
 namespace DrumKit
 {
 
-	Instrument::Instrument(InstrumentParameters parameters, std::shared_ptr<Sound::SoundBank> sb)
-	: parameters(parameters), soundBank(sb)
+	Instrument::Instrument(const InstrumentParameters& parameters, std::shared_ptr<Sound::SoundBank> sb)
+	: parameters(parameters), soundBank(std::move(sb))
 	{
 
 
 		return;
 	}
-
-	Instrument::~Instrument()
-	{
-
-		return;
-	}
-
 
 
 

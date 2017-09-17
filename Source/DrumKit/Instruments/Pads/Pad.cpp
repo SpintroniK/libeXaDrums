@@ -24,12 +24,6 @@ namespace DrumKit
 		return;
 	}
 
-	Pad::~Pad()
-	{
-
-		return;
-	}
-
 	void Pad::SetTriggers(std::vector<TriggerPtr> const& triggers)
 	{
 

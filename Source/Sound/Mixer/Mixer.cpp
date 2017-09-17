@@ -45,7 +45,7 @@ namespace Sound
 		else
 		{
 			// Add sound to playList
-			playList.push_back(SoundState(id, volume, true));
+			playList.emplace_back(id, volume, true);
 
 		}
 

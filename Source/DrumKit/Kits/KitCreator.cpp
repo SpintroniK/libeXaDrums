@@ -21,15 +21,10 @@ namespace DrumKit
 {
 
 	KitCreator::KitCreator(const std::string& dataLoc)
+	: kitsDirectory(dataLoc + "Kits/"), instrument(), triggersIds(TriggerManager::LoadTriggersIds(dataLoc)), soundFiles(SoundBank::GetSoundFiles(dataLoc))
 	{
 
-		kitsDirectory = std::string(dataLoc) + "Kits/";
 
-		// Sound Files
-		soundFiles = SoundBank::GetSoundFiles(dataLoc);
-
-		// Triggers
-		triggersIds = TriggerManager::LoadTriggersIds(dataLoc);
 
 		return;
 	}
@@ -330,10 +325,9 @@ namespace DrumKit
 		}
 
 		// Add triggers
-		int id;
 		std::string triggerLocation;
 		{
-			id = 0;
+			int id = 0;
 			triggerLocation = Enums<TriggerLocation>::ToString(TriggerLocation::DrumHead);
 			AddInstrumentTrigger(id, triggerLocation);
 

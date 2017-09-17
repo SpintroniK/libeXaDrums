@@ -150,7 +150,7 @@ namespace eXaDrumsApi
 		return v;
 	}
 
-	inline std::vector<std::string> KitCreator::GetSoundsTypes(const std::string instrumentType)
+	inline std::vector<std::string> KitCreator::GetSoundsTypes(const std::string& instrumentType)
 	{
 
 		unsigned int size;
@@ -195,7 +195,7 @@ namespace eXaDrumsApi
 		return v;
 	}
 
-	inline std::vector<std::string> KitCreator::GetTriggersLocations(const std::string instrumentType)
+	inline std::vector<std::string> KitCreator::GetTriggersLocations(const std::string& instrumentType)
 	{
 
 		unsigned int size;

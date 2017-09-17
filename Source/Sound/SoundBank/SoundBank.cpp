@@ -15,7 +15,7 @@
 namespace Sound
 {
 
-	SoundBank::SoundBank(std::string dataFolder) : soundBankFolder(dataFolder + "SoundBank/")
+	SoundBank::SoundBank(const std::string& dataFolder) : soundBankFolder(dataFolder + "SoundBank/")
 	{
 
 
@@ -44,6 +44,16 @@ namespace Sound
 		return sounds.back().GetId();
 	}
 
+	int SoundBank::AddSound(Sound&& sound, float volume)
+	{
+		// Add sound to collection
+		sound.id = sounds.size();
+		sound.volume.store(volume);
+		sounds.push_back(std::move(sound));
+
+		return sounds.back().GetId();
+	}
+
 	void SoundBank::DeleteSound(int id)
 	{
 
@@ -53,12 +63,12 @@ namespace Sound
 	}
 
 
-	int SoundBank::LoadSound(std::string filename)
+	int SoundBank::LoadSound(const std::string& filename)
 	{
 		return LoadSound(filename, 1.0f);
 	}
 
-	int SoundBank::LoadSound(std::string filename, float volume)
+	int SoundBank::LoadSound(const std::string& filename, float volume)
 	{
 
 
@@ -102,7 +112,7 @@ namespace Sound
 	}
 
 
-	std::vector<std::string> SoundBank::GetSoundFiles(std::string dataFolder)
+	std::vector<std::string> SoundBank::GetSoundFiles(const std::string& dataFolder)
 	{
 
 		std::vector<std::string> paths;
@@ -152,3 +162,5 @@ namespace Sound
 
 
 } /* namespace Sound */
+
+

@@ -31,6 +31,17 @@ namespace Sound
 			isPlaying.store(s.isPlaying.load());
 		}
 
+		SoundState& operator=(const SoundState& s)
+		{
+
+			this->id = s.id;
+			this->volume = s.volume;
+			this->index = s.index;
+			this->isPlaying.store(s.isPlaying.load());
+
+			return *this;
+		}
+
 		int id;
 		float volume;
 		std::size_t index;

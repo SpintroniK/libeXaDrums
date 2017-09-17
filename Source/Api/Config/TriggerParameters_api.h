@@ -20,7 +20,7 @@ namespace eXaDrumsApi
 		TriggerParameters();
 
 		// Conversion to internal type
-		TriggerParameters(const DrumKit::TriggerParameters& parameters);
+		explicit TriggerParameters(const DrumKit::TriggerParameters& parameters);
 		TriggerParameters& operator=(const DrumKit::TriggerParameters& parameters);
 		explicit operator DrumKit::TriggerParameters() const;
 

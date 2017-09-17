@@ -19,10 +19,10 @@ namespace DrumKit
 
 	public:
 
-		ContinuousTrigger(TriggerParameters triggerParams);
-		virtual ~ContinuousTrigger();
+		explicit ContinuousTrigger(const TriggerParameters& triggerParams);
+		~ContinuousTrigger() = default;
 
-		virtual void Refresh();
+		virtual void Refresh() final;
 
 	private:
 

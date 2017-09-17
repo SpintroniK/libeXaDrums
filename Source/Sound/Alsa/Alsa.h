@@ -27,7 +27,7 @@ namespace Sound
 
 	public:
 
-		Alsa(AlsaParams parameters, std::shared_ptr<Mixer> const& mixer);
+		Alsa(const AlsaParams& parameters, std::shared_ptr<Mixer> const& mixer);
 		virtual ~Alsa();
 
 

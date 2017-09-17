@@ -29,7 +29,7 @@ namespace eXaDrumsApi
 
 	public:
 
-		eXaDrums(const char* dataLocation);
+		explicit eXaDrums(const char* dataLocation);
 		virtual ~eXaDrums();
 
 		// eXaDrums

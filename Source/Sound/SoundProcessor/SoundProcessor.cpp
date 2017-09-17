@@ -25,11 +25,11 @@ namespace Sound
 		const std::vector<short>& soundData = sound.GetInternalData();
 		std::vector<short> newSoundData(soundData.size());
 
-		int nm = m * soundData.size();
+		const float gamma = -3.0f / (m * soundData.size());
 
-		for(std::size_t i = 0; i < newSoundData.size(); i++)
+		for(std::size_t i = 0; i < newSoundData.size(); ++i)
 		{
-			newSoundData[i] = soundData[i] * std::exp(-3.0f * i / nm);
+			newSoundData[i] = soundData[i] * std::exp(i * gamma);
 		}
 
 		return Sound(newSoundData);

@@ -27,8 +27,7 @@ namespace DrumKit
 
 	public:
 
-		Instrument(InstrumentParameters parameters, std::shared_ptr<Sound::SoundBank> sb);
-		virtual ~Instrument();
+		Instrument(const InstrumentParameters& parameters, std::shared_ptr<Sound::SoundBank> sb);
 
 
 		virtual void SetTriggers(std::vector<TriggerPtr> const& triggers) = 0;
@@ -45,6 +44,8 @@ namespace DrumKit
 
 
 	protected:
+
+		virtual ~Instrument() = default;
 
 		InstrumentParameters parameters;
 		std::shared_ptr<Sound::SoundBank> soundBank;

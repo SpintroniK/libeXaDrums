@@ -15,14 +15,14 @@
 namespace eXaDrumsApi
 {
 
-	inline void Config::SetSensorsType(const std::string type)
+	inline void Config::SetSensorsType(const std::string& type)
 	{
 
 		SetSensorsType_(type.c_str());
 		return;
 	}
 
-	inline void Config::SetSensorsDataFolder(const std::string folder)
+	inline void Config::SetSensorsDataFolder(const std::string& folder)
 	{
 
 		SetSensorsDataFolder_(folder.c_str());

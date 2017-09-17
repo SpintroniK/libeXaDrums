@@ -25,15 +25,16 @@ namespace Sound
 
 	public:
 
-		SoundBank(std::string dataFolder);
+		explicit SoundBank(const std::string& dataFolder);
 		virtual ~SoundBank();
 
-		static std::vector<std::string> GetSoundFiles(std::string dataFolder);
+		static std::vector<std::string> GetSoundFiles(const std::string& dataFolder);
 
-		int LoadSound(std::string filename);
-		int LoadSound(std::string filename, float volume);
+		int LoadSound(const std::string& filename);
+		int LoadSound(const std::string& filename, float volume);
 		int AddSound(const std::vector<short>& soundData);
 		int AddSound(const std::vector<short>& soundData, float volume);
+		int AddSound(Sound&& sound, float volume);
 		void DeleteSound(int id);
 		void LoopSound(int id, bool s) { sounds[id].SetLoop(s); }
 		void Clear() { std::vector<Sound>().swap(sounds); }
