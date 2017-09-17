@@ -43,7 +43,11 @@ namespace IO
 	void Spi::Close()
 	{
 
-		close(this->fd);
+		if(fd != -1)
+		{
+			close(this->fd);
+			fd = -1;
+		}
 
 		return;
 	}

@@ -56,13 +56,14 @@ namespace Sound
 	void Mixer::StopSound(int id)
 	{
 
-		//TODO: fix.
-		// Find sound in the play list
-		auto s = std::find_if(playList.begin(), playList.end(), [&id](SoundState& s) { return id == s.id; });
+		// Stop sound in the play list
 
-		if(s != playList.end())
+		for(auto& sound : playList)
 		{
-			s->isPlaying.store(false);
+			if(sound.id == id)
+			{
+				sound.isPlaying.store(false);
+			}
 		}
 
 		return;

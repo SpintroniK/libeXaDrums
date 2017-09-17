@@ -299,9 +299,11 @@ namespace DrumKit
 		// Update sensors configuration
 		TriggerManager::LoadSensorsConfig(this->directory, this->sensorsConfig);
 
-
-		IO::Spi::get().Close();
-		IO::Spi::get().Open(sensorsConfig.samplingRate, 0);
+		if(sensorsConfig.sensorType == IO::SensorType::Spi)
+		{
+			IO::Spi::get().Close();
+			IO::Spi::get().Open(sensorsConfig.samplingRate, 0);
+		}
 
 
 		// Load triggers
