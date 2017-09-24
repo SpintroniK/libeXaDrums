@@ -38,7 +38,7 @@ namespace eXaDrumsApi
 
 		// Create mixer and alsa
 		this->mixer = std::make_shared<Mixer>();
-		this->alsa = std::unique_ptr<Alsa>(new Alsa(alsaParams, this->mixer));
+		this->alsa = std::make_unique<Alsa>(alsaParams, this->mixer);
 
 		// Load metronome parameters
 		MetronomeParameters metronomeParams;
@@ -46,7 +46,7 @@ namespace eXaDrumsApi
 		this->metronome = std::make_shared<Metronome>(alsaParams, metronomeParams);
 
 		// Create drum module
-		this->drumModule = std::unique_ptr<Module>(new Module(dataLocation, this->mixer, this->metronome));
+		this->drumModule = std::make_unique<Module>(dataLocation, this->mixer, this->metronome);
 
 		return;
 	}

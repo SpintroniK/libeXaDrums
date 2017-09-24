@@ -46,6 +46,7 @@ namespace DrumKit
 		void AddInstrumentTrigger(const int id, const std::string& location);
 
 		void SetInstrumentName(int id, const std::string& name) { this->parameters.instrumentParameters[id].instrumentName = name; }
+		void SetInstrumentType(int id, const std::string& type) { this->parameters.instrumentParameters[id].instrumentType = Util::Enums<InstrumentType>::ToElement(type); }
 		void SetInstrumentTriggersIdsAndLocs(int id, const std::vector<std::pair<int, std::string>>& trigsIdsAndLocs);
 		void SetInstrumentSoundsTypesAndLocs(int id, const std::vector<std::pair<std::string, std::string>>& sndsTypesAndLocs);
 

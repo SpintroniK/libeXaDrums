@@ -97,6 +97,12 @@ namespace eXaDrumsApi
 		return;
 	}
 
+	void KitCreator::SetInstrumentType(int id, const char* type)
+	{
+		controller.SetInstrumentType(id, std::string(type));
+		return;
+	}
+
 	void KitCreator::SetInstrumentType(const char* type)
 	{
 		controller.SetInstrumentType(std::string(type));

@@ -158,6 +158,8 @@ namespace DrumKit
 	{
 
 		InstrumentParameters& instrument = parameters.instrumentParameters[id];
+		instrument.triggersIdsAndLocations.clear();
+		instrument.triggersIdsAndLocations.resize(trigsIdsAndLocs.size());
 
 		for(std::size_t i = 0; i < trigsIdsAndLocs.size(); i++)
 		{
@@ -174,6 +176,8 @@ namespace DrumKit
 	{
 
 		InstrumentParameters& instrument = parameters.instrumentParameters[id];
+		instrument.soundsInfo.clear();
+		instrument.soundsInfo.resize(sndsTypesAndLocs.size());
 
 		for(std::size_t i = 0; i < sndsTypesAndLocs.size(); i++)
 		{
