@@ -34,6 +34,7 @@ namespace Sound
 		void Start();
 		void Stop();
 
+		static std::vector<std::pair<std::string, std::string>> GetDevices(const snd_pcm_stream_t type = SND_PCM_STREAM_PLAYBACK);
 
 	private:
 

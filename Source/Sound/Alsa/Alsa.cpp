@@ -25,6 +25,7 @@ namespace Sound
 
 		_snd_pcm_stream type = (params.capture)? SND_PCM_STREAM_CAPTURE:SND_PCM_STREAM_PLAYBACK;
 
+
 		int err = snd_pcm_open(&params.handle, params.device.c_str(), type, 0);
 
 		if(err >= 0)
@@ -39,6 +40,7 @@ namespace Sound
 		{
 			throw - 1;
 		}
+
 
 		return;
 	}
@@ -58,6 +60,59 @@ namespace Sound
 		return;
 	}
 
+
+	std::vector<std::pair<std::string, std::string>> Alsa::GetDevices(const snd_pcm_stream_t type)
+	{
+
+		std::vector<std::pair<std::string, std::string>> devices;
+
+
+		for(int card = 0; card >= 0; snd_card_next(&card))
+		{
+
+			snd_ctl_t* handle;
+
+			std::string name("hw:" + std::to_string(card));
+
+			if(snd_ctl_open(&handle, name.data(), 0) < 0)
+			{
+				continue;
+			}
+
+			snd_ctl_card_info_t* cardInfo;
+			snd_ctl_card_info_alloca(&cardInfo);
+			if(snd_ctl_card_info(handle, cardInfo) < 0)
+			{
+				snd_ctl_close(handle);
+				continue;
+			}
+
+			for(int dev = 0; dev >= 0; snd_ctl_pcm_next_device(handle, &dev))
+			{
+				snd_pcm_info_t* pcmInfo;
+				snd_pcm_info_alloca(&pcmInfo);
+
+				snd_pcm_info_set_device(pcmInfo, dev);
+				snd_pcm_info_set_subdevice(pcmInfo, 0);
+				snd_pcm_info_set_stream(pcmInfo, type);
+
+				if(snd_ctl_pcm_info(handle, pcmInfo) < 0)
+				{
+					continue;
+				}
+
+				if(dev == 0)
+				{
+					std::string deviceId("plughw:" + std::to_string(card) + "," + std::to_string(dev));
+					devices.push_back(std::make_pair(snd_ctl_card_info_get_name(cardInfo), deviceId));
+				}
+			}
+
+			snd_ctl_close(handle);
+		}
+
+		return devices;
+	}
 
 
 	void Alsa::Start()
@@ -279,3 +334,4 @@ namespace Sound
 	}
 
 }
+
