@@ -86,6 +86,22 @@ namespace eXaDrumsApi
 		return vec;
 	}
 
+	inline std::vector<std::string> Config::GetSoundDevices()
+	{
+
+		unsigned int size = 0;
+		GetSoundDevices_(nullptr, size);
+
+		std::vector<const char*> data(size);
+
+		GetSoundDevices_(data.data(), size);
+
+		std::vector<std::string> vec(size);
+		std::copy(data.cbegin(), data.cend(), vec.begin());
+
+		return vec;
+	}
+
 	inline std::vector<TriggerParameters> Config::GetTriggersParameters() const
 	{
 

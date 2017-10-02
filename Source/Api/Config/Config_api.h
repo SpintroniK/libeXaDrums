@@ -44,6 +44,7 @@ namespace eXaDrumsApi
 		std::vector<std::string> GetSensorsTypes();
 		std::vector<std::string> GetTriggersTypes();
 		std::vector<std::string> GetTriggersResponses();
+		std::vector<std::string> GetSoundDevices();
 		std::vector<TriggerParameters> GetTriggersParameters() const;
 		std::string GetSensorsType();
 		std::string GetSensorsDataFolder() const;
@@ -63,6 +64,7 @@ namespace eXaDrumsApi
 		void GetSensorsTypes_(const char** types, unsigned int& size);
 		void GetTriggersTypes_(const char** types, unsigned int& size);
 		void GetTriggersResponses_(const char** responses, unsigned int& size);
+		void GetSoundDevices_(const char** devices, unsigned int& size);
 		void GetTriggersParameters_(TriggerParameters* const triggers, unsigned int& size) const;
 
 		eXaDrums& drumKit;
@@ -81,6 +83,7 @@ namespace eXaDrumsApi
 		std::vector<std::string> sensorsTypes;
 		std::vector<std::string> triggersTypes;
 		std::vector<std::string> triggersResponses;
+		std::vector<std::string> soundDevices;
 
 	};
 

@@ -13,6 +13,7 @@
 #include "../../DrumKit/DrumModule/Module.h"
 #include "../../DrumKit/Triggers/TriggerManager.h"
 #include "../../Util/Enums.h"
+#include "../../Sound/Alsa/Alsa.h"
 
 #include "../eXaDrums.h"
 
@@ -223,6 +224,31 @@ namespace eXaDrumsApi
 		}
 
 		return;
+	}
+
+	void Config::GetSoundDevices_(const char** dev, unsigned int& size)
+	{
+
+		const auto devices = Sound::Alsa::GetDevices();
+
+		if(dev == nullptr)
+		{
+			size = devices.size();
+			return;
+		}
+
+		this->soundDevices.clear();
+		this->soundDevices.resize(devices.size());
+
+		std::transform(devices.begin(), devices.end(), this->soundDevices.begin(), [](const auto& dev) { return dev.first; });
+
+		unsigned int numElements = std::min<unsigned int>(size, soundDevices.size());
+
+		for(unsigned int i = 0; i < numElements; i++)
+		{
+			dev[i] = soundDevices[i].data();
+		}
+
 	}
 
 	void Config::GetTriggersParameters_(TriggerParameters* const triggers, unsigned int& size) const
