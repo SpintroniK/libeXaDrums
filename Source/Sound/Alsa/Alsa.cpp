@@ -10,6 +10,7 @@
 #include <alsa/asoundlib.h>
 
 #include <chrono>
+#include <algorithm>
 #include <iomanip>
 #include <iostream>
 
@@ -39,6 +40,26 @@ namespace Sound
 		else
 		{
 			throw - 1;
+		}
+
+
+		auto devices = GetDevices();
+		auto itDev = std::find_if(devices.begin(), devices.end(), [&](const auto& d) { return d.second ==  params.device; });
+
+		if(itDev == devices.end())
+		{
+			if(params.device == "default")
+			{
+				this->deviceName = devices.front().first;
+			}
+			else
+			{
+				throw -1; // Audio device not found
+			}
+		}
+		else
+		{
+			this->deviceName = itDev->first;
 		}
 
 

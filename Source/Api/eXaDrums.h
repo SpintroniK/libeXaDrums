@@ -82,6 +82,8 @@ namespace eXaDrumsApi
 		long long GetLastTrigTime() const;
 		int GetLastTrigValue() const;
 
+		std::string GetAudioDeviceName() const;
+
 	private:
 
 		const char* GetDataLocation_() const;

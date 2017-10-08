@@ -35,7 +35,7 @@ namespace Sound
 		snd_pcm_sframes_t		bufferSize;
 		snd_pcm_sframes_t		periodSize;
 
-		_snd_pcm_access			access;
+		snd_pcm_access_t			access;
 
 		std::vector<short>		buffer;
 

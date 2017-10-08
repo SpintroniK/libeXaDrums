@@ -224,6 +224,10 @@ namespace eXaDrumsApi
 		return drumModule->GetLastTrigValue();
 	}
 
+	std::string eXaDrums::GetAudioDeviceName() const
+	{
+		return this->alsa->GetDeviceName();
+	}
 
 	// Private Methods
 

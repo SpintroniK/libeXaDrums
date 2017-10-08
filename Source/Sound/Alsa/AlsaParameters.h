@@ -21,7 +21,8 @@ namespace Sound
 
 	public:
 
-		static void LoadAlsaParameters(std::string filePath, AlsaParams& parameters);
+		static void LoadAlsaParameters(const std::string& filePath, AlsaParams& parameters);
+		static void SaveAlsaParameters(const std::string& filePath, const AlsaParams& parameters);
 
 
 	private:
@@ -31,7 +32,7 @@ namespace Sound
 		virtual ~AlsaParameters() {};
 
 		static snd_pcm_format_t GetSndFormat(std::string formatName);
-		static _snd_pcm_access GetAccessType(std::string accessName);
+		static snd_pcm_access_t GetAccessType(std::string accessName);
 
 	};
 

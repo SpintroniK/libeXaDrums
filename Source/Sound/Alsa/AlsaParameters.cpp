@@ -9,19 +9,23 @@
 
 #include <tinyxml2.h>
 
+#include <iostream>
 
 using namespace tinyxml2;
 
 namespace Sound
 {
 
-	void AlsaParameters::LoadAlsaParameters(std::string filePath, AlsaParams& parameters)
+	void AlsaParameters::LoadAlsaParameters(const std::string& filePath, AlsaParams& parameters)
 	{
 
 		XMLDocument doc;
 
 		if(doc.LoadFile(filePath.c_str()) != XML_SUCCESS)
+		{
+			std::cerr << "Error: File " + filePath + " not found or contains errors." << std::endl;
 			throw -1;
+		}
 
 		XMLElement* root = doc.RootElement();
 
@@ -35,17 +39,62 @@ namespace Sound
 		XMLElement* access = root->FirstChildElement("access");
 
 		parameters.device = device->GetText();
-		parameters.capture = (bool) std::atoi(capture->GetText());
+		parameters.capture = (bool) std::stoi(capture->GetText());
 		parameters.format = GetSndFormat(format->GetText());
-		parameters.sampleRate = (unsigned int) std::atoi(sampleRate->GetText());
-		parameters.nChannels = (unsigned int) std::atoi(nChannels->GetText());
-		parameters.bufferTime = (unsigned int) std::atoi(bufferTime->GetText());
-		parameters.periodTime = (unsigned int) std::atoi(periodTime->GetText());
+		parameters.sampleRate = (unsigned int) std::stoi(sampleRate->GetText());
+		parameters.nChannels = (unsigned int) std::stoi(nChannels->GetText());
+		parameters.bufferTime = (unsigned int) std::stoi(bufferTime->GetText());
+		parameters.periodTime = (unsigned int) std::stoi(periodTime->GetText());
 		parameters.access = GetAccessType(access->GetText());
 
 		return;
 	}
 
+	void AlsaParameters::SaveAlsaParameters(const std::string& filePath, const AlsaParams& parameters)
+	{
+
+		// Create document
+		XMLDocument doc;
+
+		// Add root element
+		XMLElement* root = doc.NewElement("root");
+		doc.InsertFirstChild(root);
+
+		// Create Elements
+		XMLElement* device = doc.NewElement("device");
+		XMLElement* capture = doc.NewElement("capture");
+		XMLElement* format = doc.NewElement("format");
+		XMLElement* sampleRate = doc.NewElement("sampleRate");
+		XMLElement* nChannels = doc.NewElement("nChannels");
+		XMLElement* bufferTime = doc.NewElement("bufferTime");
+		XMLElement* periodTime = doc.NewElement("periodTime");
+		XMLElement* access = doc.NewElement("access");
+
+		// Set values
+		device->SetText(parameters.device.data());
+		capture->SetText(int(parameters.capture));
+		format->SetText("SND_PCM_FORMAT_S16_LE"); // XXX: temporary
+		sampleRate->SetText(parameters.sampleRate);
+		nChannels->SetText(parameters.nChannels);
+		bufferTime->SetText(parameters.bufferTime);
+		periodTime->SetText(parameters.periodTime);
+		access->SetText("SND_PCM_ACCESS_RW_INTERLEAVED"); // XXX: temporary
+
+		// Insert all elements
+		root->InsertEndChild(device);
+		root->InsertEndChild(capture);
+		root->InsertEndChild(format);
+		root->InsertEndChild(sampleRate);
+		root->InsertEndChild(nChannels);
+		root->InsertEndChild(bufferTime);
+		root->InsertEndChild(periodTime);
+		root->InsertEndChild(access);
+
+		// Save modified file
+		doc.SaveFile(filePath.data());
+
+		return;
+	}
 
 	// PRIVATE
 
@@ -69,18 +118,18 @@ namespace Sound
 		return format;
 	}
 
-	_snd_pcm_access AlsaParameters::GetAccessType(std::string accessName)
+	snd_pcm_access_t AlsaParameters::GetAccessType(std::string accessName)
 	{
 
-		_snd_pcm_access access;
+		snd_pcm_access_t access;
 
-		std::map<std::string, _snd_pcm_access> dic;
+		std::map<std::string, snd_pcm_access_t> dic;
 
 		// Add definitions to dic
 		dic["SND_PCM_ACCESS_RW_INTERLEAVED"] = SND_PCM_ACCESS_RW_INTERLEAVED;
 		dic["SND_PCM_ACCESS_MMAP_INTERLEAVED"] = SND_PCM_ACCESS_MMAP_INTERLEAVED;
 
-		std::map< std::string, _snd_pcm_access>::iterator i = dic.find(accessName);
+		std::map< std::string, snd_pcm_access_t>::iterator i = dic.find(accessName);
 
 		if(i != dic.end())
 			access = i->second;

@@ -30,11 +30,14 @@ namespace Sound
 		Alsa(const AlsaParams& parameters, std::shared_ptr<Mixer> const& mixer);
 		virtual ~Alsa();
 
+		static std::vector<std::pair<std::string, std::string>> GetDevices(const snd_pcm_stream_t type = SND_PCM_STREAM_PLAYBACK);
 
 		void Start();
 		void Stop();
 
-		static std::vector<std::pair<std::string, std::string>> GetDevices(const snd_pcm_stream_t type = SND_PCM_STREAM_PLAYBACK);
+		std::string GetDeviceName() const { return deviceName; }
+		AlsaParams GetParameters() const { return params; }
+
 
 	private:
 
@@ -55,6 +58,7 @@ namespace Sound
 		std::thread recordThread;
 
 		AlsaParams params;
+		std::string deviceName;
 
 		std::shared_ptr<Mixer> mixer;
 

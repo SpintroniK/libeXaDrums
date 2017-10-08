@@ -29,6 +29,13 @@ namespace eXaDrumsApi
 		return;
 	}
 
+	inline void Config::SetAudioDeviceParameters(const AlsaParamsApi& params)
+	{
+
+		SetAudioDeviceParameters_(params);
+
+		return;
+	}
 
 	inline void Config::SetTriggersParameters(const std::vector<TriggerParameters>& params)
 	{
@@ -86,15 +93,15 @@ namespace eXaDrumsApi
 		return vec;
 	}
 
-	inline std::vector<std::string> Config::GetSoundDevices()
+	inline std::vector<std::string> Config::GetAudioDevicesNames()
 	{
 
 		unsigned int size = 0;
-		GetSoundDevices_(nullptr, size);
+		GetAudioDevicesNames_(nullptr, size);
 
 		std::vector<const char*> data(size);
 
-		GetSoundDevices_(data.data(), size);
+		GetAudioDevicesNames_(data.data(), size);
 
 		std::vector<std::string> vec(size);
 		std::copy(data.cbegin(), data.cend(), vec.begin());
@@ -114,6 +121,12 @@ namespace eXaDrumsApi
 		return vec;
 	}
 
+	inline AlsaParamsApi Config::GetAudioDeviceParams() const
+	{
+
+		return GetAudioDeviceParams_();
+	}
+
 	inline std::string Config::GetSensorsType()
 	{
 		return std::string(GetSensorsType_());
@@ -123,6 +136,13 @@ namespace eXaDrumsApi
 	{
 		return std::string(GetSensorsDataFolder_());
 	}
+
+
+	inline std::string Config::GetAudioDeviceName()
+	{
+		return std::string(GetAudioDeviceName_());
+	}
+
 
 }  // namespace eXaDrumsApi
 

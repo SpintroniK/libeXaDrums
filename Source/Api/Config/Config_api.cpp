@@ -14,10 +14,12 @@
 #include "../../DrumKit/Triggers/TriggerManager.h"
 #include "../../Util/Enums.h"
 #include "../../Sound/Alsa/Alsa.h"
+#include "../../Sound/Alsa/AlsaParameters.h"
 
 #include "../eXaDrums.h"
 
 #include <algorithm>
+#include <iostream>
 
 using namespace Util;
 
@@ -120,6 +122,47 @@ namespace eXaDrumsApi
 		return;
 	}
 
+	void Config::SaveCurrentAudioDeviceConfig()
+	{
+
+		Sound::AlsaParams params;
+		params.device = alsaParams.device;
+		params.sampleRate = alsaParams.sampleRate;
+		params.nChannels = alsaParams.nChannels;
+		params.capture = alsaParams.capture;
+		params.bufferTime = alsaParams.bufferTime;
+		params.periodTime = alsaParams.periodTime;
+
+		Sound::AlsaParameters::SaveAlsaParameters(drumKit.GetDataLocation() + eXaDrums::alsaConfigFile, params);
+
+		return;
+	}
+
+	void Config::SaveAudioDeviceConfig(const AlsaParamsApi& params)
+	{
+
+		SetAudioDeviceParameters_(params);
+		SaveCurrentAudioDeviceConfig();
+
+		return;
+	}
+
+	void Config::ResetAudioDevice()
+	{
+
+		this->drumKit.alsa.reset();
+
+		// Load alsa parameters
+		Sound::AlsaParams alsaParams;
+		Sound::AlsaParameters::LoadAlsaParameters(drumKit.GetDataLocation() + eXaDrums::alsaConfigFile, alsaParams);
+
+		// Create mixer and alsa
+		this->drumKit.alsa = std::make_unique<Sound::Alsa>(alsaParams, this->drumKit.mixer);
+
+		return;
+	}
+
+
 	// Private Methods
 
 	void Config::SetSensorsType_(const char* type)
@@ -136,6 +179,7 @@ namespace eXaDrumsApi
 		return;
 	}
 
+
 	void Config::SetTriggersParameters_(const TriggerParameters* params, unsigned int size)
 	{
 
@@ -143,6 +187,28 @@ namespace eXaDrumsApi
 
 		this->triggersParameters.clear();
 		this->triggersParameters = trigParams;
+
+		return;
+	}
+
+	void Config::SetAudioDeviceParameters_(const AlsaParamsApi& params)
+	{
+
+		this->alsaParams = params;
+		std::string deviceName(params.device);
+
+		// Replace device name by device id
+		auto itDev = std::find_if(audioDevices.begin(), audioDevices.end(), [&](const auto& dev) { return deviceName == dev.first; });
+
+		if(itDev != audioDevices.end())
+		{
+			std::strcpy(this->alsaParams.device, itDev->second.data());
+		}
+		else
+		{
+			std::cerr << "Error: audio device " << deviceName << " not found." << std::endl;
+			throw -1;
+		}
 
 		return;
 	}
@@ -226,7 +292,7 @@ namespace eXaDrumsApi
 		return;
 	}
 
-	void Config::GetSoundDevices_(const char** dev, unsigned int& size)
+	void Config::GetAudioDevicesNames_(const char** dev, unsigned int& size)
 	{
 
 		const auto devices = Sound::Alsa::GetDevices();
@@ -237,16 +303,16 @@ namespace eXaDrumsApi
 			return;
 		}
 
-		this->soundDevices.clear();
-		this->soundDevices.resize(devices.size());
+		this->audioDevices.clear();
+		this->audioDevices.resize(devices.size());
 
-		std::transform(devices.begin(), devices.end(), this->soundDevices.begin(), [](const auto& dev) { return dev.first; });
+		std::copy(devices.begin(), devices.end(), this->audioDevices.begin());
 
-		unsigned int numElements = std::min<unsigned int>(size, soundDevices.size());
+		unsigned int numElements = std::min<unsigned int>(size, audioDevices.size());
 
 		for(unsigned int i = 0; i < numElements; i++)
 		{
-			dev[i] = soundDevices[i].data();
+			dev[i] = audioDevices[i].first.data();
 		}
 
 	}
@@ -283,6 +349,18 @@ namespace eXaDrumsApi
 	const char* Config::GetSensorsDataFolder_() const
 	{
 		return this->sensorsConfig.hddDataFolder.c_str();
+	}
+
+	const char* Config::GetAudioDeviceName_()
+	{
+		this->audioDeviceName = this->drumKit.GetAudioDeviceName();
+		return this->audioDeviceName.data();
+	}
+
+	AlsaParamsApi Config::GetAudioDeviceParams_() const
+	{
+		AlsaParamsApi alsaParameters = static_cast<AlsaParamsApi>(this->drumKit.alsa->GetParameters());
+		return alsaParameters;
 	}
 
 

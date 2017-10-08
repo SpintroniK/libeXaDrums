@@ -14,6 +14,7 @@
 
 #include "../Kits/KitManager.h"
 
+#include <iostream>
 #include <algorithm>
 
 using namespace Sound;
@@ -95,6 +96,7 @@ namespace DrumKit
 
 		if(id > kits.size())
 		{
+			std::cerr << "Error: there is no kit with the id " << id << std::endl;
 			throw -1;
 		}
 
