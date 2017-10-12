@@ -93,7 +93,7 @@ namespace Sound
 
 			snd_ctl_t* handle;
 
-			std::string name("hw:" + std::to_string(card));
+			const std::string name("hw:" + std::to_string(card));
 
 			if(snd_ctl_open(&handle, name.data(), 0) < 0)
 			{
@@ -124,8 +124,9 @@ namespace Sound
 
 				if(dev == 0)
 				{
-					std::string deviceId("plughw:" + std::to_string(card) + "," + std::to_string(dev));
-					devices.push_back(std::make_pair(snd_ctl_card_info_get_name(cardInfo), deviceId));
+					const std::string deviceId("plughw:" + std::to_string(card) + "," + std::to_string(dev));
+					const std::string deviceName(std::string(snd_ctl_card_info_get_name(cardInfo)) + " [hw:" + std::to_string(card) + "," + std::to_string(dev) + "]");
+					devices.push_back(std::make_pair(deviceName, deviceId));
 				}
 			}
 
