@@ -18,7 +18,6 @@
 #include <vector>
 #include <memory>
 
-
 namespace DrumKit
 {
 
@@ -28,7 +27,6 @@ namespace DrumKit
 	public:
 
 		Instrument(const InstrumentParameters& parameters, std::shared_ptr<Sound::SoundBank> sb);
-
 
 		virtual void SetTriggers(std::vector<TriggerPtr> const& triggers) = 0;
 		virtual void SetSound(InstrumentSoundInfo const& soundInfo) = 0;
@@ -41,7 +39,8 @@ namespace DrumKit
 		virtual float GetVolume() const { return this->parameters.volume; }
 		virtual std::string GetName() const { return this->parameters.instrumentName; }
 
-
+		virtual std::vector<Sound::InstrumentSoundType> GetSoundTypes() const = 0;
+		virtual std::vector<TriggerLocation> GetTriggersLocations() const = 0;
 
 	protected:
 

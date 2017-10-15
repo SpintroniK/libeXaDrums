@@ -49,7 +49,7 @@ namespace IO
 	}
 
 
-	inline SensorType operator++(SensorType& x) { return x = (SensorType)(std::underlying_type<SensorType>::type(x) + 1); };
+	inline SensorType operator++(SensorType& x) { return x = static_cast<SensorType>(std::underlying_type_t<SensorType>(x) + 1); };
 	inline SensorType operator*(SensorType x) { return x; };
 	inline SensorType begin(SensorType x) { return SensorType::First; };
 	inline SensorType end(SensorType x) { SensorType l = SensorType::Last; return ++l; };

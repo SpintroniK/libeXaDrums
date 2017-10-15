@@ -46,7 +46,7 @@ namespace DrumKit
 	}
 
 
-	inline CurveType operator++(CurveType& x) { return x = (CurveType)(std::underlying_type<CurveType>::type(x) + 1); };
+	inline CurveType operator++(CurveType& x) { return x = (CurveType)(std::underlying_type_t<CurveType>(x) + 1); };
 	inline CurveType operator*(CurveType x) { return x; };
 	inline CurveType begin(CurveType x) { return CurveType::First; };
 	inline CurveType end(CurveType x) { CurveType l = CurveType::Last; return ++l; };

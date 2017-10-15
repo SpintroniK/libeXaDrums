@@ -46,7 +46,7 @@ namespace DrumKit
 		return o << os;
 	}
 
-	inline TriggerLocation operator++(TriggerLocation& x) { return x = (TriggerLocation)(std::underlying_type<TriggerLocation>::type(x) + 1); };
+	inline TriggerLocation operator++(TriggerLocation& x) { return x = static_cast<TriggerLocation>(std::underlying_type_t<TriggerLocation>(x) + 1); };
 	inline TriggerLocation operator*(TriggerLocation i) { return i; };
 	inline TriggerLocation begin(TriggerLocation x) { return TriggerLocation::First; };
 	inline TriggerLocation end(TriggerLocation x) { TriggerLocation l = TriggerLocation::Last; return ++l; };

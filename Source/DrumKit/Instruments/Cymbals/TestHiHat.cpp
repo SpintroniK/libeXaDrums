@@ -17,10 +17,6 @@ using namespace Sound;
 namespace DrumKit
 {
 
-
-	const std::vector<TriggerLocation> TestHiHat::triggersLocations{TriggerLocation::DrumHead, TriggerLocation::Rim};
-	const std::vector<InstrumentSoundType> TestHiHat::soundsTypes{InstrumentSoundType::Default};
-
 	TestHiHat::TestHiHat(InstrumentParameters parameters, std::shared_ptr<SoundBank> soundBank) : Instrument(parameters, soundBank), cymbalSoundId(0)
 	{
 
@@ -29,11 +25,6 @@ namespace DrumKit
 
 	void TestHiHat::SetTriggers(const std::vector<TriggerPtr>& triggers)
 	{
-
-		if(parameters.triggersIdsAndLocations.size() != triggersLocations.size())
-		{
-			throw -1;
-		}
 
 		for(const TriggerPtr& triggerPtr : triggers)
 		{

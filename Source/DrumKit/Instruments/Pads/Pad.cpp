@@ -14,10 +14,6 @@ using namespace Sound;
 namespace DrumKit
 {
 
-
-	const std::vector<TriggerLocation> Pad::triggersLocations{TriggerLocation::DrumHead};
-	const std::vector<InstrumentSoundType> Pad::soundsTypes{InstrumentSoundType::Default};
-
 	Pad::Pad(InstrumentParameters parameters, std::shared_ptr<SoundBank> soundBank): Instrument(parameters, soundBank), soundId(0)
 	{
 
@@ -26,11 +22,6 @@ namespace DrumKit
 
 	void Pad::SetTriggers(std::vector<TriggerPtr> const& triggers)
 	{
-
-		if(parameters.triggersIdsAndLocations.size() != triggersLocations.size())
-		{
-			throw -1;
-		}
 
 		for(const TriggerPtr& triggerPtr : triggers)
 		{

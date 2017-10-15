@@ -46,7 +46,7 @@ namespace DrumKit
 		return o << os;
 	}
 
-	inline TriggerType operator++(TriggerType& x) { return x = (TriggerType)(std::underlying_type<TriggerType>::type(x) + 1); };
+	inline TriggerType operator++(TriggerType& x) { return x = static_cast<TriggerType>(std::underlying_type_t<TriggerType>(x) + 1); };
 	inline TriggerType operator*(TriggerType x) { return x; };
 	inline TriggerType begin(TriggerType x) { return TriggerType::First; };
 	inline TriggerType end(TriggerType x) { TriggerType l = TriggerType::Last; return ++l; };

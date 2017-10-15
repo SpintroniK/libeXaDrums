@@ -48,7 +48,7 @@ namespace Sound
 		return o << os;
 	}
 
-	inline InstrumentSoundType operator++(InstrumentSoundType& x) { return x = (InstrumentSoundType)(std::underlying_type<InstrumentSoundType>::type(x) + 1); };
+	inline InstrumentSoundType operator++(InstrumentSoundType& x) { return x = static_cast<InstrumentSoundType>(std::underlying_type_t<InstrumentSoundType>(x) + 1); };
 	inline InstrumentSoundType operator*(InstrumentSoundType x) { return x; };
 	inline InstrumentSoundType begin(InstrumentSoundType x) { return InstrumentSoundType::First; };
 	inline InstrumentSoundType end(InstrumentSoundType x) { InstrumentSoundType l = InstrumentSoundType::Last; return ++l; };

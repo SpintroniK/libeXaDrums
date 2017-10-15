@@ -15,10 +15,6 @@ using namespace Sound;
 namespace DrumKit
 {
 
-	const std::vector<TriggerLocation> TestDrum::triggersLocations{TriggerLocation::DrumHead, TriggerLocation::Rim};
-	const std::vector<InstrumentSoundType> TestDrum::soundsTypes{InstrumentSoundType::Default, InstrumentSoundType::RimShot};
-
-
 	TestDrum::TestDrum(InstrumentParameters parameters, std::shared_ptr<SoundBank> soundBank): Instrument(parameters, soundBank),
 	drumHeadSoundId(0), drumRimSoundId(0)
 	{
@@ -30,11 +26,6 @@ namespace DrumKit
 
 	void TestDrum::SetTriggers(std::vector<TriggerPtr> const& triggers)
 	{
-
-		if(parameters.triggersIdsAndLocations.size() != triggersLocations.size())
-		{
-			throw -1;
-		}
 
 		for(const TriggerPtr& triggerPtr : triggers)
 		{

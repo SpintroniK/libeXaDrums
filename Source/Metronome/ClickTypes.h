@@ -45,7 +45,7 @@ namespace DrumKit
 	}
 
 
-	inline ClickType operator++(ClickType& x) { return x = (ClickType)(std::underlying_type<ClickType>::type(x) + 1); };
+	inline ClickType operator++(ClickType& x) { return x = static_cast<ClickType>(std::underlying_type_t<ClickType>(x) + 1); };
 	inline ClickType operator*(ClickType c) { return c; };
 	inline ClickType begin(ClickType x) { return ClickType::First; };
 	inline ClickType end(ClickType x) { ClickType l = ClickType::Last; return ++l; };
