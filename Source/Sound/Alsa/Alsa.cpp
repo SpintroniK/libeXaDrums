@@ -14,7 +14,6 @@
 #include <iomanip>
 #include <iostream>
 
-using namespace std::chrono;
 
 namespace Sound
 {
@@ -286,7 +285,7 @@ namespace Sound
 		while(play.load())
 		{
 
-			int frames = params.periodSize;
+			int frames = params.periodSize / params.nChannels;
 
 			while(frames > 0)
 			{
@@ -334,6 +333,8 @@ namespace Sound
 	void Alsa::XrunRecovery(int& err)
 	{
 
+		using namespace std::literals::chrono_literals;
+
 		if (err == -EPIPE)
 		{
 			err = snd_pcm_prepare(params.handle);
@@ -343,7 +344,7 @@ namespace Sound
 
 			while ((err = snd_pcm_resume(params.handle)) == -EAGAIN)
 			{
-				std::this_thread::sleep_for(milliseconds(1));
+				std::this_thread::sleep_for(1ms);
 			}
 
 			if (err < 0)

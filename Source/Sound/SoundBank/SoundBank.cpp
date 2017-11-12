@@ -7,6 +7,8 @@
 
 #include "SoundBank.h"
 
+#include "../Util/WavUtil.h"
+
 #include <fstream>
 #include <algorithm>
 
@@ -83,22 +85,25 @@ namespace Sound
 			throw - 1;
 		}
 
-		soundFile.seekg (0, std::ios::end);
+		soundFile.seekg(0, std::ios::end);
 
 		// Get file size in bytes
-		int fileSize = soundFile.tellg();
-
+		size_t fileSize = soundFile.tellg();
 
 		soundFile.seekg(0, std::ios::beg);
 
+		// HEADER
+		std::vector<uint8_t> header_data(44);
+		soundFile.read((char*)header_data.data(), header_data.size());
+		wav_header header(header_data);
 
-		std::vector<short> data;
-		data.resize(fileSize);
+		size_t chunkLength = header.get_subchunk2_size();
+		size_t dataLength = std::min(fileSize, chunkLength);
 
-		soundFile.read((char*)data.data(), sizeof(short) * fileSize);
+		uint32_t data_size_short = dataLength / sizeof(short);
+		std::vector<short> data(data_size_short);
 
-		//unsigned int duration = fileSize*sizeof(char)/sizeof(short);
-
+		soundFile.read((char*)data.data(), dataLength);
 
 		// Close file
 		soundFile.close();
