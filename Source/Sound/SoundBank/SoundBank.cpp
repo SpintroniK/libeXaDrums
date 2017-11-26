@@ -98,7 +98,15 @@ namespace Sound
 		wav_header header(header_data);
 
 		size_t chunkLength = header.get_subchunk2_size();
-		size_t dataLength = std::min(fileSize, chunkLength);
+		size_t dataLength = 0;
+		if(chunkLength + header_data.size() == fileSize)
+		{
+			dataLength = chunkLength;
+		}
+		else
+		{
+			dataLength = fileSize;
+		}
 
 		uint32_t data_size_short = dataLength / sizeof(short);
 		std::vector<short> data(data_size_short);

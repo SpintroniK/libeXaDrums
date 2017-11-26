@@ -45,8 +45,8 @@ namespace DrumKit
 		switch(triggerParams.sensorConfig.sensorType)
 		{
 
-			case IO::SensorType::Hdd: this->sensor = std::unique_ptr<IO::ISensor>(new IO::HddSensor(dataFolder)); break;
-			case IO::SensorType::Spi: this->sensor = std::unique_ptr<IO::ISensor>(new IO::SpiSensor()); break;
+			case IO::SensorType::Hdd: this->sensor = std::make_unique<IO::HddSensor>(dataFolder); break;
+			case IO::SensorType::Spi: this->sensor = std::make_unique<IO::SpiSensor>(); break;
 
 			default: throw -1; break;
 
