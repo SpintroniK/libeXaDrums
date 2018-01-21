@@ -144,7 +144,7 @@ namespace DrumKit
 		// Calculate number of samples to generate the measure
 		float beatsPerSecond = parameters.rhythm * float(parameters.tempo) / 60.0f;
 		float measureTime = parameters.beatsPerMeasure / beatsPerSecond;
-		int numSamples = alsaParameters.sampleRate * measureTime;
+		int numSamples = alsaParameters.nChannels * alsaParameters.sampleRate * measureTime;
 
 		return numSamples;
 	}
@@ -152,8 +152,8 @@ namespace DrumKit
 	int Metronome::GetBeatsRate() const
 	{
 		// Get number of samples between each click
-		float beatsPerSecond = parameters.rhythm * float(parameters.tempo) / 60.0f;
-		float beatsFreq = 1/beatsPerSecond;
+		float beatsPerSecond =  parameters.rhythm * float(parameters.tempo) / 60.0f;
+		float beatsFreq = alsaParameters.nChannels/beatsPerSecond;
 		int beatsRate = std::floor(alsaParameters.sampleRate*beatsFreq);
 
 		return beatsRate;
@@ -172,8 +172,8 @@ namespace DrumKit
 
 		// Sinusoid parameters
 		float fSineHz = 880.0f;
-		float radiansPerSample = fSineHz * 2*M_PI / alsaParameters.sampleRate;
-		float clickDuration = 10.0f/1000.0f;
+		float radiansPerSample = fSineHz * 2*M_PI / alsaParameters.sampleRate / alsaParameters.nChannels;
+		float clickDuration = alsaParameters.nChannels * 10.0f/1000.0f;
 		std::size_t clickSamples = std::floor(alsaParameters.sampleRate*clickDuration);
 
 		int n = 0;
@@ -232,8 +232,8 @@ namespace DrumKit
 
 		// Sinusoid parameters
 		float fSineHz = 880.0f;
-		float radiansPerSample = fSineHz * 2*M_PI / alsaParameters.sampleRate;
-		float clickDuration = 10.0f/1000.0f;
+		float radiansPerSample = fSineHz * 2*M_PI / alsaParameters.sampleRate / alsaParameters.nChannels;
+		float clickDuration = alsaParameters.nChannels * 10.0f/1000.0f;
 		std::size_t clickSamples = std::floor(alsaParameters.sampleRate*clickDuration);
 
 		int n = 0;
