@@ -125,7 +125,7 @@ namespace eXaDrumsApi
 	void eXaDrums::SetClickType(int id)
 	{
 
-		ClickType type = Enums<ClickType>::GetEnumVector()[id];
+		ClickType type = Enums::GetEnumVector<ClickType>()[id];
 		metronome->SetClickType(type);
 
 		 return;
@@ -135,7 +135,7 @@ namespace eXaDrumsApi
 	{
 
 		ClickType clickType = metronome->GetClickType();
-		const std::vector<ClickType>& clickTypes = Enums<ClickType>::GetEnumVector();
+		const std::vector<ClickType>& clickTypes = Enums::GetEnumVector<ClickType>();
 
 		auto it = std::find(clickTypes.cbegin(), clickTypes.cend(), clickType);
 		int index = std::distance(clickTypes.cbegin(), it);
@@ -252,14 +252,14 @@ namespace eXaDrumsApi
 
 		if(data == nullptr)
 		{
-			size = Enums<ClickType>::GetEnumVector().size();
+			size = Enums::GetEnumVector<ClickType>().size();
 			return;
 		}
 
 		this->clicksTypes.clear();
 		{
-			std::vector<ClickType> types = Enums<ClickType>::GetEnumVector();
-			std::transform(types.cbegin(), types.cend(), std::back_inserter(clicksTypes), [](const ClickType& t) { return Enums<ClickType>::ToString(t); });
+			std::vector<ClickType> types = Enums::GetEnumVector<ClickType>();
+			std::transform(types.cbegin(), types.cend(), std::back_inserter(clicksTypes), [](const ClickType& t) { return Enums::ToString(t); });
 		}
 
 		unsigned int numElements = std::min<unsigned int>(size, clicksTypes.size());

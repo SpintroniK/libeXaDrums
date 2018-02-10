@@ -73,7 +73,7 @@ namespace DrumKit
 			trigParams.sensorId = std::atoi(trigger->Attribute("sensorId"));
 
 			// Get trigger type
-			trigParams.type = Enums<TriggerType>::ToElement(trigger->Attribute("sensorType"));
+			trigParams.type = Enums::ToElement<TriggerType>(trigger->Attribute("sensorType"));
 
 			// Read xml elements
 			XMLElement* threshold = trigger->FirstChildElement("Threshold");
@@ -84,7 +84,7 @@ namespace DrumKit
 			trigParams.threshold = (short) std::atoi(threshold->GetText());
 			trigParams.scanTime = (unsigned int) std::atoi(scanTime->GetText());
 			trigParams.maskTime = std::atoi(maskTime->GetText());
-			trigParams.response = Enums<CurveType>::ToElement(response->GetText());
+			trigParams.response = Enums::ToElement<CurveType>(response->GetText());
 
 			// Sensors configuation
 			trigParams.sensorConfig.samplingRate = sensorsConfig.samplingRate;
@@ -116,7 +116,7 @@ namespace DrumKit
 		{
 			XMLElement* trig = doc.NewElement("Trigger");
 
-			std::string sensorTypeStr = Enums<TriggerType>::ToString(trigger.type);
+			std::string sensorTypeStr = Enums::ToString(trigger.type);
 			trig->SetAttribute("sensorType", sensorTypeStr.c_str());
 			trig->SetAttribute("sensorId", trigger.sensorId);
 
@@ -128,7 +128,7 @@ namespace DrumKit
 			threshold->SetText(trigger.threshold);
 			scanTime->SetText(trigger.scanTime);
 			maskTime->SetText(trigger.maskTime);
-			response->SetText(Enums<CurveType>::ToString(trigger.response).c_str());
+			response->SetText(Enums::ToString(trigger.response).c_str());
 
 			trig->InsertEndChild(threshold);
 			trig->InsertEndChild(scanTime);
@@ -166,7 +166,7 @@ namespace DrumKit
 
 		sensorConfig.samplingRate = std::stoi(samplingRate->GetText());
 		sensorConfig.resolution = std::stoi(resolution->GetText());
-		sensorConfig.sensorType = Enums<IO::SensorType>::ToElement(type->GetText());
+		sensorConfig.sensorType = Enums::ToElement<IO::SensorType>(type->GetText());
 		sensorConfig.hddDataFolder = std::string(dataFolder->GetText());
 
 		return;
@@ -192,7 +192,7 @@ namespace DrumKit
 		samplingRate->SetText(sensorConfig.samplingRate);
 		resolution->SetText(sensorConfig.resolution);
 
-		std::string typeStr = Enums<IO::SensorType>::ToString(sensorConfig.sensorType);
+		std::string typeStr = Enums::ToString(sensorConfig.sensorType);
 		type->SetText(typeStr.c_str());
 
 		dataFolder->SetText(sensorConfig.hddDataFolder.c_str());

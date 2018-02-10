@@ -97,7 +97,7 @@ namespace DrumKit
 		params.tempo = std::atoi(tempo->GetText());
 		params.rhythm = std::atoi(rhythm->GetText());
 		params.beatsPerMeasure = std::atoi(beatsPerMeasure->GetText());
-		params.clickType = Enums<ClickType>::ToElement(clickType->GetText());
+		params.clickType = Enums::ToElement<ClickType>(clickType->GetText());
 
 		return;
 	}
@@ -122,7 +122,7 @@ namespace DrumKit
 		tempo->SetText(params.tempo);
 		rhythm->SetText(params.rhythm);
 		beatsPerMeasure->SetText(params.beatsPerMeasure);
-		clickType->SetText(Enums<ClickType>::ToString(params.clickType).c_str());
+		clickType->SetText(Enums::ToString(params.clickType).c_str());
 
 		// Add elements to document
 		root->InsertEndChild(tempo);

@@ -168,7 +168,7 @@ namespace eXaDrumsApi
 	void Config::SetSensorsType_(const char* type)
 	{
 
-		sensorsConfig.sensorType = Enums<IO::SensorType>::ToElement(std::string(type));
+		sensorsConfig.sensorType = Enums::ToElement<IO::SensorType>(std::string(type));
 		return;
 	}
 
@@ -218,16 +218,16 @@ namespace eXaDrumsApi
 
 		if(types == nullptr)
 		{
-			size = Enums<IO::SensorType>::GetEnumVector().size();
+			size = Enums::GetEnumVector<IO::SensorType>().size();
 			return;
 		}
 
-		const std::vector<IO::SensorType>& vec = Enums<IO::SensorType>::GetEnumVector();
+		const std::vector<IO::SensorType>& vec = Enums::GetEnumVector<IO::SensorType>();
 
 		this->sensorsTypes.clear();
 		this->sensorsTypes.resize(vec.size());
 
-		std::transform(vec.cbegin(), vec.cend(), this->sensorsTypes.begin(), [](const IO::SensorType& t) { return Enums<IO::SensorType>::ToString(t); });
+		std::transform(vec.cbegin(), vec.cend(), this->sensorsTypes.begin(), [](const IO::SensorType& t) { return Enums::ToString(t); });
 
 
 		unsigned int numElements = std::min<unsigned int>(size, sensorsTypes.size());
@@ -245,16 +245,16 @@ namespace eXaDrumsApi
 
 		if(types == nullptr)
 		{
-			size = Enums<DrumKit::TriggerType>::GetEnumVector().size();
+			size = Enums::GetEnumVector<DrumKit::TriggerType>().size();
 			return;
 		}
 
-		const std::vector<DrumKit::TriggerType>& vec = Enums<DrumKit::TriggerType>::GetEnumVector();
+		const std::vector<DrumKit::TriggerType>& vec = Enums::GetEnumVector<DrumKit::TriggerType>();
 
 		this->triggersTypes.clear();
 		this->triggersTypes.resize(vec.size());
 
-		std::transform(vec.cbegin(), vec.cend(), this->triggersTypes.begin(), [](const DrumKit::TriggerType& t) { return Enums<DrumKit::TriggerType>::ToString(t); });
+		std::transform(vec.cbegin(), vec.cend(), this->triggersTypes.begin(), [](const DrumKit::TriggerType& t) { return Enums::ToString(t); });
 
 		unsigned int numElements = std::min<unsigned int>(size, triggersTypes.size());
 
@@ -271,16 +271,16 @@ namespace eXaDrumsApi
 
 		if(responses == nullptr)
 		{
-			size = Enums<DrumKit::CurveType>::GetEnumVector().size();
+			size = Enums::GetEnumVector<DrumKit::CurveType>().size();
 			return;
 		}
 
-		const std::vector<DrumKit::CurveType>& vec = Enums<DrumKit::CurveType>::GetEnumVector();
+		const std::vector<DrumKit::CurveType>& vec = Enums::GetEnumVector<DrumKit::CurveType>();
 
 		this->triggersResponses.clear();
 		this->triggersResponses.resize(vec.size());
 
-		std::transform(vec.cbegin(), vec.cend(), this->triggersResponses.begin(), [](const DrumKit::CurveType& r) { return Enums<DrumKit::CurveType>::ToString(r); });
+		std::transform(vec.cbegin(), vec.cend(), this->triggersResponses.begin(), [](const DrumKit::CurveType& r) { return Enums::ToString(r); });
 
 		unsigned int numElements = std::min<unsigned int>(size, triggersResponses.size());
 
@@ -341,7 +341,7 @@ namespace eXaDrumsApi
 	const char* Config::GetSensorsType_()
 	{
 
-		this->sensorType = Enums<IO::SensorType>::ToString(this->sensorsConfig.sensorType);
+		this->sensorType = Enums::ToString(this->sensorsConfig.sensorType);
 
 		return this->sensorType.c_str();
 	}

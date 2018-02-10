@@ -36,13 +36,13 @@ namespace eXaDrumsApi
 	TriggerParameters& TriggerParameters::operator=(const DrumKit::TriggerParameters& parameters)
 	{
 
-		std::string typeStr = Enums<DrumKit::TriggerType>::ToString(parameters.type);
+		std::string typeStr = Enums::ToString(parameters.type);
 		if(typeStr.length() > sizeof(this->type))
 		{
 			throw -1;
 		}
 
-		std::string responseStr = Enums<DrumKit::CurveType>::ToString(parameters.response);
+		std::string responseStr = Enums::ToString(parameters.response);
 		if(responseStr.length() > sizeof(this->response))
 		{
 			throw -1;
@@ -64,8 +64,8 @@ namespace eXaDrumsApi
 
 		DrumKit::TriggerParameters parameters;
 
-		parameters.type = Enums<DrumKit::TriggerType>::ToElement(std::string(this->type));
-		parameters.response = Enums<DrumKit::CurveType>::ToElement(std::string(this->response));
+		parameters.type = Enums::ToElement<DrumKit::TriggerType>(std::string(this->type));
+		parameters.response = Enums::ToElement<DrumKit::CurveType>(std::string(this->response));
 
 		parameters.maskTime = this->maskTime;
 		parameters.scanTime = this->scanTime;
