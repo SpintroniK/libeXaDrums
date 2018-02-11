@@ -7,6 +7,8 @@
 
 #include "Alsa.h"
 
+#include "../../Util/Threading.h"
+
 #include <alsa/asoundlib.h>
 
 #include <chrono>
@@ -258,11 +260,13 @@ namespace Sound
 
 		playThread = std::thread(&Alsa::Playback, this);
 
-		// Set maximum priority to the thread
-		sched_param sch_params;
-		sch_params.sched_priority = sched_get_priority_max(SCHED_FIFO);
+//		// Set maximum priority to the thread
+//		sched_param sch_params;
+//		sch_params.sched_priority = sched_get_priority_max(SCHED_FIFO);
+//
+//		pthread_setschedparam(playThread.native_handle(), SCHED_FIFO, &sch_params);
 
-		pthread_setschedparam(playThread.native_handle(), SCHED_FIFO, &sch_params);
+		Util::SetThreadPriority(playThread.native_handle(), 100);
 
 		return;
 	}

@@ -8,9 +8,11 @@
 
 #include "Module.h"
 
+#include "../../IO/Spi.h"
+#include "../../Util/Threading.h"
+
 #include "../Triggers/TriggerManager.h"
 #include "../Triggers/TriggerFactory.h"
-#include "../../IO/Spi.h"
 
 #include "../Kits/KitManager.h"
 
@@ -55,17 +57,19 @@ namespace DrumKit
 		playThread = std::thread(&Module::Run, this);
 
 		// Set high priority to the thread
-		int maxPriority = sched_get_priority_max(SCHED_FIFO);
+//		int maxPriority = sched_get_priority_max(SCHED_FIFO);
+//
+//		if(maxPriority > 1)
+//		{
+//			maxPriority--;
+//		}
+//
+//		sched_param sch_params;
+//		sch_params.sched_priority = maxPriority;
+//
+//		pthread_setschedparam(playThread.native_handle(), SCHED_FIFO, &sch_params);
 
-		if(maxPriority > 1)
-		{
-			maxPriority--;
-		}
-
-		sched_param sch_params;
-		sch_params.sched_priority = maxPriority;
-
-		pthread_setschedparam(playThread.native_handle(), SCHED_FIFO, &sch_params);
+		Util::SetThreadPriority(playThread.native_handle(), 99);
 
 		return;
 	}
