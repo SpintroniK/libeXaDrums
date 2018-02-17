@@ -13,7 +13,6 @@
 
 #include "../Triggers/TriggerManager.h"
 #include "../Triggers/TriggerFactory.h"
-
 #include "../Kits/KitManager.h"
 
 #include <iostream>
@@ -342,24 +341,21 @@ namespace DrumKit
 			std::for_each(triggers.begin(), triggers.end(), [](TriggerPtr& triggerPtr) { triggerPtr->Refresh(); });
 
 			// Get most recent hit
+			auto it = std::max_element(triggers.cbegin(), triggers.cend(),
+					[](const TriggerPtr& t1, const TriggerPtr& t2) { return t1->GetTriggerState().trigTime < t2->GetTriggerState().trigTime; });
+
+
+			long long trigTime = (*it)->GetTriggerState().trigTime;
+			long long prevTrigTime = lastTrigTime.exchange(trigTime);
+
+			if(prevTrigTime != trigTime)
 			{
-				auto it = std::max_element(triggers.cbegin(), triggers.cend(),
-						[](const TriggerPtr& t1, const TriggerPtr& t2) { return t1->GetTriggerState().trigTime < t2->GetTriggerState().trigTime; });
+				lastTrigValue.store(int((*it)->GetTriggerState().value * 100.0f));
 
-
-				long long trigTime = (*it)->GetTriggerState().trigTime;
-				long long prevTrigTime = lastTrigTime.exchange(trigTime);
-
-				if(prevTrigTime != trigTime)
-				{
-					lastTrigValue.store(int((*it)->GetTriggerState().value * 100.0f));
-
-					//std::cout << double(trigTime - soundBank->GetSound(metronomeSoundId).GetLastStartTime()) / 1000. << std::endl;
-
-				}
-
+				//std::cout << double(trigTime - soundBank->GetSound(metronomeSoundId).GetLastStartTime()) / 1000. << std::endl;
 
 			}
+
 
 
 			// Check instruments triggers and send sounds to mixer if necessary
@@ -374,6 +370,9 @@ namespace DrumKit
 					int soundId = 0;
 					float volume = 1.0f;
 					instrumentPtr->GetSoundProps(soundId, volume);
+
+					//std::cout << "Sound Id = " << soundId << " Volume = " << volume << std::endl;
+
 					mixer->PlaySound(soundId, volume);
 				}
 			}
