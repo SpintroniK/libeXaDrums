@@ -95,7 +95,7 @@ namespace Sound
 		// HEADER
 		std::vector<uint8_t> header_data(44);
 		soundFile.read((char*)header_data.data(), header_data.size());
-		wav_header header(header_data);
+		WavHeader header(header_data);
 
 		size_t chunkLength = header.get_subchunk2_size();
 		size_t dataLength = 0;

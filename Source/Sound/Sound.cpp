@@ -44,7 +44,7 @@ namespace Sound
 		volume.store(vol);
 		idx.store(0);
 
-		lastStartTime.store(time_point_cast<microseconds>(high_resolution_clock::now()).time_since_epoch().count());
+		lastStartTime.store(time_point_cast<microseconds>(high_resolution_clock::now()).time_since_epoch().count(), std::memory_order_relaxed);
 
 		return;
 	}
@@ -104,7 +104,7 @@ namespace Sound
 	void Sound::SetStartTime()
 	{
 
-		this->lastStartTime.store(time_point_cast<microseconds>(high_resolution_clock::now()).time_since_epoch().count());
+		this->lastStartTime.store(time_point_cast<microseconds>(high_resolution_clock::now()).time_since_epoch().count(), std::memory_order_relaxed);
 
 		return;
 	}
