@@ -66,7 +66,7 @@ namespace Sound
 		  subchunk2_id(BytesToString(header_data, 36, 40))
 		{
 
-			chunk_size 		= BytesToWord<uint32_t>(SubVector(header_data, 4, 8));
+			chunk_size		= BytesToWord<uint32_t>(SubVector(header_data, 4, 8));
 			subchunk1_size 	= BytesToWord<uint32_t>(SubVector(header_data, 16, 20));
 			audio_format 	= BytesToWord<uint16_t>(SubVector(header_data, 20, 22));
 			num_channels 	= BytesToWord<uint16_t>(SubVector(header_data, 22, 24));
@@ -96,7 +96,7 @@ namespace Sound
 
 			CopyBytesToVector(chunk_id, 		headerData, 0);
 			CopyBytesToVector(chunk_size, 		headerData, 4);
-			CopyBytesToVector(format, 			headerData, 8);
+			CopyBytesToVector(format,			headerData, 8);
 
 			CopyBytesToVector(subchunk1_id, 	headerData, 12);
 			CopyBytesToVector(subchunk1_size, 	headerData, 16);

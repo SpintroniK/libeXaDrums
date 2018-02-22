@@ -17,6 +17,8 @@
 
 #include <iostream>
 #include <algorithm>
+#include <queue>
+#include <fstream>
 
 using namespace Sound;
 
@@ -24,7 +26,7 @@ namespace DrumKit
 {
 
 	Module::Module(std::string dir, std::shared_ptr<Mixer> mixer, std::shared_ptr<Metronome> metro)
-	: directory(dir),
+	: directory(dir), isRecord{false},
 	  kitManager(dir + "Kits/"),  kitId(0),
 	  isPlay(false),
 	  mixer(mixer),
@@ -34,7 +36,6 @@ namespace DrumKit
 		this->soundBank = std::make_shared<SoundBank>(dir);
 
 		mixer->SetSoundBank(soundBank);
-
 
 		// Load Triggers
 		LoadTriggers();
@@ -48,6 +49,24 @@ namespace DrumKit
 		return;
 	}
 
+	Module::~Module()
+	{
+
+		isPlay.store(false);
+		isRecord.store(false, std::memory_order_relaxed);
+
+		// Join all threads
+		if(playThread.joinable())
+		{
+			playThread.join();
+		}
+
+		if(recordThread.joinable())
+		{
+			recordThread.join();
+		}
+
+	}
 
 	void Module::Start()
 	{
@@ -83,6 +102,22 @@ namespace DrumKit
 		mixer->Clear();
 
 		return;
+	}
+
+	void Module::EnableRecording(bool record)
+	{
+
+		isRecord.store(record, std::memory_order_release);
+
+		if(record)
+		{
+			recordThread = std::thread(&Module::Record, this);
+		}
+		else
+		{
+			recordThread.join();
+		}
+
 	}
 
 	void Module::GetDirectory(std::string& dir) const
@@ -250,7 +285,7 @@ namespace DrumKit
 		}
 	}
 
-	long long Module::GetLastClickTime() const
+	int64_t Module::GetLastClickTime() const
 	{
 
 		if(isMetronomeEnabled)
@@ -331,8 +366,8 @@ namespace DrumKit
 			mixer->PlaySound(metronomeSoundId, 1.0f);
 		}
 
-		lastTrigTime.store(0);
-		lastTrigValue.store(0);
+		lastTrigTime.store(0, std::memory_order_relaxed);
+		lastTrigValue.store(0, std::memory_order_relaxed);
 
 		while(isPlay.load())
 		{
@@ -345,12 +380,12 @@ namespace DrumKit
 					[](const TriggerPtr& t1, const TriggerPtr& t2) { return t1->GetTriggerState().trigTime < t2->GetTriggerState().trigTime; });
 
 
-			long long trigTime = (*it)->GetTriggerState().trigTime;
-			long long prevTrigTime = lastTrigTime.exchange(trigTime);
+			int64_t trigTime = (*it)->GetTriggerState().trigTime;
+			int64_t prevTrigTime = lastTrigTime.exchange(trigTime, std::memory_order_release);
 
 			if(prevTrigTime != trigTime)
 			{
-				lastTrigValue.store(int((*it)->GetTriggerState().value * 100.0f));
+				lastTrigValue.store(int((*it)->GetTriggerState().value * 100.0f), std::memory_order_release);
 
 				//std::cout << double(trigTime - soundBank->GetSound(metronomeSoundId).GetLastStartTime()) / 1000. << std::endl;
 
@@ -371,7 +406,10 @@ namespace DrumKit
 					float volume = 1.0f;
 					instrumentPtr->GetSoundProps(soundId, volume);
 
-					//std::cout << "Sound Id = " << soundId << " Volume = " << volume << std::endl;
+					if(isRecord.load(std::memory_order_relaxed))
+					{
+						recordQueue.Push({soundId, volume, trigTime});
+					}
 
 					mixer->PlaySound(soundId, volume);
 				}
@@ -381,6 +419,73 @@ namespace DrumKit
 		return;
 	}
 
+	void Module::Record()
+	{
+
+		using namespace Util;
+		using namespace std::chrono_literals;
+		using namespace std::chrono;
+		using namespace std::this_thread;
+
+		using TrigSound = std::tuple<int, float, int64_t>;
+
+		// Create new file
+		const auto fileTimeStamp = system_clock::now().time_since_epoch().count();
+		const std::string fileName = directory + "Rec/" + std::to_string(fileTimeStamp) + ".csv";
+
+		std::queue<TrigSound> buffer;
+
+		std::ofstream file{fileName};
+
+		auto dumpBufferToFile = [&]()
+			{
+				while(!buffer.empty())
+				{
+					int soundId;
+					float volume;
+					int64_t time;
+					std::tie(soundId, volume, time) = buffer.front();
+					buffer.pop();
+
+					file << soundId << ',' << time << ',' << volume << '\n';
+				}
+
+				// Insert keyframe if the metronome is running
+				if(isMetronomeEnabled)
+				{
+					file << -1 << ',' << GetLastClickTime() << ',' << 0.5f << '\n';
+				}
+
+				file.flush();
+			};
+
+		while(isRecord.load(std::memory_order_acquire))
+		{
+
+			TrigSound trigSound;
+
+			while(recordQueue.Pop(trigSound))
+			{
+				buffer.emplace(std::move(trigSound));
+			}
+
+			// Write data to file
+			if(buffer.size() >= recordQueue.Capacity() / 8)
+			{
+				dumpBufferToFile();
+			}
+
+			// Wait before we try to get more sounds
+			if(isRecord.load(std::memory_order_relaxed))
+			{
+				sleep_for(500ms);
+			}
+
+		}
+
+		dumpBufferToFile();
+
+	}
 
 	void Module::CreateTriggers(const std::vector<TriggerParameters>& triggersParameters)
 	{

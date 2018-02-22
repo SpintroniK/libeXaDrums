@@ -79,6 +79,11 @@ namespace eXaDrumsApi
 		return;
 	}
 
+	void eXaDrums::EnableRecording(bool enable)
+	{
+		this->drumModule->EnableRecording(enable);
+	}
+
 	// Metronome
 
 	void eXaDrums::EnableMetronome(bool enable) const

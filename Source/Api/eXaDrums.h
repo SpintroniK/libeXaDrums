@@ -39,6 +39,7 @@ namespace eXaDrumsApi
 		// Module
 		void Start();
 		void Stop();
+		void EnableRecording(bool enable);
 
 		// Metronome
 		void EnableMetronome(bool enable) const;

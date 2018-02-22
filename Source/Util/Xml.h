@@ -33,7 +33,7 @@ namespace Util
 
 
     template <typename T = std::string>
-    tinyxml2::XMLElement* CreateXmlElement(tinyxml2::XMLDocument& doc, const std::string name, const T& text = "", const std::vector<XmlAttr> attributes = {})
+    tinyxml2::XMLElement* CreateXmlElement(tinyxml2::XMLDocument& doc, const std::string name, const T& text = "", const std::vector<XmlAttr>& attributes = {})
     {
         namespace xml = tinyxml2;
 

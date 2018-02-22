@@ -9,11 +9,10 @@
 #define RASPIDRUMS_SOURCE_DRUMKIT_MODULE_H_
 
 #include "../../Metronome/Metronome.h"
-
 #include "../../IO/SensorsConfig.h"
-
 #include "../../Sound/Mixer/Mixer.h"
 #include "../../Sound/SoundBank/SoundBank.h"
+#include "../../Util/SimpleSafeQueue.h"
 
 #include "../Kits/Kit.h"
 
@@ -34,7 +33,7 @@ namespace DrumKit
 	public:
 
 		Module(std::string dir, std::shared_ptr<Sound::Mixer> mixer, std::shared_ptr<Metronome> metro);
-		virtual ~Module() = default;
+		virtual ~Module();
 
 		// Kit
 		void SaveKitConfig(int id) const { kits[id].Save(); };
@@ -55,12 +54,13 @@ namespace DrumKit
 		// Triggers
 		void ReloadTriggers();
 		std::vector<TriggerParameters> GetTriggersParameters() const { return this->triggersParameters; }
-		unsigned long long GetLastTrigTime() const { return lastTrigTime.load(); }
-		int GetLastTrigValue() const { return lastTrigValue.load(); }
+		unsigned long long GetLastTrigTime() const { return lastTrigTime.load(std::memory_order_acquire); }
+		int GetLastTrigValue() const { return lastTrigValue.load(std::memory_order_acquire); }
 
 		// Module
 		void Start();
 		void Stop();
+		void EnableRecording(bool record);
 		void GetDirectory(std::string& dir) const;
 
 		// Metronome
@@ -70,7 +70,7 @@ namespace DrumKit
 		float GetClickVolume() const;
 		void RestartMetronome();
 		double GetClickPosition() const;
-		long long GetLastClickTime() const;
+		int64_t GetLastClickTime() const;
 
 		// Config
 		IO::SensorsConfig GetSensorsConfig() const { return sensorsConfig; }
@@ -80,6 +80,7 @@ namespace DrumKit
 		void LoadKits();
 		void LoadTriggers();
 		void Run();
+		void Record();
 		void CreateTriggers(const std::vector<TriggerParameters>& trigParams);
 		bool IsMetronomeEnabled() const;
 
@@ -87,6 +88,9 @@ namespace DrumKit
 		// Module
 		std::string directory;
 		std::thread playThread;
+		std::thread recordThread;
+		std::atomic<bool> isRecord;
+		Util::SimpleSafeQueue<std::tuple<int, float, int64_t>> recordQueue;
 
 		// Kits
 		KitManager kitManager;
