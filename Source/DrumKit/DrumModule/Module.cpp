@@ -17,8 +17,6 @@
 
 #include <iostream>
 #include <algorithm>
-#include <queue>
-#include <fstream>
 
 using namespace Sound;
 
@@ -26,15 +24,11 @@ namespace DrumKit
 {
 
 	Module::Module(std::string dir, std::shared_ptr<Mixer> mixer, std::shared_ptr<Metronome> metro)
-	: directory(dir), isRecord{false},
-	  kitManager(dir + "Kits/"),  kitId(0),
-	  isPlay(false),
-	  mixer(mixer),
-	  metronome(metro), metronomeSoundId(-1), isMetronomeEnabled(false)
+	: directory{dir},  kitManager{dir + "Kits/"},  kitId{0},
+	  isPlay{false}, mixer{mixer}, metronome{metro}, metronomeSoundId{-1}, isMetronomeEnabled{false}
 	{
 
-		this->soundBank = std::make_shared<SoundBank>(dir);
-
+		soundBank = std::make_shared<SoundBank>(dir);
 		mixer->SetSoundBank(soundBank);
 
 		// Load Triggers
@@ -46,26 +40,22 @@ namespace DrumKit
 		// Select current kit
 		SelectKit(kitId);
 
+		// Set recorder
+		recorder.SetDirectory(dir);
+		recorder.SetMetronomeTimeFunc([&]() { return GetLastClickTime(); });
+
 		return;
 	}
 
 	Module::~Module()
 	{
-
 		isPlay.store(false);
-		isRecord.store(false, std::memory_order_relaxed);
 
 		// Join all threads
 		if(playThread.joinable())
 		{
 			playThread.join();
 		}
-
-		if(recordThread.joinable())
-		{
-			recordThread.join();
-		}
-
 	}
 
 	void Module::Start()
@@ -106,18 +96,14 @@ namespace DrumKit
 
 	void Module::EnableRecording(bool record)
 	{
-
-		isRecord.store(record, std::memory_order_release);
-
 		if(record)
 		{
-			recordThread = std::thread(&Module::Record, this);
+			recorder.Start();
 		}
 		else
 		{
-			recordThread.join();
+			recorder.Stop();
 		}
-
 	}
 
 	void Module::GetDirectory(std::string& dir) const
@@ -151,7 +137,7 @@ namespace DrumKit
 		// Enable new kit
 		kits[kitId].Enable();
 
-		if(isMetronomeEnabled)
+		if(isMetronomeEnabled.load())
 		{
 			EnableMetronome(true);
 		}
@@ -223,7 +209,7 @@ namespace DrumKit
 			soundBank->LoopSound(metronomeSoundId, true);
 			mixer->PlaySound(metronomeSoundId, 1.0f);
 
-			isMetronomeEnabled = true;
+			isMetronomeEnabled.store(true);
 		}
 		else
 		{
@@ -235,7 +221,7 @@ namespace DrumKit
 				soundBank->DeleteSound(metronomeSoundId);
 			}
 
-			isMetronomeEnabled = false;
+			isMetronomeEnabled.store(false);
 		}
 
 
@@ -254,7 +240,7 @@ namespace DrumKit
 	void Module::ChangeVolume(int volume)
 	{
 
-		if(isMetronomeEnabled)
+		if(isMetronomeEnabled.load())
 		{
 			soundBank->SetSoundVolume(metronomeSoundId, float(volume / 100.0f));
 		}
@@ -271,7 +257,7 @@ namespace DrumKit
 	double Module::GetClickPosition() const
 	{
 
-		if(isMetronomeEnabled)
+		if(isMetronomeEnabled.load())
 		{
 			unsigned long pos = soundBank->GetSound(metronomeSoundId).LoadIndex();
 			double relPos = double(pos) / double(soundBank->GetSound(metronomeSoundId).GetLength());
@@ -288,7 +274,7 @@ namespace DrumKit
 	int64_t Module::GetLastClickTime() const
 	{
 
-		if(isMetronomeEnabled)
+		if(isMetronomeEnabled.load())
 		{
 			return soundBank->GetSound(metronomeSoundId).GetLastStartTime();
 		}
@@ -301,7 +287,7 @@ namespace DrumKit
 	void Module::RestartMetronome()
 	{
 
-		if(isMetronomeEnabled)
+		if(isMetronomeEnabled.load())
 		{
 			EnableMetronome(false);
 			EnableMetronome(true);
@@ -361,7 +347,7 @@ namespace DrumKit
 	void Module::Run()
 	{
 
-		if(isMetronomeEnabled)
+		if(isMetronomeEnabled.load())
 		{
 			mixer->PlaySound(metronomeSoundId, 1.0f);
 		}
@@ -391,8 +377,6 @@ namespace DrumKit
 
 			}
 
-
-
 			// Check instruments triggers and send sounds to mixer if necessary
 			const std::vector<InstrumentPtr>& instruments = kits[kitId].GetInstruments();
 			for(const InstrumentPtr& instrumentPtr : instruments)
@@ -406,9 +390,9 @@ namespace DrumKit
 					float volume = 1.0f;
 					instrumentPtr->GetSoundProps(soundId, volume);
 
-					if(isRecord.load(std::memory_order_relaxed))
+					if(recorder.IsRecording(std::memory_order_relaxed))
 					{
-						recordQueue.Push({soundId, volume, trigTime});
+						recorder.Push({soundId, volume, trigTime});
 					}
 
 					mixer->PlaySound(soundId, volume);
@@ -419,89 +403,17 @@ namespace DrumKit
 		return;
 	}
 
-	void Module::Record()
-	{
-
-		using namespace Util;
-		using namespace std::chrono_literals;
-		using namespace std::chrono;
-		using namespace std::this_thread;
-
-		using TrigSound = std::tuple<int, float, int64_t>;
-
-		// Create new file
-		const auto fileTimeStamp = system_clock::now().time_since_epoch().count();
-		const std::string fileName = directory + "Rec/" + std::to_string(fileTimeStamp) + ".csv";
-
-		std::queue<TrigSound> buffer;
-
-		std::ofstream file{fileName};
-
-		auto dumpBufferToFile = [&]()
-			{
-				while(!buffer.empty())
-				{
-					int soundId;
-					float volume;
-					int64_t time;
-					std::tie(soundId, volume, time) = buffer.front();
-					buffer.pop();
-
-					file << soundId << ',' << time << ',' << volume << '\n';
-				}
-
-				// Insert keyframe if the metronome is running
-				if(isMetronomeEnabled)
-				{
-					file << -1 << ',' << GetLastClickTime() << ',' << 0.5f << '\n';
-				}
-
-				file.flush();
-			};
-
-		while(isRecord.load(std::memory_order_acquire))
-		{
-
-			TrigSound trigSound;
-
-			while(recordQueue.Pop(trigSound))
-			{
-				buffer.emplace(std::move(trigSound));
-			}
-
-			// Write data to file
-			if(buffer.size() >= recordQueue.Capacity() / 8)
-			{
-				dumpBufferToFile();
-			}
-
-			// Wait before we try to get more sounds
-			if(isRecord.load(std::memory_order_relaxed))
-			{
-				sleep_for(500ms);
-			}
-
-		}
-
-		dumpBufferToFile();
-
-	}
 
 	void Module::CreateTriggers(const std::vector<TriggerParameters>& triggersParameters)
 	{
-
 
 		triggers.clear();
 
 		for(const TriggerParameters& triggerParameters : triggersParameters)
 		{
-
 			TriggerPtr triggerPtr = TriggerFactory::CreateTrigger(triggerParameters);
-
 			triggers.push_back(triggerPtr);
-
-		};
-
+		}
 
 		return;
 	}

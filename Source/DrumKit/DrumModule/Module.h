@@ -16,6 +16,7 @@
 
 #include "../Kits/Kit.h"
 
+#include "Recorder.h"
 
 #include <string>
 #include <vector>
@@ -80,7 +81,6 @@ namespace DrumKit
 		void LoadKits();
 		void LoadTriggers();
 		void Run();
-		void Record();
 		void CreateTriggers(const std::vector<TriggerParameters>& trigParams);
 		bool IsMetronomeEnabled() const;
 
@@ -88,9 +88,7 @@ namespace DrumKit
 		// Module
 		std::string directory;
 		std::thread playThread;
-		std::thread recordThread;
-		std::atomic<bool> isRecord;
-		Util::SimpleSafeQueue<std::tuple<int, float, int64_t>> recordQueue;
+		Recorder recorder;
 
 		// Kits
 		KitManager kitManager;
@@ -101,7 +99,7 @@ namespace DrumKit
 		// Triggers
 		std::vector<TriggerParameters> triggersParameters;
 		std::vector<TriggerPtr> triggers;
-		std::atomic<long long> lastTrigTime;
+		std::atomic<int64_t> lastTrigTime;
 		std::atomic<int> lastTrigValue;
 
 		IO::SensorsConfig sensorsConfig;
@@ -112,7 +110,7 @@ namespace DrumKit
 		std::shared_ptr<Metronome> metronome;
 
 		int metronomeSoundId;
-		bool isMetronomeEnabled;
+		std::atomic<bool> isMetronomeEnabled;
 
 	};
 
