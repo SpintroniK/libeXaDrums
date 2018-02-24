@@ -7,14 +7,12 @@
 
 #include "Recorder.h"
 
-#include "../../Sound/Sound.h"
-
 #include <chrono>
 
 namespace DrumKit
 {
 
-	Recorder::Recorder()
+	Recorder::Recorder() : isRecord{false}
 	{
 
 	}
