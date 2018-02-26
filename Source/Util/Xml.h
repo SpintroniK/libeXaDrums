@@ -16,7 +16,9 @@
 
 namespace Util
 {
-
+	/**
+	 * Structure that holds an xml attribute: a name and a value.
+	 */
     struct XmlAttr
     {
         template <typename T>
@@ -31,7 +33,14 @@ namespace Util
         std::string value;
     };
 
-
+    /**
+     * Creates a new xml element.
+     * @param doc Xml document in which the xml element is to be inserted.
+     * @param name Tag name of the xml element.
+     * @param text Contents.
+     * @param attributes Xml attributes.
+     * @return
+     */
     template <typename T = std::string>
     tinyxml2::XMLElement* CreateXmlElement(tinyxml2::XMLDocument& doc, const std::string name, const T& text = "", const std::vector<XmlAttr>& attributes = {})
     {
@@ -55,21 +64,33 @@ namespace Util
         return element;
     }
 
-
+    /**
+     * Gets the value (contents) of an xml element.
+     * @param element Pointer to the parent element.
+     * @param name Name of the xml element.
+     * @param text Variable in which the element's value is copied.
+     */
     template <typename T>
-    void GetXmlElementValue(tinyxml2::XMLElement* root, const std::string& name, T& text)
+    void GetXmlElementValue(tinyxml2::XMLElement* element, const std::string& name, T& text)
     {
 
-        tinyxml2::XMLElement* xmlElement = root->FirstChildElement(name.data());
+        tinyxml2::XMLElement* xmlElement = element->FirstChildElement(name.data());
         std::istringstream iss(xmlElement->GetText());
 
         iss >> text;
     }
 
+    /**
+     * Get the value of an xml attribute.
+     * @param element Pointer to the parent element.
+     * @param name Name of the xml element.
+     * @param attributeName Name of the xml attribute.
+     * @param attributeValue Variable in which the attribute's value is copied.
+     */
     template <typename T>
-    void GetXmlElementAttribute(tinyxml2::XMLElement* root, const std::string& name, const std::string& attributeName, T& attributeValue)
+    void GetXmlElementAttribute(tinyxml2::XMLElement* element, const std::string& name, const std::string& attributeName, T& attributeValue)
     {
-        tinyxml2::XMLElement* xmlElement = root->FirstChildElement(name.data());
+        tinyxml2::XMLElement* xmlElement = element->FirstChildElement(name.data());
         std::istringstream iss(xmlElement->Attribute(attributeName.data()));
 
         iss >> attributeValue;

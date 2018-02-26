@@ -11,6 +11,7 @@
 #include "../../Metronome/Metronome.h"
 #include "../../IO/SensorsConfig.h"
 #include "../../Sound/Mixer/Mixer.h"
+#include "../../Sound/Alsa/AlsaParams.h"
 #include "../../Sound/SoundBank/SoundBank.h"
 #include "../../Util/SimpleSafeQueue.h"
 
@@ -33,7 +34,7 @@ namespace DrumKit
 
 	public:
 
-		Module(std::string dir, std::shared_ptr<Sound::Mixer> mixer, std::shared_ptr<Metronome> metro);
+		Module(std::string dir, const Sound::AlsaParams& alsaParams, std::shared_ptr<Sound::Mixer> mixer, std::shared_ptr<Metronome> metro);
 		virtual ~Module();
 
 		// Kit
@@ -88,7 +89,6 @@ namespace DrumKit
 		// Module
 		std::string directory;
 		std::thread playThread;
-		Recorder recorder;
 
 		// Kits
 		KitManager kitManager;
@@ -111,6 +111,8 @@ namespace DrumKit
 
 		int metronomeSoundId;
 		std::atomic<bool> isMetronomeEnabled;
+
+		Recorder recorder;
 
 	};
 

@@ -18,7 +18,7 @@ namespace Util
 	/**
 	 * A thread-safe Single Producer Single Consumer queue.
 	 * Its size is fixed, it's a circular buffer.
-	 * Default size = 32
+	 * Default size = 32.
 	 */
 	template<typename T, size_t Length = 64>
 	class SimpleSafeQueue

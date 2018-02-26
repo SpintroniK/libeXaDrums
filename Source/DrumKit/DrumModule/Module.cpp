@@ -23,12 +23,13 @@ using namespace Sound;
 namespace DrumKit
 {
 
-	Module::Module(std::string dir, std::shared_ptr<Mixer> mixer, std::shared_ptr<Metronome> metro)
+	Module::Module(std::string dir, const AlsaParams& alsaParams, std::shared_ptr<Mixer> mixer, std::shared_ptr<Metronome> metro)
 	: directory{dir},  kitManager{dir + "Kits/"},  kitId{0},
-	  isPlay{false}, mixer{mixer}, metronome{metro}, metronomeSoundId{-1}, isMetronomeEnabled{false}
+	  isPlay{false}, soundBank{std::make_shared<SoundBank>(dir)}, mixer{mixer},
+	  metronome{metro}, metronomeSoundId{-1}, isMetronomeEnabled{false},
+	  recorder{soundBank.get(), alsaParams}
 	{
 
-		soundBank = std::make_shared<SoundBank>(dir);
 		mixer->SetSoundBank(soundBank);
 
 		// Load Triggers
@@ -102,7 +103,7 @@ namespace DrumKit
 		}
 		else
 		{
-			recorder.Stop();
+			recorder.StopAndExport();
 		}
 	}
 
@@ -392,7 +393,7 @@ namespace DrumKit
 
 					if(recorder.IsRecording(std::memory_order_relaxed))
 					{
-						recorder.Push({soundId, volume, trigTime});
+						recorder.Push({soundId, trigTime, volume});
 					}
 
 					mixer->PlaySound(soundId, volume);

@@ -46,7 +46,7 @@ namespace eXaDrumsApi
 		this->metronome = std::make_shared<Metronome>(alsaParams, metronomeParams);
 
 		// Create drum module
-		this->drumModule = std::make_unique<Module>(dataLocation, this->mixer, this->metronome);
+		this->drumModule = std::make_unique<Module>(dataLocation, alsaParams, this->mixer, this->metronome);
 
 		return;
 	}
