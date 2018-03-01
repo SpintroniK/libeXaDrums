@@ -43,7 +43,7 @@ namespace DrumKit
 
 		// Set recorder
 		recorder.SetDirectory(dir);
-		recorder.SetMetronomeTimeFunc([&]() { return GetLastClickTime(); });
+		recorder.SetMetronomeTimeFunc([&]{ return GetLastClickTime(); });
 
 		return;
 	}

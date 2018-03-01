@@ -16,6 +16,9 @@
 
 namespace Util
 {
+
+
+
 	/**
 	 * Structure that holds an xml attribute: a name and a value.
 	 */

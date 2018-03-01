@@ -49,7 +49,7 @@ namespace DrumKit
 			// Sounds
 			{
 				// Create sounds element
-				tinyxml2::XMLElement* sounds = CreateXmlElement(doc, "soundss", "");
+				tinyxml2::XMLElement* sounds = CreateXmlElement(doc, "sounds", "");
 
 				for(const auto& sound : soundsInfo)
 				{

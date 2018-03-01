@@ -11,6 +11,7 @@
 #include "../../Util/Misc.h"
 #include "../../Util/Xml.h"
 #include "../../Util/Time.h"
+#include "../../Util/Crypt.h"
 
 #include <iterator>
 #include <chrono>
@@ -169,7 +170,7 @@ namespace DrumKit
 		std::set<int> uniqueSoundsIds(soundsIds.begin(), soundsIds.end());
 
 		// Remove the metronome from the set
-		uniqueSoundsIds.erase(uniqueSoundsIds.find(-1));
+		uniqueSoundsIds.erase(-1);
 
 		// Create xml document
 		// Header
@@ -179,16 +180,32 @@ namespace DrumKit
 
 			auto xmlHeader = CreateXmlElement(doc, "Header");
 
-			xmlHeader->InsertEndChild(CreateXmlElement(doc, "Date", 				TimeStampToStr(fileTimeStamp)));
-			xmlHeader->InsertEndChild(CreateXmlElement(doc, "SampleRate", 			alsaParameters.sampleRate));
-			xmlHeader->InsertEndChild(CreateXmlElement(doc, "NumberOfChannels", 	alsaParameters.nChannels));
+			xmlHeader->InsertEndChild(CreateXmlElement(doc, "Date", TimeStampToStr(fileTimeStamp)));
+			xmlHeader->InsertEndChild(CreateXmlElement(doc, "SampleRate", alsaParameters.sampleRate));
+			xmlHeader->InsertEndChild(CreateXmlElement(doc, "NumberOfChannels", alsaParameters.nChannels));
 
 			root->InsertFirstChild(xmlHeader);
 		}
 
+		// Data
+		{
+			auto xmlData = CreateXmlElement(doc, "Data");
+
+			for(const auto& soundId : uniqueSoundsIds)
+			{
+				const auto& sound = soundBankPtr->GetSound(soundId);
+				const auto& soundData = sound.GetInternalData();
+
+				xmlData->InsertEndChild(CreateXmlElement(doc, "Sound", Base64Encode(soundData), {{"Id", soundId}}));
+			}
+
+
+			root->InsertFirstChild(xmlData);
+		}
+
 
 		doc.InsertFirstChild(root);
-		doc.SaveFile("rec.xml");
+		doc.SaveFile(std::string(directory + std::string("rec.xml")).data());
 	}
 
 } /* namespace DrumKit */

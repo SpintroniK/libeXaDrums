@@ -15,13 +15,13 @@
 namespace Util
 {
 
-	template<std::size_t I = 0, typename F, typename... T>
+	template <size_t I = 0, typename F, typename... T>
 	inline typename std::enable_if_t<I == sizeof...(T)> for_each_tuple(std::tuple<T...>&, F)
 	{
 		return;
 	}
 
-	template<std::size_t I = 0, typename F, typename... T>
+	template <size_t I = 0, typename F, typename... T>
 	inline typename std::enable_if_t<(I < sizeof...(T))> for_each_tuple(std::tuple<T...>& t, F f)
 	{
 		f(std::get<I>(t));
@@ -52,7 +52,7 @@ namespace Util
 	 * @param comp Comparison function object.
 	 * @return Clamped value.
 	 */
-	template<class T, class Compare>
+	template <class T, class Compare>
 	inline constexpr const T& clamp( const T& v, const T& lo, const T& hi, Compare comp )
 	{
 		return comp(v, lo) ? lo : comp(hi, v) ? hi : v;
@@ -65,7 +65,7 @@ namespace Util
 	 * @param hi the high boundary to clamp v to.
 	 * @return Clamped value.
 	 */
-	template<class T>
+	template <class T>
 	inline constexpr const T& clamp( const T& v, const T& lo, const T& hi )
 	{
 		return clamp( v, lo, hi, std::less<>() );
