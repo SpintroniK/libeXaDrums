@@ -17,7 +17,87 @@
 namespace Util
 {
 
+	/**
+	 * Xml Element wrapper, very useful for range-based for loops.
+	 */
+	class XmlElement
+	{
 
+	public:
+
+		XmlElement(tinyxml2::XMLElement* element_, const std::string& name_) : element{element_}, name{name_} {}
+		XmlElement(tinyxml2::XMLElement* element_) : element{element_}, name{} {}
+
+		inline XmlElement begin() const
+		{
+			if(name.empty())
+			{
+				return XmlElement{element->FirstChildElement()};
+			}
+
+			return XmlElement{element->FirstChildElement(name.data())};
+		}
+
+		inline XmlElement end() const
+		{
+			return XmlElement{nullptr};
+		}
+
+		inline XmlElement operator++()
+		{
+			if(name.empty())
+			{
+				element = element->NextSiblingElement();
+			}
+			else
+			{
+				element = element->NextSiblingElement(name.data());
+			}
+
+			return *this;
+		}
+
+		inline XmlElement operator*() const
+		{
+			return *this;
+		}
+
+		inline bool operator!=(const XmlElement& xe) const
+		{
+			return element != xe.element;
+		}
+
+		inline const char* GetText() const
+		{
+			return element->GetText();
+		}
+
+		template <typename T>
+		inline void Attribute(const std::string& name, T& value) const
+		{
+			std::istringstream iss{element->Attribute(name.data())};
+			iss >> value;
+		}
+
+		template <typename T>
+		inline T Attribute(const std::string& name) const
+		{
+			std::istringstream iss{element->Attribute(name.data())};
+			T value;
+			iss >> value;
+			return value;
+		}
+
+		inline XmlElement FirstChildElement(const std::string& childName) const
+		{
+			return XmlElement{element->FirstChildElement(childName.data())};
+		}
+
+	private:
+
+		tinyxml2::XMLElement* element;
+		std::string name;
+	};
 
 	/**
 	 * Structure that holds an xml attribute: a name and a value.

@@ -60,6 +60,10 @@ namespace DrumKit
 	inline InstrumentType begin(InstrumentType x) { return InstrumentType::First; };
 	inline InstrumentType end(InstrumentType x) { InstrumentType l = InstrumentType::Last; return ++l; };
 
+	inline std::istream& operator>>(std::istream& is, InstrumentType& x)
+	{
+		return Util::StreamToEnum(is, x);
+	}
 
 }
 

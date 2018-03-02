@@ -16,6 +16,34 @@
 namespace Util
 {
 
+	/**
+	 * Helper function to make conversion to enums easier.
+	 * @param is Input stream.
+	 * @param x Enum type to convert the input stream to.
+	 * @return
+	 */
+	template <typename T>
+	inline std::istream& StreamToEnum(std::istream& is, T& x)
+	{
+
+		std::string s;
+		is >> s;
+
+		for(const auto& l : T())
+		{
+			std::ostringstream os;
+			os << l;
+
+			if(os.str() == s)
+			{
+				x = l;
+			}
+		}
+
+		return is;
+	}
+
+
 	class Enums
 	{
 

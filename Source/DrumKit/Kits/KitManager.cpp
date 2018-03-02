@@ -8,6 +8,7 @@
 #include "KitManager.h"
 
 #include "../../Util/Enums.h"
+#include "../../Util/Xml.h"
 
 #include "../Instruments/InstrumentType.h"
 #include "../Instruments/InstrumentSoundInfo.h"
@@ -61,78 +62,50 @@ namespace DrumKit
 		}
 
 		XMLElement* root = doc.RootElement();
-
 		XMLElement* kitName = root->FirstChildElement("kitName");
-		//XMLElement* kitFolder = root->FirstChildElement("kitFolder");
-
-		XMLElement* firstInstrument = root->FirstChildElement("Instrument");
+		parameters.kitName = kitName->GetText();
+		//parameters.kitFolder = kitFolder->GetText();
 
 		int instrumentId = 0;
-
-		for(XMLElement* instrument = firstInstrument; instrument != nullptr; instrument = instrument->NextSiblingElement())
+		for(const auto& instrument : XmlElement{root, "Instrument"})
 		{
-
 			InstrumentParameters instrumentParameters;
-			instrumentParameters.triggersIdsAndLocations.clear();
+			instrumentParameters.instrumentName = instrument.FirstChildElement("instrumentName").GetText();
 
-			// Get xml elements
-			XMLElement* instrumentName = instrument->FirstChildElement("instrumentName");
-			XMLElement* triggers = instrument->FirstChildElement("triggers");
-			XMLElement* firstTrigger = triggers->FirstChildElement("trigger");
-
-			// Get triggers
-			for(XMLElement* trigger = firstTrigger; trigger != nullptr; trigger = trigger->NextSiblingElement())
+			for(const auto& trigger : XmlElement{instrument.FirstChildElement("triggers")})
 			{
-				int triggerId = std::atoi(trigger->GetText());
-				TriggerLocation triggerLoc = Enums::ToElement<TriggerLocation>(trigger->Attribute("location"));
-				instrumentParameters.triggersIdsAndLocations.push_back(std::make_pair(triggerId, triggerLoc));
+				int id = std::stoi(trigger.GetText());
+				TriggerLocation location = trigger.Attribute<TriggerLocation>("location");
+
+				instrumentParameters.triggersIdsAndLocations.push_back(std::make_pair(id, location));
 			}
 
-
-			XMLElement* sounds = instrument->FirstChildElement("sounds");
-			XMLElement* firstSound = sounds->FirstChildElement("sound");
-
-			// Get sounds
 			int soundId = 0;
-			std::vector<InstrumentSoundInfo> soundsInfo;
 
-			for(XMLElement* sound = firstSound; sound != nullptr; sound = sound->NextSiblingElement())
+			for(const auto& sound : XmlElement{instrument.FirstChildElement("sounds")})
 			{
-
 				InstrumentSoundInfo soundInfo;
 
 				soundInfo.id = soundId;
-				soundInfo.soundLocation = sound->GetText();
-				soundInfo.type = Enums::ToElement<InstrumentSoundType>(sound->Attribute("type"));
+				soundInfo.soundLocation = sound.GetText();
+				soundInfo.type = sound.Attribute<InstrumentSoundType>("type");
 
-				soundsInfo.push_back(soundInfo);
+				instrumentParameters.soundsInfo.push_back(soundInfo);
 
 				soundId++;
-
 			}
 
-			instrumentParameters.soundsInfo.swap(soundsInfo);
-
 			// Populate instrumentParameters
-			InstrumentType instrumentType = Enums::ToElement<InstrumentType>(instrument->Attribute("type"));
-			instrumentParameters.instrumentType = instrumentType;
-			instrumentParameters.instrumentName = instrumentName->GetText();
-
-
+			instrumentParameters.instrumentType = instrument.Attribute<InstrumentType>("type");
 			instrumentParameters.id = instrumentId;
 
-			// Set volume
-			std::string volumeStr = instrument->Attribute("volume");
-			instrumentParameters.volume = float(std::atoi(volumeStr.c_str())/100.0f);
-
-			instrumentId++;
+			// Instrument volume
+			std::string volumeStr = instrument.Attribute<std::string>("volume");
+			instrumentParameters.volume = float(std::stoi(volumeStr)/100.0f);
 
 			parameters.instrumentParameters.push_back(instrumentParameters);
-
+			instrumentId++;
 		}
-
-		parameters.kitName = kitName->GetText();
-		//parameters.kitFolder = kitFolder->GetText();
 
 		parameters.configFilePath = file;
 

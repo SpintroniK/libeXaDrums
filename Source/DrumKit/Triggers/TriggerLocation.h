@@ -12,6 +12,7 @@
 #include <sstream>
 #include <type_traits>
 
+
 namespace DrumKit
 {
 
@@ -46,10 +47,17 @@ namespace DrumKit
 		return o << os;
 	}
 
+
 	inline TriggerLocation operator++(TriggerLocation& x) { return x = static_cast<TriggerLocation>(std::underlying_type_t<TriggerLocation>(x) + 1); };
 	inline TriggerLocation operator*(TriggerLocation i) { return i; };
 	inline TriggerLocation begin(TriggerLocation x) { return TriggerLocation::First; };
 	inline TriggerLocation end(TriggerLocation x) { TriggerLocation l = TriggerLocation::Last; return ++l; };
+
+
+	inline std::istream& operator>>(std::istream& is, TriggerLocation& x)
+	{
+		return Util::StreamToEnum(is, x);
+	}
 
 }
 

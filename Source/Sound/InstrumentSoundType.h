@@ -8,6 +8,8 @@
 #ifndef SOURCE_SOUND_INSTRUMENTSOUNDTYPE_H_
 #define SOURCE_SOUND_INSTRUMENTSOUNDTYPE_H_
 
+#include "../Util/Enums.h"
+
 #include <string>
 #include <sstream>
 #include <type_traits>
@@ -52,6 +54,11 @@ namespace Sound
 	inline InstrumentSoundType operator*(InstrumentSoundType x) { return x; };
 	inline InstrumentSoundType begin(InstrumentSoundType x) { return InstrumentSoundType::First; };
 	inline InstrumentSoundType end(InstrumentSoundType x) { InstrumentSoundType l = InstrumentSoundType::Last; return ++l; };
+
+	inline std::istream& operator>>(std::istream& is, InstrumentSoundType& x)
+	{
+		return Util::StreamToEnum(is, x);
+	}
 
 }
 
