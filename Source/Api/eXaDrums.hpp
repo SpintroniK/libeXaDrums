@@ -25,6 +25,11 @@ namespace eXaDrumsApi
 		return std::string(this->GetKitDataFileName_());
 	}
 
+	inline void eXaDrums::RecorderExport(const std::string& fileName)
+	{
+		RecorderExport_(fileName.data());
+	}
+
 	inline std::vector<std::string> eXaDrums::GetClicksTypes()
 	{
 

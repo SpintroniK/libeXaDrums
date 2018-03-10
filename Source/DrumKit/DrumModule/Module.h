@@ -63,6 +63,7 @@ namespace DrumKit
 		void Start();
 		void Stop();
 		void EnableRecording(bool record);
+		void RecorderExport(const std::string& fileName);
 		void GetDirectory(std::string& dir) const;
 
 		// Metronome

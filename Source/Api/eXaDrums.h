@@ -40,6 +40,7 @@ namespace eXaDrumsApi
 		void Start();
 		void Stop();
 		void EnableRecording(bool enable);
+		void RecorderExport(const std::string& fileName);
 
 		// Metronome
 		void EnableMetronome(bool enable) const;
@@ -94,6 +95,7 @@ namespace eXaDrumsApi
 		void GetBpms_(int* data, unsigned int& size) const;
 		void GetKitsNames_(const char** data, unsigned int& size);
 		void GetInstrumentsNames_(const char** data, unsigned int& size);
+		void RecorderExport_(const char* fileName);
 
 
 		static const std::string metronomeConfigFile;

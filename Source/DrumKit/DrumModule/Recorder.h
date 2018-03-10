@@ -12,6 +12,8 @@
 #include "../../Util/SimpleSafeQueue.h"
 #include "../../Sound/Alsa/AlsaParams.h"
 
+#include "TrigSound.h"
+
 #include <tuple>
 #include <atomic>
 #include <thread>
@@ -41,9 +43,10 @@ namespace DrumKit
 		}
 
 		void Start();
-		void StopAndExport();
+		void Stop();
+		void Export(const std::string& fileName);
 
-		bool Push(std::tuple<int, int64_t, float>&& value) { return recordQueue.Push(value); }
+		bool Push(TrigSound&& value) { return recordQueue.Push(value); }
 		bool IsRecording(std::memory_order memOrder = std::memory_order_acquire) const { return isRecord.load(memOrder); }
 
 	private:
@@ -53,14 +56,20 @@ namespace DrumKit
 		void ConvertFile(const std::string& file);
 
 		std::atomic<bool> isRecord;
+
 		Sound::SoundBank* soundBankPtr;
 		Sound::AlsaParams alsaParameters;
+
 		std::string directory;
+		std::string outputFile;
+		std::string lastFile;
 		std::function<int64_t()> getLastClickTime = []{return 0;};
+
 		std::ofstream file;
+
 		std::thread recordThread;
-		std::queue<std::tuple<int, int64_t, float>> buffer;
-		Util::SimpleSafeQueue<std::tuple<int, int64_t, float>> recordQueue;
+		std::queue<TrigSound> buffer;
+		Util::SimpleSafeQueue<TrigSound> recordQueue;
 
 	};
 

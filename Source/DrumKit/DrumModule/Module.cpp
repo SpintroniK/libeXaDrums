@@ -15,6 +15,8 @@
 #include "../Triggers/TriggerFactory.h"
 #include "../Kits/KitManager.h"
 
+#include "TrigSound.h"
+
 #include <iostream>
 #include <algorithm>
 
@@ -103,8 +105,13 @@ namespace DrumKit
 		}
 		else
 		{
-			recorder.StopAndExport();
+			recorder.Stop();
 		}
+	}
+
+	void Module::RecorderExport(const std::string& fileName)
+	{
+		recorder.Export(fileName);
 	}
 
 	void Module::GetDirectory(std::string& dir) const
@@ -393,7 +400,7 @@ namespace DrumKit
 
 					if(recorder.IsRecording(std::memory_order_relaxed))
 					{
-						recorder.Push({soundId, trigTime, volume});
+						recorder.Push(TrigSound{instrumentPtr->GetId(), soundId, trigTime, volume});
 					}
 
 					mixer->PlaySound(soundId, volume);

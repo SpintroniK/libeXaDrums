@@ -77,18 +77,17 @@ namespace DrumKit
 				int id = std::stoi(trigger.GetText());
 				TriggerLocation location = trigger.Attribute<TriggerLocation>("location");
 
-				instrumentParameters.triggersIdsAndLocations.push_back(std::make_pair(id, location));
+				instrumentParameters.triggersIdsAndLocations.emplace_back(id, location);
 			}
 
 			int soundId = 0;
-
 			for(const auto& sound : XmlElement{instrument.FirstChildElement("sounds")})
 			{
 				InstrumentSoundInfo soundInfo;
 
 				soundInfo.id = soundId;
 				soundInfo.soundLocation = sound.GetText();
-				soundInfo.type = sound.Attribute<InstrumentSoundType>("type");
+				sound.Attribute("type", soundInfo.type);
 
 				instrumentParameters.soundsInfo.push_back(soundInfo);
 
@@ -96,7 +95,7 @@ namespace DrumKit
 			}
 
 			// Populate instrumentParameters
-			instrumentParameters.instrumentType = instrument.Attribute<InstrumentType>("type");
+			instrument.Attribute("type", instrumentParameters.instrumentType);
 			instrumentParameters.id = instrumentId;
 
 			// Instrument volume

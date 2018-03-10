@@ -16,6 +16,7 @@
 #include <iterator>
 #include <chrono>
 #include <set>
+#include <map>
 #include <iostream>
 
 using namespace Sound;
@@ -45,10 +46,16 @@ namespace DrumKit
 		recordThread = std::thread(&Recorder::Record, this);
 	}
 
-	void Recorder::StopAndExport()
+	void Recorder::Stop()
 	{
 		isRecord.store(false, std::memory_order_release);
 		recordThread.join();
+	}
+
+	void Recorder::Export(const std::string& fileName)
+	{
+		outputFile = fileName;
+		ConvertFile(lastFile);
 	}
 
 	// PRIVATE Methods
@@ -57,13 +64,10 @@ namespace DrumKit
 	{
 		while(!buffer.empty())
 		{
-			int soundId;
-			float volume;
-			int64_t time;
-			std::tie(soundId, time, volume) = buffer.front();
+			TrigSound t  = buffer.front();
 			buffer.pop();
 
-			file << soundId << ',' << time << ',' << volume << '\n';
+			file << t.instrumentId << ',' << t.soundId << ',' << t.timeStamp << ',' << t.volume << '\n';
 		}
 
 		// Insert keyframe if the metronome is running
@@ -71,7 +75,7 @@ namespace DrumKit
 
 		if(lastClickTime > 0)
 		{
-			file << -1 << ',' << lastClickTime << ',' << 0.5f << '\n';
+			file << -1 << ',' << -1 << ',' << lastClickTime << ',' << 0.5f << '\n';
 		}
 
 		file.flush();
@@ -84,8 +88,6 @@ namespace DrumKit
 		using namespace std::chrono_literals;
 		using namespace std::chrono;
 		using namespace std::this_thread;
-
-		using TrigSound = std::tuple<int, int64_t, float>;
 
 		// Create new file
 		const auto fileTimeStamp = duration_cast<microseconds>(system_clock::now().time_since_epoch()).count();
@@ -121,7 +123,8 @@ namespace DrumKit
 
 		file.close();
 
-		ConvertFile(fileName);
+		lastFile = fileName;
+		//ConvertFile(fileName);
 
 	}
 
@@ -134,7 +137,7 @@ namespace DrumKit
 		using namespace Util;
 		using namespace tinyxml2;
 		using namespace std::chrono;
-		using TrigSound = std::tuple<int, int64_t, float>;
+		using TrigSoundTuple = std::tuple<int, int, int64_t, float>;
 
 		std::ifstream file{fileLoc};
 
@@ -148,23 +151,27 @@ namespace DrumKit
 		std::vector<int> soundsIds;
 		soundsIds.reserve(lines.size());
 
+		std::map<int, std::set<int>> instrumentsSounds;
+
 		for(const auto& l : lines)
 		{
 			std::istringstream iss(l);
 			std::vector<std::string> tokens{std::istream_iterator<Token<','>>{iss}, std::istream_iterator<Token<','>>{}};
 
-			TrigSound tuple;
+			TrigSoundTuple tuple;
 			VectorOfStrToTuple(tokens, tuple);
 
-			int soundId;
-			float volume;
-			int64_t time;
-			std::tie(soundId, time, volume) = tuple;
+			TrigSound t;
+			std::tie(t.instrumentId, t.soundId, t.timeStamp, t.volume) = tuple;
 
-			soundsIds.push_back(soundId);
+			soundsIds.push_back(t.soundId);
+			instrumentsSounds[t.instrumentId].emplace(t.soundId);
 
-			root->InsertEndChild(CreateXmlElement(doc, "Sound", "", {{"Id", soundId}, {"TrigTime", time}, {"Volume", volume}}));
+			root->InsertEndChild(CreateXmlElement(doc, "Sound", "", {{"Id", t.soundId}, {"TrigTime", t.timeStamp}, {"Volume", t.volume}}));
 		}
+
+		// Remove metronome from the instruments list
+		instrumentsSounds.erase(-1);
 
 		// Get all the unique sounds ids
 		std::set<int> uniqueSoundsIds(soundsIds.begin(), soundsIds.end());
@@ -205,7 +212,14 @@ namespace DrumKit
 
 
 		doc.InsertFirstChild(root);
-		doc.SaveFile(std::string(directory + std::string("rec.xml")).data());
+		if(outputFile.empty())
+		{
+			doc.SaveFile(std::string(directory + std::string("rec.xml")).data());
+		}
+		else
+		{
+			doc.SaveFile(std::string(directory + outputFile + ".xml").data());
+		}
 	}
 
 } /* namespace DrumKit */

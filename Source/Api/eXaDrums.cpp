@@ -84,6 +84,11 @@ namespace eXaDrumsApi
 		this->drumModule->EnableRecording(enable);
 	}
 
+	void eXaDrums::RecorderExport_(const char* fileName)
+	{
+		this->drumModule->RecorderExport(std::string{fileName});
+	}
+
 	// Metronome
 
 	void eXaDrums::EnableMetronome(bool enable) const
