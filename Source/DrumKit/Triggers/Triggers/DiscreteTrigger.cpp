@@ -38,14 +38,19 @@ namespace DrumKit
 		short value = this->GetSensorData();
 
 
-		// Data normalisation
-		short v = std::abs(value - mean);
+		// Remove DC offset (high pass filter: y[n] = x[n] - x[n-1] + R * y[n-1])
+		filteredValue = value  - prevValue + 0.99 * prevFilteredValue;
 
-		velocity = v;
+		// Update values
+		prevValue = value;
+		prevFilteredValue = filteredValue;
+
+		velocity = filteredValue;
+
 
 		// Get current time
 		high_resolution_clock::time_point t = high_resolution_clock::now();
-		long long dt = (long long) duration<double, std::micro>(t - t0).count();
+		int64_t dt = static_cast<int64_t>(duration<double, std::micro>(t - t0).count());
 
 		if(velocity > this->triggerParameters.threshold)
 		{
@@ -67,7 +72,7 @@ namespace DrumKit
 
 				// Update trigger state
 				state.value = maxVelocity/numSamples;
-				state.trigTime = (long long) time_point_cast<microseconds>(t).time_since_epoch().count();
+				state.trigTime = static_cast<int64_t>(time_point_cast<microseconds>(t).time_since_epoch().count());
 				state.isTrig = true;
 			}
 

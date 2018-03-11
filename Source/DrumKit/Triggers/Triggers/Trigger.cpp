@@ -33,7 +33,11 @@ namespace DrumKit
 		t0 = high_resolution_clock::now();
 
 		numSamples = std::pow(2.0f, triggerParams.sensorConfig.resolution) / 2.0f;
-		mean = numSamples;
+		//mean = numSamples;
+
+		prevValue = 0;
+		filteredValue = 0;
+		prevFilteredValue = 0;
 
 		// Default state values
 		state.isTrig = false;

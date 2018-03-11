@@ -49,12 +49,14 @@ namespace DrumKit
 
 		float numSamples;
 
-		short mean;
+		short prevValue;
+		short filteredValue;
+		short prevFilteredValue;
 
 		bool trig;
 		bool out;
 
-		long long trigTime;
+		int64_t trigTime;
 
 		short velocity;
 		short maxVelocity;
