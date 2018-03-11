@@ -10,6 +10,7 @@
 
 #include <functional>
 #include <sstream>
+#include <numeric>
 #include <utility>
 
 namespace Util
@@ -40,6 +41,20 @@ namespace Util
 	{
 		size_t i = 0;
 		for_each_tuple(tuple, [&](auto& t){ StrToValue(vec[i++], t); });
+	}
+
+	/**
+	 * Converts every element of input and concatenates the results to a string, where elements are separated by separator.
+	 * The last separator is removed.
+	 * @param input
+	 * @param separator
+	 * @return
+	 */
+	template <typename T>
+	static std::string JoinToStr(const T& input, const std::string& separator = ',')
+	{
+		std::string str = std::accumulate(std::begin(input), std::end(input), std::string{}, [&](const auto& a, const auto& b) { return a + std::to_string(b) + separator; });
+		return str.substr(0, str.size() - separator.size());
 	}
 
 

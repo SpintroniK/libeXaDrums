@@ -153,6 +153,9 @@ namespace DrumKit
 
 		std::map<int, std::set<int>> instrumentsSounds;
 
+		auto xmlSounds = CreateXmlElement(doc, "Sounds");
+		root->InsertEndChild(xmlSounds);
+
 		for(const auto& l : lines)
 		{
 			std::istringstream iss(l);
@@ -167,7 +170,7 @@ namespace DrumKit
 			soundsIds.push_back(t.soundId);
 			instrumentsSounds[t.instrumentId].emplace(t.soundId);
 
-			root->InsertEndChild(CreateXmlElement(doc, "Sound", "", {{"Id", t.soundId}, {"TrigTime", t.timeStamp}, {"Volume", t.volume}}));
+			xmlSounds->InsertEndChild(CreateXmlElement(doc, "Sound", "", {{"Id", t.soundId}, {"TrigTime", t.timeStamp}, {"Volume", t.volume}}));
 		}
 
 		// Remove metronome from the instruments list
@@ -181,15 +184,22 @@ namespace DrumKit
 
 		// Create xml document
 		// Header
+		auto xmlHeader = CreateXmlElement(doc, "Header");
 		{
 
 			const auto fileTimeStamp = duration_cast<microseconds>(system_clock::now().time_since_epoch()).count();
 
-			auto xmlHeader = CreateXmlElement(doc, "Header");
-
 			xmlHeader->InsertEndChild(CreateXmlElement(doc, "Date", TimeStampToStr(fileTimeStamp)));
 			xmlHeader->InsertEndChild(CreateXmlElement(doc, "SampleRate", alsaParameters.sampleRate));
 			xmlHeader->InsertEndChild(CreateXmlElement(doc, "NumberOfChannels", alsaParameters.nChannels));
+
+			auto instrumentsXml = CreateXmlElement(doc, "Instruments");
+			xmlHeader->InsertEndChild(instrumentsXml);
+
+			for(const auto& instrumentSounds : instrumentsSounds)
+			{
+				instrumentsXml->InsertEndChild(CreateXmlElement(doc, "Instrument", "", {{"Id", instrumentSounds.first}, {"Sounds", JoinToStr(instrumentSounds.second, ", ")}}));
+			}
 
 			root->InsertFirstChild(xmlHeader);
 		}
@@ -207,7 +217,7 @@ namespace DrumKit
 			}
 
 
-			root->InsertFirstChild(xmlData);
+			xmlHeader->InsertEndChild(xmlData);
 		}
 
 
