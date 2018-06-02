@@ -1,9 +1,9 @@
 # libeXaDrums
-A shared library for <a href="https://github.com/SpintroniK/eXaDrums">eXaDrums</a>.
+A shared library for [eXaDrums](https://github.com/SpintroniK/eXaDrums).
 
 > eXaDrums is a drum module that is compatible with most Linux distributions. 
 It was originally created for the Raspberry Pi 2B and its official 7" touchscreen. 
-Please check out my other <a href="https://github.com/SpintroniK/eXaDrums">repository</a> for more details about eXaDrums.
+Please check out my other [repository](https://github.com/SpintroniK/eXaDrums) for more details about eXaDrums.
 
 ## Table of content
 
@@ -40,7 +40,7 @@ make all
 ```
 
 If you have multiple cores/threads, you can specify it by appending the option -jn, where n is the number of threads that you want to use for the compilation. 
-Example, for four threads type: <code>make -j4 all</code>.
+Example, for four threads type: `make -j4 all`.
 
 ### Configuration
 
