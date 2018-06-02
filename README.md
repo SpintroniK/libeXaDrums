@@ -30,7 +30,7 @@ sudo apt-get install git
 git clone https://github.com/SpintroniK/libeXaDrums.git 
 ```
 
-### Installation
+### Building libeXaDrums
 
 Now that you have all dependencies, you can compile libeXaDrums.
 Go to the `Release` directory and type `make all` in your terminal: 
@@ -41,6 +41,13 @@ make all
 
 If you have multiple cores/threads, you can specify it by appending the option -jn, where n is the number of threads that you want to use for the compilation. 
 Example, for four threads type: `make -j4 all`.
+
+### Installing libeXaDrums
+
+Once libeXaDrums has been compiled, the libeXaDrums.so file can be installed.
+To that end, just copy it to the /usr/lib directory: 
+
+```sudo cp libeXaDrums.so /usr/lib/```
 
 ### Configuration
 
