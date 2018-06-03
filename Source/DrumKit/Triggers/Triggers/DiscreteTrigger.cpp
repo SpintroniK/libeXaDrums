@@ -45,7 +45,7 @@ namespace DrumKit
 		prevValue = value;
 		prevFilteredValue = filteredValue;
 
-		velocity = filteredValue;
+		velocity = std::abs(filteredValue);
 
 
 		// Get current time
