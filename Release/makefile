@@ -56,21 +56,26 @@ endif
 # Add inputs and outputs from these tool invocations to the build variables 
 
 # All Target
-all: libeXaDrums.so
+all: libexadrums.so.0
 
 # Tool invocations
-libeXaDrums.so: $(OBJS) $(USER_OBJS)
+libexadrums.so.0: $(OBJS) $(USER_OBJS)
 	@echo 'Building target: $@'
 	@echo 'Invoking: Cross G++ Linker'
-	g++ -shared -Wl,-soname=libeXaDrums.so.0 -o "libeXaDrums.so" $(OBJS) $(USER_OBJS) $(LIBS)
+	g++ -shared -Wl,-soname=libexadrums.so.0 -o "libexadrums.so.0" $(OBJS) $(USER_OBJS) $(LIBS)
 	@echo 'Finished building target: $@'
 	@echo ' '
+	$(MAKE) --no-print-directory post-build
 
 # Other Targets
 clean:
-	-$(RM) $(LIBRARIES)$(CC_DEPS)$(C++_DEPS)$(OBJS)$(C_UPPER_DEPS)$(CXX_DEPS)$(C_DEPS)$(CPP_DEPS) libeXaDrums.so
+	-$(RM) $(LIBRARIES)$(CC_DEPS)$(C++_DEPS)$(OBJS)$(C_UPPER_DEPS)$(CXX_DEPS)$(C_DEPS)$(CPP_DEPS) libexadrums.so.0
 	-@echo ' '
 
-.PHONY: all clean dependents
+post-build:
+	-ln -s libexadrums.so.0 libexadrums.so
+	-@echo ' '
+
+.PHONY: all clean dependents post-build
 
 -include ../makefile.targets
