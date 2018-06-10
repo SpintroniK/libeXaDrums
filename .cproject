@@ -41,7 +41,7 @@
             			
             <storageModule moduleId="cdtBuildSystem" version="4.0.0">
                 				
-                <configuration artifactExtension="so.0" artifactName="exadrums" buildArtefactType="org.eclipse.cdt.build.core.buildArtefactType.sharedLib" buildProperties="org.eclipse.cdt.build.core.buildArtefactType=org.eclipse.cdt.build.core.buildArtefactType.sharedLib,org.eclipse.cdt.build.core.buildType=org.eclipse.cdt.build.core.buildType.debug" cleanCommand="rm -rf" description="" id="cdt.managedbuild.config.gnu.cross.so.debug.897778843" name="Debug" parent="cdt.managedbuild.config.gnu.cross.so.debug" postbuildStep="ln -s libexadrums.so.0 libexadrums.so">
+                <configuration artifactExtension="so.0" artifactName="exadrums" buildArtefactType="org.eclipse.cdt.build.core.buildArtefactType.sharedLib" buildProperties="org.eclipse.cdt.build.core.buildArtefactType=org.eclipse.cdt.build.core.buildArtefactType.sharedLib,org.eclipse.cdt.build.core.buildType=org.eclipse.cdt.build.core.buildType.debug" cleanCommand="rm -rf" description="" id="cdt.managedbuild.config.gnu.cross.so.debug.897778843" name="Debug" parent="cdt.managedbuild.config.gnu.cross.so.debug" postbuildStep="ln -sf libexadrums.so.0 libexadrums.so">
                     					
                     <folderInfo id="cdt.managedbuild.config.gnu.cross.so.debug.897778843." name="/" resourcePath="">
                         						
@@ -181,7 +181,7 @@
             			
             <storageModule moduleId="cdtBuildSystem" version="4.0.0">
                 				
-                <configuration artifactExtension="so.0" artifactName="exadrums" buildArtefactType="org.eclipse.cdt.build.core.buildArtefactType.sharedLib" buildProperties="org.eclipse.cdt.build.core.buildArtefactType=org.eclipse.cdt.build.core.buildArtefactType.sharedLib,org.eclipse.cdt.build.core.buildType=org.eclipse.cdt.build.core.buildType.debug" cleanCommand="rm -rf" description="" errorParsers="org.eclipse.cdt.core.GASErrorParser;org.eclipse.cdt.core.GmakeErrorParser;org.eclipse.cdt.core.GLDErrorParser;org.eclipse.cdt.core.CWDLocator;org.eclipse.cdt.core.GCCErrorParser" id="cdt.managedbuild.config.gnu.cross.so.debug.897778843.1597125014" name="Release" parent="cdt.managedbuild.config.gnu.cross.so.debug" postannouncebuildStep="" postbuildStep="ln -s libexadrums.so.0 libexadrums.so" preannouncebuildStep="" prebuildStep="">
+                <configuration artifactExtension="so.0" artifactName="exadrums" buildArtefactType="org.eclipse.cdt.build.core.buildArtefactType.sharedLib" buildProperties="org.eclipse.cdt.build.core.buildArtefactType=org.eclipse.cdt.build.core.buildArtefactType.sharedLib,org.eclipse.cdt.build.core.buildType=org.eclipse.cdt.build.core.buildType.debug" cleanCommand="rm -rf" description="" errorParsers="org.eclipse.cdt.core.GASErrorParser;org.eclipse.cdt.core.GmakeErrorParser;org.eclipse.cdt.core.GLDErrorParser;org.eclipse.cdt.core.CWDLocator;org.eclipse.cdt.core.GCCErrorParser" id="cdt.managedbuild.config.gnu.cross.so.debug.897778843.1597125014" name="Release" parent="cdt.managedbuild.config.gnu.cross.so.debug" postannouncebuildStep="" postbuildStep="ln -sf libexadrums.so.0 libexadrums.so" preannouncebuildStep="" prebuildStep="">
                     					
                     <folderInfo id="cdt.managedbuild.config.gnu.cross.so.debug.897778843.1597125014." name="/" resourcePath="">
                         						
