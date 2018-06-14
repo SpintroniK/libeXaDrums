@@ -83,7 +83,7 @@ namespace Util
 	template <class T>
 	inline constexpr const T& clamp( const T& v, const T& lo, const T& hi )
 	{
-		return clamp( v, lo, hi, std::less<>() );
+		return Util::clamp( v, lo, hi, std::less<>() );
 	}
 
 

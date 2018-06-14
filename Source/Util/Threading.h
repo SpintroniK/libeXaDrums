@@ -11,6 +11,7 @@
 #include "Misc.h"
 
 #include <thread>
+#include <algorithm>
 
 namespace Util
 {

@@ -73,7 +73,7 @@ clean:
 	-@echo ' '
 
 post-build:
-	-ln -s libexadrums.so.0 libexadrums.so
+	-ln -sf libexadrums.so.0 libexadrums.so
 	-@echo ' '
 
 .PHONY: all clean dependents post-build
