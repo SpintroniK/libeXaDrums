@@ -9,6 +9,7 @@
 
 
 #include "../../Util/Enums.h"
+#include "../../Util/Xml.h"
 
 #include "Curves/CurveType.h"
 #include "TriggerLocation.h"
@@ -50,41 +51,34 @@ namespace DrumKit
 
 		trigsParams.clear();
 
-		std::string file(moduleDir + "triggersConfig.xml");
+		const std::string file(moduleDir + "triggersConfig.xml");
 
 		XMLDocument doc;
 
-		if(doc.LoadFile(file.c_str()) != XML_SUCCESS)
+		if(doc.LoadFile(file.data()) != XML_SUCCESS)
 		{
 			throw -1;
 		}
 
 		XMLElement* root = doc.RootElement();
 
-		// Look for first trigger
-		XMLElement* firstTrigger = root->FirstChildElement("Trigger");
-
 		// Read all triggers
-		for(XMLElement* trigger = firstTrigger; trigger != nullptr; trigger = trigger->NextSiblingElement())
+		for(const auto& trigger : XmlElement{root, "Trigger"})
 		{
 			TriggerParameters trigParams;
 
 			// Get trigger id
-			trigParams.sensorId = std::atoi(trigger->Attribute("sensorId"));
+			trigger.Attribute("sensorId", trigParams.sensorId);
 
 			// Get trigger type
-			trigParams.type = Enums::ToElement<TriggerType>(trigger->Attribute("sensorType"));
+			trigParams.type = Enums::ToElement<TriggerType>(trigger.Attribute<std::string>("sensorType"));
 
 			// Read xml elements
-			XMLElement* threshold = trigger->FirstChildElement("Threshold");
-			XMLElement* scanTime = trigger->FirstChildElement("ScanTime");
-			XMLElement* maskTime = trigger->FirstChildElement("MaskTime");
-			XMLElement* response = trigger->FirstChildElement("Response");
-
-			trigParams.threshold = (short) std::atoi(threshold->GetText());
-			trigParams.scanTime = (unsigned int) std::atoi(scanTime->GetText());
-			trigParams.maskTime = std::atoi(maskTime->GetText());
-			trigParams.response = Enums::ToElement<CurveType>(response->GetText());
+			trigger.FirstChildElement("Threshold").GetValue(trigParams.threshold);
+			trigger.FirstChildElement("ScanTime").GetValue(trigParams.scanTime);
+			trigger.FirstChildElement("MaskTime").GetValue(trigParams.maskTime);
+			auto response = trigger.FirstChildElement("Response");
+			trigParams.response = Enums::ToElement<CurveType>(response.GetValue<std::string>());
 
 			// Sensors configuation
 			trigParams.sensorConfig.samplingRate = sensorsConfig.samplingRate;
@@ -108,32 +102,19 @@ namespace DrumKit
 		XMLDocument doc;
 
 		// Add root element
-		XMLElement* root = doc.NewElement("Triggers");
+		auto root = doc.NewElement("Triggers");
 		doc.InsertFirstChild(root);
 
 		// Add triggers configurations
 		for(const auto& trigger : trigsParams)
 		{
-			XMLElement* trig = doc.NewElement("Trigger");
-
 			std::string sensorTypeStr = Enums::ToString(trigger.type);
-			trig->SetAttribute("sensorType", sensorTypeStr.c_str());
-			trig->SetAttribute("sensorId", trigger.sensorId);
+			auto trig = CreateXmlElement(doc, "Trigger", "", {{"sensorType", sensorTypeStr}, {"sensorId", trigger.sensorId}});
 
-			XMLElement* threshold = doc.NewElement("Threshold");
-			XMLElement* scanTime = doc.NewElement("ScanTime");
-			XMLElement* maskTime = doc.NewElement("MaskTime");
-			XMLElement* response = doc.NewElement("Response");
-
-			threshold->SetText(trigger.threshold);
-			scanTime->SetText(trigger.scanTime);
-			maskTime->SetText(trigger.maskTime);
-			response->SetText(Enums::ToString(trigger.response).c_str());
-
-			trig->InsertEndChild(threshold);
-			trig->InsertEndChild(scanTime);
-			trig->InsertEndChild(maskTime);
-			trig->InsertEndChild(response);
+			trig->InsertEndChild(CreateXmlElement(doc, "Threshold", trigger.threshold));
+			trig->InsertEndChild(CreateXmlElement(doc, "ScanTime", trigger.scanTime));
+			trig->InsertEndChild(CreateXmlElement(doc, "MaskTime", trigger.maskTime));
+			trig->InsertEndChild(CreateXmlElement(doc, "Response", Enums::ToString(trigger.response)));
 
 			root->InsertEndChild(trig);
 		}

@@ -73,6 +73,21 @@ namespace Util
 		}
 
 		template <typename T>
+		inline void GetValue(T& value) const
+		{
+			std::istringstream iss{element->GetText()};
+			iss >> value;
+		}
+
+		template <typename T>
+		inline T GetValue() const
+		{
+			T value;
+			GetValue(value);
+			return value;
+		}
+
+		template <typename T>
 		inline void Attribute(const std::string& name, T& value) const
 		{
 			std::istringstream iss{element->Attribute(name.data())};
@@ -82,9 +97,8 @@ namespace Util
 		template <typename T>
 		inline T Attribute(const std::string& name) const
 		{
-			std::istringstream iss{element->Attribute(name.data())};
 			T value;
-			iss >> value;
+			Attribute<T>(name, value);
 			return value;
 		}
 
@@ -147,37 +161,7 @@ namespace Util
         return element;
     }
 
-    /**
-     * Gets the value (contents) of an xml element.
-     * @param element Pointer to the parent element.
-     * @param name Name of the xml element.
-     * @param text Variable in which the element's value is copied.
-     */
-    template <typename T>
-    void GetXmlElementValue(tinyxml2::XMLElement* element, const std::string& name, T& text)
-    {
 
-        tinyxml2::XMLElement* xmlElement = element->FirstChildElement(name.data());
-        std::istringstream iss(xmlElement->GetText());
-
-        iss >> text;
-    }
-
-    /**
-     * Get the value of an xml attribute.
-     * @param element Pointer to the parent element.
-     * @param name Name of the xml element.
-     * @param attributeName Name of the xml attribute.
-     * @param attributeValue Variable in which the attribute's value is copied.
-     */
-    template <typename T>
-    void GetXmlElementAttribute(tinyxml2::XMLElement* element, const std::string& name, const std::string& attributeName, T& attributeValue)
-    {
-        tinyxml2::XMLElement* xmlElement = element->FirstChildElement(name.data());
-        std::istringstream iss(xmlElement->Attribute(attributeName.data()));
-
-        iss >> attributeValue;
-    }
 }
 
 
