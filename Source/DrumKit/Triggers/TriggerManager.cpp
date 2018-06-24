@@ -17,6 +17,7 @@
 #include <tinyxml2.h>
 
 #include <algorithm>
+#include <iostream>
 
 
 using namespace tinyxml2;
@@ -81,10 +82,7 @@ namespace DrumKit
 			trigParams.response = Enums::ToElement<CurveType>(response.GetValue<std::string>());
 
 			// Sensors configuation
-			trigParams.sensorConfig.samplingRate = sensorsConfig.samplingRate;
-			trigParams.sensorConfig.resolution = sensorsConfig.resolution;
-			trigParams.sensorConfig.sensorType = sensorsConfig.sensorType;
-			trigParams.sensorConfig.hddDataFolder = sensorsConfig.hddDataFolder;
+			trigParams.sensorConfig = sensorsConfig;
 
 			trigsParams.push_back(trigParams);
 		}
@@ -138,17 +136,14 @@ namespace DrumKit
 			throw -1;
 		}
 
-		XMLElement* root = doc.RootElement();
+		auto root = XmlElement{doc.RootElement()};
 
-		XMLElement* samplingRate = root->FirstChildElement("SamplingRate");
-		XMLElement* resolution = root->FirstChildElement("Resolution");
-		XMLElement* type = root->FirstChildElement("Type");
-		XMLElement* dataFolder = root->FirstChildElement("HddDataFolder");
+		root.FirstChildElement("SamplingRate").GetValue(sensorConfig.samplingRate);
+		root.FirstChildElement("Resolution").GetValue(sensorConfig.resolution);
+		root.FirstChildElement("HddDataFolder").GetValue(sensorConfig.hddDataFolder);
 
-		sensorConfig.samplingRate = std::stoi(samplingRate->GetText());
-		sensorConfig.resolution = std::stoi(resolution->GetText());
-		sensorConfig.sensorType = Enums::ToElement<IO::SensorType>(type->GetText());
-		sensorConfig.hddDataFolder = std::string(dataFolder->GetText());
+		auto type = root.FirstChildElement("Type").GetValue<std::string>();
+		sensorConfig.sensorType = Enums::ToElement<IO::SensorType>(type);
 
 		return;
 	}

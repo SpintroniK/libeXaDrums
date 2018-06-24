@@ -92,7 +92,7 @@ namespace eXaDrumsApi
 
 		// Conversion to internal type
 		std::vector<DrumKit::TriggerParameters> trigsParams(triggersParameters.size());
-		std::transform(triggersParameters.begin(), triggersParameters.end(), trigsParams.begin(), [](eXaDrumsApi::TriggerParameters& tp) { return (DrumKit::TriggerParameters)tp; });
+		std::transform(triggersParameters.begin(), triggersParameters.end(), trigsParams.begin(), [](auto& tp) { return static_cast<DrumKit::TriggerParameters>(tp); });
 
 		DrumKit::TriggerManager::SaveTriggersConfig(dir, trigsParams);
 
