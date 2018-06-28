@@ -213,6 +213,13 @@ namespace eXaDrumsApi
 		return;
 	}
 
+	void Config::SetTriggerParameters_(int triggerId, const TriggerParameters& params)
+	{
+		const auto triggerParams = static_cast<DrumKit::TriggerParameters>(params);
+
+		module.SetTriggerParameters(triggerId, triggerParams);
+	}
+
 	void Config::GetSensorsTypes_(const char** types, unsigned int& size)
 	{
 

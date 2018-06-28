@@ -55,6 +55,7 @@ namespace DrumKit
 
 		// Triggers
 		void ReloadTriggers();
+		void SetTriggerParameters(int triggerId, const TriggerParameters& params) { triggers[triggerId]->SetParameters(params); }
 		std::vector<TriggerParameters> GetTriggersParameters() const { return this->triggersParameters; }
 		unsigned long long GetLastTrigTime() const { return lastTrigTime.load(std::memory_order_acquire); }
 		int GetLastTrigValue() const { return lastTrigValue.load(std::memory_order_acquire); }

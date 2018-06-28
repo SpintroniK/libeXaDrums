@@ -43,6 +43,7 @@ namespace eXaDrumsApi
 		void SetSensorsDataFolder(const std::string& folder);
 		void SetAudioDeviceParameters(const AlsaParamsApi& params);
 		void SetTriggersParameters(const std::vector<TriggerParameters>& params);
+		void SetTriggerParameters(int triggerId, const TriggerParameters& params);
 
 		// Accessors
 		std::vector<std::string> GetSensorsTypes();
@@ -68,6 +69,7 @@ namespace eXaDrumsApi
 		void SetAudioDeviceParameters_(const char* name);
 		void SetTriggersParameters_(const TriggerParameters* params, unsigned int size);
 		void SetAudioDeviceParameters_(const AlsaParamsApi& params);
+		void SetTriggerParameters_(int triggerId, const TriggerParameters& params);
 
 		const char* GetSensorsType_();
 		const char* GetSensorsDataFolder_() const;

@@ -354,10 +354,6 @@ namespace DrumKit
 	void Module::Run()
 	{
 
-		if(isMetronomeEnabled.load())
-		{
-			mixer->PlaySound(metronomeSoundId, 1.0f);
-		}
 
 		lastTrigTime.store(0, std::memory_order_relaxed);
 		lastTrigValue.store(0, std::memory_order_relaxed);

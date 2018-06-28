@@ -28,8 +28,6 @@ namespace DrumKit
 	{
 
 
-		//std::lock_guard<std::mutex> lock(triggerMutex);
-
 		// Reset state value
 		state.value = 0.0f;
 		state.isTrig = false;
@@ -37,6 +35,7 @@ namespace DrumKit
 		// Read sensor date
 		short value = this->GetSensorData();
 
+		const auto parameters = this->GetParameters();
 
 		// Remove DC offset (high pass filter: y[n] = x[n] - x[n-1] + R * y[n-1])
 		filteredValue = value  - prevValue + 0.99 * prevFilteredValue;
@@ -52,7 +51,7 @@ namespace DrumKit
 		high_resolution_clock::time_point t = high_resolution_clock::now();
 		int64_t dt = static_cast<int64_t>(duration<double, std::micro>(t - t0).count());
 
-		if(velocity > this->triggerParameters.threshold)
+		if(velocity > parameters.threshold)
 		{
 
 			if(!trig)
@@ -61,12 +60,12 @@ namespace DrumKit
 				 trig = true;
 			}
 
-			if(maxVelocity < velocity && dt < trigTime + this->triggerParameters.scanTime)
+			if(maxVelocity < velocity && dt < trigTime + parameters.scanTime)
 			{
 				maxVelocity = velocity;
 			}
 
-			if(dt > trigTime + this->triggerParameters.scanTime && !out)
+			if(dt > trigTime + parameters.scanTime && !out)
 			{
 				out = true;
 
@@ -78,7 +77,7 @@ namespace DrumKit
 
 		}
 
-		if(trig && dt > trigTime + this->triggerParameters.maskTime)
+		if(trig && dt > trigTime + parameters.maskTime)
 		{
 			trig = false;
 			maxVelocity = 0;

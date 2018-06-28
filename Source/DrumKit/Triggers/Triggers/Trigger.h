@@ -10,6 +10,7 @@
 
 
 #include "../../../IO/ISensor.h"
+#include "../../../Util/Threading.h"
 
 #include "../TriggerParameters.h"
 #include "../TriggerState.h"
@@ -32,9 +33,12 @@ namespace DrumKit
 		//virtual bool Trig(short value, float& strength) = 0;
 		virtual void Refresh() = 0;
 
+		virtual void SetParameters(const TriggerParameters& params);
+
 		virtual int GetId() const { return this->triggerParameters.sensorId; };
 		virtual TriggerType GetType() const { return this->triggerParameters.type; }
 		virtual TriggerState const& GetTriggerState() const { return state; }
+		virtual TriggerParameters GetParameters() const;
 
 
 	protected:
@@ -43,7 +47,6 @@ namespace DrumKit
 
 		virtual short GetSensorData() const { return sensor->GetData(triggerParameters.sensorId); }
 
-		TriggerParameters triggerParameters;
 
 		std::chrono::high_resolution_clock::time_point t0;
 
@@ -67,7 +70,8 @@ namespace DrumKit
 	private:
 
 		std::unique_ptr<IO::ISensor> sensor;
-
+		mutable Util::SpinLock spin;
+		TriggerParameters triggerParameters;
 
 	};
 

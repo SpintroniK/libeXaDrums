@@ -12,10 +12,12 @@
 #include "../../../IO/SpiSensor.h"
 
 #include <string>
+#include <mutex>
 
 #include <cmath>
 
 using namespace std::chrono;
+using namespace Util;
 
 namespace DrumKit
 {
@@ -61,5 +63,19 @@ namespace DrumKit
 	}
 
 
+	void Trigger::SetParameters(const TriggerParameters& params)
+	{
+		std::lock_guard<SpinLock> lock(spin);
+
+		triggerParameters = params;
+	}
+
+
+	TriggerParameters Trigger::GetParameters() const
+	{
+		std::lock_guard<SpinLock> lock(spin);
+
+		return triggerParameters;
+	}
 
 }
