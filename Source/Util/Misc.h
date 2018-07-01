@@ -12,6 +12,7 @@
 #include <sstream>
 #include <numeric>
 #include <utility>
+#include <vector>
 
 namespace Util
 {

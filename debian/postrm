@@ -1,0 +1,10 @@
+#!/bin/sh
+# postrm script for libexadrums
+#
+# see: dh_installdeb(1)
+
+set -e
+
+rm /usr/lib/libexadrums.so
+
+exit 0

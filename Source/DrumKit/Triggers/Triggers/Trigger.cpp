@@ -23,13 +23,13 @@ namespace DrumKit
 {
 
 	Trigger::Trigger(TriggerParameters triggerParams)
-	: triggerParameters(triggerParams),
-	  trig(false),
+	: trig(false),
 	  out(false),
 	  trigTime(0),
 	  velocity(0),
 	  maxVelocity(0),
-	  state()
+	  state(),
+	  triggerParameters(triggerParams)
 	{
 
 		t0 = high_resolution_clock::now();

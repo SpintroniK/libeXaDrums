@@ -1,0 +1,14 @@
+Source: libexadrums0
+Section: sound
+Priority: optional
+Maintainer: Jeremy Oden <jerem.oden@gmail.com>
+Build-Depends: debhelper (>= 10)
+Standards-Version: 4.1.2
+Homepage: http://www.freewebmaster.fr
+Vcs-Git: https://github.com/SpintroniK/libeXaDrums.git
+
+Package: libexadrums0
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: Shared library for eXaDrums.
+ A shared library that contains a complete drum module.
