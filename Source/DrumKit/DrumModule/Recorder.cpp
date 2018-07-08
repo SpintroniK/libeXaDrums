@@ -19,6 +19,14 @@
 #include <map>
 #include <iostream>
 
+#if __has_include(<filesystem>)
+	#include <filesystem>
+	namespace fs = std::filesystem;
+#else
+	#include <experimental/filesystem>
+	namespace fs = std::experimental::filesystem;
+#endif
+
 using namespace Sound;
 
 namespace DrumKit
@@ -228,7 +236,15 @@ namespace DrumKit
 		}
 		else
 		{
-			doc.SaveFile(std::string(directory + outputFile + ".xml").data());
+			fs::path p{outputFile};
+			if(p.extension() == ".xml")
+			{
+				doc.SaveFile(p.c_str());
+			}
+			else
+			{
+				doc.SaveFile((outputFile + ".xml").data());
+			}
 		}
 	}
 
