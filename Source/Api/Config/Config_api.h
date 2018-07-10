@@ -31,10 +31,14 @@ namespace eXaDrumsApi
 		void RefreshSensorsConfig();
 		void SaveSensorsConfig();
 		void SaveTriggersConfig();
-		void LoadTriggersConfig();
+		void LoadTriggersConfig() const;
 		void SaveCurrentAudioDeviceConfig();
 		void SaveAudioDeviceConfig(const AlsaParamsApi& params);
 		void ResetAudioDevice();
+
+		// Triggers
+		void DeleteTrigger(int sensorId);
+		int GetNbTriggers() const;
 
 		// Mutators
 		void SetSensorsSamplingRate(int sRate) { sensorsConfig.samplingRate = sRate; }
@@ -93,7 +97,7 @@ namespace eXaDrumsApi
 		IO::SensorsConfig sensorsConfig;
 
 		// Triggers config
-		std::vector<TriggerParameters> triggersParameters;
+		mutable std::vector<TriggerParameters> triggersParameters;
 
 		// Local copies of items
 		std::string sensorType;

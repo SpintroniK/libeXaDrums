@@ -15,7 +15,7 @@ namespace IO
 {
 
 
-	const std::vector<std::string> HddSensor::dataFiles({"out.raw", "out.raw", "hihat.raw"});
+	const std::vector<std::string> HddSensor::dataFiles({"out.raw", "out.raw", "out.raw"});
 
 
 	HddSensor::HddSensor(const std::string& dataFolder) : path(dataFolder), index(0)

@@ -101,7 +101,7 @@ namespace eXaDrumsApi
 		return;
 	}
 
-	void Config::LoadTriggersConfig()
+	void Config::LoadTriggersConfig() const
 	{
 
 		std::string dir;
@@ -117,7 +117,7 @@ namespace eXaDrumsApi
 		// Conversion and copy of the triggers parameters
 		this->triggersParameters.clear();
 		this->triggersParameters.resize(trigsParams.size());
-		std::transform(trigsParams.begin(), trigsParams.end(), triggersParameters.begin(), [](DrumKit::TriggerParameters& tp) { return (eXaDrumsApi::TriggerParameters)tp; });
+		std::transform(trigsParams.begin(), trigsParams.end(), triggersParameters.begin(), [](auto& tp) { return static_cast<eXaDrumsApi::TriggerParameters>(tp); });
 
 		return;
 	}
@@ -160,6 +160,28 @@ namespace eXaDrumsApi
 		this->drumKit.alsa = std::make_unique<Sound::Alsa>(alsaParams, this->drumKit.mixer);
 
 		return;
+	}
+
+	void Config::DeleteTrigger(int sensorId)
+	{
+
+		// Reload triggers config
+		LoadTriggersConfig();
+
+		// Remove trigger
+		auto it = std::remove_if(triggersParameters.begin(), triggersParameters.end(), [&](const auto& tp) { return tp.sensorId == sensorId; });
+		triggersParameters.erase(it);
+
+		// Save triggers config
+		SaveTriggersConfig();
+
+		RestartModule();
+	}
+
+	int Config::GetNbTriggers() const
+	{
+		LoadTriggersConfig();
+		return static_cast<int>(triggersParameters.size());
 	}
 
 
