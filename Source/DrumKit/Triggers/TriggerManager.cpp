@@ -91,8 +91,11 @@ namespace DrumKit
 		return;
 	}
 
-	void TriggerManager::SaveTriggersConfig(const std::string& moduleDir, const std::vector<TriggerParameters>& trigsParams)
+	void TriggerManager::SaveTriggersConfig(const std::string& moduleDir, const std::vector<TriggerParameters>& triggerParameters)
 	{
+
+		std::vector<TriggerParameters> trigsParams = triggerParameters;
+		std::sort(trigsParams.begin(), trigsParams.end(), [](const auto& t1, const auto& t2) { return t1.sensorId < t2.sensorId; });
 
 		std::string file(moduleDir + "triggersConfig.xml");
 
@@ -116,7 +119,6 @@ namespace DrumKit
 
 			root->InsertEndChild(trig);
 		}
-
 
 		// Save file
 		doc.SaveFile(file.c_str());

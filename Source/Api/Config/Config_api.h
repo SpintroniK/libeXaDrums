@@ -37,6 +37,7 @@ namespace eXaDrumsApi
 		void ResetAudioDevice();
 
 		// Triggers
+		void AddTrigger(const TriggerParameters& params);
 		void DeleteTrigger(int sensorId);
 		int GetNbTriggers() const;
 

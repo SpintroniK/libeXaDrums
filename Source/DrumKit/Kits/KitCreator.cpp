@@ -8,8 +8,6 @@
 #include "KitCreator.h"
 
 #include "../../Sound/SoundBank/SoundBank.h"
-
-#include "../Triggers/TriggerManager.h"
 #include "../Instruments/InstrumentFactory.h"
 
 #include <algorithm>
@@ -21,7 +19,7 @@ namespace DrumKit
 {
 
 	KitCreator::KitCreator(const std::string& dataLoc)
-	: kitsDirectory(dataLoc + "Kits/"), instrument(), triggersIds(TriggerManager::LoadTriggersIds(dataLoc)), soundFiles(SoundBank::GetSoundFiles(dataLoc))
+	: dataFolder{dataLoc}, kitsDirectory(dataLoc + "Kits/"), instrument(), soundFiles(SoundBank::GetSoundFiles(dataLoc))
 	{
 
 

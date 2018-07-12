@@ -162,6 +162,22 @@ namespace eXaDrumsApi
 		return;
 	}
 
+	void Config::AddTrigger(const TriggerParameters& params)
+	{
+		// Reload triggers config
+		LoadTriggersConfig();
+
+		// Add trigger
+		this->triggersParameters.push_back(params);
+
+		// Save trigger config
+		SaveTriggersConfig();
+
+		// Restart module
+		RestartModule();
+
+	}
+
 	void Config::DeleteTrigger(int sensorId)
 	{
 

@@ -9,6 +9,7 @@
 #define SOURCE_DRUMKIT_KITS_KITCREATOR_H_
 
 #include "../../Util/Enums.h"
+#include "../Triggers/TriggerManager.h"
 
 #include "KitParameters.h"
 #include "KitManager.h"
@@ -62,7 +63,7 @@ namespace DrumKit
 		std::vector<std::string> GetInstrumentsNames() const;
 
 		// Triggers
-		std::vector<int> GetTriggersIds() const { return triggersIds; }
+		std::vector<int> GetTriggersIds() const { return TriggerManager::LoadTriggersIds(dataFolder); }
 		std::vector<std::string> GetTriggersLocations(const std::string& instrumentType) const;
 
 		// Sounds
@@ -74,11 +75,11 @@ namespace DrumKit
 
 		void Test();
 
+		std::string dataFolder;
 		std::string kitsDirectory;
 		KitParameters parameters;
 		InstrumentParameters instrument;
 
-		std::vector<int> triggersIds;
 		std::vector<std::string> soundFiles;
 
 
