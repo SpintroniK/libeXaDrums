@@ -15,6 +15,8 @@ namespace Sound
 	Mixer::Mixer()
 	{
 
+		playList.reserve(512);
+
 		return;
 	}
 

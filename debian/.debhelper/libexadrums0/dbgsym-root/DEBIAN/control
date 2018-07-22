@@ -5,9 +5,9 @@ Version: 0.1.0
 Auto-Built-Package: debug-symbols
 Architecture: amd64
 Maintainer: Jeremy Oden <jerem.oden@gmail.com>
-Installed-Size: 84
+Installed-Size: 94
 Depends: libexadrums0 (= 0.1.0)
 Section: debug
 Priority: optional
 Description: debug symbols for libexadrums0
-Build-Ids: 0ac4a5e0aa5661703ef40c3f47c1a8059efe0804
+Build-Ids: 5081f349ad131e6d2847f651bcea047b6a9cacf4
