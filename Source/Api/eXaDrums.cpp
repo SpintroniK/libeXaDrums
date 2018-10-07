@@ -28,9 +28,10 @@ namespace eXaDrumsApi
 	const std::string eXaDrums::metronomeConfigFile = "metronomeConfig.xml";
 	const std::string eXaDrums::alsaConfigFile = "alsaConfig.xml";
 
-	eXaDrums::eXaDrums(const char* dataLoc) : dataLocation(dataLoc), isStarted(false)
+	eXaDrums::eXaDrums(const char* dataLoc) : isStarted(false)
 	{
 
+		this->dataLocation = std::string{dataLoc} + "/";
 
 		// Load alsa parameters
 		AlsaParams alsaParams;
