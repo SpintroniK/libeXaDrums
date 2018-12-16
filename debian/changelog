@@ -1,3 +1,9 @@
+libexadrums0 (0.2.0) unstable; urgency=medium
+
+  * Added curves to the triggers, and real-time curve selection.
+
+ -- Jeremy Oden <jerem.oden@gmail.com>  Sun, 16 Dec 2018 10:46:28 +0000
+
 libexadrums0 (0.1.0) unstable; urgency=medium
 
   * Initial Release.

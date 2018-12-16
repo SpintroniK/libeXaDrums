@@ -23,7 +23,7 @@ namespace eXaDrumsApi
 {
 
 	constexpr auto LIBEXADRUMS_MAJOR_VERSION = 0;
-	constexpr auto LIBEXADRUMS_MINOR_VERSION = 1;
+	constexpr auto LIBEXADRUMS_MINOR_VERSION = 2;
 	constexpr auto LIBEXADRUMS_PATCH_VERSION = 0;
 
 	class eXaDrums
