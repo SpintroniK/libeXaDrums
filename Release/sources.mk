@@ -32,7 +32,6 @@ Source/DrumKit/Instruments/Drums \
 Source/DrumKit/Instruments \
 Source/DrumKit/Instruments/Pads \
 Source/DrumKit/Kits \
-Source/DrumKit/Triggers/Curves \
 Source/DrumKit/Triggers \
 Source/DrumKit/Triggers/Triggers \
 Source/IO \

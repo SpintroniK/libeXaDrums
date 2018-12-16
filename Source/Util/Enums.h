@@ -55,7 +55,7 @@ namespace Util
 
 			std::stringstream ss;
 
-			for (const auto& c : T())
+			for (const auto& c : T{})
 			{
 				if(c == e)
 				{
@@ -73,7 +73,7 @@ namespace Util
 		static T ToElement(const std::string& s)
 		{
 
-			for (const auto& c : T())
+			for (const auto& c : T{})
 			{
 				std::stringstream ss;
 				ss << c;
@@ -96,7 +96,7 @@ namespace Util
 
 			std::vector<T> v;
 
-			for (const auto& c : T())
+			for (const auto& c : T{})
 			{
 				v.push_back(c);
 			}

@@ -12,6 +12,7 @@
 #include "../../../IO/SpiSensor.h"
 
 #include <string>
+#include <algorithm>
 #include <mutex>
 
 #include <cmath>
@@ -34,7 +35,7 @@ namespace DrumKit
 
 		t0 = high_resolution_clock::now();
 
-		numSamples = std::pow(2.0f, triggerParams.sensorConfig.resolution) / 2.0f;
+		numSamples = static_cast<size_t>(std::pow(2.0f, triggerParams.sensorConfig.resolution) / 2.0f);
 		//mean = numSamples;
 
 		prevValue = 0;
@@ -58,10 +59,19 @@ namespace DrumKit
 
 		}
 
+		// Generate curves
+		const auto curves_types = Enums::GetEnumVector<CurveType>();
+		curves.resize(curves_types.size());
+		std::transform(curves_types.cbegin(), curves_types.cend(), curves.begin(), [&](const auto& t) { return Curves::MakeCurve<float>(t, numSamples);});
+
 
 		return;
 	}
 
+	short Trigger::GetSensorData() const
+	{
+		return sensor->GetData(triggerParameters.sensorId);
+	}
 
 	void Trigger::SetParameters(const TriggerParameters& params)
 	{

@@ -52,6 +52,11 @@ namespace DrumKit
 	inline TriggerType end(TriggerType x) { TriggerType l = TriggerType::Last; return ++l; };
 
 
+	inline std::istream& operator>>(std::istream& is, TriggerType& x)
+	{
+		return Util::StreamToEnum(is, x);
+	}
+
 }
 
 

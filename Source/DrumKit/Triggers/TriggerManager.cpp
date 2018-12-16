@@ -72,14 +72,14 @@ namespace DrumKit
 			trigger.Attribute("sensorId", trigParams.sensorId);
 
 			// Get trigger type
-			trigParams.type = Enums::ToElement<TriggerType>(trigger.Attribute<std::string>("sensorType"));
+			trigParams.type = trigger.Attribute<TriggerType>("sensorType");
 
 			// Read xml elements
 			trigger.FirstChildElement("Threshold").GetValue(trigParams.threshold);
 			trigger.FirstChildElement("ScanTime").GetValue(trigParams.scanTime);
 			trigger.FirstChildElement("MaskTime").GetValue(trigParams.maskTime);
 			auto response = trigger.FirstChildElement("Response");
-			trigParams.response = Enums::ToElement<CurveType>(response.GetValue<std::string>());
+			trigParams.response = response.GetValue<CurveType>();
 
 			// Sensors configuation
 			trigParams.sensorConfig = sensorsConfig;

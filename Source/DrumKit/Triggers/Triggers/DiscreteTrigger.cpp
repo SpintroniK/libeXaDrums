@@ -70,7 +70,7 @@ namespace DrumKit
 				out = true;
 
 				// Update trigger state
-				state.value = maxVelocity/numSamples;
+				state.value = Curves::Apply(this->curves[static_cast<size_t>(parameters.response)], maxVelocity);
 				state.trigTime = static_cast<int64_t>(time_point_cast<microseconds>(t).time_since_epoch().count());
 				state.isTrig = true;
 			}

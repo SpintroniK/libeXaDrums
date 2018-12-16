@@ -8,6 +8,7 @@
 #ifndef LIBEXADRUMS_SOURCE_DRUMKIT_CURVES_CURVE_H_
 #define LIBEXADRUMS_SOURCE_DRUMKIT_CURVES_CURVE_H_
 
+#include "../../../Util/Enums.h"
 #include <sstream>
 #include <string>
 #include <type_traits>
@@ -52,6 +53,10 @@ namespace DrumKit
 	inline CurveType end(CurveType x) { CurveType l = CurveType::Last; return ++l; };
 
 
+	inline std::istream& operator>>(std::istream& is, CurveType& x)
+	{
+		return Util::StreamToEnum(is, x);
+	}
 }
 
 

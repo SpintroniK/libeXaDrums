@@ -9,6 +9,7 @@
 #define SOURCE_DRUMKIT_TRIGGERS_TRIGGERS_TRIGGER_H_
 
 
+#include "../Curves/Curves.h"
 #include "../../../IO/ISensor.h"
 #include "../../../Util/Threading.h"
 
@@ -45,12 +46,11 @@ namespace DrumKit
 
 		virtual ~Trigger() = default;
 
-		virtual short GetSensorData() const { return sensor->GetData(triggerParameters.sensorId); }
-
+		virtual short GetSensorData() const;
 
 		std::chrono::high_resolution_clock::time_point t0;
 
-		float numSamples;
+		size_t numSamples;
 
 		short prevValue;
 		short filteredValue;
@@ -65,6 +65,7 @@ namespace DrumKit
 		short maxVelocity;
 
 		TriggerState state;
+		std::vector<curve_t<float>> curves;
 
 
 	private:
