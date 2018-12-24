@@ -1,3 +1,0 @@
-shlibs:Depends=libasound2 (>= 1.0.16), libc6 (>= 2.27), libgcc1 (>= 1:3.0), libstdc++6 (>= 6), libtinyxml2-6 (>= 5.0.0)
-misc:Depends=
-misc:Pre-Depends=

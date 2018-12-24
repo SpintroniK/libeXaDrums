@@ -1,25 +1,35 @@
 #!/usr/bin/make -f
-# See debhelper(7) (uncomment to enable)
-# output every command that modifies files on the build system.
-#export DH_VERBOSE = 1
 
+# https://manpages.debian.org/dpkg-buildflags
+DEB_BUILD_MAINT_OPTIONS := hardening=+all
+DPKG_EXPORT_BUILDFLAGS := 1
+include /usr/share/dpkg/buildflags.mk
 
-# see FEATURE AREAS in dpkg-buildflags(1)
-#export DEB_BUILD_MAINT_OPTIONS = hardening=+all
+# The shared library package is marked as "Multi-Arch: same".
+# https://manpages.debian.org/dpkg-architecture
+include /usr/share/dpkg/architecture.mk
+libdir := /usr/lib/$(DEB_HOST_MULTIARCH)
 
-# see ENVIRONMENT in dpkg-buildflags(1)
-# package maintainers to append CFLAGS
-#export DEB_CFLAGS_MAINT_APPEND  = -Wall -pedantic
-# package maintainers to append LDFLAGS
-#export DEB_LDFLAGS_MAINT_APPEND = -Wl,--as-needed
+# Ensure that the soversion and the shared library package name in
+# debian/control remain consistent.
+soversion := $(shell sed -n \
+  '/^Package: libexadrums\([0-9.]\+\)$$/ { s//\1/; p; q}' debian/control)
+soname  := libexadrums.so.$(soversion)
+dev_pkg := libexadrums-dev
+lib_pkg := libexadrums$(soversion)
 
-
+# https://manpages.debian.org/debhelper
 %:
 	dh $@
 
-
-# dh_make generated override targets
-# This is example for Cmake (See https://bugs.debian.org/641051 )
-#override_dh_auto_configure:
-#	dh_auto_configure -- #	-DCMAKE_LIBRARY_PATH=$(DEB_HOST_MULTIARCH)
-
+# Upstream build system has no install target, so "dh_auto_install"
+# does nothing, and we spare the debian/tmp intermediate directory.
+# Also, use variables here instead of hard-coded auxiliary files.
+.PHONY: override_dh_install
+override_dh_install:
+	dh_install -p$(lib_pkg) $(soname) $(libdir)
+	dh_install --remaining-packages
+.PHONY: override_dh_link
+override_dh_link:
+	dh_link -p$(dev_pkg) $(libdir)/$(soname) $(libdir)/libexadrums.so
+	dh_link --remaining-packages

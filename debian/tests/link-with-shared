@@ -1,0 +1,14 @@
+#!/bin/sh
+set -Cefu
+
+main="$AUTOPKGTEST_TMP/main"
+cat > "$main.cpp" <<EOF
+#include <stdio.h>
+#include <eXaDrums/Api/eXaDrums.h>
+int main () {
+    printf ("%i\n", eXaDrumsApi::LIBEXADRUMS_MAJOR_VERSION);
+    return 0;
+}
+EOF
+g++ "$main.cpp" -o "$main" -lexadrums
+"$main"

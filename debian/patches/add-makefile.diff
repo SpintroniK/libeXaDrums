@@ -1,0 +1,54 @@
+Description: add a simple Makefile
+ Upstream build system is complex, unconfigurable and lacks an install
+ target. Fix the first two issues.
+Author: Nicolas Boulenguez <nicolas@debian.org>
+
+--- /dev/null
++++ b/Makefile
+@@ -0,0 +1,46 @@
++#!/usr/bin/make -f
++
++# These defaults may be overriden by the environment or the command line.
++# For a debug build, use "make CXXFLAGS=-g".
++CPPFLAGS                      ?=
++CXX                           ?= g++
++CXXFLAGS                      ?= -O3
++LDFLAGS                       ?=
++LDLIBS                        ?=
++
++soversion                     := 0
++soname                        := libexadrums.so.$(soversion)
++
++shared_library                := $(soname)
++
++cpp_files                     := $(shell find Source -name '*.cpp')
++objects                       := $(cpp_files:cpp=o)
++
++# --as-needed ensures that objects and libraries are listed in a way
++# compatible with most distributions where it is the default. It also
++# removes dependencies like -lpthread on architectures where it is
++# actually unused.
++pkg-config_modules            := alsa tinyxml2
++local_cxxflags                := `pkg-config --cflags $(pkg-config_modules)` \
++                                 -Wall -std=c++17 -fPIC
++local_ldflags                 := -Wl,--as-needed
++local_ldlibs                  := `pkg-config --libs $(pkg-config_modules)` \
++                                 -lpthread -lstdc++fs
++
++.PHONY: all clean
++
++all: $(shared_library)
++
++$(shared_library): $(objects)
++	$(LINK.cc) \
++	  $(local_cxxflags) $(local_ldflags) \
++	  -o $(shared_library) -shared -Wl,-soname=$(soname) \
++	  $(objects) $(local_ldlibs) $(LDLIBS)
++
++$(objects): %.o: %.cpp
++	$(COMPILE.cc) \
++	  $(local_cxxflags) \
++	  $< -o $@
++
++clean:
++	$(RM) $(shared_library) $(objects)
