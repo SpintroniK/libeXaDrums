@@ -1,0 +1,9 @@
+prefix=@prefix@
+
+Name: @PACKAGE_NAME@
+Description: The eXaDrums software drum module library
+URL: @PACKAGE_URL@
+Version: @PACKAGE_VERSION@
+Requires.private: alsa tinyxml2
+Cflags: -I@includedir@/libexadrums
+Libs: -L@libdir@ -lexadrums

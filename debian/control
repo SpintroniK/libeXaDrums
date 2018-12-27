@@ -7,23 +7,24 @@ Build-Depends:
  libasound-dev,
  libtinyxml2-dev,
  pkg-config,
-Standards-Version: 4.2.1
+Standards-Version: 4.3.0
 Rules-Requires-Root: no
 Homepage: http://www.freewebmaster.fr
 Vcs-Git: https://github.com/SpintroniK/libeXaDrums.git
 Vcs-Browser: https://github.com/SpintroniK/libeXaDrums
 
 Package: libexadrums-dev
-Architecture: all
+Architecture: any
 Depends: ${misc:Depends},
  libexadrums0 (= ${binary:Version}),
  libtinyxml2-dev,
+Recommends: pkg-config
 Description: software drum module (development)
  Todo.
  .
  This package provides the C++ headers.
 
-Package: libexadrums0
+Package: libexadrums0.0.0
 Section: libs
 Architecture: any
 Multi-Arch: same
