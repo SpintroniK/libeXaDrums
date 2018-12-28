@@ -9,7 +9,7 @@ ACLOCAL_AMFLAGS = -I m4
 PACKAGE = libexadrums
 
 # https://www.gnu.org/software/libtool/manual/libtool.html#Updating-version-info
-exadrums_libtool_version_info := 0.0.0
+exadrums_libtool_version_info = 0.0.0
 
 # Distribute (in the tarball created by 'make dist-gzip').
 EXTRA_DIST = LICENSE
