@@ -9,7 +9,7 @@ ACLOCAL_AMFLAGS = -I m4
 PACKAGE = libexadrums
 
 # https://www.gnu.org/software/libtool/manual/libtool.html#Updating-version-info
-exadrums_libtool_version_info = 0.0.0
+exadrums_libtool_version_info = 0:0:0
 
 # Distribute (in the tarball created by 'make dist-gzip').
 EXTRA_DIST = LICENSE
@@ -28,11 +28,11 @@ AM_LDFLAGS = -Wl,--as-needed
 # Delegate library handling to libtool.
 lib_LTLIBRARIES = libexadrums.la
 
-libexadrums_CPPFLAGS = $(alsa_CFLAGS) $(tinyxml2_CFLAGS) $(AM_CPPFLAGS)
-libexadrums_CXXFLAGS = -std=c++17 $(AM_CXXFLAGS)
+libexadrums_la_CXXFLAGS = $(AM_CXXFLAGS) \
+  -std=c++17 $(alsa_CFLAGS) $(tinyxml2_CFLAGS)
+libexadrums_la_LDFLAGS = $(AM_LDFLAGS) \
+  -version-info $(exadrums_libtool_version_info)
 libexadrums_la_LIBADD = $(alsa_LIBS) $(tinyxml2_LIBS) -lpthread -lstdc++fs
-libexadrums_la_LIBTOOLFLAGS = $(AM_LIBTOOLFLAGS) \
-  --version-info=$(exadrums_libtool_version_info)
 
 # Distributed and embed into the library.
 libexadrums_la_SOURCES = \
