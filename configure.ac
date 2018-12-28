@@ -9,7 +9,7 @@ AC_INIT([libeXaDrums],
         [Jérémy Oden <jerem.oden@gmail.com>],
         [],
         [http://www.freewebmaster.fr])
-AC_CONFIG_SRCDIR([Source/Api/eXaDrums.cpp])
+AC_CONFIG_SRCDIR([Api/eXaDrums.cpp])
 AC_PROG_CXX
 AC_CONFIG_MACRO_DIRS([m4])
 AC_CONFIG_HEADERS([config.h])
@@ -28,6 +28,6 @@ PKG_CHECK_MODULES([tinyxml2], [tinyxml2])
 AC_CONFIG_FILES([
   Makefile
   exadrums.pc
-  Source/Api/eXaDrums.h
+  Api/eXaDrums.h
 ])
 AC_OUTPUT

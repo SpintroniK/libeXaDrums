@@ -5,5 +5,5 @@ Description: The eXaDrums software drum module library
 URL: @PACKAGE_URL@
 Version: @PACKAGE_VERSION@
 Requires.private: alsa tinyxml2
-Cflags: -I@includedir@/libexadrums
+Cflags: -I@includedir@
 Libs: -L@libdir@ -lexadrums
