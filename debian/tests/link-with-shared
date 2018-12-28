@@ -6,7 +6,7 @@ cat > "$main.cpp" <<EOF
 #include <stdio.h>
 #include <eXaDrums.h>
 int main () {
-    printf ("%i\n", eXaDrumsApi::LIBEXADRUMS_MAJOR_VERSION);
+    printf ("%s\n", eXaDrumsApi::LIBEXADRUMS_VERSION);
     return 0;
 }
 EOF

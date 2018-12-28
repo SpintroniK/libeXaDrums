@@ -9,12 +9,10 @@ AC_INIT([libeXaDrums],
         [Jérémy Oden <jerem.oden@gmail.com>],
         [],
         [http://www.freewebmaster.fr])
-AC_CONFIG_SRCDIR([Source/Api/eXaDrums.h])
+AC_CONFIG_SRCDIR([Source/Api/eXaDrums.cpp])
 AC_PROG_CXX
 AC_CONFIG_MACRO_DIRS([m4])
-AC_CONFIG_HEADERS([Source/config.h])
-# TODO: Source/Api/eXaDrums.h should read the version from
-# Source/config.h instead of duplicating the information.
+AC_CONFIG_HEADERS([config.h])
 
 # https://www.gnu.org/software/automake/manual/automake.html
 AM_INIT_AUTOMAKE([-Wall -Werror foreign subdir-objects])
@@ -30,5 +28,6 @@ PKG_CHECK_MODULES([tinyxml2], [tinyxml2])
 AC_CONFIG_FILES([
   Makefile
   exadrums.pc
+  Source/Api/eXaDrums.h
 ])
 AC_OUTPUT

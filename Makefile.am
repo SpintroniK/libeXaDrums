@@ -105,6 +105,11 @@ libexadrums_la_SOURCES = \
   Source/Util/Threading.h \
   Source/Util/Time.h
 
+# Install into pkgincludedir, but do not distribute (it is generated
+# by the configure.ac).
+nodist_pkginclude_HEADERS = \
+  Source/Api/eXaDrums.h
+
 # Distribute and install into pkgincludedir.
 pkginclude_HEADERS = \
   Source/Api/Config/AlsaParams_api.h \
@@ -113,7 +118,6 @@ pkginclude_HEADERS = \
   Source/Api/Config/TriggerParameters_api.h \
   Source/Api/KitCreator/KitCreator_api.h \
   Source/Api/KitCreator/KitCreator_api.hpp \
-  Source/Api/eXaDrums.h \
   Source/Api/eXaDrums.hpp \
   Source/DrumKit/Instruments/InstrumentParameters.h \
   Source/DrumKit/Instruments/InstrumentSoundInfo.h \
