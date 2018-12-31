@@ -16,3 +16,8 @@ lib_pkg := $(shell sed -n \
 override_dh_install:
 	dh_install -p$(lib_pkg) usr/lib/*/libexadrums.so.*
 	dh_install --remaining-packages
+
+# This stanza can be removed with debhelper >= 12.
+.PHONY: override_dh_missing
+override_dh_missing:
+	dh_missing --list-missing

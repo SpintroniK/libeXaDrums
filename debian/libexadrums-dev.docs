@@ -1,1 +1,2 @@
-usr/share/doc/libexadrums/README.md
+# The debian/tmp/ prefix may removed with debhelper >= 11.
+debian/tmp/usr/share/doc/libexadrums/README.md
