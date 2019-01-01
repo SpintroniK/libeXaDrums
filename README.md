@@ -50,10 +50,8 @@ or you can build the Debian packages:
 ```
 cd libeXaDrums
 dpkg-buildpackage -b -uc
-sudo dpkg -i libexadrums0_[...].deb
-sudo dpkg -i libexadrums-dev[...].deb
 ```
-If you have multiple cores/threads, you can specify it by appending the option -jn to dpkg-buildpackage, where n is the number of threads that you want to use for the compilation. 
+If you have multiple cores/threads, you can speed up the build process by appending the option -jn to dpkg-buildpackage, where n is the number of threads that you want to use for the compilation. 
 Example, for four threads type: `dpkg-buildpackage -b -uc -j4`.
 
 ### Installing libeXaDrums
