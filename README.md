@@ -21,35 +21,53 @@ Please check out my other [repository](https://github.com/SpintroniK/eXaDrums) f
 
 libeXaDrums depends on Alsa and TinyXml2. You can install those two libraries using this command line: <br />
 ```
-sudo apt-get install libasound2-dev libtinyxml2-dev build-essential 
+sudo apt install libasound2-dev libtinyxml2-dev
 ```
-Note that you also need build-essential to build the project.
+LibeXaDrums also depends on build-essential and autotools in order to build and install the binaries: 
+```
+sudo apt install autoconf automake libtool build-essential 
+```
+If you wish to build the Debian packages, you will need to install debhelper and pkg-config: 
+```
+sudo apt install debhelper pkg-config
+```
 You may also want to install git, so that you can clone this repository and install from it: 
 ```
-sudo apt-get install git
+sudo apt install git
 git clone https://github.com/SpintroniK/libeXaDrums.git 
 ```
 
 ### Building libeXaDrums
 
-Now that you have all dependencies, you can compile libeXaDrums.
-Go to the `Release` directory and type `make all` in your terminal: 
+Now that you have all dependencies, you can build libeXaDrums: 
 ```
-cd libeXaDrums/Release
-make all 
+cd libeXaDrums
+autoreconf -fi
+./configre
+make
 ```
-
-If you have multiple cores/threads, you can specify it by appending the option -jn, where n is the number of threads that you want to use for the compilation. 
-Example, for four threads type: `make -j4 all`.
+or you can build the Debian packages: 
+```
+cd libeXaDrums
+dpkg-buildpackage -b -uc
+sudo dpkg -i libexadrums0_[...].deb
+sudo dpkg -i libexadrums-dev[...].deb
+```
+If you have multiple cores/threads, you can specify it by appending the option -jn to dpkg-buildpackage, where n is the number of threads that you want to use for the compilation. 
+Example, for four threads type: `dpkg-buildpackage -b -uc -j4`.
 
 ### Installing libeXaDrums
 
-Once libeXaDrums has been compiled, the libeXaDrums.so file can be installed.
-To that end, just copy it to the /usr/lib directory: 
+If you have built libeXaDrums using make, use:
 
-```sudo cp libeXaDrums.so /usr/lib/```
+```sudo make install```
 
-### Configuration
+otherwise, if you built the Debian packages, install them normally: 
+
+```
+sudo dpkg -i libexadrums0_[...].deb
+sudo dpkg -i libexadrums-dev[...].deb
+```
 
 ## Usage
 
