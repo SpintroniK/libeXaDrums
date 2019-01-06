@@ -17,8 +17,14 @@ namespace IO
 	public:
 
 		virtual short GetData(char channel) = 0;
+		virtual void SetData(char channel, short value) = 0;
+		virtual bool IsDigital() const { return is_digital; }
 
 		virtual ~ISensor() {};
+
+	protected:
+
+		bool is_digital{false};
 
 	};
 

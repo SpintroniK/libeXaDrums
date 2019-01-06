@@ -25,6 +25,7 @@ namespace IO
 		virtual ~SpiSensor();
 
 		short GetData(char channel);
+		virtual void SetData(char channel, short value) final {}
 
 
 	private:

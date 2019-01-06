@@ -17,12 +17,12 @@ namespace IO
 
 	enum class SensorType
 	{
-
+		Virtual,
 		Spi,
 		UsbSerial,
 		Hdd,
 
-		First = Spi,
+		First = Virtual,
 		Last = Hdd
 
 	};
@@ -36,6 +36,7 @@ namespace IO
 		switch (x)
 		{
 
+		case SensorType::Virtual:	os = "Virtual";		break;
 		case SensorType::Spi:		os = "Spi";			break;
 		case SensorType::UsbSerial:	os = "UsbSerial";	break;
 		case SensorType::Hdd:		os = "Hdd";			break;

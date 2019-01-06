@@ -25,6 +25,7 @@ namespace IO
 		virtual ~Serial();
 
 		short GetData(char port);
+		virtual void SetData(char channel, short value) final {}
 
 	private:
 

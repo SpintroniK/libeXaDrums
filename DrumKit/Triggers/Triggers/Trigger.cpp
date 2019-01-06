@@ -10,6 +10,7 @@
 
 #include "../../../IO/HddSensor.h"
 #include "../../../IO/SpiSensor.h"
+#include "../../../IO/VirtualSensor.h"
 
 #include <string>
 #include <algorithm>
@@ -54,6 +55,7 @@ namespace DrumKit
 
 			case IO::SensorType::Hdd: this->sensor = std::make_unique<IO::HddSensor>(dataFolder); break;
 			case IO::SensorType::Spi: this->sensor = std::make_unique<IO::SpiSensor>(); break;
+			case IO::SensorType::Virtual: this->sensor = std::make_unique<IO::VirtualSensor>(); break;
 
 			default: throw -1; break;
 

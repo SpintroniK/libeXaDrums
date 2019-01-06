@@ -38,14 +38,13 @@ namespace DrumKit
 		const auto parameters = this->GetParameters();
 
 		// Remove DC offset (high pass filter: y[n] = x[n] - x[n-1] + R * y[n-1])
-		filteredValue = value  - prevValue + 0.99 * prevFilteredValue;
+		filteredValue = value - prevValue + 0.99 * prevFilteredValue;
 
 		// Update values
 		prevValue = value;
 		prevFilteredValue = filteredValue;
 
 		velocity = std::abs(filteredValue);
-
 
 		// Get current time
 		high_resolution_clock::time_point t = high_resolution_clock::now();
@@ -65,7 +64,7 @@ namespace DrumKit
 				maxVelocity = velocity;
 			}
 
-			if(dt > trigTime + parameters.scanTime && !out)
+			if(sensor->IsDigital() || (dt > trigTime + parameters.scanTime && !out))
 			{
 				out = true;
 

@@ -80,6 +80,7 @@ libexadrums_la_SOURCES = \
   IO/Spi.h \
   IO/SpiSensor.cpp \
   IO/SpiSensor.h \
+  IO/VirtualSensor.h \
   Metronome/ClickTypes.h \
   Metronome/Metronome.cpp \
   Metronome/Metronome.h \

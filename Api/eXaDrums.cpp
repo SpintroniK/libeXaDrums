@@ -235,6 +235,11 @@ namespace eXaDrumsApi
 		return drumModule->GetLastTrigValue();
 	}
 
+	void eXaDrums::SetTriggerSensorValue(int id, char channel, short data)
+	{
+		this->drumModule->SetTriggerSensorValue(id, channel, data);
+	}
+
 	std::string eXaDrums::GetAudioDeviceName() const
 	{
 		return this->alsa->GetDeviceName();
@@ -372,5 +377,3 @@ namespace eXaDrumsApi
 
 
 }
-
-

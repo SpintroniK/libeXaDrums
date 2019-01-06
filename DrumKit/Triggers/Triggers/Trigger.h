@@ -35,6 +35,7 @@ namespace DrumKit
 		virtual void Refresh() = 0;
 
 		virtual void SetParameters(const TriggerParameters& params);
+		virtual void SetSensorData(char channel, short data) { this->sensor->SetData(channel, data); }
 
 		virtual int GetId() const { return this->triggerParameters.sensorId; };
 		virtual TriggerType GetType() const { return this->triggerParameters.type; }
@@ -66,11 +67,10 @@ namespace DrumKit
 
 		TriggerState state;
 		std::vector<curve_t<float>> curves;
-
+		std::unique_ptr<IO::ISensor> sensor;
 
 	private:
 
-		std::unique_ptr<IO::ISensor> sensor;
 		mutable Util::SpinLock spin;
 		TriggerParameters triggerParameters;
 

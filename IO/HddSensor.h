@@ -25,7 +25,8 @@ namespace IO
 		explicit HddSensor(const std::string& filePath);
 		virtual ~HddSensor();
 
-		short GetData(char channel);
+		virtual short GetData(char channel) final;
+		virtual void SetData(char channel, short value) final {}
 
 	private:
 

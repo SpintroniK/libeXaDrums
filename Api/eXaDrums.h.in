@@ -85,6 +85,7 @@ namespace eXaDrumsApi
 		// Triggers
 		long long GetLastTrigTime() const;
 		int GetLastTrigValue() const;
+		void SetTriggerSensorValue(int id, char channel, short data);
 
 		std::string GetAudioDeviceName() const;
 
