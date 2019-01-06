@@ -19,11 +19,17 @@ namespace DrumKit
 
 	enum class CurveType
 	{
-		Exponential,
 		Linear,
+		Exponential1,
+		Exponential2,
+		Log1,
+		Log2,
+		Loud1,
+		Loud2,
+		Spline,
 
-		First = Exponential,
-		Last = Linear
+		First = Linear,
+		Last = Spline
 	};
 
 
@@ -35,8 +41,14 @@ namespace DrumKit
 		switch (x)
 		{
 
-		case CurveType::Exponential:	os = "Exponential";	break;
+		case CurveType::Exponential1:	os = "Exponential1";break;
 		case CurveType::Linear:			os = "Linear";		break;
+		case CurveType::Exponential2: 	os = "Exponential2";break;
+		case CurveType::Log1: 			os = "Log1";			break;
+		case CurveType::Log2: 			os = "Log2";		break;
+		case CurveType::Loud1: 			os = "Loud1";		break;
+		case CurveType::Loud2: 			os = "Loud2";		break;
+		case CurveType::Spline: 		os = "Spline";		break;
 
 
 		default: break;

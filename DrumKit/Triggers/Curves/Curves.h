@@ -40,7 +40,13 @@ namespace DrumKit
 			switch(t)
 			{
 				case CurveType::Linear: Linear(curve, length); break;
-				case CurveType::Exponential: Exp2(curve, length); break;
+				case CurveType::Exponential1: Exp(curve, length); break;
+				case CurveType::Exponential2: Exp2(curve, length); break;
+				case CurveType::Log1: Log(curve, length); break;
+				case CurveType::Log2: Log2(curve, length); break;
+				case CurveType::Loud1: Loud1(curve, length); break;
+				case CurveType::Loud2: Loud2(curve, length); break;
+				case CurveType::Spline: Sigmoid(curve, length); break;
 
 				default: Linear(curve, length); break;
 			}
@@ -116,7 +122,7 @@ namespace DrumKit
 		}
 
 		template <typename T>
-		void Log2(curve_t<T>& curve, std::size_t length)
+		static void Log2(curve_t<T>& curve, std::size_t length)
 		{
 			GenerateNormalizedCurve(curve, length, [](auto x) { return std::log2(1 + x) * std::log2(1 + x); });
 			return;
