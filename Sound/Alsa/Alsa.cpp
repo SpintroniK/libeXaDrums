@@ -15,6 +15,9 @@
 #include <algorithm>
 #include <iomanip>
 #include <iostream>
+#include <stdexcept>
+
+#include <cstring>
 
 
 namespace Sound
@@ -40,7 +43,7 @@ namespace Sound
 		}
 		else
 		{
-			throw - 1;
+			throw std::runtime_error(snd_strerror(err));
 		}
 
 
