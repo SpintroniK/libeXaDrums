@@ -22,12 +22,19 @@ using namespace Sound;
 using namespace DrumKit;
 using namespace Util;
 
+/**
+ * eXaDrums API namespace
+ */
 namespace eXaDrumsApi
 {
 
 	const std::string eXaDrums::metronomeConfigFile = "metronomeConfig.xml";
 	const std::string eXaDrums::alsaConfigFile = "alsaConfig.xml";
 
+	/**
+	 * Create an instance of a drum module
+	 * @param dataLoc Path to the configuration files
+	 */
 	eXaDrums::eXaDrums(const char* dataLoc) : isStarted(false)
 	{
 
@@ -88,6 +95,19 @@ namespace eXaDrumsApi
 	void eXaDrums::RecorderExport_(const char* fileName)
 	{
 		this->drumModule->RecorderExport(std::string{fileName});
+	}
+
+	void eXaDrums::GetInstrumentTriggersIds_(int instrumentId, int* data, unsigned int& size) const
+	{
+		if(data == nullptr)
+		{
+			size = drumModule->GetInstrumentTriggersIds(instrumentId).size();
+			return;
+		}
+
+		std::vector<int> trigsIds = drumModule->GetInstrumentTriggersIds(instrumentId);
+		std::copy(trigsIds.cbegin(), trigsIds.cend(), data);
+		size = trigsIds.size();
 	}
 
 	// Metronome
@@ -238,6 +258,16 @@ namespace eXaDrumsApi
 	void eXaDrums::SetTriggerSensorValue(int id, char channel, short data)
 	{
 		this->drumModule->SetTriggerSensorValue(id, channel, data);
+	}
+
+	int eXaDrums::GetSensorsResolution() const
+	{
+		return this->drumModule->GetSensorsConfig().resolution;
+	}
+
+	bool eXaDrums::IsSensorVirtual() const
+	{
+		return this->drumModule->GetSensorsConfig().sensorType == IO::SensorType::Virtual;
 	}
 
 	std::string eXaDrums::GetAudioDeviceName() const

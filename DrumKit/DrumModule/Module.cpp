@@ -17,7 +17,6 @@
 
 #include "TrigSound.h"
 
-#include <iostream>
 #include <algorithm>
 
 using namespace Sound;
@@ -172,6 +171,13 @@ namespace DrumKit
 		std::transform(instruments.cbegin(), instruments.cend(), std::back_inserter(names), [](const InstrumentPtr i) { return i->GetName(); });
 
 		return names;
+	}
+
+	std::vector<int> Module::GetInstrumentTriggersIds(int id) const
+	{
+		const std::vector<InstrumentPtr>& instruments = kits[kitId].GetInstruments();
+		auto const& instrument = instruments[id];
+		return instrument->GetTriggersIds();
 	}
 
 

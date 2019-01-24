@@ -41,6 +41,7 @@ namespace DrumKit
 
 		virtual std::vector<Sound::InstrumentSoundType> GetSoundTypes() const = 0;
 		virtual std::vector<TriggerLocation> GetTriggersLocations() const = 0;
+		virtual std::vector<int> GetTriggersIds() const = 0;
 
 	protected:
 

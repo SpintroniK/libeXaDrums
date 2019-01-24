@@ -39,6 +39,7 @@ namespace DrumKit
 
 		virtual std::vector<Sound::InstrumentSoundType> GetSoundTypes() const final { return {Sound::InstrumentSoundType::Default, Sound::InstrumentSoundType::RimShot}; }
 		virtual std::vector<TriggerLocation> GetTriggersLocations() const final { return {TriggerLocation::DrumHead, TriggerLocation::Rim}; };
+		virtual std::vector<int> GetTriggersIds() const final { return {drumHeadTrigger->GetId(), drumRimTrigger->GetId()}; };
 
 	private:
 

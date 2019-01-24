@@ -63,7 +63,7 @@ namespace IO
 	void HddSensor::ReadData(char channel)
 	{
 
-		std::string fileName = dataFiles[channel];
+		std::string fileName = dataFiles[channel % dataFiles.size()];
 		std::string fileLoc(path + fileName);
 
 		std::ifstream file(fileLoc, std::ifstream::binary);

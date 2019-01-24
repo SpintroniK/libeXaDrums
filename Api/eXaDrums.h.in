@@ -81,12 +81,18 @@ namespace eXaDrumsApi
 		void SetInstrumentVolume(int id, int volume);
 		int GetInstrumentVolume(int id) const;
 		std::vector<std::string> GetInstrumentsNames();
+		std::vector<int> GetInstrumentTriggersIds(int instrumentId) const;
 
 		// Triggers
 		long long GetLastTrigTime() const;
 		int GetLastTrigValue() const;
 		void SetTriggerSensorValue(int id, char channel, short data);
 
+		// Sensors
+		int GetSensorsResolution() const;
+		bool IsSensorVirtual() const;
+
+		// Sound
 		std::string GetAudioDeviceName() const;
 
 	private:
@@ -99,6 +105,7 @@ namespace eXaDrumsApi
 		void GetKitsNames_(const char** data, unsigned int& size);
 		void GetInstrumentsNames_(const char** data, unsigned int& size);
 		void RecorderExport_(const char* fileName);
+		void GetInstrumentTriggersIds_(int instrumentId, int* data, unsigned int& size) const;
 
 
 		static const std::string metronomeConfigFile;

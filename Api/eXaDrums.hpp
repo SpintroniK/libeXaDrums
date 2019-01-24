@@ -84,6 +84,17 @@ namespace eXaDrumsApi
 		return v;
 	}
 
+	inline std::vector<int> eXaDrums::GetInstrumentTriggersIds(int instrumentId) const
+	{
+		unsigned int size;
+		GetInstrumentTriggersIds_(instrumentId, nullptr, size);
+
+		std::vector<int> trigsIds(size);
+		GetInstrumentTriggersIds_(instrumentId, trigsIds.data(), size);
+
+		return trigsIds;
+	}
+
 	inline std::vector<std::string> eXaDrums::GetInstrumentsNames()
 	{
 

@@ -52,6 +52,7 @@ namespace DrumKit
 		void SetInstrumentVolume(int id, float volume) { kits[kitId].SetInstrumentVolume(id, volume); };
 		float GetInstrumentVolume(int id) const { return kits[kitId].GetInstrumentVolume(id); };
 		int GetNumInstruments() const { return kits[kitId].GetNumInstruments(); };
+		std::vector<int> GetInstrumentTriggersIds(int id) const;
 
 		// Triggers
 		void ReloadTriggers();
