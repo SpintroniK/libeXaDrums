@@ -20,8 +20,21 @@ Depends: ${misc:Depends},
  libexadrums0 (= ${binary:Version}),
  libtinyxml2-dev,
 Recommends: pkg-config
-Description: software drum module (development)
- Todo.
+Description: Software drum module (development)
+ ExaDrums is a virtual drum module that allows drummers play with custom-made 
+ drum kits.
+ .
+ It is user-friendly and combines high quality stereo sound with low latency.
+ .
+ Each drum kit provides individual sliders in order to control the volume of 
+ its drum pads.
+ .
+ A built-in metronome can be combined with a rhythm coach to make practice 
+ sessions easier and efficient.
+ .
+ The drum triggers can be adjusted so that their response feels as natural as 
+ possible, and different sensor interfaces include a virtual (on-screen) multi 
+ pad and external sensors.
  .
  This package provides the C++ headers.
 
@@ -30,7 +43,20 @@ Section: libs
 Architecture: any
 Multi-Arch: same
 Depends: ${shlibs:Depends}, ${misc:Depends}
-Description: software drum module (library)
- Todo.
+Description: Software drum module (library)
+ ExaDrums is a virtual drum module that allows drummers play with custom-made 
+ drum kits.
+ .
+ It is user-friendly and combines high quality stereo sound with low latency.
+ .
+ Each drum kit provides individual sliders in order to control the volume of 
+ its drum pads.
+ .
+ A built-in metronome can be combined with a rhythm coach to make practice 
+ sessions easier and efficient.
+ .
+ The drum triggers can be adjusted so that their response feels as natural as 
+ possible, and different sensor interfaces include a virtual (on-screen) multi 
+ pad and external sensors.
  .
  This package provides the runtime shared library.
