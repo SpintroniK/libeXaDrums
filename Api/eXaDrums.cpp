@@ -270,6 +270,11 @@ namespace eXaDrumsApi
 		return this->drumModule->GetSensorsConfig().sensorType == IO::SensorType::Virtual;
 	}
 
+	bool eXaDrums::IsSensorSpi() const
+	{
+		return this->drumModule->GetSensorsConfig().sensorType == IO::SensorType::Spi;
+	}
+
 	std::string eXaDrums::GetAudioDeviceName() const
 	{
 		return this->alsa->GetDeviceName();

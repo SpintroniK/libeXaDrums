@@ -91,6 +91,7 @@ namespace eXaDrumsApi
 		// Sensors
 		int GetSensorsResolution() const;
 		bool IsSensorVirtual() const;
+		bool IsSensorSpi() const;
 
 		// Sound
 		std::string GetAudioDeviceName() const;
