@@ -40,11 +40,11 @@ namespace DrumKit
 		switch (x)
 		{
 
-		case InstrumentType::TestDrum:	os = "TestDrum"; 	break;
-		case InstrumentType::Pad:	 	os = "Pad"; 		break;
+		case InstrumentType::TestDrum:	os = "DualZonePad"; 	break;
+		case InstrumentType::Pad:	 	os = "Pad"; 			break;
 		//case InstrumentType::Drum:	 	os = "Drum"; 		break;
 		//case InstrumentType::Cymbal:	os = "Cymbal"; 		break;
-		case InstrumentType::HiHat:		os = "HiHat"; 		break;
+		case InstrumentType::HiHat:		os = "HiHat"; 			break;
 		//case InstrumentType::BassDrum:	os = "BassDrum"; 	break;
 
 
