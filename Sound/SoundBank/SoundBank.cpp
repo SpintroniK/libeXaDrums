@@ -11,6 +11,7 @@
 
 #include <fstream>
 #include <algorithm>
+#include <stdexcept>
 
 #include <dirent.h>
 
@@ -107,7 +108,8 @@ namespace Sound
 		}
 		else
 		{
-			dataLength = fileSize;
+			std::string error{"Couldn't read sound file: " + fileLocation};
+			throw std::runtime_error(error);
 		}
 
 		uint32_t data_size_short = dataLength / sizeof(short);
