@@ -1,5 +1,5 @@
-libexadrums (0.2.0-1) unstable; urgency=medium
+libexadrums (0.3.0) unstable; urgency=medium
 
-  * Initial Debian packaging.
+  * Initial Debian packaging. Closes: #919327.
 
- -- Jeremy Oden <jerem.oden@gmail.com>  Thu, 27 Dec 2018 21:12:42 +0100
+ -- Jeremy Oden <jerem.oden@gmail.com>  Fri, 01 Feb 2019 20:24:25 +0000
