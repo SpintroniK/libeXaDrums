@@ -34,7 +34,7 @@ libexadrums_la_LDFLAGS = $(AM_LDFLAGS) \
   -version-info $(exadrums_libtool_version_info)
 libexadrums_la_LIBADD = $(alsa_LIBS) $(tinyxml2_LIBS) -lpthread -lstdc++fs
 
-# Distributed and embed into the library.
+# Distribute and embed into the library.
 libexadrums_la_SOURCES = \
   Api/Config/Config_api.cpp \
   Api/Config/TriggerParameters_api.cpp \
@@ -107,7 +107,7 @@ libexadrums_la_SOURCES = \
   Util/Time.h
 
 # Install into pkgincludedir, but do not distribute (it is generated
-# by the configure.ac).
+# by configure.ac).
 nobase_nodist_pkginclude_HEADERS = \
   Api/eXaDrums.h
 
