@@ -20,8 +20,6 @@ A shared library for [eXaDrums](https://github.com/SpintroniK/eXaDrums).
  Although eXaDrums is usable as a drum module, it is still an
  experimental project. As such, some features are not yet implemented,
  and the error management is not complete.
- 
- This package provides the C++ headers.
 
 ## Table of content
 
