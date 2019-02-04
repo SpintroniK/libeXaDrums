@@ -1,5 +1,4 @@
 # libeXaDrums
-A shared library for [eXaDrums](https://github.com/SpintroniK/eXaDrums).
 
  ExaDrums is a virtual drum module that allows drummers play with
  custom-made drum kits.
