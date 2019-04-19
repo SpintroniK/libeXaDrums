@@ -1,4 +1,4 @@
-exadrums (0.3.0-2) experimental; urgency=medium
+libexadrums (0.3.0-2) experimental; urgency=medium
 
   * Add -pthread -latomic --no-undefined build flags. Closes: #927229.
 
