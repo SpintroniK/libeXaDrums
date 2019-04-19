@@ -23,16 +23,23 @@ pkgconfig_DATA = exadrums.pc
 
 # Good habits.
 AM_CXXFLAGS = -Wall
-AM_LDFLAGS = -Wl,--as-needed
+AM_LDFLAGS = -Wl,--as-needed -Wl,--no-undefined
 
 # Delegate library handling to libtool.
 lib_LTLIBRARIES = libexadrums.la
 
 libexadrums_la_CXXFLAGS = $(AM_CXXFLAGS) \
+  -pthread \
   -std=c++17 $(alsa_CFLAGS) $(tinyxml2_CFLAGS)
 libexadrums_la_LDFLAGS = $(AM_LDFLAGS) \
+  -pthread \
   -version-info $(exadrums_libtool_version_info)
-libexadrums_la_LIBADD = $(alsa_LIBS) $(tinyxml2_LIBS) -lpthread -lstdc++fs
+# The -pthread compiler and linker option links with libpthread, but
+# also selects various architecture-dependent settings.
+libexadrums_la_LIBADD = $(alsa_LIBS) $(tinyxml2_LIBS) -latomic -lstdc++fs
+# The standard C++ library does not include libatomic on some
+# architectures (armel mips mipsel). It does not hurt to always list
+# it here, it will only be effective when used thanks to --as-needed.
 
 # Distribute and embed into the library.
 libexadrums_la_SOURCES = \
