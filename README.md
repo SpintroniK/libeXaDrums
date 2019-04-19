@@ -58,7 +58,7 @@ Now that you have all dependencies, you can build libeXaDrums:
 ```
 cd libeXaDrums
 autoreconf -fi
-./configre
+./configure
 make
 ```
 or you can build the Debian packages: 
