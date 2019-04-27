@@ -1,2 +1,0 @@
-Tests: link-with-shared
-Depends: g++, libexadrums-dev, pkg-config
