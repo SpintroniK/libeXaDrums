@@ -2,7 +2,10 @@ libexadrums (0.3.0-2) experimental; urgency=medium
 
   * Add -pthread -latomic --no-undefined build flags. Closes: #927229.
 
- -- Jeremy Oden <jerem.oden@gmail.com>  Fri, 19 Apr 2019 12:44:53 +0200
+  [ Nicolas Boulenguez ]
+  * Move --as-needed before libraries it is supposed to act on.
+
+ -- Jeremy Oden <jerem.oden@gmail.com>  Sat, 27 Apr 2019 11:46:50 +0200
 
 libexadrums (0.3.0-1) experimental; urgency=medium
 
