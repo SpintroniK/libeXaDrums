@@ -114,6 +114,16 @@ namespace DrumKit
 		return;
 	}
 
+	void KitCreator::RemoveLastInstrument()
+	{
+		if(parameters.instrumentParameters.size() > 1)
+		{
+			parameters.instrumentParameters.erase(parameters.instrumentParameters.end() - 1);
+		}
+
+		return;
+	}
+
 	void KitCreator::SetInstrumentType(const std::string& typeStr)
 	{
 

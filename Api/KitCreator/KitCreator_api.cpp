@@ -73,6 +73,12 @@ namespace eXaDrumsApi
 		return;
 	}
 
+	void KitCreator::RemoveLastInstrument()
+	{
+		controller.RemoveLastInstrument();
+		return;
+	}
+
 	void KitCreator::RemoveInstrument(int i)
 	{
 		controller.RemoveInstrument(i);
@@ -85,16 +91,32 @@ namespace eXaDrumsApi
 		return;
 	}
 
-	void KitCreator::SetInstrumentName(const char* name)
+	error KitCreator::SetInstrumentName(const char* name)
 	{
-		controller.SetInstrumentName(std::string(name));
-		return;
+		std::string nameStr = std::string(name);
+
+		if(nameStr.empty())
+		{
+			error e{"Instrument name cannot be empty.", error_type_error};
+			return e;
+		}
+
+		controller.SetInstrumentName(nameStr);
+		return error{"", error_type_success};
 	}
 
-	void KitCreator::SetInstrumentName(int id, const char* name)
+	error KitCreator::SetInstrumentName(int id, const char* name)
 	{
-		controller.SetInstrumentName(id, std::string(name));
-		return;
+		std::string nameStr = std::string(name);
+
+		if(nameStr.empty())
+		{
+			error e{"Instrument name cannot be empty.", error_type_error};
+			return e;
+		}
+
+		controller.SetInstrumentName(id, nameStr);
+		return error{"", error_type_success};
 	}
 
 	void KitCreator::SetInstrumentType(int id, const char* type)

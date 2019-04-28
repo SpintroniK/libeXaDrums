@@ -39,6 +39,7 @@ namespace DrumKit
 		// Instruments
 		void CreateNewInstrument();
 		void RemoveInstrument(int i);
+		void RemoveLastInstrument();
 		void AddInstrumentToKit();
 		void SetInstrumentName(const std::string& name) { this->instrument.instrumentName = name; }
 		void SetInstrumentType(const std::string& type);

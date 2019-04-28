@@ -8,7 +8,7 @@
 #ifndef SOURCE_API_KITCREATOR_KITCREATOR_API_H_
 #define SOURCE_API_KITCREATOR_KITCREATOR_API_H_
 
-
+#include "../ErrorHandling.h"
 #include "../../DrumKit/Kits/KitCreator.h"
 
 #include <string>
@@ -38,14 +38,15 @@ namespace eXaDrumsApi
 		// Instrument
 		void CreateNewInstrument();
 		void RemoveInstrument(int i);
+		void RemoveLastInstrument();
 		void AddInstrumentToKit();
-		void SetInstrumentName(const char* name);
+		error SetInstrumentName(const char* name);
 		void SetInstrumentType(const char* type);
 		void SetInstrumentVolume(const float volume);
 		void AddInstrumentSound(const char* file, const char* type);
 		void AddInstrumentTrigger(const int id, const char* location);
 
-		void SetInstrumentName(int id, const char* name);
+		error SetInstrumentName(int id, const char* name);
 		void SetInstrumentType(int id, const char* type);
 		void SetInstrumentTriggersIdsAndLocs(int id, const std::vector<std::pair<int, std::string>>& trigsIdsAndLocs);
 		void SetInstrumentSoundsTypesAndLocs(int id, const std::vector<std::pair<std::string, std::string>>& sndTypesAndLocs);

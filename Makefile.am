@@ -47,6 +47,7 @@ libexadrums_la_SOURCES = \
   Api/Config/TriggerParameters_api.cpp \
   Api/KitCreator/KitCreator_api.cpp \
   Api/eXaDrums.cpp \
+  Api/ErrorHandling.h \
   DrumKit/DrumModule/Module.cpp \
   DrumKit/DrumModule/Module.h \
   DrumKit/DrumModule/Recorder.cpp \
@@ -127,6 +128,7 @@ nobase_pkginclude_HEADERS = \
   Api/KitCreator/KitCreator_api.h \
   Api/KitCreator/KitCreator_api.hpp \
   Api/eXaDrums.hpp \
+  Api/ErrorHandling.h \
   DrumKit/Instruments/InstrumentParameters.h \
   DrumKit/Instruments/InstrumentSoundInfo.h \
   DrumKit/Instruments/InstrumentType.h \
