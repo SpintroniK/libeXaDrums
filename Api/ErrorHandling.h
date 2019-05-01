@@ -43,12 +43,12 @@ namespace eXaDrumsApi
         : message{what_arg}, error_type{err_type} {}
 
         virtual const char* what() const noexcept final { return message.data(); }
-        int32_t type() const noexcept { return error_type; }
+        errorType type() const noexcept { return error_type; }
 
     private: 
 
         std::string message;
-        int32_t error_type;
+        errorType error_type;
         
     };
 
