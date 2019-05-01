@@ -8,6 +8,7 @@
 
 #include "Module.h"
 
+#include "../../Api/ErrorHandling.h"
 #include "../../IO/Spi.h"
 #include "../../Util/Threading.h"
 
@@ -127,8 +128,7 @@ namespace DrumKit
 
 		if(id > kits.size())
 		{
-			std::cerr << "Error: there is no kit with the id " << id << std::endl;
-			throw -1;
+			throw eXaDrumsApi::Exception("This drum kit does not exist.", eXaDrumsApi::errorType::error_type_error);
 		}
 
 		// Disable previous kit

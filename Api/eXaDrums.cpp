@@ -6,6 +6,7 @@
  */
 
 #include "eXaDrums.h"
+#include "ErrorHandling.h"
 
 #include "../DrumKit/DrumModule/Module.h"
 #include "../Metronome/Metronome.h"
@@ -195,12 +196,9 @@ namespace eXaDrumsApi
 		return;
 	}
 
-	void eXaDrums::SelectKit(int id)
+	error eXaDrums::SelectKit(int id)
 	{
-
-		this->drumModule->SelectKit(id);
-
-		return;
+		return ExceptionToError([&] { this->drumModule->SelectKit(id); });
 	}
 
 	void eXaDrums::SaveKitConfig(int id) const

@@ -39,7 +39,7 @@ namespace eXaDrumsApi
         explicit Exception(const error& err) noexcept 
         : message{err.message}, error_type{err.type} {}
 
-        Exception(const char* what_arg, int32_t err_type) noexcept
+        Exception(const char* what_arg, errorType err_type) noexcept
         : message{what_arg}, error_type{err_type} {}
 
         virtual const char* what() const noexcept final { return message.data(); }
