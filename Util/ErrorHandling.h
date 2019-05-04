@@ -1,10 +1,10 @@
-#ifndef LIBEXADRUMS_SOURCE_API_ERROR_HANDLING_H_
-#define LIBEXADRUMS_SOURCE_API_ERROR_HANDLING_H_
+#ifndef LIBEXADRUMS_SOURCE_UTIL_ERROR_HANDLING_H_
+#define LIBEXADRUMS_SOURCE_UTIL_ERROR_HANDLING_H_
 
 #include <stdexcept>
 #include <cstring>
 
-namespace eXaDrumsApi
+namespace Util
 {
 
     #if __cplusplus__

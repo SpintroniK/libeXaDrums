@@ -128,7 +128,6 @@ nobase_pkginclude_HEADERS = \
   Api/KitCreator/KitCreator_api.h \
   Api/KitCreator/KitCreator_api.hpp \
   Api/eXaDrums.hpp \
-  Api/ErrorHandling.h \
   DrumKit/Instruments/InstrumentParameters.h \
   DrumKit/Instruments/InstrumentSoundInfo.h \
   DrumKit/Instruments/InstrumentType.h \
@@ -145,4 +144,5 @@ nobase_pkginclude_HEADERS = \
   Sound/Alsa/AlsaParams.h \
   Sound/InstrumentSoundType.h \
   Util/Enums.h \
+  Util/ErrorHandling.h \
   Util/Xml.h

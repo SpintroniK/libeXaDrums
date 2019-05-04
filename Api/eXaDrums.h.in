@@ -8,7 +8,7 @@
 #ifndef LIBEXADRUMS_SOURCE_API_EXADRUMKIT_H_
 #define LIBEXADRUMS_SOURCE_API_EXADRUMKIT_H_
 
-#include "ErrorHandling.h"
+#include "../Util/ErrorHandling.h"
 
 #include <string>
 #include <vector>
@@ -70,7 +70,7 @@ namespace eXaDrumsApi
 
 
 		// Kits
-		error SelectKit(int id);
+		Util::error SelectKit(int id);
 		void SaveKitConfig(int id) const;
 		bool DeleteKit(const int& id);
 		void ReloadKits();

@@ -10,6 +10,7 @@
 #include <algorithm>
 #include <memory>
 
+using namespace Util;
 
 namespace eXaDrumsApi
 {

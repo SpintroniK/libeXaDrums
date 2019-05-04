@@ -6,8 +6,8 @@
  */
 
 #include "eXaDrums.h"
-#include "ErrorHandling.h"
 
+#include "../Util/ErrorHandling.h"
 #include "../DrumKit/DrumModule/Module.h"
 #include "../Metronome/Metronome.h"
 #include "../Sound/Alsa/Alsa.h"
