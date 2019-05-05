@@ -98,12 +98,11 @@ namespace eXaDrumsApi
 
 		if(nameStr.empty())
 		{
-			error e{"Instrument name cannot be empty.", error_type_error};
-			return e;
+			return make_error("Instrument name cannot be empty.", error_type_error);
 		}
 
 		controller.SetInstrumentName(nameStr);
-		return error{"", error_type_success};
+		return make_error("", error_type_success);
 	}
 
 	error KitCreator::SetInstrumentName(int id, const char* name)
@@ -112,12 +111,11 @@ namespace eXaDrumsApi
 
 		if(nameStr.empty())
 		{
-			error e{"Instrument name cannot be empty.", error_type_error};
-			return e;
+			return make_error("Instrument name cannot be empty.", error_type_error);
 		}
 
 		controller.SetInstrumentName(id, nameStr);
-		return error{"", error_type_success};
+		return make_error("", error_type_success);
 	}
 
 	void KitCreator::SetInstrumentType(int id, const char* type)

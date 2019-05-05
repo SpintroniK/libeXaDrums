@@ -27,6 +27,13 @@ namespace Util
             int32_t type;
         } error;
 
+        static error make_error(const char* message, errorType error_type)
+        {
+            error e{"", error_type};
+            std::strcpy(e.message, message);
+            return e;
+        }
+
     #if __cplusplus__
     }
     #endif 
@@ -66,23 +73,16 @@ namespace Util
     template <typename F>
     error ExceptionToError(F&& f)
     {
-
-        error err;
-
         try
         {
             f();
         }
         catch(const Exception& except)
         {
-            strcpy(err.message, except.what());
-            err.type = except.type();
-
-            return err;
+            return make_error(except.what(), except.type());
         }
 
-        err.type = error_type_success;
-        return err;
+        return error{"", error_type_success};
     }
 
 }

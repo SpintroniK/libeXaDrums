@@ -8,8 +8,9 @@
 #ifndef SOURCE_API_CONFIG_CONFIG_API_H_
 #define SOURCE_API_CONFIG_CONFIG_API_H_
 
-#include "AlsaParams_api.h"
 #include "../../IO/SensorsConfig.h"
+#include "../../Util/ErrorHandling.h"
+#include "AlsaParams_api.h"
 
 #include <vector>
 #include <string>
@@ -73,7 +74,7 @@ namespace eXaDrumsApi
 		void SetSensorsDataFolder_(const char* folder);
 		void SetAudioDeviceParameters_(const char* name);
 		void SetTriggersParameters_(const TriggerParameters* params, unsigned int size);
-		void SetAudioDeviceParameters_(const AlsaParamsApi& params);
+		Util::error SetAudioDeviceParameters_(const AlsaParamsApi& params);
 		void SetTriggerParameters_(int triggerId, const TriggerParameters& params);
 
 		const char* GetSensorsType_();

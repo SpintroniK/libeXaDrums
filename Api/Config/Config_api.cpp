@@ -229,7 +229,7 @@ namespace eXaDrumsApi
 		return;
 	}
 
-	void Config::SetAudioDeviceParameters_(const AlsaParamsApi& params)
+	error Config::SetAudioDeviceParameters_(const AlsaParamsApi& params)
 	{
 
 		this->alsaParams = params;
@@ -244,11 +244,10 @@ namespace eXaDrumsApi
 		}
 		else
 		{
-			std::cerr << "Error: audio device " << deviceName << " not found." << std::endl;
-			throw -1;
+			return make_error(("Error: audio device " + deviceName + " not found.").data(), error_type_error);
 		}
 
-		return;
+		return make_error("", error_type_success);
 	}
 
 	void Config::SetTriggerParameters_(int triggerId, const TriggerParameters& params)
