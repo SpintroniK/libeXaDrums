@@ -7,6 +7,7 @@
 
 #include "KitManager.h"
 
+#include "../../Util/ErrorHandling.h"
 #include "../../Util/Enums.h"
 #include "../../Util/Xml.h"
 
@@ -58,7 +59,8 @@ namespace DrumKit
 
 		if(doc.LoadFile(file.c_str()) != XML_SUCCESS)
 		{
-			throw -1;
+			throw Exception("Could not read the drum kit configuration file.", error_type_error);
+			return;
 		}
 
 		XMLElement* root = doc.RootElement();

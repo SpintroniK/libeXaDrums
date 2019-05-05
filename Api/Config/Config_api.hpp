@@ -32,7 +32,7 @@ namespace eXaDrumsApi
 	inline void Config::SetAudioDeviceParameters(const AlsaParamsApi& params)
 	{
 
-		SetAudioDeviceParameters_(params);
+		Util::ErrorToException([&] { return SetAudioDeviceParameters_(params); });
 
 		return;
 	}

@@ -7,10 +7,13 @@
 
 #include "Kit.h"
 
+#include "../../Util/ErrorHandling.h"
 #include "../Triggers/TriggerType.h"
 #include "../Instruments/InstrumentFactory.h"
 
 #include <algorithm>
+
+using namespace Util;
 
 namespace DrumKit
 {
@@ -59,7 +62,7 @@ namespace DrumKit
 
 		if(id > parameters.instrumentParameters.size())
 		{
-			throw -1;
+			 throw Exception("The instrument could not be found.", error_type_error);
 		}
 
 		std::string name = parameters.instrumentParameters[id].instrumentName;
