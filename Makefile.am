@@ -108,6 +108,7 @@ libexadrums_la_SOURCES = \
   Sound/SoundState.h \
   Sound/Util/WavUtil.h \
   Util/Crypt.h \
+  Util/ErrorHandling.h \
   Util/Misc.h \
   Util/Parsing.h \
   Util/SimpleSafeQueue.h \
