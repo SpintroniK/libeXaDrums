@@ -2,7 +2,7 @@
 #define LIBEXADRUMS_SOURCE_UTIL_ERROR_HANDLING_H_
 
 #include <stdexcept>
-#include <cstring>
+#include <cstdio>
 
 namespace Util
 {
@@ -30,7 +30,7 @@ namespace Util
         static error make_error(const char* message, errorType error_type)
         {
             error e{"", error_type};
-            std::strcpy(e.message, message);
+            std::snprintf(e.message, sizeof e.message, "%s", message); // prevents overflow
             return e;
         }
 
