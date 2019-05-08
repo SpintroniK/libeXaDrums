@@ -36,13 +36,13 @@ namespace eXaDrumsApi
 		virtual ~eXaDrums();
 
 		// eXaDrums
-		bool IsStarted() const { return isStarted.load(); }
-		std::string GetDataLocation() const;
+		bool IsStarted() const noexcept { return isStarted.load(); }
+		std::string GetDataLocation() const noexcept;
 
 		// Module
-		void Start();
-		void Stop();
-		void EnableRecording(bool enable);
+		Util::error Start();
+		Util::error Stop();
+		Util::error EnableRecording(bool enable);
 		void RecorderExport(const std::string& fileName);
 
 		// Metronome
@@ -50,7 +50,7 @@ namespace eXaDrumsApi
 		void RestartMetronome() const;
 		void ChangeTempo(int tempo) const;
 		void ChangeVolume(int volume) const;
-		int GetTempo() const;
+		int GetTempo() const noexcept;
 		int GetClickVolume() const;
 		void SaveMetronomeConfig() const;
 		double GetClickPosition() const;
@@ -61,20 +61,20 @@ namespace eXaDrumsApi
 		int GetClickTypeId() const;
 
 		std::vector<int> GetRhythms() const;
-		int GetRhythm() const;
-		void SetRhythm(int rhythm);
+		int GetRhythm() const noexcept;
+		void SetRhythm(int rhythm) noexcept;
 
 		std::vector<int> GetBpms() const;
-		int GetBpmeas() const;
-		void SetBpmeas(int bpmeas);
+		int GetBpmeas() const noexcept;
+		void SetBpmeas(int bpmeas) noexcept;
 
 
 		// Kits
 		Util::error SelectKit(int id);
 		void SaveKitConfig(int id) const;
-		bool DeleteKit(const int& id);
+		Util::error DeleteKit(const int& id);
 		void ReloadKits();
-		int GetNumKits() const;
+		int GetNumKits() const noexcept;
 		std::string GetKitDataFileName();
 		std::vector<std::string> GetKitsNames();
 
@@ -85,28 +85,28 @@ namespace eXaDrumsApi
 		std::vector<int> GetInstrumentTriggersIds(int instrumentId) const;
 
 		// Triggers
-		long long GetLastTrigTime() const;
-		int GetLastTrigValue() const;
+		long long GetLastTrigTime() const noexcept;
+		int GetLastTrigValue() const noexcept;
 		void SetTriggerSensorValue(int id, char channel, short data);
 
 		// Sensors
-		int GetSensorsResolution() const;
-		bool IsSensorVirtual() const;
-		bool IsSensorSpi() const;
+		int GetSensorsResolution() const noexcept;
+		bool IsSensorVirtual() const noexcept;
+		bool IsSensorSpi() const noexcept;
 
 		// Sound
-		std::string GetAudioDeviceName() const;
+		std::string GetAudioDeviceName() const noexcept;
 
 	private:
 
-		const char* GetDataLocation_() const;
+		const char* GetDataLocation_() const noexcept;
 		const char* GetKitDataFileName_();
 		void GetClicksTypes_(const char** data, unsigned int& size);
 		void GetRhythms_(int* data, unsigned int& size) const;
 		void GetBpms_(int* data, unsigned int& size) const;
 		void GetKitsNames_(const char** data, unsigned int& size);
 		void GetInstrumentsNames_(const char** data, unsigned int& size);
-		void RecorderExport_(const char* fileName);
+		Util::error RecorderExport_(const char* fileName);
 		void GetInstrumentTriggersIds_(int instrumentId, int* data, unsigned int& size) const;
 
 

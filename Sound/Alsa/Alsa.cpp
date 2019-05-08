@@ -156,7 +156,7 @@ namespace Sound
 		else
 		{
 			play = true;
-			StartPlayback();
+			StartPlayback(); // TODO: throw if fail to start.
 		}
 
 		return;
@@ -173,7 +173,7 @@ namespace Sound
 		else
 		{
 			play= false;
-			StopPlayback();
+			StopPlayback(); // TODO: throw if failt to stop.
 		}
 
 		return;

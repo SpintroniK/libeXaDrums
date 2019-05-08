@@ -41,7 +41,7 @@ namespace Sound
 
 
 		std::shared_ptr<SoundBank> soundBank;
-		std::vector<SoundState> playList;
+		std::vector<SoundState> playList; // TODO: replace by an array (?)
 
 	};
 

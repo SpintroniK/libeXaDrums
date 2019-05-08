@@ -68,34 +68,66 @@ namespace eXaDrumsApi
 
 	// Module
 
-	void eXaDrums::Start()
+	error eXaDrums::Start()
 	{
 
-		this->alsa->Start();
-		this->drumModule->Start();
+		try
+		{
+			this->alsa->Start();
+			this->drumModule->Start();
+		}
+		catch(const std::exception& e)
+		{
+			return make_error("Could not start module.", error_type_error);
+		}
+		
 		isStarted.store(true);
-
-		return;
+		return make_error("", error_type_success);
 	}
 
-	void eXaDrums::Stop()
+	error eXaDrums::Stop()
 	{
 
-		this->alsa->Stop();
-		this->drumModule->Stop();
+		try
+		{
+			this->alsa->Stop();
+			this->drumModule->Stop();
+		}
+		catch(const std::exception& e)
+		{
+			return make_error("Could not stop module.", error_type_error);
+		}
+		
 		isStarted.store(false);
-
-		return;
+		return make_error("", error_type_success);
 	}
 
-	void eXaDrums::EnableRecording(bool enable)
+	error eXaDrums::EnableRecording(bool enable)
 	{
-		this->drumModule->EnableRecording(enable);
+		try
+		{
+			this->drumModule->EnableRecording(enable);
+		}
+		catch(const std::exception& e)
+		{
+			return make_error("Could not enable/disable recording.", error_type_warning);
+		}
+
+		return make_error("", error_type_success);
 	}
 
-	void eXaDrums::RecorderExport_(const char* fileName)
+	error eXaDrums::RecorderExport_(const char* fileName)
 	{
-		this->drumModule->RecorderExport(std::string{fileName});
+		try
+		{
+			this->drumModule->RecorderExport(std::string{fileName}); // TODO: throw if expoort fails.
+		}
+		catch(const std::exception& e)
+		{
+			return make_error("Could not export track.", error_type_warning);
+		}
+		
+		return make_error("", error_type_success);
 	}
 
 	void eXaDrums::GetInstrumentTriggersIds_(int instrumentId, int* data, unsigned int& size) const
@@ -115,7 +147,7 @@ namespace eXaDrumsApi
 
 	void eXaDrums::EnableMetronome(bool enable) const
 	{
-		drumModule->EnableMetronome(enable);
+		drumModule->EnableMetronome(enable); // TODO: prevent exceptions.
 		return;
 	}
 
@@ -137,7 +169,7 @@ namespace eXaDrumsApi
 		return;
 	}
 
-	int eXaDrums::GetTempo() const
+	int eXaDrums::GetTempo() const noexcept
 	{
 		return metronome->GetTempo();
 	}
@@ -175,22 +207,22 @@ namespace eXaDrumsApi
 		return index;
 	}
 
-	int eXaDrums::GetRhythm() const
+	int eXaDrums::GetRhythm() const noexcept
 	{
 		return this->metronome->GetRhythm();
 	}
 
-	void eXaDrums::SetRhythm(int rhythm)
+	void eXaDrums::SetRhythm(int rhythm) noexcept
 	{
 		this->metronome->SetRhythm(rhythm);
 	}
 
-	int eXaDrums::GetBpmeas() const
+	int eXaDrums::GetBpmeas() const noexcept
 	{
 		return this->metronome->GetBpmeas();
 	}
 
-	void eXaDrums::SetBpmeas(int bpmeas)
+	void eXaDrums::SetBpmeas(int bpmeas) noexcept
 	{
 		this->metronome->SetBpmeas(bpmeas);
 		return;
@@ -207,9 +239,16 @@ namespace eXaDrumsApi
 		return;
 	}
 
-	bool eXaDrums::DeleteKit(const int& id)
+	error eXaDrums::DeleteKit(const int& id)
 	{
-		return drumModule->DeleteKit(id);
+		if(drumModule->DeleteKit(id))
+		{
+			return make_error("", error_type_success);
+		}
+		else
+		{
+			return make_error("Could not delete kit.", error_type_error);
+		}
 	}
 
 	void eXaDrums::ReloadKits()
@@ -220,7 +259,7 @@ namespace eXaDrumsApi
 		return;
 	}
 
-	int eXaDrums::GetNumKits() const
+	int eXaDrums::GetNumKits() const noexcept
 	{
 		return drumModule->GetNumKits();
 	}
@@ -243,12 +282,12 @@ namespace eXaDrumsApi
 		return volume;
 	}
 
-	long long eXaDrums::GetLastTrigTime() const
+	long long eXaDrums::GetLastTrigTime() const noexcept
 	{
 		return drumModule->GetLastTrigTime();
 	}
 
-	int eXaDrums::GetLastTrigValue() const
+	int eXaDrums::GetLastTrigValue() const noexcept
 	{
 		return drumModule->GetLastTrigValue();
 	}
@@ -258,29 +297,29 @@ namespace eXaDrumsApi
 		this->drumModule->SetTriggerSensorValue(id, channel, data);
 	}
 
-	int eXaDrums::GetSensorsResolution() const
+	int eXaDrums::GetSensorsResolution() const noexcept
 	{
 		return this->drumModule->GetSensorsConfig().resolution;
 	}
 
-	bool eXaDrums::IsSensorVirtual() const
+	bool eXaDrums::IsSensorVirtual() const noexcept
 	{
 		return this->drumModule->GetSensorsConfig().sensorType == IO::SensorType::Virtual;
 	}
 
-	bool eXaDrums::IsSensorSpi() const
+	bool eXaDrums::IsSensorSpi() const noexcept
 	{
 		return this->drumModule->GetSensorsConfig().sensorType == IO::SensorType::Spi;
 	}
 
-	std::string eXaDrums::GetAudioDeviceName() const
+	std::string eXaDrums::GetAudioDeviceName() const noexcept
 	{
 		return this->alsa->GetDeviceName();
 	}
 
 	// Private Methods
 
-	const char* eXaDrums::GetDataLocation_() const
+	const char* eXaDrums::GetDataLocation_() const noexcept
 	{
 		return this->dataLocation.c_str();
 	}

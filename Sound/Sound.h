@@ -65,7 +65,7 @@ namespace Sound
 		//bool IsFinished() const { return idx.load() >= (int)data.size(); }
 		inline void StoreIndex(long i) { idx.store(i); }
 		void SetStartTime();
-		inline void SetLoop(bool s) { loop = s; }
+		inline void SetLoop(bool s) noexcept { loop = s; }
 
 		inline int GetId() const { return this->id; }
 		inline float GetVolume() const noexcept { return volume.load(); }

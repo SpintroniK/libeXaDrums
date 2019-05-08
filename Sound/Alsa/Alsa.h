@@ -35,7 +35,7 @@ namespace Sound
 		void Start();
 		void Stop();
 
-		std::string GetDeviceName() const { return deviceName; }
+		std::string GetDeviceName() const noexcept { return deviceName; }
 		AlsaParams GetParameters() const { return params; }
 
 

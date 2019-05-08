@@ -31,23 +31,23 @@ namespace DrumKit
 		Metronome(Sound::AlsaParams alsaParams, MetronomeParameters params);
 		virtual ~Metronome();
 
-		void GenerateClick();
+		void GenerateClick() noexcept;
 
 		void SetParameters(const MetronomeParameters& params) { parameters = params; }
 		void SetClickType(const ClickType& type) { parameters.clickType = type; }
-		void SetRhythm(int rhythm) { parameters.rhythm = rhythm; }
-		void SetBpmeas(int bpmeas) { parameters.beatsPerMeasure = bpmeas; }
+		void SetRhythm(int rhythm) noexcept { parameters.rhythm = rhythm; }
+		void SetBpmeas(int bpmeas) noexcept { parameters.beatsPerMeasure = bpmeas; }
 		void SetTempo(int tempo);
 
 		MetronomeParameters GetParameters() const { return parameters; }
-		ClickType GetClickType() const { return parameters.clickType; }
-		int GetTempo() const { return parameters.tempo; }
-		int GetRhythm() const { return parameters.rhythm; }
-		int GetBpmeas() const { return parameters.beatsPerMeasure; }
+		ClickType GetClickType() const noexcept { return parameters.clickType; }
+		int GetTempo() const noexcept { return parameters.tempo; }
+		int GetRhythm() const noexcept { return parameters.rhythm; }
+		int GetBpmeas() const noexcept { return parameters.beatsPerMeasure; }
 
 		std::vector<int> GetRhythmList() const { return rhythmList; }
 		std::vector<int> GetBpmeasList() const { return bpmeasList; }
-		std::vector<short> GetData() const { return data; }
+		std::vector<short> GetData() const noexcept { return data; }
 
 
 		static void LoadConfig(const std::string& filePath, MetronomeParameters& params);

@@ -50,7 +50,7 @@ namespace DrumKit
 	}
 
 
-	void Metronome::GenerateClick()
+	void Metronome::GenerateClick() noexcept
 	{
 
 		switch (this->parameters.clickType)
@@ -58,7 +58,7 @@ namespace DrumKit
 			case ClickType::Sine: 	GenerateSine();		break;
 			case ClickType::Square: GenerateSquare();	break;
 
-			default: break;
+			default: GenerateSine(); break;
 		}
 
 

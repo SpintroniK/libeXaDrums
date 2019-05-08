@@ -44,7 +44,7 @@ namespace DrumKit
 		void SelectKit(std::size_t id);
 		void ReloadKits();
 		int GetKitId() const { return kitId; }
-		int GetNumKits() const { return (int) kits.size(); };
+		int GetNumKits() const noexcept { return (int) kits.size(); };
 		std::vector<std::string> GetKitsNames() const;
 		std::vector<std::string> GetInstrumentsNames() const;
 
@@ -59,8 +59,8 @@ namespace DrumKit
 		void SetTriggerParameters(int triggerId, const TriggerParameters& params) { triggers[triggerId]->SetParameters(params);}
 		void SetTriggerSensorValue(int id, char channel, short data) { triggers[id]->SetSensorData(channel, data); }
 		std::vector<TriggerParameters> GetTriggersParameters() const { return this->triggersParameters; }
-		unsigned long long GetLastTrigTime() const { return lastTrigTime.load(std::memory_order_acquire); }
-		int GetLastTrigValue() const { return lastTrigValue.load(std::memory_order_acquire); }
+		unsigned long long GetLastTrigTime() const noexcept { return lastTrigTime.load(std::memory_order_acquire); }
+		int GetLastTrigValue() const noexcept { return lastTrigValue.load(std::memory_order_acquire); }
 
 		// Module
 		void Start();
@@ -79,7 +79,7 @@ namespace DrumKit
 		int64_t GetLastClickTime() const;
 
 		// Config
-		IO::SensorsConfig GetSensorsConfig() const { return sensorsConfig; }
+		IO::SensorsConfig GetSensorsConfig() const noexcept { return sensorsConfig; }
 
 	private:
 

@@ -15,7 +15,7 @@
 namespace eXaDrumsApi
 {
 
-	inline std::string eXaDrums::GetDataLocation() const
+	inline std::string eXaDrums::GetDataLocation() const noexcept
 	{
 		return std::string(this->GetDataLocation_());
 	}
@@ -27,7 +27,7 @@ namespace eXaDrumsApi
 
 	inline void eXaDrums::RecorderExport(const std::string& fileName)
 	{
-		RecorderExport_(fileName.data());
+		Util::ErrorToException([&]{ return RecorderExport_(fileName.data()); });
 	}
 
 	inline std::vector<std::string> eXaDrums::GetClicksTypes()
