@@ -14,15 +14,11 @@ namespace Sound
 
 	Mixer::Mixer()
 	{
-
-		playList.reserve(512);
-
 		return;
 	}
 
 	Mixer::~Mixer()
 	{
-
 		return;
 	}
 
@@ -32,7 +28,7 @@ namespace Sound
 	{
 
 
-		auto s = std::find_if(playList.begin(), playList.end(), [&id](SoundState& s) { return id == s.id && !s.isPlaying.load(); });
+		auto s = std::find_if(playList.begin(), playList.end(), [&id](SoundState& s) { return id == s.id && !s.isPlaying.load(std::memory_order_relaxed); });
 
 
 		if(s != playList.end())
@@ -41,13 +37,14 @@ namespace Sound
 			//soundBank->sounds[s->id].Seek(0);
 			s->volume = volume;
 			s->index = 0;
-			s->isPlaying.store(true);
+			s->isPlaying.store(true, std::memory_order_release);
 
 		}
 		else
 		{
 			// Add sound to playList
-			playList.emplace_back(id, volume, true);
+			//playList.emplace_back(id, volume, true);
+			playList[playListIndex.fetch_add(1, std::memory_order_relaxed)] = SoundState(id, volume, true);
 
 		}
 
@@ -64,7 +61,7 @@ namespace Sound
 		{
 			if(sound.id == id)
 			{
-				sound.isPlaying.store(false);
+				sound.isPlaying.store(false, std::memory_order_relaxed);
 			}
 		}
 
@@ -84,7 +81,7 @@ namespace Sound
 		// Mix sounds
 		for(std::size_t si = 0; si < playList.size(); si++)
 		{
-			if(playList[si].isPlaying.load())
+			if(playList[si].isPlaying.load(std::memory_order_acquire))
 			{
 
 				SoundState& soundState = playList[si];
@@ -130,7 +127,7 @@ namespace Sound
 				}
 				else
 				{
-					soundState.isPlaying.store(false);
+					soundState.isPlaying.store(false, std::memory_order_relaxed);
 				}
 			}
 		}
@@ -139,7 +136,14 @@ namespace Sound
 		return;
 	}
 
-
+	void Mixer::Clear()
+	{ 
+		playListIndex.store(0, std::memory_order_relaxed);
+		for(auto& s : playList)
+		{
+			s.isPlaying.store(false, std::memory_order_relaxed);
+		}
+	}
 
 
 }

@@ -13,6 +13,7 @@
 #include "../Sound.h"
 
 #include <vector>
+#include <array>
 #include <memory>
 #include <atomic>
 
@@ -33,7 +34,7 @@ namespace Sound
 		void StopSound(int id);
 
 		void Mix(std::vector<short>& buffer) noexcept;
-		void Clear() { playList.clear(); };
+		void Clear();
 
 		void SetSoundBank(std::shared_ptr<SoundBank>& sb) { this->soundBank = sb; }
 
@@ -41,7 +42,8 @@ namespace Sound
 
 
 		std::shared_ptr<SoundBank> soundBank;
-		std::vector<SoundState> playList; // TODO: replace by an array (?)
+		std::array<SoundState, 256> playList;
+		std::atomic<int> playListIndex{0};
 
 	};
 
