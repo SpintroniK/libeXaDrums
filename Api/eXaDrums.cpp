@@ -39,6 +39,7 @@ namespace eXaDrumsApi
 	eXaDrums::eXaDrums(const char* dataLoc) : isStarted(false)
 	{
 
+		this->init_error = make_error("", error_type_success);
 		this->dataLocation = std::string{dataLoc} + "/";
 
 		// Load alsa parameters
@@ -120,7 +121,7 @@ namespace eXaDrumsApi
 	{
 		try
 		{
-			this->drumModule->RecorderExport(std::string{fileName}); // TODO: throw if expoort fails.
+			this->drumModule->RecorderExport(std::string{fileName}); // TODO: throw if export fails.
 		}
 		catch(const std::exception& e)
 		{
@@ -174,7 +175,7 @@ namespace eXaDrumsApi
 		return metronome->GetTempo();
 	}
 
-	int eXaDrums::GetClickVolume() const
+	int eXaDrums::GetClickVolume() const noexcept
 	{
 		return int(drumModule->GetClickVolume() * 100.0f);
 	}
@@ -189,7 +190,7 @@ namespace eXaDrumsApi
 	void eXaDrums::SetClickType(int id)
 	{
 
-		ClickType type = Enums::GetEnumVector<ClickType>()[id];
+		ClickType type = Enums::GetEnumVector<ClickType>()[id]; // TODO: check vector size first
 		metronome->SetClickType(type);
 
 		 return;
@@ -235,7 +236,7 @@ namespace eXaDrumsApi
 
 	void eXaDrums::SaveKitConfig(int id) const
 	{
-		drumModule->SaveKitConfig(id);
+		drumModule->SaveKitConfig(id); // TODO: Error handling
 		return;
 	}
 
@@ -254,7 +255,7 @@ namespace eXaDrumsApi
 	void eXaDrums::ReloadKits()
 	{
 
-		drumModule->ReloadKits();
+		drumModule->ReloadKits(); // TODO: handle errors
 
 		return;
 	}
@@ -269,7 +270,7 @@ namespace eXaDrumsApi
 
 		float vol = float(volume) / 100.0f;
 
-		drumModule->SetInstrumentVolume(id, vol);
+		drumModule->SetInstrumentVolume(id, vol); // TODO: handle errors (kit or instrument doesn't exist)
 
 		return;
 	}
@@ -277,7 +278,7 @@ namespace eXaDrumsApi
 	int eXaDrums::GetInstrumentVolume(int id) const
 	{
 
-		int volume = (int) std::floor( 100.0f * drumModule->GetInstrumentVolume(id));
+		int volume = (int) std::floor( 100.0f * drumModule->GetInstrumentVolume(id)); // TODO: handle errors
 
 		return volume;
 	}
@@ -292,6 +293,13 @@ namespace eXaDrumsApi
 		return drumModule->GetLastTrigValue();
 	}
 
+	/**
+	 * @brief Set external trigger's data (error handling's responsability is left to the user)
+	 * 
+	 * @param id trigger id
+	 * @param channel 
+	 * @param data trigger's output value
+	 */
 	void eXaDrums::SetTriggerSensorValue(int id, char channel, short data)
 	{
 		this->drumModule->SetTriggerSensorValue(id, channel, data);
@@ -327,10 +335,18 @@ namespace eXaDrumsApi
 	const char* eXaDrums::GetKitDataFileName_()
 	{
 
-		std::string kitLocation = this->drumModule->GetKitLocation();
-		std::size_t pos = kitLocation.find_last_of("/");
+		try
+		{		
+			std::string kitLocation = this->drumModule->GetKitLocation();
+			std::size_t pos = kitLocation.find_last_of("/");
 
-		this->kitDataFileName = kitLocation.substr(pos + 1, std::string::npos);
+			this->kitDataFileName = kitLocation.substr(pos + 1, std::string::npos);
+		}
+		catch(...)
+		{
+			return nullptr;
+		}
+
 
 		return this->kitDataFileName.c_str();
 	}

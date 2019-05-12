@@ -21,6 +21,7 @@
 #include <algorithm>
 
 using namespace Sound;
+using namespace Util;
 
 namespace DrumKit
 {
@@ -180,6 +181,17 @@ namespace DrumKit
 		return instrument->GetTriggersIds();
 	}
 
+	std::string Module::GetKitLocation() const 
+	{
+		if(static_cast<size_t>(kitId) < kits.size())
+		{
+			return kits[kitId].GetConfigFilePath(); 
+		}
+		else
+		{
+			throw Exception("Selected kit's path could not be found.", error_type_error);
+		}	
+	}
 
 	bool Module::DeleteKit(const int& id)
 	{
@@ -262,13 +274,21 @@ namespace DrumKit
 		return;
 	}
 
-	float Module::GetClickVolume() const
+	float Module::GetClickVolume() const noexcept
 	{
-		return soundBank->GetSound(metronomeSoundId).GetVolume();
+		if(metronomeSoundId != -1)
+		{
+			return soundBank->GetSound(metronomeSoundId).GetVolume();
+		}
+		else
+		{
+			return 0.0f;
+		}
+		
 	}
 
 
-	double Module::GetClickPosition() const
+	double Module::GetClickPosition() const noexcept
 	{
 
 		if(isMetronomeEnabled.load())
@@ -285,7 +305,7 @@ namespace DrumKit
 		}
 	}
 
-	int64_t Module::GetLastClickTime() const
+	int64_t Module::GetLastClickTime() const noexcept
 	{
 
 		if(isMetronomeEnabled.load())

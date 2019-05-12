@@ -71,7 +71,7 @@ namespace Sound
 		inline float GetVolume() const noexcept { return volume.load(); }
 		inline unsigned long LoadIndex() const noexcept { return idx.load(); }
 		inline unsigned long long GetLastStartTime() const noexcept { return lastStartTime.load(std::memory_order_relaxed); }
-		inline int GetLength() const { return length; }
+		inline int GetLength() const noexcept { return length; }
 		inline const short* GetData() const { return data.data(); }
 		const std::vector<short>& GetInternalData() const { return data; }
 		inline const short GetValue(int i) const noexcept { return data[i % length]; }

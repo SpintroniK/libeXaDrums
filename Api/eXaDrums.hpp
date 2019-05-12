@@ -22,7 +22,14 @@ namespace eXaDrumsApi
 
 	inline std::string eXaDrums::GetKitDataFileName()
 	{
-		return std::string(this->GetKitDataFileName_());
+		const char* str = this->GetKitDataFileName_();
+
+		if(str == nullptr)
+		{
+			throw Util::Exception("Selected kit's path could not be found.", Util::error_type_error);
+		}
+
+		return std::string(str);		
 	}
 
 	inline void eXaDrums::RecorderExport(const std::string& fileName)

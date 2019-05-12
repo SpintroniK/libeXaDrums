@@ -114,7 +114,7 @@ namespace DrumKit
 	}
 
 
-	void KitManager::SaveKit(std::string file, KitParameters parameters)
+	void KitManager::SaveKit(std::string file, KitParameters parameters) // TODO: handle errors
 	{
 
 		// Create document

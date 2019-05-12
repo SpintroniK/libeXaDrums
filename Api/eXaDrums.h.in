@@ -51,7 +51,7 @@ namespace eXaDrumsApi
 		void ChangeTempo(int tempo) const;
 		void ChangeVolume(int volume) const;
 		int GetTempo() const noexcept;
-		int GetClickVolume() const;
+		int GetClickVolume() const noexcept;
 		void SaveMetronomeConfig() const;
 		double GetClickPosition() const;
 		long long GetLastClickTime() const;
@@ -97,6 +97,8 @@ namespace eXaDrumsApi
 		// Sound
 		std::string GetAudioDeviceName() const noexcept;
 
+		Util::error GetInitError() const { return this->init_error; }
+
 	private:
 
 		const char* GetDataLocation_() const noexcept;
@@ -128,6 +130,8 @@ namespace eXaDrumsApi
 		std::vector<std::string> clicksTypes;
 		std::vector<std::string> kitsNames;
 		std::vector<std::string> instrumentsNames;
+
+		Util::error init_error;
 
 	};
 }

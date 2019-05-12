@@ -39,7 +39,7 @@ namespace DrumKit
 
 		// Kit
 		void SaveKitConfig(int id) const { kits[id].Save(); };
-		std::string GetKitLocation() const { return kits[kitId].GetConfigFilePath(); };
+		std::string GetKitLocation() const;
 		bool DeleteKit(const int& id);
 		void SelectKit(std::size_t id);
 		void ReloadKits();
@@ -73,10 +73,10 @@ namespace DrumKit
 		void EnableMetronome(bool enable);
 		void ChangeTempo(int tempo);
 		void ChangeVolume(int volume);
-		float GetClickVolume() const;
+		float GetClickVolume() const noexcept;
 		void RestartMetronome();
-		double GetClickPosition() const;
-		int64_t GetLastClickTime() const;
+		double GetClickPosition() const noexcept;
+		int64_t GetLastClickTime() const noexcept;
 
 		// Config
 		IO::SensorsConfig GetSensorsConfig() const noexcept { return sensorsConfig; }
