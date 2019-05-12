@@ -81,7 +81,11 @@ namespace Util
         {
             return make_error(except.what(), except.type());
         }
-
+        catch(...)
+        {
+            return make_error("Unknown error.", error_type_error);
+        }
+        
         return error{"", error_type_success};
     }
 
