@@ -44,7 +44,10 @@ namespace Sound
 		{
 			// Add sound to playList
 			//playList.emplace_back(id, volume, true);
-			playList[playListIndex.fetch_add(1, std::memory_order_relaxed)] = SoundState(id, volume, true);
+			const auto index = playListIndex.fetch_add(1, std::memory_order_relaxed);
+			playList[index].id = id;
+			playList[index].volume = volume;
+			playList[index].isPlaying.store(true, std::memory_order_release);
 
 		}
 
