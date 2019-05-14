@@ -37,7 +37,7 @@ namespace Sound
 		int AddSound(Sound&& sound, float volume);
 		void DeleteSound(int id);
 		void LoopSound(int id, bool s) { sounds[id].SetLoop(s); }
-		void Clear() { std::vector<Sound>().swap(sounds); }
+		void Clear() noexcept { std::vector<Sound>().swap(sounds); }
 
 		void SetSoundVolume(int id, float volume) { sounds[id].SetVolume(volume); }
 

@@ -115,7 +115,7 @@ namespace DrumKit
 		recorder.Export(fileName);
 	}
 
-	void Module::GetDirectory(std::string& dir) const
+	void Module::GetDirectory(std::string& dir) const noexcept
 	{
 
 		dir = this->directory;

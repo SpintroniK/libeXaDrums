@@ -8,6 +8,7 @@
 #include "Alsa.h"
 
 #include "../../Util/Threading.h"
+#include "../../Util/ErrorHandling.h"
 
 #include <alsa/asoundlib.h>
 
@@ -19,6 +20,7 @@
 
 #include <cstring>
 
+using namespace Util;
 
 namespace Sound
 {
@@ -43,7 +45,7 @@ namespace Sound
 		}
 		else
 		{
-			throw std::runtime_error(snd_strerror(err));
+			throw Exception(snd_strerror(err), error_type_error);
 		}
 
 

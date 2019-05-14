@@ -43,7 +43,7 @@ namespace DrumKit
 		bool DeleteKit(const int& id);
 		void SelectKit(std::size_t id);
 		void ReloadKits();
-		int GetKitId() const { return kitId; }
+		int GetKitId() const noexcept { return kitId; }
 		int GetNumKits() const noexcept { return (int) kits.size(); };
 		std::vector<std::string> GetKitsNames() const;
 		std::vector<std::string> GetInstrumentsNames() const;
@@ -67,7 +67,7 @@ namespace DrumKit
 		void Stop();
 		void EnableRecording(bool record);
 		void RecorderExport(const std::string& fileName);
-		void GetDirectory(std::string& dir) const;
+		void GetDirectory(std::string& dir) const noexcept;
 
 		// Metronome
 		void EnableMetronome(bool enable);

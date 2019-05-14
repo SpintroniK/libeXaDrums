@@ -26,25 +26,25 @@ namespace eXaDrumsApi
 
 	public:
 
-		explicit Config(eXaDrums& drums);
+		explicit Config(eXaDrums& drums) noexcept;
 		virtual ~Config() = default;
 
-		void RefreshSensorsConfig();
-		void SaveSensorsConfig();
-		void SaveTriggersConfig();
-		void LoadTriggersConfig() const;
-		void SaveCurrentAudioDeviceConfig();
-		void SaveAudioDeviceConfig(const AlsaParamsApi& params);
-		void ResetAudioDevice();
+		void RefreshSensorsConfig() noexcept;
+		Util::error SaveSensorsConfig();
+		Util::error SaveTriggersConfig();
+		Util::error LoadTriggersConfig() const;
+		Util::error SaveCurrentAudioDeviceConfig() const;
+		Util::error SaveAudioDeviceConfig(const AlsaParamsApi& params);
+		Util::error ResetAudioDevice();
 
 		// Triggers
-		void AddTrigger(const TriggerParameters& params);
-		void DeleteTrigger(int sensorId);
+		Util::error AddTrigger(const TriggerParameters& params);
+		Util::error DeleteTrigger(int sensorId);
 		int GetNbTriggers() const;
 
 		// Mutators
-		void SetSensorsSamplingRate(int sRate) { sensorsConfig.samplingRate = sRate; }
-		void SetSensorsResolution(int res) { sensorsConfig.resolution = res; }
+		void SetSensorsSamplingRate(int sRate) noexcept { sensorsConfig.samplingRate = sRate; }
+		void SetSensorsResolution(int res) noexcept { sensorsConfig.resolution = res; }
 		void SetSensorsType(const std::string& type);
 		void SetSensorsDataFolder(const std::string& folder);
 		void SetAudioDeviceParameters(const AlsaParamsApi& params);

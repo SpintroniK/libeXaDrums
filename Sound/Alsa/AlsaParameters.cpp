@@ -7,11 +7,14 @@
 
 #include "AlsaParameters.h"
 
+#include "../../Util/ErrorHandling.h"
+
 #include <tinyxml2.h>
 
 #include <iostream>
 
 using namespace tinyxml2;
+using namespace Util;
 
 namespace Sound
 {
@@ -23,8 +26,7 @@ namespace Sound
 
 		if(doc.LoadFile(filePath.c_str()) != XML_SUCCESS)
 		{
-			std::cerr << "Error: File " + filePath + " not found or contains errors." << std::endl;
-			throw -1;
+			throw Exception("Could not load sound card parameters.", error_type_error);
 		}
 
 		XMLElement* root = doc.RootElement();
@@ -91,7 +93,13 @@ namespace Sound
 		root->InsertEndChild(access);
 
 		// Save modified file
-		doc.SaveFile(filePath.data());
+		auto result = doc.SaveFile(filePath.data());
+
+		if(XML_SUCCESS != result)
+		{
+			throw Exception("Could not save triggers configuration.", error_type_error);
+		}
+
 
 		return;
 	}

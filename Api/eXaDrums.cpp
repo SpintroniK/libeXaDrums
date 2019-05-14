@@ -453,12 +453,12 @@ namespace eXaDrumsApi
 		return;
 	}
 
-	double eXaDrums::GetClickPosition() const
+	double eXaDrums::GetClickPosition() const noexcept
 	{
 		return drumModule->GetClickPosition();
 	}
 
-	long long eXaDrums::GetLastClickTime() const
+	long long eXaDrums::GetLastClickTime() const noexcept
 	{
 		return drumModule->GetLastClickTime();
 	}

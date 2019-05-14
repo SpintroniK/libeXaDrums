@@ -139,7 +139,11 @@ namespace Sound
 		return;
 	}
 
-	void Mixer::Clear()
+	/**
+	 * @brief Stops all sounds (must be done after the mixer has been stopped).
+	 * 
+	 */
+	void Mixer::Clear() noexcept
 	{ 
 		playListIndex.store(0, std::memory_order_relaxed);
 		for(auto& s : playList)

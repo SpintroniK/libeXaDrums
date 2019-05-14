@@ -34,7 +34,7 @@ namespace Sound
 		void StopSound(int id);
 
 		void Mix(std::vector<short>& buffer) noexcept;
-		void Clear();
+		void Clear() noexcept;
 
 		void SetSoundBank(std::shared_ptr<SoundBank>& sb) { this->soundBank = sb; }
 

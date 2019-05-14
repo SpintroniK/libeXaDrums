@@ -9,6 +9,7 @@
 
 
 #include "../../Util/Enums.h"
+#include "../../Util/ErrorHandling.h"
 #include "../../Util/Xml.h"
 
 #include "Curves/CurveType.h"
@@ -58,7 +59,7 @@ namespace DrumKit
 
 		if(doc.LoadFile(file.data()) != XML_SUCCESS)
 		{
-			throw -1;
+			throw Exception("Could not load triggers configuration.", error_type_error);
 		}
 
 		XMLElement* root = doc.RootElement();
@@ -121,7 +122,12 @@ namespace DrumKit
 		}
 
 		// Save file
-		doc.SaveFile(file.c_str());
+		auto result = doc.SaveFile(file.c_str());
+
+		if(XML_SUCCESS != result)
+		{
+			throw Exception("Could not save triggers configuration.", error_type_error);
+		}
 
 		return;
 	}
@@ -135,7 +141,7 @@ namespace DrumKit
 
 		if(doc.LoadFile(file.c_str()) != XML_SUCCESS)
 		{
-			throw -1;
+			throw Exception("Could not load sensors configuration.", error_type_error);
 		}
 
 		auto root = XmlElement{doc.RootElement()};
@@ -181,7 +187,12 @@ namespace DrumKit
 		root->InsertEndChild(type);
 		root->InsertEndChild(dataFolder);
 
-		doc.SaveFile(file.c_str());
+		auto result = doc.SaveFile(file.c_str());
+
+		if(XML_SUCCESS != result)
+		{
+			throw Exception("Could not save sensors configuration.", error_type_error);
+		}
 
 		return;
 	}
