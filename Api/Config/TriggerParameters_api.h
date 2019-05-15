@@ -17,11 +17,11 @@ namespace eXaDrumsApi
 	struct TriggerParameters
 	{
 
-		TriggerParameters();
+		TriggerParameters() noexcept;
 
 		// Conversion to internal type
-		explicit TriggerParameters(const DrumKit::TriggerParameters& parameters);
-		TriggerParameters& operator=(const DrumKit::TriggerParameters& parameters);
+		explicit TriggerParameters(const DrumKit::TriggerParameters& parameters) noexcept;
+		TriggerParameters& operator=(const DrumKit::TriggerParameters& parameters) noexcept;
 		explicit operator DrumKit::TriggerParameters() const;
 
 		int sensorId;

@@ -64,7 +64,7 @@ namespace Util
 				}
 			}
 
-			//XXX Temporary (can't throw because of unfinished stuff).
+			// FIXME: Temporary (can't throw because of unfinished stuff).
 			ss << T::First;
 			return ss.str();
 		}
@@ -84,7 +84,7 @@ namespace Util
 				}
 			}
 
-			//XXX Temporary (can't throw because of unfinished stuff).
+			// FIXME: Temporary (can't throw because of unfinished stuff).
 			return T::First;
 		}
 

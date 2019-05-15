@@ -22,7 +22,7 @@ namespace eXaDrumsApi
 		return;
 	}
 
-	inline void Config::SetSensorsDataFolder(const std::string& folder)
+	inline void Config::SetSensorsDataFolder(const std::string& folder) noexcept
 	{
 
 		SetSensorsDataFolder_(folder.c_str());

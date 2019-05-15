@@ -238,7 +238,7 @@ namespace eXaDrumsApi
 		return;
 	}
 
-	void Config::SetSensorsDataFolder_(const char* folder)
+	void Config::SetSensorsDataFolder_(const char* folder) noexcept
 	{
 
 		sensorsConfig.hddDataFolder = std::string(folder);
@@ -246,7 +246,7 @@ namespace eXaDrumsApi
 	}
 
 
-	void Config::SetTriggersParameters_(const TriggerParameters* params, unsigned int size)
+	void Config::SetTriggersParameters_(const TriggerParameters* params, unsigned int size) noexcept
 	{
 
 		std::vector<TriggerParameters> trigParams(params, params + size);
@@ -418,18 +418,18 @@ namespace eXaDrumsApi
 		return this->sensorType.c_str();
 	}
 
-	const char* Config::GetSensorsDataFolder_() const
+	const char* Config::GetSensorsDataFolder_() const noexcept
 	{
 		return this->sensorsConfig.hddDataFolder.c_str();
 	}
 
-	const char* Config::GetAudioDeviceName_()
+	const char* Config::GetAudioDeviceName_() noexcept
 	{
 		this->audioDeviceName = this->drumKit.GetAudioDeviceName();
 		return this->audioDeviceName.data();
 	}
 
-	AlsaParamsApi Config::GetAudioDeviceParams_() const
+	AlsaParamsApi Config::GetAudioDeviceParams_() const noexcept
 	{
 		AlsaParamsApi alsaParameters = static_cast<AlsaParamsApi>(this->drumKit.alsa->GetParameters());
 		return alsaParameters;

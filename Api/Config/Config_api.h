@@ -46,7 +46,7 @@ namespace eXaDrumsApi
 		void SetSensorsSamplingRate(int sRate) noexcept { sensorsConfig.samplingRate = sRate; }
 		void SetSensorsResolution(int res) noexcept { sensorsConfig.resolution = res; }
 		void SetSensorsType(const std::string& type);
-		void SetSensorsDataFolder(const std::string& folder);
+		void SetSensorsDataFolder(const std::string& folder) noexcept;
 		void SetAudioDeviceParameters(const AlsaParamsApi& params);
 		void SetTriggersParameters(const std::vector<TriggerParameters>& params);
 		void SetTriggerParameters(int triggerId, const TriggerParameters& params);
@@ -71,17 +71,17 @@ namespace eXaDrumsApi
 		void RestartModule();
 
 		void SetSensorsType_(const char* type);
-		void SetSensorsDataFolder_(const char* folder);
+		void SetSensorsDataFolder_(const char* folder) noexcept;
 		void SetAudioDeviceParameters_(const char* name);
-		void SetTriggersParameters_(const TriggerParameters* params, unsigned int size);
+		void SetTriggersParameters_(const TriggerParameters* params, unsigned int size) noexcept;
 		Util::error SetAudioDeviceParameters_(const AlsaParamsApi& params);
 		void SetTriggerParameters_(int triggerId, const TriggerParameters& params);
 
 		const char* GetSensorsType_();
-		const char* GetSensorsDataFolder_() const;
-		const char* GetAudioDeviceName_();
+		const char* GetSensorsDataFolder_() const noexcept;
+		const char* GetAudioDeviceName_() noexcept;
 
-		AlsaParamsApi GetAudioDeviceParams_() const;
+		AlsaParamsApi GetAudioDeviceParams_() const noexcept;
 
 		void GetSensorsTypes_(const char** types, unsigned int& size);
 		void GetTriggersTypes_(const char** types, unsigned int& size);
