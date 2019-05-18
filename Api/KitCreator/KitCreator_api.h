@@ -27,24 +27,24 @@ namespace eXaDrumsApi
 		virtual ~KitCreator();
 
 		// Kit
-		void CreateNewKit();
-		void CreateFromModel(const char* loc);
-		int GetNumInstruments() const;
-		void SetKitName(const char* name);
-		void SaveKit(const char* file) const;
-		void SaveKit() const;
+		void CreateNewKit() const noexcept;
+		Util::error CreateFromModel(const char* loc) const;
+		int GetNumInstruments() const noexcept;
+		void SetKitName(const char* name) const noexcept;
+		Util::error SaveKit(const char* file) const;
+		Util::error SaveKit() const;
 
 
 		// Instrument
-		void CreateNewInstrument();
-		void RemoveInstrument(int i);
-		void RemoveLastInstrument();
-		void AddInstrumentToKit();
+		void CreateNewInstrument() const noexcept;
+		void RemoveInstrument(int i) const noexcept;
+		void RemoveLastInstrument() const noexcept;
+		void AddInstrumentToKit() const noexcept;
 		Util::error SetInstrumentName(const char* name);
 		void SetInstrumentType(const char* type);
-		void SetInstrumentVolume(const float volume);
-		void AddInstrumentSound(const char* file, const char* type);
-		void AddInstrumentTrigger(const int id, const char* location);
+		void SetInstrumentVolume(const float volume) const noexcept;
+		void AddInstrumentSound(const char* file, const char* type); // TODO: handle errors
+		void AddInstrumentTrigger(const int id, const char* location); // TODO: handle errors
 
 		Util::error SetInstrumentName(int id, const char* name);
 		void SetInstrumentType(int id, const char* type);

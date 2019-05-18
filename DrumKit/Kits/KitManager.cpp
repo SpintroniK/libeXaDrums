@@ -114,7 +114,7 @@ namespace DrumKit
 	}
 
 
-	void KitManager::SaveKit(std::string file, KitParameters parameters) // TODO: handle errors
+	void KitManager::SaveKit(std::string file, KitParameters parameters)
 	{
 
 		// Create document
@@ -197,7 +197,12 @@ namespace DrumKit
 
 
 		// Save file
-		doc.SaveFile(file.c_str());
+		auto result = doc.SaveFile(file.c_str());
+
+		if(XML_SUCCESS != result)
+		{
+			throw Exception("Could not save drum kit parameters.", error_type_error);
+		}
 
 
 		return;

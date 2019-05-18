@@ -32,61 +32,58 @@ namespace eXaDrumsApi
 
 
 	// Kit
-	void KitCreator::CreateNewKit()
+	void KitCreator::CreateNewKit() const noexcept
 	{
 		controller.CreateNewKit();
 		return;
 	}
 
-	void KitCreator::CreateFromModel(const char* loc)
+	error KitCreator::CreateFromModel(const char* loc) const 
 	{
-		controller.CreateFromModel(std::string(loc));
-		return;
+		return ExceptionToError([&] { controller.CreateFromModel(std::string(loc)); });
 	}
 
-	int KitCreator::GetNumInstruments() const
+	int KitCreator::GetNumInstruments() const noexcept
 	{
 		return controller.GetNumInstruments();
 	}
 
-	void KitCreator::SetKitName(const char* name)
+	void KitCreator::SetKitName(const char* name) const noexcept
 	{
 		controller.SetKitName(std::string(name));
 		return;
 	}
 
-	void KitCreator::SaveKit(const char* file) const
+	error KitCreator::SaveKit(const char* file) const
 	{
-		controller.SaveKit(std::string(file));
-		return;
+		return ExceptionToError([&] { controller.SaveKit(std::string(file)); });
 	}
 
-	void KitCreator::SaveKit() const
+	error KitCreator::SaveKit() const
 	{
-		controller.SaveKit();
-		return;
+		return ExceptionToError([&] { controller.SaveKit(); });
 	}
 
 	// Instrument
-	void KitCreator::CreateNewInstrument()
+	void KitCreator::CreateNewInstrument() const noexcept
 	{
 		controller.CreateNewInstrument();
 		return;
 	}
 
-	void KitCreator::RemoveLastInstrument()
-	{
-		controller.RemoveLastInstrument();
-		return;
-	}
-
-	void KitCreator::RemoveInstrument(int i)
+	void KitCreator::RemoveInstrument(int i) const noexcept
 	{
 		controller.RemoveInstrument(i);
 		return;
 	}
 
-	void KitCreator::AddInstrumentToKit()
+	void KitCreator::RemoveLastInstrument() const noexcept
+	{
+		controller.RemoveLastInstrument();
+		return;
+	}
+
+	void KitCreator::AddInstrumentToKit() const noexcept
 	{
 		controller.AddInstrumentToKit();
 		return;
@@ -130,7 +127,7 @@ namespace eXaDrumsApi
 		return;
 	}
 
-	void KitCreator::SetInstrumentVolume(const float volume)
+	void KitCreator::SetInstrumentVolume(const float volume) const noexcept
 	{
 		controller.SetInstrumentVolume(volume);
 		return;

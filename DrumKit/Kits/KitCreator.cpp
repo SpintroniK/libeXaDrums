@@ -33,7 +33,7 @@ namespace DrumKit
 		return;
 	}
 
-	void KitCreator::CreateNewKit()
+	void KitCreator::CreateNewKit() noexcept
 	{
 
 		this->parameters = KitParameters();
@@ -85,7 +85,7 @@ namespace DrumKit
 		return;
 	}
 
-	void KitCreator::AddInstrumentToKit()
+	void KitCreator::AddInstrumentToKit() noexcept
 	{
 
 		this->parameters.instrumentParameters.push_back(this->instrument);
@@ -94,7 +94,7 @@ namespace DrumKit
 		return;
 	}
 
-	void KitCreator::CreateNewInstrument()
+	void KitCreator::CreateNewInstrument() noexcept
 	{
 
 		this->instrument = InstrumentParameters();
@@ -103,7 +103,7 @@ namespace DrumKit
 		return;
 	}
 
-	void KitCreator::RemoveInstrument(int i)
+	void KitCreator::RemoveInstrument(int i) noexcept
 	{
 
 		if(parameters.instrumentParameters.size() > 1)
@@ -114,7 +114,7 @@ namespace DrumKit
 		return;
 	}
 
-	void KitCreator::RemoveLastInstrument()
+	void KitCreator::RemoveLastInstrument() noexcept
 	{
 		if(parameters.instrumentParameters.size() > 1)
 		{
