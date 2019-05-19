@@ -135,7 +135,7 @@ namespace eXaDrumsApi
 		return v;
 	}
 
-	inline std::vector<std::string> KitCreator::GetSoundsFiles()
+	/*inline std::vector<std::string> KitCreator::GetSoundsFiles()
 	{
 
 		unsigned int size;
@@ -148,7 +148,7 @@ namespace eXaDrumsApi
 		std::copy(data.cbegin(), data.cend(), v.begin());
 
 		return v;
-	}
+	}*/
 
 	inline std::vector<std::string> KitCreator::GetSoundsTypes(const std::string& instrumentType)
 	{

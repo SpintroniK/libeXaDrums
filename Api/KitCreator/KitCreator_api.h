@@ -27,22 +27,22 @@ namespace eXaDrumsApi
 		virtual ~KitCreator();
 
 		// Kit
-		void CreateNewKit() const noexcept;
-		Util::error CreateFromModel(const char* loc) const;
+		void CreateNewKit() noexcept;
+		Util::error CreateFromModel(const char* loc);
 		int GetNumInstruments() const noexcept;
-		void SetKitName(const char* name) const noexcept;
+		void SetKitName(const char* name) noexcept;
 		Util::error SaveKit(const char* file) const;
 		Util::error SaveKit() const;
 
 
 		// Instrument
-		void CreateNewInstrument() const noexcept;
-		void RemoveInstrument(int i) const noexcept;
-		void RemoveLastInstrument() const noexcept;
-		void AddInstrumentToKit() const noexcept;
+		void CreateNewInstrument() noexcept;
+		void RemoveInstrument(int i) noexcept;
+		void RemoveLastInstrument() noexcept;
+		void AddInstrumentToKit() noexcept;
 		Util::error SetInstrumentName(const char* name);
 		void SetInstrumentType(const char* type);
-		void SetInstrumentVolume(const float volume) const noexcept;
+		void SetInstrumentVolume(const float volume) noexcept;
 		void AddInstrumentSound(const char* file, const char* type); // TODO: handle errors
 		void AddInstrumentTrigger(const int id, const char* location); // TODO: handle errors
 
@@ -67,7 +67,7 @@ namespace eXaDrumsApi
 		std::vector<std::string> GetTriggersLocations(const std::string& instrumentType);
 
 		// Sounds
-		std::vector<std::string> GetSoundsFiles();
+		//std::vector<std::string> GetSoundsFiles();
 		std::vector<std::string> GetSoundsTypes(const std::string& instrumentType);
 
 
@@ -88,7 +88,7 @@ namespace eXaDrumsApi
 		void GetSoundTypes_(const char* instrumentType, const char** data, unsigned int& size);
 
 		void GetInstrumentSoundsLocs_(int i, const char** data, unsigned int& size);
-		void GetSoundFiles_(const char** data, unsigned int& size);
+		//void GetSoundFiles_(const char** data, unsigned int& size);
 
 		void GetInstrumentsTypes_(const char** data, unsigned int& size);
 		void GetInstrumentsNames_(const char** data, unsigned int& size);
@@ -107,7 +107,7 @@ namespace eXaDrumsApi
 		std::vector<std::string> instrumentSoundsLocs;
 
 		// Controller
-		DrumKit::KitCreator& controller;
+		DrumKit::KitCreator controller;
 
 	};
 

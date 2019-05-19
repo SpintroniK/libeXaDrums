@@ -19,7 +19,7 @@ namespace DrumKit
 {
 
 	KitCreator::KitCreator(const std::string& dataLoc)
-	: dataFolder{dataLoc}, kitsDirectory(dataLoc + "Kits/"), instrument(), soundFiles(SoundBank::GetSoundFiles(dataLoc))
+	: dataFolder{dataLoc}, kitsDirectory(dataLoc + "Kits/"), instrument() //, soundFiles(SoundBank::GetSoundFiles(dataLoc))
 	{
 
 

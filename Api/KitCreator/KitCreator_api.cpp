@@ -15,7 +15,7 @@ using namespace Util;
 namespace eXaDrumsApi
 {
 
-	KitCreator::KitCreator(const char* dataLocation) : controller(*new DrumKit::KitCreator(dataLocation))
+	KitCreator::KitCreator(const char* dataLocation) : controller(dataLocation)
 	{
 
 		return;
@@ -23,22 +23,18 @@ namespace eXaDrumsApi
 
 	KitCreator::~KitCreator()
 	{
-
-		// Delete controller
-		delete &controller;
-
 		return;
 	}
 
 
 	// Kit
-	void KitCreator::CreateNewKit() const noexcept
+	void KitCreator::CreateNewKit() noexcept
 	{
 		controller.CreateNewKit();
 		return;
 	}
 
-	error KitCreator::CreateFromModel(const char* loc) const 
+	error KitCreator::CreateFromModel(const char* loc) 
 	{
 		return ExceptionToError([&] { controller.CreateFromModel(std::string(loc)); });
 	}
@@ -48,7 +44,7 @@ namespace eXaDrumsApi
 		return controller.GetNumInstruments();
 	}
 
-	void KitCreator::SetKitName(const char* name) const noexcept
+	void KitCreator::SetKitName(const char* name) noexcept
 	{
 		controller.SetKitName(std::string(name));
 		return;
@@ -65,25 +61,25 @@ namespace eXaDrumsApi
 	}
 
 	// Instrument
-	void KitCreator::CreateNewInstrument() const noexcept
+	void KitCreator::CreateNewInstrument() noexcept
 	{
 		controller.CreateNewInstrument();
 		return;
 	}
 
-	void KitCreator::RemoveInstrument(int i) const noexcept
+	void KitCreator::RemoveInstrument(int i) noexcept
 	{
 		controller.RemoveInstrument(i);
 		return;
 	}
 
-	void KitCreator::RemoveLastInstrument() const noexcept
+	void KitCreator::RemoveLastInstrument() noexcept
 	{
 		controller.RemoveLastInstrument();
 		return;
 	}
 
-	void KitCreator::AddInstrumentToKit() const noexcept
+	void KitCreator::AddInstrumentToKit() noexcept
 	{
 		controller.AddInstrumentToKit();
 		return;
@@ -127,7 +123,7 @@ namespace eXaDrumsApi
 		return;
 	}
 
-	void KitCreator::SetInstrumentVolume(const float volume) const noexcept
+	void KitCreator::SetInstrumentVolume(const float volume) noexcept
 	{
 		controller.SetInstrumentVolume(volume);
 		return;
@@ -312,7 +308,7 @@ namespace eXaDrumsApi
 		return;
 	}
 
-	void KitCreator::GetSoundFiles_(const char** data, unsigned int& size)
+	/*void KitCreator::GetSoundFiles_(const char** data, unsigned int& size)
 	{
 
 		if(data == nullptr)
@@ -332,7 +328,7 @@ namespace eXaDrumsApi
 		}
 
 		return;
-	}
+	}*/
 
 
 
