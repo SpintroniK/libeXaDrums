@@ -88,6 +88,9 @@ namespace Util
         Exception(const char* what_arg, errorType err_type) noexcept
         : message{what_arg}, error_type{err_type} {}
 
+        Exception(std::string&& what_arg, errorType err_type) noexcept
+        : message{std::move(what_arg)}, error_type{err_type} {}
+
         virtual const char* what() const noexcept final { return message.data(); }
         errorType type() const noexcept { return error_type; }
 
