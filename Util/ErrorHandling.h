@@ -34,6 +34,45 @@ namespace Util
             return e;
         }
 
+        /**
+         * @brief Merge two errors together
+         * 
+         * @param e1 first erorr
+         * @param e2 second error
+         * @return error merged error
+         */
+        inline error merge_errors(const error& e1, const error& e2)
+        {
+            error merged_error;
+
+            if(e1.type >= e2.type)
+            {
+                std::snprintf(merged_error.message, sizeof merged_error.message, "%s", e1.message);
+                merged_error.type = e1.type;
+            }
+            else
+            {
+                std::snprintf(merged_error.message, sizeof merged_error.message, "%s", e2.message);
+                merged_error.type = e2.type;
+            }
+
+
+            return merged_error;
+        }
+
+        /**
+         * @brief Update an error using another, newer, error.
+         * 
+         * @param e error to be updated
+         * @param new_error another error that alters the state of e
+         * @return errorType error type
+         */
+        inline errorType update_error(error& e, const error& new_error)
+        {
+            e = merge_errors(e, new_error);
+            return errorType{e.type};
+        }
+
     #if __cplusplus__
     }
     #endif 
@@ -71,7 +110,7 @@ namespace Util
     }
 
     template <typename F>
-    error ExceptionToError(F&& f)
+    error ExceptionToError(F&& f) noexcept
     {
         try
         {

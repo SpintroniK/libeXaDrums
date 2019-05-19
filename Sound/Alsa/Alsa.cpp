@@ -60,7 +60,7 @@ namespace Sound
 			}
 			else
 			{
-				throw -1; // Audio device not found
+				throw Exception("Audio device not found.", error_type_error); // Audio device not found
 			}
 		}
 		else

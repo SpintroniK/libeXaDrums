@@ -36,27 +36,29 @@ namespace eXaDrumsApi
 	 * Create an instance of a drum module
 	 * @param dataLoc Path to the configuration files
 	 */
-	eXaDrums::eXaDrums(const char* dataLoc) : isStarted(false)
+	eXaDrums::eXaDrums(const char* dataLoc) noexcept : isStarted(false)
 	{
 
-		this->init_error = make_error("", error_type_success);
-		this->dataLocation = std::string{dataLoc} + "/";
+		this->init_error = ExceptionToError([&]
+		{
+			this->dataLocation = std::string{dataLoc} + "/";
 
-		// Load alsa parameters
-		AlsaParams alsaParams;
-		AlsaParameters::LoadAlsaParameters(dataLocation + alsaConfigFile, alsaParams);
+			// Load alsa parameters
+			AlsaParams alsaParams;
+			AlsaParameters::LoadAlsaParameters(dataLocation + alsaConfigFile, alsaParams);
 
-		// Create mixer and alsa
-		this->mixer = std::make_shared<Mixer>();
-		this->alsa = std::make_unique<Alsa>(alsaParams, this->mixer);
+			// Create mixer and alsa
+			this->mixer = std::make_shared<Mixer>();
+			this->alsa = std::make_unique<Alsa>(alsaParams, this->mixer);
 
-		// Load metronome parameters
-		MetronomeParameters metronomeParams;
-		Metronome::LoadConfig(dataLocation + metronomeConfigFile, metronomeParams);
-		this->metronome = std::make_shared<Metronome>(alsaParams, metronomeParams);
+			// Load metronome parameters
+			MetronomeParameters metronomeParams;
+			Metronome::LoadConfig(dataLocation + metronomeConfigFile, metronomeParams);
+			this->metronome = std::make_shared<Metronome>(alsaParams, metronomeParams);
 
-		// Create drum module
-		this->drumModule = std::make_unique<Module>(dataLocation, alsaParams, this->mixer, this->metronome);
+			// Create drum module
+			this->drumModule = std::make_unique<Module>(dataLocation, alsaParams, this->mixer, this->metronome);
+		});
 
 		return;
 	}
@@ -64,7 +66,6 @@ namespace eXaDrumsApi
 	eXaDrums::~eXaDrums()
 	{
 
-		return;
 	}
 
 	// Module

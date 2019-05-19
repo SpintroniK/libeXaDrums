@@ -27,8 +27,8 @@ namespace DrumKit
 
 	public:
 
-		explicit Metronome(Sound::AlsaParams alsaParams);
-		Metronome(Sound::AlsaParams alsaParams, MetronomeParameters params);
+		explicit Metronome(Sound::AlsaParams alsaParams) noexcept;
+		Metronome(Sound::AlsaParams alsaParams, MetronomeParameters params) noexcept;
 		virtual ~Metronome();
 
 		void GenerateClick() noexcept;

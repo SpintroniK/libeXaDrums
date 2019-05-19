@@ -184,8 +184,7 @@ namespace eXaDrumsApi
 		this->triggersParameters.push_back(params);
 
 		// Save trigger config
-		err = SaveTriggersConfig();
-		if(err.type!= error_type_success)
+		if(update_error(err, SaveTriggersConfig()) != error_type_success)
 		{
 			return err;
 		}
@@ -193,7 +192,7 @@ namespace eXaDrumsApi
 		// Restart module
 		RestartModule();
 
-		return make_error("", error_type_success);
+		return err;
 	}
 
 	error Config::DeleteTrigger(int sensorId)

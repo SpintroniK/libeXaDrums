@@ -26,7 +26,7 @@ namespace Sound
 
 	public:
 
-		Mixer();
+		Mixer() noexcept;
 		virtual ~Mixer();
 
 		void PlaySound(int id, float volume);
@@ -36,7 +36,7 @@ namespace Sound
 		void Mix(std::vector<short>& buffer) noexcept;
 		void Clear() noexcept;
 
-		void SetSoundBank(std::shared_ptr<SoundBank>& sb) { this->soundBank = sb; }
+		void SetSoundBank(std::shared_ptr<SoundBank>& sb) noexcept { this->soundBank = sb; }
 
 	private:
 

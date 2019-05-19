@@ -32,7 +32,7 @@ using namespace Sound;
 namespace DrumKit
 {
 
-	Recorder::Recorder(SoundBank* sndBankPtr, const AlsaParams& alsaParams)
+	Recorder::Recorder(SoundBank* sndBankPtr, const AlsaParams& alsaParams) noexcept
 	: isRecord{false}, soundBankPtr{sndBankPtr}, alsaParameters{alsaParams}
 	{
 

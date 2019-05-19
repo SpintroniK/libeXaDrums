@@ -12,7 +12,7 @@
 namespace Sound
 {
 
-	Mixer::Mixer()
+	Mixer::Mixer() noexcept
 	{
 		return;
 	}

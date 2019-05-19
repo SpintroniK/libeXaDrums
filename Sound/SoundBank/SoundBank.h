@@ -25,7 +25,7 @@ namespace Sound
 
 	public:
 
-		explicit SoundBank(const std::string& dataFolder);
+		explicit SoundBank(const std::string& dataFolder) noexcept;
 		virtual ~SoundBank();
 
 		static std::vector<std::string> GetSoundFiles(const std::string& dataFolder);

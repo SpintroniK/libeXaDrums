@@ -18,7 +18,7 @@
 namespace Sound
 {
 
-	SoundBank::SoundBank(const std::string& dataFolder) : soundBankFolder(dataFolder + "SoundBank/")
+	SoundBank::SoundBank(const std::string& dataFolder) noexcept : soundBankFolder(dataFolder + "SoundBank/")
 	{
 
 
