@@ -25,7 +25,7 @@ namespace DrumKit
 
 	public:
 
-		explicit KitCreator(const std::string& dataLoc);
+		explicit KitCreator(const std::string& dataLoc) noexcept;
 		virtual ~KitCreator();
 
 		// Kit

@@ -18,7 +18,7 @@ using namespace Util;
 namespace DrumKit
 {
 
-	KitCreator::KitCreator(const std::string& dataLoc)
+	KitCreator::KitCreator(const std::string& dataLoc) noexcept
 	: dataFolder{dataLoc}, kitsDirectory(dataLoc + "Kits/"), instrument() //, soundFiles(SoundBank::GetSoundFiles(dataLoc))
 	{
 

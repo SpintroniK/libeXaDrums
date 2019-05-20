@@ -45,7 +45,7 @@ namespace DrumKit
 		void ReloadKits();
 		int GetKitId() const noexcept { return kitId; }
 		int GetNumKits() const noexcept { return (int) kits.size(); };
-		std::vector<std::string> GetKitsNames() const;
+		std::vector<std::string> GetKitsNames() const noexcept;
 		std::vector<std::string> GetInstrumentsNames() const;
 
 		// Instrument

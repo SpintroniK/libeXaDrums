@@ -154,7 +154,7 @@ namespace DrumKit
 		return;
 	}
 
-	std::vector<std::string> Module::GetKitsNames() const
+	std::vector<std::string> Module::GetKitsNames() const noexcept
 	{
 
 		std::vector<std::string> names;
