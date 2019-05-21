@@ -70,7 +70,7 @@ namespace eXaDrumsApi
 
 	// Module
 
-	error eXaDrums::Start()
+	error eXaDrums::Start_()
 	{
 
 		try
@@ -87,7 +87,7 @@ namespace eXaDrumsApi
 		return make_error("", error_type_success);
 	}
 
-	error eXaDrums::Stop()
+	error eXaDrums::Stop_()
 	{
 
 		try
@@ -104,7 +104,7 @@ namespace eXaDrumsApi
 		return make_error("", error_type_success);
 	}
 
-	error eXaDrums::EnableRecording(bool enable)
+	error eXaDrums::EnableRecording_(bool enable)
 	{
 		try
 		{
@@ -230,7 +230,7 @@ namespace eXaDrumsApi
 		return;
 	}
 
-	error eXaDrums::SelectKit(int id)
+	error eXaDrums::SelectKit_(int id)
 	{
 		return ExceptionToError([&] { this->drumModule->SelectKit(id); });
 	}
@@ -241,7 +241,7 @@ namespace eXaDrumsApi
 		return;
 	}
 
-	error eXaDrums::DeleteKit(const int& id)
+	error eXaDrums::DeleteKit_(int id)
 	{
 		if(drumModule->DeleteKit(id))
 		{

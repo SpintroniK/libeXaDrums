@@ -65,7 +65,7 @@ namespace eXaDrumsApi
 
 		if(drumKit.isStarted.load())
 		{
-			ErrorToException([&] { return drumKit.Stop(); });
+			ErrorToException([&] { return drumKit.Stop_(); });
 			isRestart = true;
 		}
 
@@ -78,7 +78,7 @@ namespace eXaDrumsApi
 
 		if(isRestart)
 		{
-			ErrorToException([&] { return drumKit.Start(); });
+			ErrorToException([&] { return drumKit.Start_(); });
 		}
 
 		return;

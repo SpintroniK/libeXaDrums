@@ -15,6 +15,31 @@
 namespace eXaDrumsApi
 {
 
+	inline void eXaDrums::Start()
+	{
+		Util::ErrorToException([&] { return this->Start_(); });
+	}
+
+	inline void eXaDrums::Stop()
+	{
+		Util::ErrorToException([&] { return this->Stop_(); });
+	}
+
+	inline void eXaDrums::EnableRecording(bool enable)
+	{
+		Util::ErrorToException([&] { return this->EnableRecording_(enable); });
+	}
+
+	inline void eXaDrums::SelectKit(int id)
+	{
+		Util::ErrorToException([&] { return this->SelectKit_(id); });
+	}
+
+	inline void eXaDrums::DeleteKit(int id)
+	{
+		Util::ErrorToException([&] { return this->DeleteKit_(id); });
+	}
+
 	inline std::string eXaDrums::GetDataLocation() const noexcept
 	{
 		return std::string(this->GetDataLocation_());

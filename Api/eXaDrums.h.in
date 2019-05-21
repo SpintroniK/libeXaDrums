@@ -40,9 +40,9 @@ namespace eXaDrumsApi
 		std::string GetDataLocation() const noexcept;
 
 		// Module
-		Util::error Start();
-		Util::error Stop();
-		Util::error EnableRecording(bool enable);
+		void Start();
+		void Stop();
+		void EnableRecording(bool enable);
 		void RecorderExport(const std::string& fileName);
 
 		// Metronome
@@ -70,9 +70,9 @@ namespace eXaDrumsApi
 
 
 		// Kits
-		Util::error SelectKit(int id);
+		void SelectKit(int id);
 		void SaveKitConfig(int id) const;
-		Util::error DeleteKit(const int& id);
+		void DeleteKit(int id);
 		void ReloadKits();
 		int GetNumKits() const noexcept;
 		std::string GetKitDataFileName();
@@ -100,6 +100,12 @@ namespace eXaDrumsApi
 		Util::error GetInitError() const { return this->init_error; }
 
 	private:
+
+		Util::error Start_();
+		Util::error Stop_();
+		Util::error EnableRecording_(bool enable);
+		Util::error SelectKit_(int id);
+		Util::error DeleteKit_(int id);
 
 		const char* GetDataLocation_() const noexcept;
 		const char* GetKitDataFileName_();
