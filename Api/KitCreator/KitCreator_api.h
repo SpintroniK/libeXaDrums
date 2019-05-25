@@ -24,29 +24,28 @@ namespace eXaDrumsApi
 	public:
 
 		explicit KitCreator(const char* dataLocation);
-		virtual ~KitCreator();
+		~KitCreator();
 
 		// Kit
 		void CreateNewKit() noexcept;
-		Util::error CreateFromModel(const char* loc);
+		void CreateFromModel(const char* loc);
 		int GetNumInstruments() const noexcept;
 		void SetKitName(const char* name) noexcept;
-		Util::error SaveKit(const char* file) const;
-		Util::error SaveKit() const;
-
+		void SaveKit(const char* file) const;
+		void SaveKit() const;
 
 		// Instrument
 		void CreateNewInstrument() noexcept;
 		void RemoveInstrument(int i) noexcept;
 		void RemoveLastInstrument() noexcept;
 		void AddInstrumentToKit() noexcept;
-		Util::error SetInstrumentName(const char* name);
+		void SetInstrumentName(const char* name);
 		void SetInstrumentType(const char* type);
 		void SetInstrumentVolume(const float volume) noexcept;
 		void AddInstrumentSound(const char* file, const char* type); // TODO: handle errors
 		void AddInstrumentTrigger(const int id, const char* location); // TODO: handle errors
 
-		Util::error SetInstrumentName(int id, const char* name);
+		void SetInstrumentName(int id, const char* name);
 		void SetInstrumentType(int id, const char* type);
 		void SetInstrumentTriggersIdsAndLocs(int id, const std::vector<std::pair<int, std::string>>& trigsIdsAndLocs);
 		void SetInstrumentSoundsTypesAndLocs(int id, const std::vector<std::pair<std::string, std::string>>& sndTypesAndLocs);
@@ -72,6 +71,12 @@ namespace eXaDrumsApi
 
 
 	private:
+
+		Util::error CreateFromModel_(const char* loc);
+		Util::error SaveKit_(const char* file) const;
+		Util::error SaveKit_() const;
+		Util::error SetInstrumentName_(const char* name);
+		Util::error SetInstrumentName_(int id, const char* name);
 
 		void SetInstrumentTriggersIdsAndLocs_(int id, int* ids, const char** locs, unsigned int size);
 		void SetInstrumentSoundsTypesAndLocs_(int id, const char** types, const char** locs, unsigned int size);

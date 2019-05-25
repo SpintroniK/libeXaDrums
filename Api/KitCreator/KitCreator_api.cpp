@@ -34,11 +34,6 @@ namespace eXaDrumsApi
 		return;
 	}
 
-	error KitCreator::CreateFromModel(const char* loc) 
-	{
-		return ExceptionToError([&] { controller.CreateFromModel(std::string(loc)); });
-	}
-
 	int KitCreator::GetNumInstruments() const noexcept
 	{
 		return controller.GetNumInstruments();
@@ -50,15 +45,6 @@ namespace eXaDrumsApi
 		return;
 	}
 
-	error KitCreator::SaveKit(const char* file) const
-	{
-		return ExceptionToError([&] { controller.SaveKit(std::string(file)); });
-	}
-
-	error KitCreator::SaveKit() const
-	{
-		return ExceptionToError([&] { controller.SaveKit(); });
-	}
 
 	// Instrument
 	void KitCreator::CreateNewInstrument() noexcept
@@ -83,32 +69,6 @@ namespace eXaDrumsApi
 	{
 		controller.AddInstrumentToKit();
 		return;
-	}
-
-	error KitCreator::SetInstrumentName(const char* name)
-	{
-		std::string nameStr = std::string(name);
-
-		if(nameStr.empty())
-		{
-			return make_error("Instrument name cannot be empty.", error_type_error);
-		}
-
-		controller.SetInstrumentName(nameStr);
-		return make_error("", error_type_success);
-	}
-
-	error KitCreator::SetInstrumentName(int id, const char* name)
-	{
-		std::string nameStr = std::string(name);
-
-		if(nameStr.empty())
-		{
-			return make_error("Instrument name cannot be empty.", error_type_error);
-		}
-
-		controller.SetInstrumentName(id, nameStr);
-		return make_error("", error_type_success);
 	}
 
 	void KitCreator::SetInstrumentType(int id, const char* type)
@@ -143,6 +103,48 @@ namespace eXaDrumsApi
 
 
 	// Private Methods
+
+	error KitCreator::CreateFromModel_(const char* loc) 
+	{
+		return ExceptionToError([&] { controller.CreateFromModel(std::string(loc)); });
+	}
+
+
+	error KitCreator::SaveKit_(const char* file) const
+	{
+		return ExceptionToError([&] { controller.SaveKit(std::string(file)); });
+	}
+
+	error KitCreator::SaveKit_() const
+	{
+		return ExceptionToError([&] { controller.SaveKit(); });
+	}
+
+	error KitCreator::SetInstrumentName_(const char* name)
+	{
+		std::string nameStr = std::string(name);
+
+		if(nameStr.empty())
+		{
+			return make_error("Instrument name cannot be empty.", error_type_error);
+		}
+
+		controller.SetInstrumentName(nameStr);
+		return make_error("", error_type_success);
+	}
+
+	error KitCreator::SetInstrumentName_(int id, const char* name)
+	{
+		std::string nameStr = std::string(name);
+
+		if(nameStr.empty())
+		{
+			return make_error("Instrument name cannot be empty.", error_type_error);
+		}
+
+		controller.SetInstrumentName(id, nameStr);
+		return make_error("", error_type_success);
+	}
 
 	void KitCreator::SetInstrumentTriggersIdsAndLocs_(int id, int* ids, const char** locs, unsigned int size)
 	{
