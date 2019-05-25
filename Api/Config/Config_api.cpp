@@ -45,19 +45,6 @@ namespace eXaDrumsApi
 		return;
 	}
 
-	error Config::SaveSensorsConfig_()
-	{
-
-		std::string dir;
-		module.GetDirectory(dir);
-
-		return ExceptionToError([&]
-		{
-			DrumKit::TriggerManager::SaveSensorsConfig(dir, sensorsConfig);
-			RestartModule();
-		});
-	}
-
 	void Config::RestartModule() // TODO: handle exceptions
 	{
 
@@ -82,6 +69,29 @@ namespace eXaDrumsApi
 		}
 
 		return;
+	}
+
+
+	int Config::GetNbTriggers() const // FIXME: add error handling
+	{
+		LoadTriggersConfig();
+		return static_cast<int>(triggersParameters.size());
+	}
+
+
+	// Private Methods
+
+	error Config::SaveSensorsConfig_()
+	{
+
+		std::string dir;
+		module.GetDirectory(dir);
+
+		return ExceptionToError([&]
+		{
+			DrumKit::TriggerManager::SaveSensorsConfig(dir, sensorsConfig);
+			RestartModule();
+		});
 	}
 
 	error Config::SaveTriggersConfig_()
@@ -220,15 +230,6 @@ namespace eXaDrumsApi
 
 		return make_error("", error_type_success);
 	}
-
-	int Config::GetNbTriggers() const // FIXME: add error handling
-	{
-		LoadTriggersConfig();
-		return static_cast<int>(triggersParameters.size());
-	}
-
-
-	// Private Methods
 
 	void Config::SetSensorsType_(const char* type)
 	{

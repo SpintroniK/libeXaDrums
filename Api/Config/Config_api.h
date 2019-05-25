@@ -30,23 +30,15 @@ namespace eXaDrumsApi
 		~Config() = default;
 
 		void RefreshSensorsConfig() noexcept;
-		Util::error SaveSensorsConfig_();
 		void SaveSensorsConfig();
-		Util::error SaveTriggersConfig_();
 		void SaveTriggersConfig();
-		Util::error LoadTriggersConfig_() const;
 		void LoadTriggersConfig() const;
-		Util::error SaveCurrentAudioDeviceConfig_() const;
 		void SaveCurrentAudioDeviceConfig() const;
-		Util::error SaveAudioDeviceConfig_(const AlsaParamsApi& params);
 		void SaveAudioDeviceConfig(const AlsaParamsApi& params);
-		Util::error ResetAudioDevice_();
 		void ResetAudioDevice();
 
 		// Triggers
-		Util::error AddTrigger_(const TriggerParameters& params);
 		void AddTrigger(const TriggerParameters& params);
-		Util::error DeleteTrigger_(int sensorId);
 		void DeleteTrigger(int sensorId);
 		int GetNbTriggers() const;
 
@@ -76,13 +68,22 @@ namespace eXaDrumsApi
 
 	private:
 
+		Util::error SaveSensorsConfig_();
+		Util::error SaveTriggersConfig_();
+		Util::error LoadTriggersConfig_() const;
+		Util::error SaveCurrentAudioDeviceConfig_() const;
+		Util::error SaveAudioDeviceConfig_(const AlsaParamsApi& params);
+		Util::error ResetAudioDevice_();
+		Util::error AddTrigger_(const TriggerParameters& params);
+		Util::error DeleteTrigger_(int sensorId);
+		Util::error SetAudioDeviceParameters_(const AlsaParamsApi& params);
+
 		void RestartModule();
 
 		void SetSensorsType_(const char* type);
 		void SetSensorsDataFolder_(const char* folder) noexcept;
 		void SetAudioDeviceParameters_(const char* name);
 		void SetTriggersParameters_(const TriggerParameters* params, unsigned int size) noexcept;
-		Util::error SetAudioDeviceParameters_(const AlsaParamsApi& params);
 		void SetTriggerParameters_(int triggerId, const TriggerParameters& params);
 
 		const char* GetSensorsType_();
