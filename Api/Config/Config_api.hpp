@@ -15,6 +15,46 @@
 namespace eXaDrumsApi
 {
 
+	inline void Config::SaveSensorsConfig()
+	{
+		Util::ErrorToException([&] { return this->SaveSensorsConfig_(); });
+	}
+
+	inline void Config::SaveTriggersConfig()
+	{
+		Util::ErrorToException([&] { return this->SaveTriggersConfig_(); });
+	}
+
+	inline void Config::LoadTriggersConfig() const
+	{
+		Util::ErrorToException([&] { return this->LoadTriggersConfig_(); });
+	}
+
+	inline void Config::SaveCurrentAudioDeviceConfig() const
+	{
+		Util::ErrorToException([&] { return this->SaveCurrentAudioDeviceConfig_(); });
+	}
+
+	inline void Config::SaveAudioDeviceConfig(const AlsaParamsApi& params)
+	{
+		Util::ErrorToException([&] { return this->SaveAudioDeviceConfig_(params); });
+	}
+
+	inline void Config::ResetAudioDevice()
+	{
+		Util::ErrorToException([&] { return this->ResetAudioDevice_(); });
+	}
+
+	inline void Config::AddTrigger(const TriggerParameters& params)
+	{
+		Util::ErrorToException([&] { return this->AddTrigger_(params); });
+	}
+
+	inline void Config::DeleteTrigger(int sensorId)
+	{
+		Util::ErrorToException([&] { return this->DeleteTrigger_(sensorId); });
+	}
+
 	inline void Config::SetSensorsType(const std::string& type)
 	{
 

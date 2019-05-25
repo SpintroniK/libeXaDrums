@@ -27,19 +27,27 @@ namespace eXaDrumsApi
 	public:
 
 		explicit Config(eXaDrums& drums) noexcept;
-		virtual ~Config() = default;
+		~Config() = default;
 
 		void RefreshSensorsConfig() noexcept;
-		Util::error SaveSensorsConfig();
-		Util::error SaveTriggersConfig();
-		Util::error LoadTriggersConfig() const;
-		Util::error SaveCurrentAudioDeviceConfig() const;
-		Util::error SaveAudioDeviceConfig(const AlsaParamsApi& params);
-		Util::error ResetAudioDevice();
+		Util::error SaveSensorsConfig_();
+		void SaveSensorsConfig();
+		Util::error SaveTriggersConfig_();
+		void SaveTriggersConfig();
+		Util::error LoadTriggersConfig_() const;
+		void LoadTriggersConfig() const;
+		Util::error SaveCurrentAudioDeviceConfig_() const;
+		void SaveCurrentAudioDeviceConfig() const;
+		Util::error SaveAudioDeviceConfig_(const AlsaParamsApi& params);
+		void SaveAudioDeviceConfig(const AlsaParamsApi& params);
+		Util::error ResetAudioDevice_();
+		void ResetAudioDevice();
 
 		// Triggers
-		Util::error AddTrigger(const TriggerParameters& params);
-		Util::error DeleteTrigger(int sensorId);
+		Util::error AddTrigger_(const TriggerParameters& params);
+		void AddTrigger(const TriggerParameters& params);
+		Util::error DeleteTrigger_(int sensorId);
+		void DeleteTrigger(int sensorId);
 		int GetNbTriggers() const;
 
 		// Mutators

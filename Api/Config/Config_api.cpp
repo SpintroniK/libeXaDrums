@@ -45,7 +45,7 @@ namespace eXaDrumsApi
 		return;
 	}
 
-	error Config::SaveSensorsConfig()
+	error Config::SaveSensorsConfig_()
 	{
 
 		std::string dir;
@@ -84,7 +84,7 @@ namespace eXaDrumsApi
 		return;
 	}
 
-	error Config::SaveTriggersConfig()
+	error Config::SaveTriggersConfig_()
 	{
 
 		std::string dir;
@@ -101,7 +101,7 @@ namespace eXaDrumsApi
 		});
 	}
 
-	error Config::LoadTriggersConfig() const
+	error Config::LoadTriggersConfig_() const
 	{
 
 		std::string dir;
@@ -126,7 +126,7 @@ namespace eXaDrumsApi
 		});
 	}
 
-	error Config::SaveCurrentAudioDeviceConfig() const
+	error Config::SaveCurrentAudioDeviceConfig_() const
 	{
 
 		Sound::AlsaParams params;
@@ -143,7 +143,7 @@ namespace eXaDrumsApi
 		});
 	}
 
-	error Config::SaveAudioDeviceConfig(const AlsaParamsApi& params)
+	error Config::SaveAudioDeviceConfig_(const AlsaParamsApi& params)
 	{
 
 		auto err = SetAudioDeviceParameters_(params);
@@ -153,10 +153,10 @@ namespace eXaDrumsApi
 			return err;
 		}
 
-		return SaveCurrentAudioDeviceConfig();
+		return SaveCurrentAudioDeviceConfig_();
 	}
 
-	error Config::ResetAudioDevice()
+	error Config::ResetAudioDevice_()
 	{
 		return ExceptionToError([&]
 		{
@@ -171,10 +171,10 @@ namespace eXaDrumsApi
 		});
 	}
 
-	error Config::AddTrigger(const TriggerParameters& params)
+	error Config::AddTrigger_(const TriggerParameters& params)
 	{
 		// Reload triggers config
-		auto err = LoadTriggersConfig();
+		auto err = LoadTriggersConfig_();
 		if(err.type!= error_type_success)
 		{
 			return err;
@@ -184,7 +184,7 @@ namespace eXaDrumsApi
 		this->triggersParameters.push_back(params);
 
 		// Save trigger config
-		if(update_error(err, SaveTriggersConfig()) != error_type_success)
+		if(update_error(err, SaveTriggersConfig_()) != error_type_success)
 		{
 			return err;
 		}
@@ -195,11 +195,11 @@ namespace eXaDrumsApi
 		return err;
 	}
 
-	error Config::DeleteTrigger(int sensorId)
+	error Config::DeleteTrigger_(int sensorId)
 	{
 
 		// Reload triggers config
-		auto err = LoadTriggersConfig();
+		auto err = LoadTriggersConfig_();
 		if(err.type!= error_type_success)
 		{
 			return err;
@@ -210,7 +210,7 @@ namespace eXaDrumsApi
 		triggersParameters.erase(it);
 
 		// Save triggers config
-		err = SaveTriggersConfig();
+		err = SaveTriggersConfig_();
 		if(err.type!= error_type_success)
 		{
 			return err;
