@@ -36,7 +36,7 @@ namespace eXaDrumsApi
 
 		// Instrument
 		void CreateNewInstrument() noexcept;
-		void RemoveInstrument(int i) noexcept;
+		void RemoveInstrument(std::size_t i) noexcept;
 		void RemoveLastInstrument() noexcept;
 		void AddInstrumentToKit() noexcept;
 		void SetInstrumentName(const char* name);

@@ -53,7 +53,7 @@ namespace eXaDrumsApi
 		return;
 	}
 
-	void KitCreator::RemoveInstrument(int i) noexcept
+	void KitCreator::RemoveInstrument(std::size_t i) noexcept
 	{
 		controller.RemoveInstrument(i);
 		return;

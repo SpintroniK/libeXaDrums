@@ -103,7 +103,7 @@ namespace DrumKit
 		return;
 	}
 
-	void KitCreator::RemoveInstrument(int i) noexcept
+	void KitCreator::RemoveInstrument(std::size_t i) noexcept
 	{
 
 		if(parameters.instrumentParameters.size() > 1)

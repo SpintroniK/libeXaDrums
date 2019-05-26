@@ -49,7 +49,7 @@ namespace DrumKit
 		std::vector<std::string> GetInstrumentsNames() const;
 
 		// Instrument
-		void SetInstrumentVolume(int id, float volume) { kits[kitId].SetInstrumentVolume(id, volume); };
+		void SetInstrumentVolume(int id, float volume) { kits.at(kitId).SetInstrumentVolume(id, volume); }; // TODO: improve error handling
 		float GetInstrumentVolume(int id) const { return kits[kitId].GetInstrumentVolume(id); };
 		int GetNumInstruments() const { return kits[kitId].GetNumInstruments(); };
 		std::vector<int> GetInstrumentTriggersIds(int id) const;

@@ -88,7 +88,7 @@ namespace DrumKit
 				InstrumentSoundInfo soundInfo;
 
 				soundInfo.id = soundId;
-				soundInfo.soundLocation = sound.GetText();
+				soundInfo.soundLocation = sound.GetText(); // TODO throw exception if empty
 				sound.Attribute("type", soundInfo.type);
 
 				instrumentParameters.soundsInfo.push_back(soundInfo);
