@@ -59,12 +59,12 @@ namespace eXaDrumsApi
 		std::vector<TriggerParameters> GetTriggersParameters() const;
 
 		std::string GetSensorsType();
-		std::string GetSensorsDataFolder() const;
-		std::string GetAudioDeviceName();
-		AlsaParamsApi GetAudioDeviceParams() const;
+		std::string GetSensorsDataFolder() const noexcept;
+		std::string GetAudioDeviceName() const noexcept;
+		AlsaParamsApi GetAudioDeviceParams() const noexcept;
 
-		int GetSensorsSamplingRate() const { return sensorsConfig.samplingRate; }
-		int GetSensorsResolution() const { return sensorsConfig.resolution; }
+		int GetSensorsSamplingRate() const noexcept { return sensorsConfig.samplingRate; }
+		int GetSensorsResolution() const noexcept { return sensorsConfig.resolution; }
 
 	private:
 
@@ -88,7 +88,7 @@ namespace eXaDrumsApi
 
 		const char* GetSensorsType_();
 		const char* GetSensorsDataFolder_() const noexcept;
-		const char* GetAudioDeviceName_() noexcept;
+		const char* GetAudioDeviceName_() const noexcept;
 
 		AlsaParamsApi GetAudioDeviceParams_() const noexcept;
 
@@ -112,7 +112,7 @@ namespace eXaDrumsApi
 
 		// Local copies of items
 		std::string sensorType;
-		std::string audioDeviceName;
+		mutable std::string audioDeviceName;
 
 		// Local copies of enums
 		std::vector<std::string> sensorsTypes;

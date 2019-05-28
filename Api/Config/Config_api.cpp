@@ -217,7 +217,16 @@ namespace eXaDrumsApi
 
 		// Remove trigger
 		auto it = std::remove_if(triggersParameters.begin(), triggersParameters.end(), [&](const auto& tp) { return tp.sensorId == sensorId; });
-		triggersParameters.erase(it);
+
+		if(it != end(triggersParameters))
+		{
+			triggersParameters.erase(it);
+		}
+		else
+		{
+			return make_error("Could not delete trigger, as it does not exist.", error_type_warning);
+		}
+		
 
 		// Save triggers config
 		err = SaveTriggersConfig_();
@@ -423,7 +432,7 @@ namespace eXaDrumsApi
 		return this->sensorsConfig.hddDataFolder.c_str();
 	}
 
-	const char* Config::GetAudioDeviceName_() noexcept
+	const char* Config::GetAudioDeviceName_() const noexcept
 	{
 		this->audioDeviceName = this->drumKit.GetAudioDeviceName();
 		return this->audioDeviceName.data();

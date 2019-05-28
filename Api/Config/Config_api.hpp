@@ -166,7 +166,7 @@ namespace eXaDrumsApi
 		return vec;
 	}
 
-	inline AlsaParamsApi Config::GetAudioDeviceParams() const
+	inline AlsaParamsApi Config::GetAudioDeviceParams() const noexcept
 	{
 
 		return GetAudioDeviceParams_();
@@ -177,13 +177,13 @@ namespace eXaDrumsApi
 		return std::string(GetSensorsType_());
 	}
 
-	inline std::string Config::GetSensorsDataFolder() const
+	inline std::string Config::GetSensorsDataFolder() const noexcept
 	{
 		return std::string(GetSensorsDataFolder_());
 	}
 
 
-	inline std::string Config::GetAudioDeviceName()
+	inline std::string Config::GetAudioDeviceName() const noexcept
 	{
 		return std::string(GetAudioDeviceName_());
 	}
