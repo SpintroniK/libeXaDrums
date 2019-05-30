@@ -55,6 +55,15 @@ namespace eXaDrumsApi
 		Util::ErrorToException([&] { return this->DeleteTrigger_(sensorId); });
 	}
 
+
+	inline std::size_t Config::GetNbTriggers() const
+	{
+		size_t nb = 0;
+		this->GetNbTriggers_(nb);
+		return nb;
+	}
+
+
 	inline void Config::SetSensorsType(const std::string& type)
 	{
 

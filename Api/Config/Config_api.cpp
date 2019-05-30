@@ -45,39 +45,6 @@ namespace eXaDrumsApi
 		return;
 	}
 
-	void Config::RestartModule() // TODO: handle exceptions
-	{
-
-		bool isRestart = false;
-
-		if(drumKit.isStarted.load())
-		{
-			ErrorToException([&] { return drumKit.Stop_(); });
-			isRestart = true;
-		}
-
-		int kitId = module.GetKitId();
-
-		module.ReloadTriggers();
-		module.ReloadKits();
-
-		module.SelectKit(kitId);
-
-		if(isRestart)
-		{
-			ErrorToException([&] { return drumKit.Start_(); });
-		}
-
-		return;
-	}
-
-
-	int Config::GetNbTriggers() const // FIXME: add error handling
-	{
-		LoadTriggersConfig();
-		return static_cast<int>(triggersParameters.size());
-	}
-
 
 	// Private Methods
 
@@ -285,6 +252,47 @@ namespace eXaDrumsApi
 		}
 
 		return make_error("", error_type_success);
+	}
+
+	Util::error Config::GetNbTriggers_(size_t& nb) const
+	{
+		auto error = this->LoadTriggersConfig_();
+		
+		if(error.type != error_type_success)
+		{
+			return error;
+		}
+
+		nb = static_cast<int>(triggersParameters.size());
+
+		return make_error("", error_type_success);
+	}
+
+
+	void Config::RestartModule() // TODO: handle exceptions
+	{
+
+		bool isRestart = false;
+
+		if(drumKit.isStarted.load())
+		{
+			ErrorToException([&] { return drumKit.Stop_(); });
+			isRestart = true;
+		}
+
+		int kitId = module.GetKitId();
+
+		module.ReloadTriggers();
+		module.ReloadKits();
+
+		module.SelectKit(kitId);
+
+		if(isRestart)
+		{
+			ErrorToException([&] { return drumKit.Start_(); });
+		}
+
+		return;
 	}
 
 	void Config::SetTriggerParameters_(int triggerId, const TriggerParameters& params)

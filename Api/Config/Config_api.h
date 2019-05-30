@@ -40,7 +40,7 @@ namespace eXaDrumsApi
 		// Triggers
 		void AddTrigger(const TriggerParameters& params);
 		void DeleteTrigger(int sensorId);
-		int GetNbTriggers() const;
+		std::size_t GetNbTriggers() const;
 
 		// Mutators
 		void SetSensorsSamplingRate(int sRate) noexcept { sensorsConfig.samplingRate = sRate; }
@@ -77,6 +77,7 @@ namespace eXaDrumsApi
 		Util::error AddTrigger_(const TriggerParameters& params);
 		Util::error DeleteTrigger_(int sensorId);
 		Util::error SetAudioDeviceParameters_(const AlsaParamsApi& params);
+		Util::error GetNbTriggers_(size_t& nb) const;
 
 		void RestartModule();
 
