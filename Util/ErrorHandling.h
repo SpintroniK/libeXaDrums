@@ -70,7 +70,7 @@ namespace Util
         inline errorType update_error(error& e, const error& new_error)
         {
             e = merge_errors(e, new_error);
-            return errorType{e.type};
+            return errorType{static_cast<errorType>(e.type)};
         }
 
     #if __cplusplus__
@@ -83,7 +83,7 @@ namespace Util
     public: 
         
         explicit Exception(const error& err) noexcept 
-        : message{err.message}, error_type{err.type} {}
+        : message{err.message}, error_type{static_cast<errorType>(err.type)} {}
 
         Exception(const char* what_arg, errorType err_type) noexcept
         : message{what_arg}, error_type{err_type} {}
