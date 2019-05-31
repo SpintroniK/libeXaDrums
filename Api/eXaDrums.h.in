@@ -48,49 +48,49 @@ namespace eXaDrumsApi
 		// Metronome
 		void EnableMetronome(bool enable) const;
 		void RestartMetronome() const;
-		void ChangeTempo(int tempo) const;
-		void ChangeVolume(int volume) const;
-		int GetTempo() const noexcept;
-		int GetClickVolume() const noexcept;
+		void ChangeTempo(std::size_t tempo) const;
+		void ChangeVolume(std::size_t volume) const;
+		std::size_t GetTempo() const noexcept;
+		std::size_t GetClickVolume() const noexcept;
 		void SaveMetronomeConfig() const;
 		double GetClickPosition() const noexcept;
 		long long GetLastClickTime() const noexcept;
 
 		std::vector<std::string> GetClicksTypes();
-		void SetClickType(int id);
-		int GetClickTypeId() const;
+		void SetClickType(std::size_t id);
+		std::size_t GetClickTypeId() const;
 
 		std::vector<int> GetRhythms() const;
-		int GetRhythm() const noexcept;
-		void SetRhythm(int rhythm) noexcept;
+		std::size_t GetRhythm() const noexcept;
+		void SetRhythm(std::size_t rhythm) noexcept;
 
 		std::vector<int> GetBpms() const;
-		int GetBpmeas() const noexcept;
-		void SetBpmeas(int bpmeas) noexcept;
+		std::size_t GetBpmeas() const noexcept;
+		void SetBpmeas(std::size_t bpmeas) noexcept;
 
 
 		// Kits
-		void SelectKit(int id);
-		void SaveKitConfig(int id) const;
-		void DeleteKit(int id);
+		void SelectKit(std::size_t id);
+		void SaveKitConfig(std::size_t id) const;
+		void DeleteKit(std::size_t id);
 		void ReloadKits();
-		int GetNumKits() const noexcept;
+		std::size_t GetNumKits() const noexcept;
 		std::string GetKitDataFileName();
 		std::vector<std::string> GetKitsNames();
 
 		// Instruments
-		void SetInstrumentVolume(int id, int volume);
-		int GetInstrumentVolume(int id) const;
+		void SetInstrumentVolume(std::size_t id, std::size_t volume);
+		std::size_t GetInstrumentVolume(std::size_t id) const;
 		std::vector<std::string> GetInstrumentsNames();
-		std::vector<int> GetInstrumentTriggersIds(int instrumentId) const;
+		std::vector<int> GetInstrumentTriggersIds(std::size_t instrumentId) const;
 
 		// Triggers
 		long long GetLastTrigTime() const noexcept;
-		int GetLastTrigValue() const noexcept;
-		void SetTriggerSensorValue(int id, char channel, short data);
+		std::size_t GetLastTrigValue() const noexcept;
+		void SetTriggerSensorValue(std::size_t id, char channel, short data);
 
 		// Sensors
-		int GetSensorsResolution() const noexcept;
+		std::size_t GetSensorsResolution() const noexcept;
 		bool IsSensorVirtual() const noexcept;
 		bool IsSensorSpi() const noexcept;
 

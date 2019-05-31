@@ -159,26 +159,26 @@ namespace eXaDrumsApi
 		return;
 	}
 
-	void eXaDrums::ChangeTempo(int tempo) const
+	void eXaDrums::ChangeTempo(std::size_t tempo) const
 	{
 		drumModule->ChangeTempo(tempo);
 		return;
 	}
 
-	void eXaDrums::ChangeVolume(int volume) const
+	void eXaDrums::ChangeVolume(std::size_t volume) const
 	{
 		drumModule->ChangeVolume(volume);
 		return;
 	}
 
-	int eXaDrums::GetTempo() const noexcept
+	std::size_t eXaDrums::GetTempo() const noexcept
 	{
 		return metronome->GetTempo();
 	}
 
-	int eXaDrums::GetClickVolume() const noexcept
+	std::size_t eXaDrums::GetClickVolume() const noexcept
 	{
-		return int(drumModule->GetClickVolume() * 100.0f);
+		return std::size_t(drumModule->GetClickVolume() * 100.0f);
 	}
 
 	void eXaDrums::SaveMetronomeConfig() const
@@ -188,7 +188,7 @@ namespace eXaDrumsApi
 	}
 
 
-	void eXaDrums::SetClickType(int id)
+	void eXaDrums::SetClickType(std::size_t id)
 	{
 
 		ClickType type = Enums::GetEnumVector<ClickType>()[id]; // TODO: check vector size first
@@ -197,34 +197,34 @@ namespace eXaDrumsApi
 		 return;
 	}
 
-	int eXaDrums::GetClickTypeId() const
+	std::size_t eXaDrums::GetClickTypeId() const
 	{
 
 		ClickType clickType = metronome->GetClickType();
 		const std::vector<ClickType>& clickTypes = Enums::GetEnumVector<ClickType>();
 
 		auto it = std::find(clickTypes.cbegin(), clickTypes.cend(), clickType);
-		int index = std::distance(clickTypes.cbegin(), it);
+		std::size_t index = std::distance(clickTypes.cbegin(), it);
 
 		return index;
 	}
 
-	int eXaDrums::GetRhythm() const noexcept
+	std::size_t eXaDrums::GetRhythm() const noexcept
 	{
 		return this->metronome->GetRhythm();
 	}
 
-	void eXaDrums::SetRhythm(int rhythm) noexcept
+	void eXaDrums::SetRhythm(std::size_t rhythm) noexcept
 	{
 		this->metronome->SetRhythm(rhythm);
 	}
 
-	int eXaDrums::GetBpmeas() const noexcept
+	std::size_t eXaDrums::GetBpmeas() const noexcept
 	{
 		return this->metronome->GetBpmeas();
 	}
 
-	void eXaDrums::SetBpmeas(int bpmeas) noexcept
+	void eXaDrums::SetBpmeas(std::size_t bpmeas) noexcept
 	{
 		this->metronome->SetBpmeas(bpmeas);
 		return;
@@ -235,7 +235,7 @@ namespace eXaDrumsApi
 		return ExceptionToError([&] { this->drumModule->SelectKit(id); });
 	}
 
-	void eXaDrums::SaveKitConfig(int id) const
+	void eXaDrums::SaveKitConfig(std::size_t id) const
 	{
 		drumModule->SaveKitConfig(id); // TODO: Error handling
 		return;
@@ -261,12 +261,12 @@ namespace eXaDrumsApi
 		return;
 	}
 
-	int eXaDrums::GetNumKits() const noexcept
+	std::size_t eXaDrums::GetNumKits() const noexcept
 	{
 		return drumModule->GetNumKits();
 	}
 
-	void eXaDrums::SetInstrumentVolume(int id, int volume)
+	void eXaDrums::SetInstrumentVolume(std::size_t id, std::size_t volume)
 	{
 
 		float vol = float(volume) / 100.0f;
@@ -276,10 +276,10 @@ namespace eXaDrumsApi
 		return;
 	}
 
-	int eXaDrums::GetInstrumentVolume(int id) const
+	std::size_t eXaDrums::GetInstrumentVolume(std::size_t id) const
 	{
 
-		int volume = (int) std::floor( 100.0f * drumModule->GetInstrumentVolume(id)); // TODO: handle errors
+		auto volume = (std::size_t) std::floor( 100.0f * drumModule->GetInstrumentVolume(id)); // TODO: handle errors
 
 		return volume;
 	}
@@ -289,7 +289,7 @@ namespace eXaDrumsApi
 		return drumModule->GetLastTrigTime();
 	}
 
-	int eXaDrums::GetLastTrigValue() const noexcept
+	std::size_t eXaDrums::GetLastTrigValue() const noexcept
 	{
 		return drumModule->GetLastTrigValue();
 	}
@@ -301,12 +301,12 @@ namespace eXaDrumsApi
 	 * @param channel 
 	 * @param data trigger's output value
 	 */
-	void eXaDrums::SetTriggerSensorValue(int id, char channel, short data)
+	void eXaDrums::SetTriggerSensorValue(std::size_t id, char channel, short data)
 	{
 		this->drumModule->SetTriggerSensorValue(id, channel, data);
 	}
 
-	int eXaDrums::GetSensorsResolution() const noexcept
+	std::size_t eXaDrums::GetSensorsResolution() const noexcept
 	{
 		return this->drumModule->GetSensorsConfig().resolution;
 	}

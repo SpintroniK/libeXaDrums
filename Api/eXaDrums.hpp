@@ -30,12 +30,12 @@ namespace eXaDrumsApi
 		Util::ErrorToException([&] { return this->EnableRecording_(enable); });
 	}
 
-	inline void eXaDrums::SelectKit(int id)
+	inline void eXaDrums::SelectKit(std::size_t id)
 	{
 		Util::ErrorToException([&] { return this->SelectKit_(id); });
 	}
 
-	inline void eXaDrums::DeleteKit(int id)
+	inline void eXaDrums::DeleteKit(std::size_t id)
 	{
 		Util::ErrorToException([&] { return this->DeleteKit_(id); });
 	}
@@ -116,7 +116,7 @@ namespace eXaDrumsApi
 		return v;
 	}
 
-	inline std::vector<int> eXaDrums::GetInstrumentTriggersIds(int instrumentId) const
+	inline std::vector<int> eXaDrums::GetInstrumentTriggersIds(std::size_t instrumentId) const
 	{
 		unsigned int size;
 		GetInstrumentTriggersIds_(instrumentId, nullptr, size);
