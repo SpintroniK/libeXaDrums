@@ -48,9 +48,13 @@ namespace DrumKit
 		return;
 	}
 
-	void Kit::SetInstrumentVolume(int id, float volume)
+	void Kit::SetInstrumentVolume(size_t id, float volume)
 	{
 
+		if(id >= this->instruments.size())
+		{
+			throw Exception("Could not set instrument volume: instrument does not exist.", error_type_warning);
+		}
 		this->instruments[id]->SetVolume(volume);
 		this->parameters.instrumentParameters[id].volume = volume;
 

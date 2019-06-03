@@ -174,6 +174,16 @@ namespace DrumKit
 		return names;
 	}
 
+	void Module::SetInstrumentVolume(size_t id, float volume)
+	{
+		if(kitId >= kits.size())
+		{
+			throw Exception("Could not set instrument volume: kit does not exist.", error_type_warning);
+		}
+		
+		kits[kitId].SetInstrumentVolume(id, volume);
+	}
+
 	std::vector<int> Module::GetInstrumentTriggersIds(int id) const
 	{
 		const std::vector<InstrumentPtr>& instruments = kits[kitId].GetInstruments();
@@ -183,7 +193,7 @@ namespace DrumKit
 
 	std::string Module::GetKitLocation() const 
 	{
-		if(static_cast<size_t>(kitId) < kits.size())
+		if(kitId < kits.size())
 		{
 			return kits[kitId].GetConfigFilePath(); 
 		}
