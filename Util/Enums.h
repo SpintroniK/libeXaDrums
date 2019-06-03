@@ -8,6 +8,8 @@
 #ifndef SOURCE_UTIL_ENUMS_H_
 #define SOURCE_UTIL_ENUMS_H_
 
+#include "ErrorHandling.h"
+
 #include <string>
 #include <vector>
 #include <sstream>
@@ -52,21 +54,18 @@ namespace Util
 		template<typename T>
 		static std::string ToString(const T& e)
 		{
-
-			std::stringstream ss;
-
 			for (const auto& c : T{})
 			{
 				if(c == e)
 				{
+					std::stringstream ss;
 					ss << e;
 					return ss.str();
 				}
 			}
 
-			// FIXME: Temporary (can't throw because of unfinished stuff).
-			ss << T::First;
-			return ss.str();
+			throw Exception("Could not convert enum to string.", error_type_error);
+			return "";
 		}
 
 		template<typename T>
@@ -84,7 +83,7 @@ namespace Util
 				}
 			}
 
-			// FIXME: Temporary (can't throw because of unfinished stuff).
+			throw Exception("Could not convert string " + s + " to enum.", error_type_error);
 			return T::First;
 		}
 
@@ -108,7 +107,7 @@ namespace Util
 	private:
 
 		Enums() = delete;
-		virtual ~Enums() = delete;
+		~Enums() = delete;
 
 	};
 

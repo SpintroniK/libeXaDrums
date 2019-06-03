@@ -138,8 +138,8 @@ namespace DrumKit
 		std::string file(moduleDir + "sensorsConfig.xml");
 
 		XMLDocument doc;
-
-		if(doc.LoadFile(file.c_str()) != XML_SUCCESS)
+		auto ret = doc.LoadFile(file.c_str());
+		if(ret != XML_SUCCESS)
 		{
 			throw Exception("Could not load sensors configuration.", error_type_error);
 		}

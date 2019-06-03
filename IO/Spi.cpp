@@ -21,7 +21,7 @@ namespace IO
 	const uint16_t Spi::delay = 0;
 
 
-	void Spi::Open(int freq, int mode)
+	void Spi::Open(int freq, int mode) noexcept
 	{
 
 		this->clkFreq = freq;
@@ -40,7 +40,7 @@ namespace IO
 		return;
 	}
 
-	void Spi::Close()
+	void Spi::Close() noexcept
 	{
 
 		if(fd != -1)

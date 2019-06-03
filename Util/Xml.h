@@ -75,7 +75,13 @@ namespace Util
 		template <typename T>
 		inline void GetValue(T& value) const
 		{
-			std::istringstream iss{element->GetText()};
+			auto text = element->GetText();
+			if(text == nullptr)
+			{
+				value = T{};
+				return;
+			}
+			std::istringstream iss{text};
 			iss >> value;
 		}
 

@@ -269,7 +269,7 @@ namespace eXaDrumsApi
 	}
 
 
-	void Config::RestartModule() // TODO: handle exceptions
+	void Config::RestartModule()
 	{
 
 		bool isRestart = false;
