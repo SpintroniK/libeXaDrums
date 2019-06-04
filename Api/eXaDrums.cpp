@@ -122,7 +122,7 @@ namespace eXaDrumsApi
 	{
 		try
 		{
-			this->drumModule->RecorderExport(std::string{fileName}); // TODO: throw if export fails.
+			this->drumModule->RecorderExport(std::string{fileName});
 		}
 		catch(const std::exception& e)
 		{
@@ -149,7 +149,7 @@ namespace eXaDrumsApi
 
 	void eXaDrums::EnableMetronome(bool enable) const
 	{
-		drumModule->EnableMetronome(enable); // TODO: prevent exceptions.
+		drumModule->EnableMetronome(enable);
 		return;
 	}
 

@@ -12,6 +12,7 @@
 #include "../../Util/Xml.h"
 #include "../../Util/Time.h"
 #include "../../Util/Crypt.h"
+#include "../../Util/ErrorHandling.h"
 
 #include <iterator>
 #include <chrono>
@@ -28,6 +29,7 @@
 #endif
 
 using namespace Sound;
+using namespace Util;
 
 namespace DrumKit
 {
@@ -148,6 +150,11 @@ namespace DrumKit
 		using TrigSoundTuple = std::tuple<int, int, int64_t, float>;
 
 		std::ifstream file{fileLoc};
+
+		if(!file.good())
+		{
+			throw Exception("Could not load record file.", error_type_error);
+		}
 
 		// Read file line by line
 		std::vector<std::string> lines{std::istream_iterator<Line>{file}, std::istream_iterator<Line>{}};

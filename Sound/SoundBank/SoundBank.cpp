@@ -60,9 +60,21 @@ namespace Sound
 	void SoundBank::DeleteSound(int id)
 	{
 
-		sounds.erase(std::remove_if(sounds.begin(), sounds.end(), [&id](Sound& sound) { return id == sound.GetId(); }));
+		auto it = std::remove_if(sounds.begin(), sounds.end(), [&id](Sound& sound) { return id == sound.GetId(); });
+		if(it != end(sounds))
+		{
+			sounds.erase(it);
+		}
 
 		return;
+	}
+
+	void SoundBank::LoopSound(int id, bool s) 
+	{
+		if(static_cast<size_t>(id) < sounds.size()) 
+		{
+			sounds[id].SetLoop(s); 
+		}
 	}
 
 

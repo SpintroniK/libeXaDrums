@@ -42,8 +42,8 @@ namespace eXaDrumsApi
 		void SetInstrumentName(const char* name);
 		void SetInstrumentType(const char* type);
 		void SetInstrumentVolume(const float volume) noexcept;
-		void AddInstrumentSound(const char* file, const char* type); // TODO: handle errors
-		void AddInstrumentTrigger(const int id, const char* location); // TODO: handle errors
+		void AddInstrumentSound(const char* file, const char* type);
+		void AddInstrumentTrigger(const int id, const char* location);
 
 		void SetInstrumentName(int id, const char* name);
 		void SetInstrumentType(int id, const char* type);

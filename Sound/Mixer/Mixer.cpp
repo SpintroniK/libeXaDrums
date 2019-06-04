@@ -28,7 +28,10 @@ namespace Sound
 	{
 
 
-		auto s = std::find_if(playList.begin(), playList.end(), [&id](SoundState& s) { return id == s.id && !s.isPlaying.load(std::memory_order_relaxed); });
+		auto s = std::find_if(playList.begin(), playList.end(), [&id](SoundState& s) 
+		{ 
+			return id == s.id && !s.isPlaying.load(std::memory_order_relaxed); 
+		});
 
 
 		if(s != playList.end())
@@ -44,7 +47,7 @@ namespace Sound
 		{
 			// Add sound to playList
 			//playList.emplace_back(id, volume, true);
-			const auto index = playListIndex.fetch_add(1, std::memory_order_relaxed);
+			const auto index = playListIndex.fetch_add(1, std::memory_order_relaxed); // FIXME: protect from overflow
 			playList[index].id = id;
 			playList[index].volume = volume;
 			playList[index].isPlaying.store(true, std::memory_order_release);
