@@ -191,6 +191,19 @@ namespace DrumKit
 		return instrument->GetTriggersIds();
 	}
 
+	void Module::SaveKitConfig(std::size_t id) const 
+	{ 
+		if(id < kits.size())
+		{
+			kits[id].Save();
+		}
+		else
+		{
+			throw Exception("Could not save kit configuration: this kit does not exist.", error_type_warning);
+		}
+		 
+	}
+
 	std::string Module::GetKitLocation() const 
 	{
 		if(kitId < kits.size())

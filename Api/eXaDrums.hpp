@@ -35,6 +35,11 @@ namespace eXaDrumsApi
 		Util::ErrorToException([&] { return this->SelectKit_(id); });
 	}
 
+	inline void eXaDrums::SaveKitConfig(std::size_t id) const
+	{
+		Util::ErrorToException([&] { return this->SaveKitConfig_(id); });
+	}
+
 	inline void eXaDrums::DeleteKit(std::size_t id)
 	{
 		Util::ErrorToException([&] { return this->DeleteKit_(id); });
