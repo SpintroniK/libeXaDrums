@@ -265,20 +265,18 @@ namespace eXaDrumsApi
 		return drumModule->GetNumKits();
 	}
 
-	void eXaDrums::SetInstrumentVolume(std::size_t id, std::size_t volume)
+	error eXaDrums::SetInstrumentVolume_(std::size_t id, std::size_t volume)
 	{
 
 		float vol = float(volume) / 100.0f;
 
-		drumModule->SetInstrumentVolume(id, vol); // TODO: handle errors (kit or instrument doesn't exist)
-
-		return;
+		return ExceptionToError([&] { drumModule->SetInstrumentVolume(id, vol); });
 	}
 
 	std::size_t eXaDrums::GetInstrumentVolume(std::size_t id) const
 	{
 
-		auto volume = (std::size_t) std::floor( 100.0f * drumModule->GetInstrumentVolume(id)); // TODO: handle errors
+		auto volume = (std::size_t) std::floor( 100.0f * drumModule->GetInstrumentVolume(id));
 
 		return volume;
 	}

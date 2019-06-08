@@ -107,6 +107,7 @@ namespace eXaDrumsApi
 		Util::error SelectKit_(int id);
 		Util::error DeleteKit_(int id);
 		Util::error SaveKitConfig_(std::size_t id) const;
+		Util::error SetInstrumentVolume_(std::size_t id, std::size_t volume);
 
 		const char* GetDataLocation_() const noexcept;
 		const char* GetKitDataFileName_();

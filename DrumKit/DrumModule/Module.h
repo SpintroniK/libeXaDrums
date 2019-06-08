@@ -43,14 +43,14 @@ namespace DrumKit
 		bool DeleteKit(const int& id);
 		void SelectKit(std::size_t id);
 		void ReloadKits();
-		int GetKitId() const noexcept { return kitId; }
-		int GetNumKits() const noexcept { return (int) kits.size(); };
+		std::size_t GetKitId() const noexcept { return kitId; }
+		std::size_t GetNumKits() const noexcept { return kits.size(); };
 		std::vector<std::string> GetKitsNames() const noexcept;
 		std::vector<std::string> GetInstrumentsNames() const;
 
 		// Instrument
 		void SetInstrumentVolume(size_t id, float volume);
-		float GetInstrumentVolume(int id) const { return kits[kitId].GetInstrumentVolume(id); };
+		float GetInstrumentVolume(int id) const;
 		int GetNumInstruments() const { return kits[kitId].GetNumInstruments(); };
 		std::vector<int> GetInstrumentTriggersIds(int id) const;
 
