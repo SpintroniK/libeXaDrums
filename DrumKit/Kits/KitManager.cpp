@@ -24,9 +24,15 @@
 #include <cmath>
 #include <cctype>
 
-#include <dirent.h>
 #include <unistd.h>
 
+#if __has_include(<filesystem>)
+	#include <filesystem>
+	namespace fs = std::filesystem;
+#else
+	#include <experimental/filesystem>
+	namespace fs = std::experimental::filesystem;
+#endif
 
 using namespace Sound;
 using namespace tinyxml2;
@@ -247,21 +253,13 @@ namespace DrumKit
 
 		this->filesPaths.clear();
 
-		struct dirent* ent;
-		DIR* directory = opendir(kitsPath.c_str());
-
-		while((ent = readdir(directory)) != NULL)
+		for(const auto& p: fs::recursive_directory_iterator(kitsPath))
 		{
-			std::string fileName(ent->d_name);
-			std::string fileExtension = fileName.substr(fileName.find_last_of(".") + 1);
-
-			if(fileExtension == "xml")
+			if(p.path().extension() == ".xml")
 			{
-				this->filesPaths.push_back(this->kitsPath + fileName);
+				this->filesPaths.push_back(p.path().string());
 			}
 		}
-
-		closedir(directory);
 
 		// Sort (had to be improved to take capital letters into account)
 		std::sort(filesPaths.begin(), filesPaths.end(), [](const std::string& lhs, const std::string& rhs)
