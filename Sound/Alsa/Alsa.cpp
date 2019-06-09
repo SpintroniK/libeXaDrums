@@ -156,7 +156,7 @@ namespace Sound
 
 		sndErrorToException(snd_pcm_drop(params.handle));
 		sndErrorToException(snd_pcm_prepare(params.handle));
-		sndErrorToException(snd_pcm_start(params.handle));
+		//sndErrorToException(snd_pcm_start(params.handle));
 
 		if(params.capture)
 		{
