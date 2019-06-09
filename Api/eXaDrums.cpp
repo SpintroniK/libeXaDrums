@@ -78,7 +78,11 @@ namespace eXaDrumsApi
 			this->alsa->Start();
 			this->drumModule->Start();
 		}
-		catch(const std::exception& e)
+		catch(const Exception&)
+		{
+			return ExceptionToError([&] { throw; });
+		}
+		catch(...)
 		{
 			return make_error("Could not start module.", error_type_error);
 		}
@@ -190,9 +194,18 @@ namespace eXaDrumsApi
 
 	void eXaDrums::SetClickType(std::size_t id)
 	{
+		const auto types = Enums::GetEnumVector<ClickType>();
 
-		ClickType type = Enums::GetEnumVector<ClickType>()[id]; // TODO: check vector size first
-		metronome->SetClickType(type);
+		if(id >= types.size())
+		{
+			ClickType type = types.back();
+			metronome->SetClickType(type);
+		}
+		else
+		{
+			ClickType type = types[id];
+			metronome->SetClickType(type);
+		}
 
 		 return;
 	}
@@ -255,7 +268,7 @@ namespace eXaDrumsApi
 	void eXaDrums::ReloadKits()
 	{
 
-		drumModule->ReloadKits(); // TODO: handle errors
+		drumModule->ReloadKits();
 
 		return;
 	}

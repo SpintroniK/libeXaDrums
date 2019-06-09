@@ -82,6 +82,11 @@ namespace Util
 
     public: 
         
+        /**
+         * @brief Construct a new Exception object from an error type.
+         * 
+         * @param err 
+         */
         explicit Exception(const error& err) noexcept 
         : message{err.message}, error_type{static_cast<errorType>(err.type)} {}
 
@@ -101,6 +106,12 @@ namespace Util
         
     };
 
+    /**
+     * @brief Convert an error to an Exception. Throws if the error type is not error_type_success.
+     * 
+     * @tparam F A callable type.
+     * @param f A callable that returns an error.
+     */
     template <typename F>
     void ErrorToException(F&& f)
     {
@@ -112,6 +123,13 @@ namespace Util
         }	
     }
 
+    /**
+     * @brief Convert an Exception to an error.
+     * 
+     * @tparam F A callable type.
+     * @param f A callable that throws the Exception that is to be converted.
+     * @return error The error that corresponds to the Exception that has been thrown from the callable, or success if no exception was thrown.
+     */
     template <typename F>
     error ExceptionToError(F&& f) noexcept
     {

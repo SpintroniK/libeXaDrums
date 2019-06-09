@@ -146,9 +146,17 @@ namespace Sound
 	void Alsa::Start()
 	{
 
-		snd_pcm_drop(params.handle);
-		snd_pcm_prepare(params.handle);
-		snd_pcm_start(params.handle);
+		auto sndErrorToException = [](auto code)
+		{
+			if(code != 0)
+			{
+				throw Exception(snd_strerror(code), error_type_error);
+			}
+		};
+
+		sndErrorToException(snd_pcm_drop(params.handle));
+		sndErrorToException(snd_pcm_prepare(params.handle));
+		sndErrorToException(snd_pcm_start(params.handle));
 
 		if(params.capture)
 		{
@@ -158,7 +166,7 @@ namespace Sound
 		else
 		{
 			play = true;
-			StartPlayback(); // TODO: throw if fail to start.
+			StartPlayback();
 		}
 
 		return;
@@ -174,8 +182,8 @@ namespace Sound
 		}
 		else
 		{
-			play= false;
-			StopPlayback(); // TODO: throw if failt to stop.
+			play = false;
+			StopPlayback();
 		}
 
 		return;
