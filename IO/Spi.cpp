@@ -55,7 +55,7 @@ namespace IO
 	int Spi::dataRW(unsigned char* data, int len)
 	{
 
-		struct spi_ioc_transfer spiData;
+		struct spi_ioc_transfer spiData{};
 
 		spiData.tx_buf = (unsigned long)data;
 		spiData.rx_buf = (unsigned long)data;
@@ -66,8 +66,6 @@ namespace IO
 		spiData.delay_usecs = 0;
 		spiData.bits_per_word = Spi::bitsPerWord;
 		spiData.cs_change = 0;
-		spiData.tx_nbits = 0;
-		spiData.rx_nbits = 0;
 		spiData.pad = 0;
 
 		return ioctl(this->fd, SPI_IOC_MESSAGE(1), &spiData);
