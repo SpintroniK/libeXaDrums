@@ -1,3 +1,12 @@
+libexadrums (0.4.0-1) unstable; urgency=medium
+
+  * New upstream version.
+  * First upload to unstable.
+  * VCS-Git: select packaging branch.
+  * Standards-Version: 4.4.0.
+
+ -- Jeremy Oden <jerem.oden@gmail.com>  Tue, 09 Jul 2019 16:19:10 +0200
+
 libexadrums (0.3.0-2) experimental; urgency=medium
 
   * Add -pthread -latomic --no-undefined build flags. Closes: #927229.
