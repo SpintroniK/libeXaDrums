@@ -47,7 +47,6 @@ libexadrums_la_SOURCES = \
   Api/Config/TriggerParameters_api.cpp \
   Api/KitCreator/KitCreator_api.cpp \
   Api/eXaDrums.cpp \
-  Api/ErrorHandling.h \
   DrumKit/DrumModule/Module.cpp \
   DrumKit/DrumModule/Module.h \
   DrumKit/DrumModule/Recorder.cpp \
