@@ -7,10 +7,13 @@
 
 #include "Kit.h"
 
+#include "../../Util/ErrorHandling.h"
 #include "../Triggers/TriggerType.h"
 #include "../Instruments/InstrumentFactory.h"
 
 #include <algorithm>
+
+using namespace Util;
 
 namespace DrumKit
 {
@@ -45,9 +48,13 @@ namespace DrumKit
 		return;
 	}
 
-	void Kit::SetInstrumentVolume(int id, float volume)
+	void Kit::SetInstrumentVolume(size_t id, float volume)
 	{
 
+		if(id >= this->instruments.size())
+		{
+			throw Exception("Could not set instrument volume: instrument does not exist.", error_type_warning);
+		}
 		this->instruments[id]->SetVolume(volume);
 		this->parameters.instrumentParameters[id].volume = volume;
 
@@ -59,7 +66,7 @@ namespace DrumKit
 
 		if(id > parameters.instrumentParameters.size())
 		{
-			throw -1;
+			 throw Exception("The instrument could not be found.", error_type_error);
 		}
 
 		std::string name = parameters.instrumentParameters[id].instrumentName;

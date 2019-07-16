@@ -18,8 +18,8 @@ using namespace Util;
 namespace DrumKit
 {
 
-	KitCreator::KitCreator(const std::string& dataLoc)
-	: dataFolder{dataLoc}, kitsDirectory(dataLoc + "Kits/"), instrument(), soundFiles(SoundBank::GetSoundFiles(dataLoc))
+	KitCreator::KitCreator(const std::string& dataLoc) noexcept
+	: dataFolder{dataLoc}, kitsDirectory(dataLoc + "Kits/"), instrument() //, soundFiles(SoundBank::GetSoundFiles(dataLoc))
 	{
 
 
@@ -33,7 +33,7 @@ namespace DrumKit
 		return;
 	}
 
-	void KitCreator::CreateNewKit()
+	void KitCreator::CreateNewKit() noexcept
 	{
 
 		this->parameters = KitParameters();
@@ -85,7 +85,7 @@ namespace DrumKit
 		return;
 	}
 
-	void KitCreator::AddInstrumentToKit()
+	void KitCreator::AddInstrumentToKit() noexcept
 	{
 
 		this->parameters.instrumentParameters.push_back(this->instrument);
@@ -94,7 +94,7 @@ namespace DrumKit
 		return;
 	}
 
-	void KitCreator::CreateNewInstrument()
+	void KitCreator::CreateNewInstrument() noexcept
 	{
 
 		this->instrument = InstrumentParameters();
@@ -103,12 +103,22 @@ namespace DrumKit
 		return;
 	}
 
-	void KitCreator::RemoveInstrument(int i)
+	void KitCreator::RemoveInstrument(std::size_t i) noexcept
 	{
 
 		if(parameters.instrumentParameters.size() > 1)
 		{
 			parameters.instrumentParameters.erase(parameters.instrumentParameters.begin() + i);
+		}
+
+		return;
+	}
+
+	void KitCreator::RemoveLastInstrument() noexcept
+	{
+		if(parameters.instrumentParameters.size() > 1)
+		{
+			parameters.instrumentParameters.erase(parameters.instrumentParameters.end() - 1);
 		}
 
 		return;

@@ -26,8 +26,8 @@ namespace IO
             return instance;
         }
 
-		void Open(int speed, int mode);
-		void Close();
+		void Open(int speed, int mode) noexcept;
+		void Close() noexcept;
 		int dataRW(unsigned char* data, int len);
 
 	private:

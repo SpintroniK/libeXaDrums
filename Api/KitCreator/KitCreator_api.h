@@ -8,7 +8,7 @@
 #ifndef SOURCE_API_KITCREATOR_KITCREATOR_API_H_
 #define SOURCE_API_KITCREATOR_KITCREATOR_API_H_
 
-
+#include "../../Util/ErrorHandling.h"
 #include "../../DrumKit/Kits/KitCreator.h"
 
 #include <string>
@@ -24,24 +24,24 @@ namespace eXaDrumsApi
 	public:
 
 		explicit KitCreator(const char* dataLocation);
-		virtual ~KitCreator();
+		~KitCreator();
 
 		// Kit
-		void CreateNewKit();
+		void CreateNewKit() noexcept;
 		void CreateFromModel(const char* loc);
-		int GetNumInstruments() const;
-		void SetKitName(const char* name);
+		int GetNumInstruments() const noexcept;
+		void SetKitName(const char* name) noexcept;
 		void SaveKit(const char* file) const;
 		void SaveKit() const;
 
-
 		// Instrument
-		void CreateNewInstrument();
-		void RemoveInstrument(int i);
-		void AddInstrumentToKit();
+		void CreateNewInstrument() noexcept;
+		void RemoveInstrument(std::size_t i) noexcept;
+		void RemoveLastInstrument() noexcept;
+		void AddInstrumentToKit() noexcept;
 		void SetInstrumentName(const char* name);
 		void SetInstrumentType(const char* type);
-		void SetInstrumentVolume(const float volume);
+		void SetInstrumentVolume(const float volume) noexcept;
 		void AddInstrumentSound(const char* file, const char* type);
 		void AddInstrumentTrigger(const int id, const char* location);
 
@@ -66,11 +66,17 @@ namespace eXaDrumsApi
 		std::vector<std::string> GetTriggersLocations(const std::string& instrumentType);
 
 		// Sounds
-		std::vector<std::string> GetSoundsFiles();
+		//std::vector<std::string> GetSoundsFiles();
 		std::vector<std::string> GetSoundsTypes(const std::string& instrumentType);
 
 
 	private:
+
+		Util::error CreateFromModel_(const char* loc);
+		Util::error SaveKit_(const char* file) const;
+		Util::error SaveKit_() const;
+		Util::error SetInstrumentName_(const char* name);
+		Util::error SetInstrumentName_(int id, const char* name);
 
 		void SetInstrumentTriggersIdsAndLocs_(int id, int* ids, const char** locs, unsigned int size);
 		void SetInstrumentSoundsTypesAndLocs_(int id, const char** types, const char** locs, unsigned int size);
@@ -87,7 +93,7 @@ namespace eXaDrumsApi
 		void GetSoundTypes_(const char* instrumentType, const char** data, unsigned int& size);
 
 		void GetInstrumentSoundsLocs_(int i, const char** data, unsigned int& size);
-		void GetSoundFiles_(const char** data, unsigned int& size);
+		//void GetSoundFiles_(const char** data, unsigned int& size);
 
 		void GetInstrumentsTypes_(const char** data, unsigned int& size);
 		void GetInstrumentsNames_(const char** data, unsigned int& size);
@@ -106,7 +112,7 @@ namespace eXaDrumsApi
 		std::vector<std::string> instrumentSoundsLocs;
 
 		// Controller
-		DrumKit::KitCreator& controller;
+		DrumKit::KitCreator controller;
 
 	};
 

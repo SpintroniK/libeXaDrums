@@ -15,19 +15,56 @@
 namespace eXaDrumsApi
 {
 
-	inline std::string eXaDrums::GetDataLocation() const
+	inline void eXaDrums::Start()
+	{
+		Util::ErrorToException([&] { return this->Start_(); });
+	}
+
+	inline void eXaDrums::Stop()
+	{
+		Util::ErrorToException([&] { return this->Stop_(); });
+	}
+
+	inline void eXaDrums::EnableRecording(bool enable)
+	{
+		Util::ErrorToException([&] { return this->EnableRecording_(enable); });
+	}
+
+	inline void eXaDrums::SelectKit(std::size_t id)
+	{
+		Util::ErrorToException([&] { return this->SelectKit_(id); });
+	}
+
+	inline void eXaDrums::SaveKitConfig(std::size_t id) const
+	{
+		Util::ErrorToException([&] { return this->SaveKitConfig_(id); });
+	}
+
+	inline void eXaDrums::DeleteKit(std::size_t id)
+	{
+		Util::ErrorToException([&] { return this->DeleteKit_(id); });
+	}
+
+	inline std::string eXaDrums::GetDataLocation() const noexcept
 	{
 		return std::string(this->GetDataLocation_());
 	}
 
 	inline std::string eXaDrums::GetKitDataFileName()
 	{
-		return std::string(this->GetKitDataFileName_());
+		const char* str = this->GetKitDataFileName_();
+
+		if(str == nullptr)
+		{
+			throw Util::Exception("Selected kit's path could not be found.", Util::error_type_error);
+		}
+
+		return std::string(str);		
 	}
 
 	inline void eXaDrums::RecorderExport(const std::string& fileName)
 	{
-		RecorderExport_(fileName.data());
+		Util::ErrorToException([&]{ return RecorderExport_(fileName.data()); });
 	}
 
 	inline std::vector<std::string> eXaDrums::GetClicksTypes()
@@ -84,7 +121,7 @@ namespace eXaDrumsApi
 		return v;
 	}
 
-	inline std::vector<int> eXaDrums::GetInstrumentTriggersIds(int instrumentId) const
+	inline std::vector<int> eXaDrums::GetInstrumentTriggersIds(std::size_t instrumentId) const
 	{
 		unsigned int size;
 		GetInstrumentTriggersIds_(instrumentId, nullptr, size);
@@ -93,6 +130,11 @@ namespace eXaDrumsApi
 		GetInstrumentTriggersIds_(instrumentId, trigsIds.data(), size);
 
 		return trigsIds;
+	}
+
+	inline void eXaDrums::SetInstrumentVolume(std::size_t id, std::size_t volume)
+	{
+		Util::ExceptionToError([&] { return this->SetInstrumentVolume_(id, volume); });
 	}
 
 	inline std::vector<std::string> eXaDrums::GetInstrumentsNames()

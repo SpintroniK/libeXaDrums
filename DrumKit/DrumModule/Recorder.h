@@ -31,13 +31,13 @@ namespace DrumKit
 	{
 	public:
 
-		Recorder(Sound::SoundBank* sndBankPtr, const Sound::AlsaParams& alsaParams);
+		Recorder(Sound::SoundBank* sndBankPtr, const Sound::AlsaParams& alsaParams) noexcept;
 		virtual ~Recorder();
 
-		void SetDirectory(const std::string& dir) { directory = dir + "Rec/"; }
+		void SetDirectory(const std::string& dir) noexcept { directory = dir + "Rec/"; }
 
 		template <typename T>
-		void SetMetronomeTimeFunc(T&& f)
+		void SetMetronomeTimeFunc(T&& f) noexcept
 		{
 			getLastClickTime = std::move(std::function<int64_t()>{f});
 		}

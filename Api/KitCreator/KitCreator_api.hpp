@@ -16,6 +16,31 @@
 namespace eXaDrumsApi
 {
 
+	inline void KitCreator::CreateFromModel(const char* loc)
+	{
+		Util::ErrorToException([&] { return this->CreateFromModel_(loc); });
+	}
+
+	inline void KitCreator::SaveKit(const char* file) const
+	{
+		Util::ErrorToException([&] { return this->SaveKit_(file); });
+	}
+
+	inline void KitCreator::SaveKit() const
+	{
+		Util::ErrorToException([&] { return this->SaveKit_(); });
+	}
+
+	inline void KitCreator::SetInstrumentName(const char* name)
+	{
+		Util::ErrorToException([&] { return this->SetInstrumentName_(name); });
+	}
+
+	inline void KitCreator::SetInstrumentName(int id, const char* name)
+	{
+		Util::ErrorToException([&] { return this->SetInstrumentName_(id, name); });
+	}
+
 	inline void KitCreator::SetInstrumentTriggersIdsAndLocs(int id, const std::vector<std::pair<int, std::string>>& trigsIdsAndLocs)
 	{
 
@@ -135,7 +160,7 @@ namespace eXaDrumsApi
 		return v;
 	}
 
-	inline std::vector<std::string> KitCreator::GetSoundsFiles()
+	/*inline std::vector<std::string> KitCreator::GetSoundsFiles()
 	{
 
 		unsigned int size;
@@ -148,7 +173,7 @@ namespace eXaDrumsApi
 		std::copy(data.cbegin(), data.cend(), v.begin());
 
 		return v;
-	}
+	}*/
 
 	inline std::vector<std::string> KitCreator::GetSoundsTypes(const std::string& instrumentType)
 	{

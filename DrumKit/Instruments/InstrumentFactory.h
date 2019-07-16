@@ -8,6 +8,7 @@
 #ifndef SOURCE_DRUMKIT_INSTRUMENTS_INSTRUMENTFACTORY_H_
 #define SOURCE_DRUMKIT_INSTRUMENTS_INSTRUMENTFACTORY_H_
 
+#include "../../Util/ErrorHandling.h"
 #include "../../Sound/SoundBank/SoundBank.h"
 #include "../../Sound/InstrumentSoundType.h"
 
@@ -40,7 +41,7 @@ namespace DrumKit
 				case InstrumentType::HiHat: 	return std::make_shared<TestHiHat>(parameters, sb);
 			}
 
-			throw -1;
+			throw Util::Exception("Instrument type does not exist.", Util::error_type_error);
 		}
 
 		static std::vector<Sound::InstrumentSoundType>  GetSoundsTypes(InstrumentType type)

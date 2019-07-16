@@ -8,6 +8,7 @@
 #ifndef LIBEXADRUMS_SOURCE_API_EXADRUMKIT_H_
 #define LIBEXADRUMS_SOURCE_API_EXADRUMKIT_H_
 
+#include "../Util/ErrorHandling.h"
 
 #include <string>
 #include <vector>
@@ -31,12 +32,12 @@ namespace eXaDrumsApi
 
 	public:
 
-		explicit eXaDrums(const char* dataLocation);
+		explicit eXaDrums(const char* dataLocation) noexcept;
 		virtual ~eXaDrums();
 
 		// eXaDrums
-		bool IsStarted() const { return isStarted.load(); }
-		std::string GetDataLocation() const;
+		bool IsStarted() const noexcept { return isStarted.load(); }
+		std::string GetDataLocation() const noexcept;
 
 		// Module
 		void Start();
@@ -47,65 +48,75 @@ namespace eXaDrumsApi
 		// Metronome
 		void EnableMetronome(bool enable) const;
 		void RestartMetronome() const;
-		void ChangeTempo(int tempo) const;
-		void ChangeVolume(int volume) const;
-		int GetTempo() const;
-		int GetClickVolume() const;
+		void ChangeTempo(std::size_t tempo) const;
+		void ChangeVolume(std::size_t volume) const;
+		std::size_t GetTempo() const noexcept;
+		std::size_t GetClickVolume() const noexcept;
 		void SaveMetronomeConfig() const;
-		double GetClickPosition() const;
-		long long GetLastClickTime() const;
+		double GetClickPosition() const noexcept;
+		long long GetLastClickTime() const noexcept;
 
 		std::vector<std::string> GetClicksTypes();
-		void SetClickType(int id);
-		int GetClickTypeId() const;
+		void SetClickType(std::size_t id);
+		std::size_t GetClickTypeId() const;
 
 		std::vector<int> GetRhythms() const;
-		int GetRhythm() const;
-		void SetRhythm(int rhythm);
+		std::size_t GetRhythm() const noexcept;
+		void SetRhythm(std::size_t rhythm) noexcept;
 
 		std::vector<int> GetBpms() const;
-		int GetBpmeas() const;
-		void SetBpmeas(int bpmeas);
+		std::size_t GetBpmeas() const noexcept;
+		void SetBpmeas(std::size_t bpmeas) noexcept;
 
 
 		// Kits
-		void SelectKit(int id);
-		void SaveKitConfig(int id) const;
-		bool DeleteKit(const int& id);
+		void SelectKit(std::size_t id);
+		void SaveKitConfig(std::size_t id) const;
+		void DeleteKit(std::size_t id);
 		void ReloadKits();
-		int GetNumKits() const;
+		std::size_t GetNumKits() const noexcept;
 		std::string GetKitDataFileName();
 		std::vector<std::string> GetKitsNames();
 
 		// Instruments
-		void SetInstrumentVolume(int id, int volume);
-		int GetInstrumentVolume(int id) const;
+		void SetInstrumentVolume(std::size_t id, std::size_t volume);
+		std::size_t GetInstrumentVolume(std::size_t id) const;
 		std::vector<std::string> GetInstrumentsNames();
-		std::vector<int> GetInstrumentTriggersIds(int instrumentId) const;
+		std::vector<int> GetInstrumentTriggersIds(std::size_t instrumentId) const;
 
 		// Triggers
-		long long GetLastTrigTime() const;
-		int GetLastTrigValue() const;
-		void SetTriggerSensorValue(int id, char channel, short data);
+		long long GetLastTrigTime() const noexcept;
+		std::size_t GetLastTrigValue() const noexcept;
+		void SetTriggerSensorValue(std::size_t id, char channel, short data);
 
 		// Sensors
-		int GetSensorsResolution() const;
-		bool IsSensorVirtual() const;
-		bool IsSensorSpi() const;
+		std::size_t GetSensorsResolution() const noexcept;
+		bool IsSensorVirtual() const noexcept;
+		bool IsSensorSpi() const noexcept;
 
 		// Sound
-		std::string GetAudioDeviceName() const;
+		std::string GetAudioDeviceName() const noexcept;
+
+		Util::error GetInitError() const { return this->init_error; }
 
 	private:
 
-		const char* GetDataLocation_() const;
+		Util::error Start_();
+		Util::error Stop_();
+		Util::error EnableRecording_(bool enable);
+		Util::error SelectKit_(int id);
+		Util::error DeleteKit_(int id);
+		Util::error SaveKitConfig_(std::size_t id) const;
+		Util::error SetInstrumentVolume_(std::size_t id, std::size_t volume);
+
+		const char* GetDataLocation_() const noexcept;
 		const char* GetKitDataFileName_();
 		void GetClicksTypes_(const char** data, unsigned int& size);
 		void GetRhythms_(int* data, unsigned int& size) const;
 		void GetBpms_(int* data, unsigned int& size) const;
 		void GetKitsNames_(const char** data, unsigned int& size);
 		void GetInstrumentsNames_(const char** data, unsigned int& size);
-		void RecorderExport_(const char* fileName);
+		Util::error RecorderExport_(const char* fileName);
 		void GetInstrumentTriggersIds_(int instrumentId, int* data, unsigned int& size) const;
 
 
@@ -127,6 +138,8 @@ namespace eXaDrumsApi
 		std::vector<std::string> clicksTypes;
 		std::vector<std::string> kitsNames;
 		std::vector<std::string> instrumentsNames;
+
+		Util::error init_error;
 
 	};
 }

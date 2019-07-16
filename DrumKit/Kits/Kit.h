@@ -35,12 +35,12 @@ namespace DrumKit
 			void Disable();
 			void Save() const { KitManager::SaveKit(parameters.configFilePath, parameters);}
 
-			void SetInstrumentVolume(int id, float volume);
+			void SetInstrumentVolume(size_t id, float volume);
 
-			std::string GetConfigFilePath() const { return parameters.configFilePath; }
+			std::string GetConfigFilePath() const noexcept { return parameters.configFilePath; }
 			float GetInstrumentVolume(int id) const { return instruments[id]->GetVolume(); }
 			std::string GetInstrumentName(std::size_t id) const;
-			std::string GetName() const { return parameters.kitName; }
+			std::string GetName() const noexcept { return parameters.kitName; }
 			int GetNumInstruments() const { return (int)parameters.instrumentParameters.size(); }
 			const std::vector<InstrumentPtr>& GetInstruments() const { return instruments; }
 

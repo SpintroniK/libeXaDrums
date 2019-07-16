@@ -25,24 +25,25 @@ namespace DrumKit
 
 	public:
 
-		explicit KitCreator(const std::string& dataLoc);
+		explicit KitCreator(const std::string& dataLoc) noexcept;
 		virtual ~KitCreator();
 
 		// Kit
-		void CreateNewKit();
+		void CreateNewKit() noexcept;
 		void CreateFromModel(const std::string& file);
-		int GetNumInstruments() const { return (int)this->parameters.instrumentParameters.size(); }
-		void SetKitName(const std::string& name) { parameters.kitName = name; };
+		int GetNumInstruments() const noexcept { return (int)this->parameters.instrumentParameters.size(); }
+		void SetKitName(const std::string& name) noexcept { parameters.kitName = name; };
 		void SaveKit(const std::string& file, bool fullPath = false) const;
 		void SaveKit() const;
 
 		// Instruments
-		void CreateNewInstrument();
-		void RemoveInstrument(int i);
-		void AddInstrumentToKit();
+		void CreateNewInstrument() noexcept;
+		void RemoveInstrument(std::size_t i) noexcept;
+		void RemoveLastInstrument() noexcept;
+		void AddInstrumentToKit() noexcept;
 		void SetInstrumentName(const std::string& name) { this->instrument.instrumentName = name; }
 		void SetInstrumentType(const std::string& type);
-		void SetInstrumentVolume(const float v) { this->instrument.volume = v; }
+		void SetInstrumentVolume(const float v) noexcept { this->instrument.volume = v; }
 		void AddInstrumentSound(const std::string& file, const std::string& type);
 		void AddInstrumentTrigger(const int id, const std::string& location);
 
@@ -67,7 +68,7 @@ namespace DrumKit
 		std::vector<std::string> GetTriggersLocations(const std::string& instrumentType) const;
 
 		// Sounds
-		std::vector<std::string> GetSoundFiles() const { return soundFiles; }
+		//std::vector<std::string> GetSoundFiles() const { return soundFiles; }
 		std::vector<std::string> GetSoundTypes(const std::string& instrumentType) const;
 
 
@@ -80,7 +81,7 @@ namespace DrumKit
 		KitParameters parameters;
 		InstrumentParameters instrument;
 
-		std::vector<std::string> soundFiles;
+		//std::vector<std::string> soundFiles;
 
 
 	};

@@ -8,6 +8,7 @@
 #include "Alsa.h"
 
 #include "../../Util/Threading.h"
+#include "../../Util/ErrorHandling.h"
 
 #include <alsa/asoundlib.h>
 
@@ -19,6 +20,7 @@
 
 #include <cstring>
 
+using namespace Util;
 
 namespace Sound
 {
@@ -43,7 +45,7 @@ namespace Sound
 		}
 		else
 		{
-			throw std::runtime_error(snd_strerror(err));
+			throw Exception(snd_strerror(err), error_type_error);
 		}
 
 
@@ -58,7 +60,7 @@ namespace Sound
 			}
 			else
 			{
-				throw -1; // Audio device not found
+				throw Exception("Audio device not found.", error_type_error); // Audio device not found
 			}
 		}
 		else
@@ -144,9 +146,17 @@ namespace Sound
 	void Alsa::Start()
 	{
 
-		snd_pcm_drop(params.handle);
-		snd_pcm_prepare(params.handle);
-		snd_pcm_start(params.handle);
+		auto sndErrorToException = [](auto code)
+		{
+			if(code != 0)
+			{
+				throw Exception(snd_strerror(code), error_type_error);
+			}
+		};
+
+		sndErrorToException(snd_pcm_drop(params.handle));
+		sndErrorToException(snd_pcm_prepare(params.handle));
+		//sndErrorToException(snd_pcm_start(params.handle));
 
 		if(params.capture)
 		{
@@ -172,7 +182,7 @@ namespace Sound
 		}
 		else
 		{
-			play= false;
+			play = false;
 			StopPlayback();
 		}
 

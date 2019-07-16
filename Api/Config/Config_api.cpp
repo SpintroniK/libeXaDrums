@@ -13,6 +13,7 @@
 #include "../../DrumKit/DrumModule/Module.h"
 #include "../../DrumKit/Triggers/TriggerManager.h"
 #include "../../Util/Enums.h"
+#include "../../Util/ErrorHandling.h"
 #include "../../Sound/Alsa/Alsa.h"
 #include "../../Sound/Alsa/AlsaParameters.h"
 
@@ -23,12 +24,11 @@
 
 using namespace Util;
 
-
 namespace eXaDrumsApi
 {
 
 
-	Config::Config(eXaDrums& drums) : drumKit(drums), module(*drums.drumModule.get())
+	Config::Config(eXaDrums& drums) noexcept : drumKit(drums), module(*drums.drumModule.get())
 	{
 
 		RefreshSensorsConfig();
@@ -37,7 +37,7 @@ namespace eXaDrumsApi
 	}
 
 
-	void Config::RefreshSensorsConfig()
+	void Config::RefreshSensorsConfig() noexcept
 	{
 
 		this->sensorsConfig = module.GetSensorsConfig();
@@ -45,46 +45,23 @@ namespace eXaDrumsApi
 		return;
 	}
 
-	void Config::SaveSensorsConfig()
+
+	// Private Methods
+
+	error Config::SaveSensorsConfig_()
 	{
 
 		std::string dir;
 		module.GetDirectory(dir);
 
-		DrumKit::TriggerManager::SaveSensorsConfig(dir, sensorsConfig);
-
-		RestartModule();
-
-		return;
+		return ExceptionToError([&]
+		{
+			DrumKit::TriggerManager::SaveSensorsConfig(dir, sensorsConfig);
+			RestartModule();
+		});
 	}
 
-	void Config::RestartModule()
-	{
-
-		bool isRestart = false;
-
-		if(drumKit.isStarted.load())
-		{
-			drumKit.Stop();
-			isRestart = true;
-		}
-
-		int kitId = module.GetKitId();
-
-		module.ReloadTriggers();
-		module.ReloadKits();
-
-		module.SelectKit(kitId);
-
-		if(isRestart)
-		{
-			drumKit.Start();
-		}
-
-		return;
-	}
-
-	void Config::SaveTriggersConfig()
+	error Config::SaveTriggersConfig_()
 	{
 
 		std::string dir;
@@ -94,14 +71,14 @@ namespace eXaDrumsApi
 		std::vector<DrumKit::TriggerParameters> trigsParams(triggersParameters.size());
 		std::transform(triggersParameters.begin(), triggersParameters.end(), trigsParams.begin(), [](auto& tp) { return static_cast<DrumKit::TriggerParameters>(tp); });
 
-		DrumKit::TriggerManager::SaveTriggersConfig(dir, trigsParams);
-
-		RestartModule();
-
-		return;
+		return ExceptionToError([&]
+		{
+			DrumKit::TriggerManager::SaveTriggersConfig(dir, trigsParams);
+			RestartModule();
+		});
 	}
 
-	void Config::LoadTriggersConfig() const
+	error Config::LoadTriggersConfig_() const
 	{
 
 		std::string dir;
@@ -109,20 +86,24 @@ namespace eXaDrumsApi
 
 		// Load sensors config first
 		IO::SensorsConfig sensorConfig;
-		DrumKit::TriggerManager::LoadSensorsConfig(dir, sensorConfig);
-
 		std::vector<DrumKit::TriggerParameters> trigsParams;
-		DrumKit::TriggerManager::LoadTriggersConfig(dir, sensorConfig, trigsParams);
 
-		// Conversion and copy of the triggers parameters
-		this->triggersParameters.clear();
-		this->triggersParameters.resize(trigsParams.size());
-		std::transform(trigsParams.begin(), trigsParams.end(), triggersParameters.begin(), [](auto& tp) { return static_cast<eXaDrumsApi::TriggerParameters>(tp); });
+		return ExceptionToError([&]
+		{
+			DrumKit::TriggerManager::LoadSensorsConfig(dir, sensorConfig);
+			DrumKit::TriggerManager::LoadTriggersConfig(dir, sensorConfig, trigsParams);
 
-		return;
+			// Conversion and copy of the triggers parameters
+			this->triggersParameters.clear();
+			this->triggersParameters.resize(trigsParams.size());
+			std::transform(trigsParams.begin(), trigsParams.end(), triggersParameters.begin(), [](auto& tp) 
+			{ 
+				return static_cast<eXaDrumsApi::TriggerParameters>(tp); 
+			});
+		});
 	}
 
-	void Config::SaveCurrentAudioDeviceConfig()
+	error Config::SaveCurrentAudioDeviceConfig_() const
 	{
 
 		Sound::AlsaParams params;
@@ -133,75 +114,98 @@ namespace eXaDrumsApi
 		params.bufferTime = alsaParams.bufferTime;
 		params.periodTime = alsaParams.periodTime;
 
-		Sound::AlsaParameters::SaveAlsaParameters(drumKit.GetDataLocation() + eXaDrums::alsaConfigFile, params);
-
-		return;
+		return ExceptionToError([&] 
+		{
+			Sound::AlsaParameters::SaveAlsaParameters(drumKit.GetDataLocation() + eXaDrums::alsaConfigFile, params);
+		});
 	}
 
-	void Config::SaveAudioDeviceConfig(const AlsaParamsApi& params)
+	error Config::SaveAudioDeviceConfig_(const AlsaParamsApi& params)
 	{
 
-		SetAudioDeviceParameters_(params);
-		SaveCurrentAudioDeviceConfig();
+		auto err = SetAudioDeviceParameters_(params);
 
-		return;
+		if(err.type!= error_type_success)
+		{
+			return err;
+		}
+
+		return SaveCurrentAudioDeviceConfig_();
 	}
 
-	void Config::ResetAudioDevice()
+	error Config::ResetAudioDevice_()
 	{
+		return ExceptionToError([&]
+		{
+			this->drumKit.alsa.reset();
 
-		this->drumKit.alsa.reset();
+			// Load alsa parameters
+			Sound::AlsaParams alsaParams;
+			Sound::AlsaParameters::LoadAlsaParameters(drumKit.GetDataLocation() + eXaDrums::alsaConfigFile, alsaParams);
 
-		// Load alsa parameters
-		Sound::AlsaParams alsaParams;
-		Sound::AlsaParameters::LoadAlsaParameters(drumKit.GetDataLocation() + eXaDrums::alsaConfigFile, alsaParams);
-
-		// Create mixer and alsa
-		this->drumKit.alsa = std::make_unique<Sound::Alsa>(alsaParams, this->drumKit.mixer);
-
-		return;
+			// Create mixer and alsa
+			this->drumKit.alsa = std::make_unique<Sound::Alsa>(alsaParams, this->drumKit.mixer);
+		});
 	}
 
-	void Config::AddTrigger(const TriggerParameters& params)
+	error Config::AddTrigger_(const TriggerParameters& params)
 	{
 		// Reload triggers config
-		LoadTriggersConfig();
+		auto err = LoadTriggersConfig_();
+		if(err.type!= error_type_success)
+		{
+			return err;
+		}
 
 		// Add trigger
 		this->triggersParameters.push_back(params);
 
 		// Save trigger config
-		SaveTriggersConfig();
+		if(update_error(err, SaveTriggersConfig_()) != error_type_success)
+		{
+			return err;
+		}
 
 		// Restart module
 		RestartModule();
 
+		return err;
 	}
 
-	void Config::DeleteTrigger(int sensorId)
+	error Config::DeleteTrigger_(int sensorId)
 	{
 
 		// Reload triggers config
-		LoadTriggersConfig();
+		auto err = LoadTriggersConfig_();
+		if(err.type!= error_type_success)
+		{
+			return err;
+		}
 
 		// Remove trigger
 		auto it = std::remove_if(triggersParameters.begin(), triggersParameters.end(), [&](const auto& tp) { return tp.sensorId == sensorId; });
-		triggersParameters.erase(it);
+
+		if(it != end(triggersParameters))
+		{
+			triggersParameters.erase(it);
+		}
+		else
+		{
+			return make_error("Could not delete trigger, as it does not exist.", error_type_warning);
+		}
+		
 
 		// Save triggers config
-		SaveTriggersConfig();
+		err = SaveTriggersConfig_();
+		if(err.type!= error_type_success)
+		{
+			return err;
+		}
 
 		RestartModule();
+
+		return make_error("", error_type_success);
 	}
-
-	int Config::GetNbTriggers() const
-	{
-		LoadTriggersConfig();
-		return static_cast<int>(triggersParameters.size());
-	}
-
-
-	// Private Methods
 
 	void Config::SetSensorsType_(const char* type)
 	{
@@ -210,7 +214,7 @@ namespace eXaDrumsApi
 		return;
 	}
 
-	void Config::SetSensorsDataFolder_(const char* folder)
+	void Config::SetSensorsDataFolder_(const char* folder) noexcept
 	{
 
 		sensorsConfig.hddDataFolder = std::string(folder);
@@ -218,7 +222,7 @@ namespace eXaDrumsApi
 	}
 
 
-	void Config::SetTriggersParameters_(const TriggerParameters* params, unsigned int size)
+	void Config::SetTriggersParameters_(const TriggerParameters* params, unsigned int size) noexcept
 	{
 
 		std::vector<TriggerParameters> trigParams(params, params + size);
@@ -229,7 +233,7 @@ namespace eXaDrumsApi
 		return;
 	}
 
-	void Config::SetAudioDeviceParameters_(const AlsaParamsApi& params)
+	error Config::SetAudioDeviceParameters_(const AlsaParamsApi& params)
 	{
 
 		this->alsaParams = params;
@@ -244,8 +248,48 @@ namespace eXaDrumsApi
 		}
 		else
 		{
-			std::cerr << "Error: audio device " << deviceName << " not found." << std::endl;
-			throw -1;
+			return make_error(("Error: audio device " + deviceName + " not found.").data(), error_type_error);
+		}
+
+		return make_error("", error_type_success);
+	}
+
+	Util::error Config::GetNbTriggers_(size_t& nb) const
+	{
+		auto error = this->LoadTriggersConfig_();
+		
+		if(error.type != error_type_success)
+		{
+			return error;
+		}
+
+		nb = static_cast<int>(triggersParameters.size());
+
+		return make_error("", error_type_success);
+	}
+
+
+	void Config::RestartModule()
+	{
+
+		bool isRestart = false;
+
+		if(drumKit.isStarted.load())
+		{
+			ErrorToException([&] { return drumKit.Stop_(); });
+			isRestart = true;
+		}
+
+		int kitId = module.GetKitId();
+
+		module.ReloadTriggers();
+		module.ReloadKits();
+
+		module.SelectKit(kitId);
+
+		if(isRestart)
+		{
+			ErrorToException([&] { return drumKit.Start_(); });
 		}
 
 		return;
@@ -391,18 +435,18 @@ namespace eXaDrumsApi
 		return this->sensorType.c_str();
 	}
 
-	const char* Config::GetSensorsDataFolder_() const
+	const char* Config::GetSensorsDataFolder_() const noexcept
 	{
 		return this->sensorsConfig.hddDataFolder.c_str();
 	}
 
-	const char* Config::GetAudioDeviceName_()
+	const char* Config::GetAudioDeviceName_() const noexcept
 	{
 		this->audioDeviceName = this->drumKit.GetAudioDeviceName();
 		return this->audioDeviceName.data();
 	}
 
-	AlsaParamsApi Config::GetAudioDeviceParams_() const
+	AlsaParamsApi Config::GetAudioDeviceParams_() const noexcept
 	{
 		AlsaParamsApi alsaParameters = static_cast<AlsaParamsApi>(this->drumKit.alsa->GetParameters());
 		return alsaParameters;

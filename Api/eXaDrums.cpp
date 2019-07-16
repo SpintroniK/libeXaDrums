@@ -7,6 +7,7 @@
 
 #include "eXaDrums.h"
 
+#include "../Util/ErrorHandling.h"
 #include "../DrumKit/DrumModule/Module.h"
 #include "../Metronome/Metronome.h"
 #include "../Sound/Alsa/Alsa.h"
@@ -35,26 +36,29 @@ namespace eXaDrumsApi
 	 * Create an instance of a drum module
 	 * @param dataLoc Path to the configuration files
 	 */
-	eXaDrums::eXaDrums(const char* dataLoc) : isStarted(false)
+	eXaDrums::eXaDrums(const char* dataLoc) noexcept : isStarted(false)
 	{
 
-		this->dataLocation = std::string{dataLoc} + "/";
+		this->init_error = ExceptionToError([&]
+		{
+            this->dataLocation = std::string{dataLoc} + "/";
 
-		// Load alsa parameters
-		AlsaParams alsaParams;
-		AlsaParameters::LoadAlsaParameters(dataLocation + alsaConfigFile, alsaParams);
+            // Load alsa parameters
+            AlsaParams alsaParams;
+            AlsaParameters::LoadAlsaParameters(dataLocation + alsaConfigFile, alsaParams);
 
-		// Create mixer and alsa
-		this->mixer = std::make_shared<Mixer>();
-		this->alsa = std::make_unique<Alsa>(alsaParams, this->mixer);
+            // Create mixer and alsa
+            this->mixer = std::make_shared<Mixer>();
+            this->alsa = std::make_unique<Alsa>(alsaParams, this->mixer);
 
-		// Load metronome parameters
-		MetronomeParameters metronomeParams;
-		Metronome::LoadConfig(dataLocation + metronomeConfigFile, metronomeParams);
-		this->metronome = std::make_shared<Metronome>(alsaParams, metronomeParams);
+            // Load metronome parameters
+            MetronomeParameters metronomeParams;
+            Metronome::LoadConfig(dataLocation + metronomeConfigFile, metronomeParams);
+            this->metronome = std::make_shared<Metronome>(alsaParams, metronomeParams);
 
-		// Create drum module
-		this->drumModule = std::make_unique<Module>(dataLocation, alsaParams, this->mixer, this->metronome);
+            // Create drum module
+            this->drumModule = std::make_unique<Module>(dataLocation, alsaParams, this->mixer, this->metronome);
+		});
 
 		return;
 	}
@@ -62,39 +66,74 @@ namespace eXaDrumsApi
 	eXaDrums::~eXaDrums()
 	{
 
-		return;
 	}
 
 	// Module
 
-	void eXaDrums::Start()
+	error eXaDrums::Start_()
 	{
 
-		this->alsa->Start();
-		this->drumModule->Start();
+		try
+		{
+			this->alsa->Start();
+			this->drumModule->Start();
+		}
+		catch(const Exception&)
+		{
+			return ExceptionToError([&] { throw; });
+		}
+		catch(...)
+		{
+			return make_error("Could not start module.", error_type_error);
+		}
+		
 		isStarted.store(true);
-
-		return;
+		return make_error("", error_type_success);
 	}
 
-	void eXaDrums::Stop()
+	error eXaDrums::Stop_()
 	{
 
-		this->alsa->Stop();
-		this->drumModule->Stop();
+		try
+		{
+			this->alsa->Stop();
+			this->drumModule->Stop();
+		}
+		catch(const std::exception& e)
+		{
+			return make_error("Could not stop module.", error_type_error);
+		}
+		
 		isStarted.store(false);
-
-		return;
+		return make_error("", error_type_success);
 	}
 
-	void eXaDrums::EnableRecording(bool enable)
+	error eXaDrums::EnableRecording_(bool enable)
 	{
-		this->drumModule->EnableRecording(enable);
+		try
+		{
+			this->drumModule->EnableRecording(enable);
+		}
+		catch(const std::exception& e)
+		{
+			return make_error("Could not enable/disable recording.", error_type_warning);
+		}
+
+		return make_error("", error_type_success);
 	}
 
-	void eXaDrums::RecorderExport_(const char* fileName)
+	error eXaDrums::RecorderExport_(const char* fileName)
 	{
-		this->drumModule->RecorderExport(std::string{fileName});
+		try
+		{
+			this->drumModule->RecorderExport(std::string{fileName});
+		}
+		catch(const std::exception& e)
+		{
+			return make_error("Could not export track.", error_type_warning);
+		}
+		
+		return make_error("", error_type_success);
 	}
 
 	void eXaDrums::GetInstrumentTriggersIds_(int instrumentId, int* data, unsigned int& size) const
@@ -124,26 +163,26 @@ namespace eXaDrumsApi
 		return;
 	}
 
-	void eXaDrums::ChangeTempo(int tempo) const
+	void eXaDrums::ChangeTempo(std::size_t tempo) const
 	{
 		drumModule->ChangeTempo(tempo);
 		return;
 	}
 
-	void eXaDrums::ChangeVolume(int volume) const
+	void eXaDrums::ChangeVolume(std::size_t volume) const
 	{
 		drumModule->ChangeVolume(volume);
 		return;
 	}
 
-	int eXaDrums::GetTempo() const
+	std::size_t eXaDrums::GetTempo() const noexcept
 	{
 		return metronome->GetTempo();
 	}
 
-	int eXaDrums::GetClickVolume() const
+	std::size_t eXaDrums::GetClickVolume() const noexcept
 	{
-		return int(drumModule->GetClickVolume() * 100.0f);
+		return std::size_t(drumModule->GetClickVolume() * 100.0f);
 	}
 
 	void eXaDrums::SaveMetronomeConfig() const
@@ -153,65 +192,77 @@ namespace eXaDrumsApi
 	}
 
 
-	void eXaDrums::SetClickType(int id)
+	void eXaDrums::SetClickType(std::size_t id)
 	{
+		const auto types = Enums::GetEnumVector<ClickType>();
 
-		ClickType type = Enums::GetEnumVector<ClickType>()[id];
-		metronome->SetClickType(type);
+		if(id >= types.size())
+		{
+			ClickType type = types.back();
+			metronome->SetClickType(type);
+		}
+		else
+		{
+			ClickType type = types[id];
+			metronome->SetClickType(type);
+		}
 
 		 return;
 	}
 
-	int eXaDrums::GetClickTypeId() const
+	std::size_t eXaDrums::GetClickTypeId() const
 	{
 
 		ClickType clickType = metronome->GetClickType();
 		const std::vector<ClickType>& clickTypes = Enums::GetEnumVector<ClickType>();
 
 		auto it = std::find(clickTypes.cbegin(), clickTypes.cend(), clickType);
-		int index = std::distance(clickTypes.cbegin(), it);
+		std::size_t index = std::distance(clickTypes.cbegin(), it);
 
 		return index;
 	}
 
-	int eXaDrums::GetRhythm() const
+	std::size_t eXaDrums::GetRhythm() const noexcept
 	{
 		return this->metronome->GetRhythm();
 	}
 
-	void eXaDrums::SetRhythm(int rhythm)
+	void eXaDrums::SetRhythm(std::size_t rhythm) noexcept
 	{
 		this->metronome->SetRhythm(rhythm);
 	}
 
-	int eXaDrums::GetBpmeas() const
+	std::size_t eXaDrums::GetBpmeas() const noexcept
 	{
 		return this->metronome->GetBpmeas();
 	}
 
-	void eXaDrums::SetBpmeas(int bpmeas)
+	void eXaDrums::SetBpmeas(std::size_t bpmeas) noexcept
 	{
 		this->metronome->SetBpmeas(bpmeas);
 		return;
 	}
 
-	void eXaDrums::SelectKit(int id)
+	error eXaDrums::SelectKit_(int id)
 	{
-
-		this->drumModule->SelectKit(id);
-
-		return;
+		return ExceptionToError([&] { this->drumModule->SelectKit(id); });
 	}
 
-	void eXaDrums::SaveKitConfig(int id) const
+	error eXaDrums::SaveKitConfig_(std::size_t id) const
 	{
-		drumModule->SaveKitConfig(id);
-		return;
+		return ExceptionToError([&] { drumModule->SaveKitConfig(id); });
 	}
 
-	bool eXaDrums::DeleteKit(const int& id)
+	error eXaDrums::DeleteKit_(int id)
 	{
-		return drumModule->DeleteKit(id);
+		if(drumModule->DeleteKit(id))
+		{
+			return make_error("", error_type_success);
+		}
+		else
+		{
+			return make_error("Could not delete kit.", error_type_error);
+		}
 	}
 
 	void eXaDrums::ReloadKits()
@@ -222,67 +273,72 @@ namespace eXaDrumsApi
 		return;
 	}
 
-	int eXaDrums::GetNumKits() const
+	std::size_t eXaDrums::GetNumKits() const noexcept
 	{
 		return drumModule->GetNumKits();
 	}
 
-	void eXaDrums::SetInstrumentVolume(int id, int volume)
+	error eXaDrums::SetInstrumentVolume_(std::size_t id, std::size_t volume)
 	{
 
 		float vol = float(volume) / 100.0f;
 
-		drumModule->SetInstrumentVolume(id, vol);
-
-		return;
+		return ExceptionToError([&] { drumModule->SetInstrumentVolume(id, vol); });
 	}
 
-	int eXaDrums::GetInstrumentVolume(int id) const
+	std::size_t eXaDrums::GetInstrumentVolume(std::size_t id) const
 	{
 
-		int volume = (int) std::floor( 100.0f * drumModule->GetInstrumentVolume(id));
+		auto volume = (std::size_t) std::floor( 100.0f * drumModule->GetInstrumentVolume(id));
 
 		return volume;
 	}
 
-	long long eXaDrums::GetLastTrigTime() const
+	long long eXaDrums::GetLastTrigTime() const noexcept
 	{
 		return drumModule->GetLastTrigTime();
 	}
 
-	int eXaDrums::GetLastTrigValue() const
+	std::size_t eXaDrums::GetLastTrigValue() const noexcept
 	{
 		return drumModule->GetLastTrigValue();
 	}
 
-	void eXaDrums::SetTriggerSensorValue(int id, char channel, short data)
+	/**
+	 * @brief Set external trigger's data (error handling's responsability is left to the user)
+	 * 
+	 * @param id trigger id
+	 * @param channel 
+	 * @param data trigger's output value
+	 */
+	void eXaDrums::SetTriggerSensorValue(std::size_t id, char channel, short data)
 	{
 		this->drumModule->SetTriggerSensorValue(id, channel, data);
 	}
 
-	int eXaDrums::GetSensorsResolution() const
+	std::size_t eXaDrums::GetSensorsResolution() const noexcept
 	{
 		return this->drumModule->GetSensorsConfig().resolution;
 	}
 
-	bool eXaDrums::IsSensorVirtual() const
+	bool eXaDrums::IsSensorVirtual() const noexcept
 	{
 		return this->drumModule->GetSensorsConfig().sensorType == IO::SensorType::Virtual;
 	}
 
-	bool eXaDrums::IsSensorSpi() const
+	bool eXaDrums::IsSensorSpi() const noexcept
 	{
 		return this->drumModule->GetSensorsConfig().sensorType == IO::SensorType::Spi;
 	}
 
-	std::string eXaDrums::GetAudioDeviceName() const
+	std::string eXaDrums::GetAudioDeviceName() const noexcept
 	{
 		return this->alsa->GetDeviceName();
 	}
 
 	// Private Methods
 
-	const char* eXaDrums::GetDataLocation_() const
+	const char* eXaDrums::GetDataLocation_() const noexcept
 	{
 		return this->dataLocation.c_str();
 	}
@@ -290,10 +346,18 @@ namespace eXaDrumsApi
 	const char* eXaDrums::GetKitDataFileName_()
 	{
 
-		std::string kitLocation = this->drumModule->GetKitLocation();
-		std::size_t pos = kitLocation.find_last_of("/");
+		try
+		{		
+			std::string kitLocation = this->drumModule->GetKitLocation();
+			std::size_t pos = kitLocation.find_last_of("/");
 
-		this->kitDataFileName = kitLocation.substr(pos + 1, std::string::npos);
+			this->kitDataFileName = kitLocation.substr(pos + 1, std::string::npos);
+		}
+		catch(...)
+		{
+			return nullptr;
+		}
+
 
 		return this->kitDataFileName.c_str();
 	}
@@ -400,12 +464,12 @@ namespace eXaDrumsApi
 		return;
 	}
 
-	double eXaDrums::GetClickPosition() const
+	double eXaDrums::GetClickPosition() const noexcept
 	{
 		return drumModule->GetClickPosition();
 	}
 
-	long long eXaDrums::GetLastClickTime() const
+	long long eXaDrums::GetLastClickTime() const noexcept
 	{
 		return drumModule->GetLastClickTime();
 	}

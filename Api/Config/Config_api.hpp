@@ -15,6 +15,55 @@
 namespace eXaDrumsApi
 {
 
+	inline void Config::SaveSensorsConfig()
+	{
+		Util::ErrorToException([&] { return this->SaveSensorsConfig_(); });
+	}
+
+	inline void Config::SaveTriggersConfig()
+	{
+		Util::ErrorToException([&] { return this->SaveTriggersConfig_(); });
+	}
+
+	inline void Config::LoadTriggersConfig() const
+	{
+		Util::ErrorToException([&] { return this->LoadTriggersConfig_(); });
+	}
+
+	inline void Config::SaveCurrentAudioDeviceConfig() const
+	{
+		Util::ErrorToException([&] { return this->SaveCurrentAudioDeviceConfig_(); });
+	}
+
+	inline void Config::SaveAudioDeviceConfig(const AlsaParamsApi& params)
+	{
+		Util::ErrorToException([&] { return this->SaveAudioDeviceConfig_(params); });
+	}
+
+	inline void Config::ResetAudioDevice()
+	{
+		Util::ErrorToException([&] { return this->ResetAudioDevice_(); });
+	}
+
+	inline void Config::AddTrigger(const TriggerParameters& params)
+	{
+		Util::ErrorToException([&] { return this->AddTrigger_(params); });
+	}
+
+	inline void Config::DeleteTrigger(int sensorId)
+	{
+		Util::ErrorToException([&] { return this->DeleteTrigger_(sensorId); });
+	}
+
+
+	inline std::size_t Config::GetNbTriggers() const
+	{
+		size_t nb = 0;
+		this->GetNbTriggers_(nb);
+		return nb;
+	}
+
+
 	inline void Config::SetSensorsType(const std::string& type)
 	{
 
@@ -22,7 +71,7 @@ namespace eXaDrumsApi
 		return;
 	}
 
-	inline void Config::SetSensorsDataFolder(const std::string& folder)
+	inline void Config::SetSensorsDataFolder(const std::string& folder) noexcept
 	{
 
 		SetSensorsDataFolder_(folder.c_str());
@@ -32,7 +81,7 @@ namespace eXaDrumsApi
 	inline void Config::SetAudioDeviceParameters(const AlsaParamsApi& params)
 	{
 
-		SetAudioDeviceParameters_(params);
+		Util::ErrorToException([&] { return SetAudioDeviceParameters_(params); });
 
 		return;
 	}
@@ -126,7 +175,7 @@ namespace eXaDrumsApi
 		return vec;
 	}
 
-	inline AlsaParamsApi Config::GetAudioDeviceParams() const
+	inline AlsaParamsApi Config::GetAudioDeviceParams() const noexcept
 	{
 
 		return GetAudioDeviceParams_();
@@ -137,13 +186,13 @@ namespace eXaDrumsApi
 		return std::string(GetSensorsType_());
 	}
 
-	inline std::string Config::GetSensorsDataFolder() const
+	inline std::string Config::GetSensorsDataFolder() const noexcept
 	{
 		return std::string(GetSensorsDataFolder_());
 	}
 
 
-	inline std::string Config::GetAudioDeviceName()
+	inline std::string Config::GetAudioDeviceName() const noexcept
 	{
 		return std::string(GetAudioDeviceName_());
 	}

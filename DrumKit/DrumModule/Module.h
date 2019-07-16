@@ -38,19 +38,19 @@ namespace DrumKit
 		virtual ~Module();
 
 		// Kit
-		void SaveKitConfig(int id) const { kits[id].Save(); };
-		std::string GetKitLocation() const { return kits[kitId].GetConfigFilePath(); };
+		void SaveKitConfig(std::size_t id) const;
+		std::string GetKitLocation() const;
 		bool DeleteKit(const int& id);
 		void SelectKit(std::size_t id);
 		void ReloadKits();
-		int GetKitId() const { return kitId; }
-		int GetNumKits() const { return (int) kits.size(); };
-		std::vector<std::string> GetKitsNames() const;
+		std::size_t GetKitId() const noexcept { return kitId; }
+		std::size_t GetNumKits() const noexcept { return kits.size(); };
+		std::vector<std::string> GetKitsNames() const noexcept;
 		std::vector<std::string> GetInstrumentsNames() const;
 
 		// Instrument
-		void SetInstrumentVolume(int id, float volume) { kits[kitId].SetInstrumentVolume(id, volume); };
-		float GetInstrumentVolume(int id) const { return kits[kitId].GetInstrumentVolume(id); };
+		void SetInstrumentVolume(size_t id, float volume);
+		float GetInstrumentVolume(int id) const;
 		int GetNumInstruments() const { return kits[kitId].GetNumInstruments(); };
 		std::vector<int> GetInstrumentTriggersIds(int id) const;
 
@@ -59,27 +59,27 @@ namespace DrumKit
 		void SetTriggerParameters(int triggerId, const TriggerParameters& params) { triggers[triggerId]->SetParameters(params);}
 		void SetTriggerSensorValue(int id, char channel, short data) { triggers[id]->SetSensorData(channel, data); }
 		std::vector<TriggerParameters> GetTriggersParameters() const { return this->triggersParameters; }
-		unsigned long long GetLastTrigTime() const { return lastTrigTime.load(std::memory_order_acquire); }
-		int GetLastTrigValue() const { return lastTrigValue.load(std::memory_order_acquire); }
+		unsigned long long GetLastTrigTime() const noexcept { return lastTrigTime.load(std::memory_order_acquire); }
+		int GetLastTrigValue() const noexcept { return lastTrigValue.load(std::memory_order_acquire); }
 
 		// Module
 		void Start();
 		void Stop();
 		void EnableRecording(bool record);
 		void RecorderExport(const std::string& fileName);
-		void GetDirectory(std::string& dir) const;
+		void GetDirectory(std::string& dir) const noexcept;
 
 		// Metronome
 		void EnableMetronome(bool enable);
 		void ChangeTempo(int tempo);
 		void ChangeVolume(int volume);
-		float GetClickVolume() const;
+		float GetClickVolume() const noexcept;
 		void RestartMetronome();
-		double GetClickPosition() const;
-		int64_t GetLastClickTime() const;
+		double GetClickPosition() const noexcept;
+		int64_t GetLastClickTime() const noexcept;
 
 		// Config
-		IO::SensorsConfig GetSensorsConfig() const { return sensorsConfig; }
+		IO::SensorsConfig GetSensorsConfig() const noexcept { return sensorsConfig; }
 
 	private:
 
@@ -96,7 +96,7 @@ namespace DrumKit
 
 		// Kits
 		KitManager kitManager;
-		int kitId;
+		std::size_t kitId;
 		std::vector<Kit> kits;
 		std::atomic<bool> isPlay;
 

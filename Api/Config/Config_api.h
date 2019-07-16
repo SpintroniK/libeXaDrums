@@ -8,8 +8,9 @@
 #ifndef SOURCE_API_CONFIG_CONFIG_API_H_
 #define SOURCE_API_CONFIG_CONFIG_API_H_
 
-#include "AlsaParams_api.h"
 #include "../../IO/SensorsConfig.h"
+#include "../../Util/ErrorHandling.h"
+#include "AlsaParams_api.h"
 
 #include <vector>
 #include <string>
@@ -25,27 +26,27 @@ namespace eXaDrumsApi
 
 	public:
 
-		explicit Config(eXaDrums& drums);
-		virtual ~Config() = default;
+		explicit Config(eXaDrums& drums) noexcept;
+		~Config() = default;
 
-		void RefreshSensorsConfig();
+		void RefreshSensorsConfig() noexcept;
 		void SaveSensorsConfig();
 		void SaveTriggersConfig();
 		void LoadTriggersConfig() const;
-		void SaveCurrentAudioDeviceConfig();
+		void SaveCurrentAudioDeviceConfig() const;
 		void SaveAudioDeviceConfig(const AlsaParamsApi& params);
 		void ResetAudioDevice();
 
 		// Triggers
 		void AddTrigger(const TriggerParameters& params);
 		void DeleteTrigger(int sensorId);
-		int GetNbTriggers() const;
+		std::size_t GetNbTriggers() const;
 
 		// Mutators
-		void SetSensorsSamplingRate(int sRate) { sensorsConfig.samplingRate = sRate; }
-		void SetSensorsResolution(int res) { sensorsConfig.resolution = res; }
+		void SetSensorsSamplingRate(int sRate) noexcept { sensorsConfig.samplingRate = sRate; }
+		void SetSensorsResolution(int res) noexcept { sensorsConfig.resolution = res; }
 		void SetSensorsType(const std::string& type);
-		void SetSensorsDataFolder(const std::string& folder);
+		void SetSensorsDataFolder(const std::string& folder) noexcept;
 		void SetAudioDeviceParameters(const AlsaParamsApi& params);
 		void SetTriggersParameters(const std::vector<TriggerParameters>& params);
 		void SetTriggerParameters(int triggerId, const TriggerParameters& params);
@@ -58,29 +59,39 @@ namespace eXaDrumsApi
 		std::vector<TriggerParameters> GetTriggersParameters() const;
 
 		std::string GetSensorsType();
-		std::string GetSensorsDataFolder() const;
-		std::string GetAudioDeviceName();
-		AlsaParamsApi GetAudioDeviceParams() const;
+		std::string GetSensorsDataFolder() const noexcept;
+		std::string GetAudioDeviceName() const noexcept;
+		AlsaParamsApi GetAudioDeviceParams() const noexcept;
 
-		int GetSensorsSamplingRate() const { return sensorsConfig.samplingRate; }
-		int GetSensorsResolution() const { return sensorsConfig.resolution; }
+		int GetSensorsSamplingRate() const noexcept { return sensorsConfig.samplingRate; }
+		int GetSensorsResolution() const noexcept { return sensorsConfig.resolution; }
 
 	private:
+
+		Util::error SaveSensorsConfig_();
+		Util::error SaveTriggersConfig_();
+		Util::error LoadTriggersConfig_() const;
+		Util::error SaveCurrentAudioDeviceConfig_() const;
+		Util::error SaveAudioDeviceConfig_(const AlsaParamsApi& params);
+		Util::error ResetAudioDevice_();
+		Util::error AddTrigger_(const TriggerParameters& params);
+		Util::error DeleteTrigger_(int sensorId);
+		Util::error SetAudioDeviceParameters_(const AlsaParamsApi& params);
+		Util::error GetNbTriggers_(size_t& nb) const;
 
 		void RestartModule();
 
 		void SetSensorsType_(const char* type);
-		void SetSensorsDataFolder_(const char* folder);
+		void SetSensorsDataFolder_(const char* folder) noexcept;
 		void SetAudioDeviceParameters_(const char* name);
-		void SetTriggersParameters_(const TriggerParameters* params, unsigned int size);
-		void SetAudioDeviceParameters_(const AlsaParamsApi& params);
+		void SetTriggersParameters_(const TriggerParameters* params, unsigned int size) noexcept;
 		void SetTriggerParameters_(int triggerId, const TriggerParameters& params);
 
 		const char* GetSensorsType_();
-		const char* GetSensorsDataFolder_() const;
-		const char* GetAudioDeviceName_();
+		const char* GetSensorsDataFolder_() const noexcept;
+		const char* GetAudioDeviceName_() const noexcept;
 
-		AlsaParamsApi GetAudioDeviceParams_() const;
+		AlsaParamsApi GetAudioDeviceParams_() const noexcept;
 
 		void GetSensorsTypes_(const char** types, unsigned int& size);
 		void GetTriggersTypes_(const char** types, unsigned int& size);
@@ -102,7 +113,7 @@ namespace eXaDrumsApi
 
 		// Local copies of items
 		std::string sensorType;
-		std::string audioDeviceName;
+		mutable std::string audioDeviceName;
 
 		// Local copies of enums
 		std::vector<std::string> sensorsTypes;

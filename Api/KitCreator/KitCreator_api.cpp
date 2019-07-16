@@ -10,11 +10,12 @@
 #include <algorithm>
 #include <memory>
 
+using namespace Util;
 
 namespace eXaDrumsApi
 {
 
-	KitCreator::KitCreator(const char* dataLocation) : controller(*new DrumKit::KitCreator(dataLocation))
+	KitCreator::KitCreator(const char* dataLocation) : controller(dataLocation)
 	{
 
 		return;
@@ -22,78 +23,51 @@ namespace eXaDrumsApi
 
 	KitCreator::~KitCreator()
 	{
-
-		// Delete controller
-		delete &controller;
-
 		return;
 	}
 
 
 	// Kit
-	void KitCreator::CreateNewKit()
+	void KitCreator::CreateNewKit() noexcept
 	{
 		controller.CreateNewKit();
 		return;
 	}
 
-	void KitCreator::CreateFromModel(const char* loc)
-	{
-		controller.CreateFromModel(std::string(loc));
-		return;
-	}
-
-	int KitCreator::GetNumInstruments() const
+	int KitCreator::GetNumInstruments() const noexcept
 	{
 		return controller.GetNumInstruments();
 	}
 
-	void KitCreator::SetKitName(const char* name)
+	void KitCreator::SetKitName(const char* name) noexcept
 	{
 		controller.SetKitName(std::string(name));
 		return;
 	}
 
-	void KitCreator::SaveKit(const char* file) const
-	{
-		controller.SaveKit(std::string(file));
-		return;
-	}
-
-	void KitCreator::SaveKit() const
-	{
-		controller.SaveKit();
-		return;
-	}
 
 	// Instrument
-	void KitCreator::CreateNewInstrument()
+	void KitCreator::CreateNewInstrument() noexcept
 	{
 		controller.CreateNewInstrument();
 		return;
 	}
 
-	void KitCreator::RemoveInstrument(int i)
+	void KitCreator::RemoveInstrument(std::size_t i) noexcept
 	{
 		controller.RemoveInstrument(i);
 		return;
 	}
 
-	void KitCreator::AddInstrumentToKit()
+	void KitCreator::RemoveLastInstrument() noexcept
+	{
+		controller.RemoveLastInstrument();
+		return;
+	}
+
+	void KitCreator::AddInstrumentToKit() noexcept
 	{
 		controller.AddInstrumentToKit();
-		return;
-	}
-
-	void KitCreator::SetInstrumentName(const char* name)
-	{
-		controller.SetInstrumentName(std::string(name));
-		return;
-	}
-
-	void KitCreator::SetInstrumentName(int id, const char* name)
-	{
-		controller.SetInstrumentName(id, std::string(name));
 		return;
 	}
 
@@ -109,7 +83,7 @@ namespace eXaDrumsApi
 		return;
 	}
 
-	void KitCreator::SetInstrumentVolume(const float volume)
+	void KitCreator::SetInstrumentVolume(const float volume) noexcept
 	{
 		controller.SetInstrumentVolume(volume);
 		return;
@@ -129,6 +103,48 @@ namespace eXaDrumsApi
 
 
 	// Private Methods
+
+	error KitCreator::CreateFromModel_(const char* loc) 
+	{
+		return ExceptionToError([&] { controller.CreateFromModel(std::string(loc)); });
+	}
+
+
+	error KitCreator::SaveKit_(const char* file) const
+	{
+		return ExceptionToError([&] { controller.SaveKit(std::string(file)); });
+	}
+
+	error KitCreator::SaveKit_() const
+	{
+		return ExceptionToError([&] { controller.SaveKit(); });
+	}
+
+	error KitCreator::SetInstrumentName_(const char* name)
+	{
+		std::string nameStr = std::string(name);
+
+		if(nameStr.empty())
+		{
+			return make_error("Instrument name cannot be empty.", error_type_error);
+		}
+
+		controller.SetInstrumentName(nameStr);
+		return make_error("", error_type_success);
+	}
+
+	error KitCreator::SetInstrumentName_(int id, const char* name)
+	{
+		std::string nameStr = std::string(name);
+
+		if(nameStr.empty())
+		{
+			return make_error("Instrument name cannot be empty.", error_type_error);
+		}
+
+		controller.SetInstrumentName(id, nameStr);
+		return make_error("", error_type_success);
+	}
 
 	void KitCreator::SetInstrumentTriggersIdsAndLocs_(int id, int* ids, const char** locs, unsigned int size)
 	{
@@ -294,7 +310,7 @@ namespace eXaDrumsApi
 		return;
 	}
 
-	void KitCreator::GetSoundFiles_(const char** data, unsigned int& size)
+	/*void KitCreator::GetSoundFiles_(const char** data, unsigned int& size)
 	{
 
 		if(data == nullptr)
@@ -314,7 +330,7 @@ namespace eXaDrumsApi
 		}
 
 		return;
-	}
+	}*/
 
 
 

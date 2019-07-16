@@ -8,6 +8,7 @@
 #ifndef SOURCE_DRUMKIT_TRIGGERS_TRIGGERFACTORY_H_
 #define SOURCE_DRUMKIT_TRIGGERS_TRIGGERFACTORY_H_
 
+#include "../../Util/ErrorHandling.h"
 #include "Triggers/DiscreteTrigger.h"
 #include "Triggers/ContinuousTrigger.h"
 
@@ -28,7 +29,7 @@ namespace DrumKit
 			case TriggerType::Discrete:   return std::make_shared<DiscreteTrigger>(triggerParameters);
 			case TriggerType::Continuous: return std::make_shared<ContinuousTrigger>(triggerParameters);
 
-			default: throw -1; break;
+			default: Util::Exception("Unknown trigger type.", Util::error_type_error); return TriggerPtr(nullptr);
 
 			}
 		}

@@ -1,4 +1,5 @@
 prefix=@prefix@
+exec_prefix=@prefix@
 
 Name: @PACKAGE_NAME@
 Description: The eXaDrums software drum module library

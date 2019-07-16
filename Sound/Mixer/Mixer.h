@@ -13,6 +13,7 @@
 #include "../Sound.h"
 
 #include <vector>
+#include <array>
 #include <memory>
 #include <atomic>
 
@@ -25,7 +26,7 @@ namespace Sound
 
 	public:
 
-		Mixer();
+		Mixer() noexcept;
 		virtual ~Mixer();
 
 		void PlaySound(int id, float volume);
@@ -33,15 +34,16 @@ namespace Sound
 		void StopSound(int id);
 
 		void Mix(std::vector<short>& buffer) noexcept;
-		void Clear() { playList.clear(); };
+		void Clear() noexcept;
 
-		void SetSoundBank(std::shared_ptr<SoundBank>& sb) { this->soundBank = sb; }
+		void SetSoundBank(std::shared_ptr<SoundBank>& sb) noexcept { this->soundBank = sb; }
 
 	private:
 
 
 		std::shared_ptr<SoundBank> soundBank;
-		std::vector<SoundState> playList;
+		std::array<SoundState, 256> playList;
+		std::atomic<int> playListIndex{0};
 
 	};
 

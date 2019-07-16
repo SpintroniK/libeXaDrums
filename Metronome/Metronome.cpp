@@ -8,6 +8,7 @@
 #include "Metronome.h"
 
 #include "../Util/Enums.h"
+#include "../Util/ErrorHandling.h"
 
 #include <tinyxml2.h>
 
@@ -24,14 +25,14 @@ using namespace Util;
 namespace DrumKit
 {
 
-	Metronome::Metronome(AlsaParams alsaParams) : Metronome(alsaParams, MetronomeParameters())
+	Metronome::Metronome(AlsaParams alsaParams) noexcept : Metronome(alsaParams, MetronomeParameters())
 	{
 
 
 		return;
 	}
 
-	Metronome::Metronome(AlsaParams alsaParams, MetronomeParameters params) : alsaParameters(alsaParams), parameters(params)
+	Metronome::Metronome(AlsaParams alsaParams, MetronomeParameters params) noexcept : alsaParameters(alsaParams), parameters(params)
  	{
 
 		bpmeasList = std::vector<int>{1, 2, 3, 4, 5, 6, 7, 8};
@@ -50,7 +51,7 @@ namespace DrumKit
 	}
 
 
-	void Metronome::GenerateClick()
+	void Metronome::GenerateClick() noexcept
 	{
 
 		switch (this->parameters.clickType)
@@ -58,7 +59,7 @@ namespace DrumKit
 			case ClickType::Sine: 	GenerateSine();		break;
 			case ClickType::Square: GenerateSquare();	break;
 
-			default: break;
+			default: GenerateSine(); break;
 		}
 
 
@@ -83,7 +84,7 @@ namespace DrumKit
 
 		if(doc.LoadFile(filePath.c_str()) != XML_SUCCESS)
 		{
-			throw -1;
+			throw Exception("Could not load metronome configuration.", error_type_error);
 		}
 
 		// Get elements
@@ -131,7 +132,12 @@ namespace DrumKit
 		root->InsertEndChild(clickType);
 
 		// Save file
-		doc.SaveFile(filePath.c_str());
+		auto err = doc.SaveFile(filePath.c_str());
+
+		if(err != XML_SUCCESS)
+		{
+			throw Exception("Could not save metronome configuration.", error_type_error);
+		}
 
 		return;
 	}

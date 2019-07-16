@@ -7,6 +7,7 @@
 
 #include "KitManager.h"
 
+#include "../../Util/ErrorHandling.h"
 #include "../../Util/Enums.h"
 #include "../../Util/Xml.h"
 
@@ -23,9 +24,15 @@
 #include <cmath>
 #include <cctype>
 
-#include <dirent.h>
 #include <unistd.h>
 
+#if __has_include(<filesystem>)
+	#include <filesystem>
+	namespace fs = std::filesystem;
+#else
+	#include <experimental/filesystem>
+	namespace fs = std::experimental::filesystem;
+#endif
 
 using namespace Sound;
 using namespace tinyxml2;
@@ -58,7 +65,8 @@ namespace DrumKit
 
 		if(doc.LoadFile(file.c_str()) != XML_SUCCESS)
 		{
-			throw -1;
+			throw Exception("Could not read the drum kit configuration file.", error_type_error);
+			return;
 		}
 
 		XMLElement* root = doc.RootElement();
@@ -86,7 +94,19 @@ namespace DrumKit
 				InstrumentSoundInfo soundInfo;
 
 				soundInfo.id = soundId;
-				soundInfo.soundLocation = sound.GetText();
+
+				auto soundText = sound.GetText();
+				
+				if(soundText != nullptr)
+				{
+					soundInfo.soundLocation = soundText;
+				}
+				else
+				{
+					throw Exception("Sound location is empty.", error_type_error);
+					return;
+				}
+
 				sound.Attribute("type", soundInfo.type);
 
 				instrumentParameters.soundsInfo.push_back(soundInfo);
@@ -195,7 +215,12 @@ namespace DrumKit
 
 
 		// Save file
-		doc.SaveFile(file.c_str());
+		auto result = doc.SaveFile(file.c_str());
+
+		if(XML_SUCCESS != result)
+		{
+			throw Exception("Could not save drum kit parameters.", error_type_error);
+		}
 
 
 		return;
@@ -228,21 +253,13 @@ namespace DrumKit
 
 		this->filesPaths.clear();
 
-		struct dirent* ent;
-		DIR* directory = opendir(kitsPath.c_str());
-
-		while((ent = readdir(directory)) != NULL)
+		for(const auto& p: fs::recursive_directory_iterator(kitsPath))
 		{
-			std::string fileName(ent->d_name);
-			std::string fileExtension = fileName.substr(fileName.find_last_of(".") + 1);
-
-			if(fileExtension == "xml")
+			if(p.path().extension() == ".xml")
 			{
-				this->filesPaths.push_back(this->kitsPath + fileName);
+				this->filesPaths.push_back(p.path().string());
 			}
 		}
-
-		closedir(directory);
 
 		// Sort (had to be improved to take capital letters into account)
 		std::sort(filesPaths.begin(), filesPaths.end(), [](const std::string& lhs, const std::string& rhs)

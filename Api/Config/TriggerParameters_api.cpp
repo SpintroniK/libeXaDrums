@@ -21,36 +21,27 @@ namespace eXaDrumsApi
 {
 
 
-	TriggerParameters::TriggerParameters()
+	TriggerParameters::TriggerParameters() noexcept
 	{
 		*this = DrumKit::TriggerParameters();
 		return;
 	}
 
-	TriggerParameters::TriggerParameters(const DrumKit::TriggerParameters& parameters)
+	TriggerParameters::TriggerParameters(const DrumKit::TriggerParameters& parameters) noexcept
 	{
 		*this = parameters;
 		return;
 	}
 
-	TriggerParameters& TriggerParameters::operator=(const DrumKit::TriggerParameters& parameters)
+	TriggerParameters& TriggerParameters::operator=(const DrumKit::TriggerParameters& parameters) noexcept
 	{
 
 		std::string typeStr = Enums::ToString(parameters.type);
-		if(typeStr.length() > sizeof(this->type))
-		{
-			throw -1;
-		}
 
 		std::string responseStr = Enums::ToString(parameters.response);
-		if(responseStr.length() > sizeof(this->response))
-		{
-			throw -1;
-		}
 
-		std::strcpy(this->type, typeStr.c_str());
-		std::strcpy(this->response, responseStr.c_str());
-
+		std::snprintf(this->type, sizeof this->type, "%s", typeStr.data());
+		std::snprintf(this->response, sizeof this->response, "%s", responseStr.data());
 		this->maskTime = parameters.maskTime;
 		this->scanTime = parameters.scanTime;
 		this->sensorId = parameters.sensorId;

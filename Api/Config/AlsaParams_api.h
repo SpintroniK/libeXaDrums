@@ -18,17 +18,17 @@ namespace eXaDrumsApi
 	struct AlsaParamsApi
 	{
 
-		AlsaParamsApi()
+		AlsaParamsApi() noexcept
 		{
 			*this = Sound::AlsaParams();
 		}
 
-		explicit AlsaParamsApi(const Sound::AlsaParams& alsaparams)
+		explicit AlsaParamsApi(const Sound::AlsaParams& alsaparams) noexcept
 		{
 			*this = alsaparams;
 		}
 
-		explicit operator Sound::AlsaParams() const
+		explicit operator Sound::AlsaParams() const noexcept
 		{
 			Sound::AlsaParams alsaParams;
 
@@ -44,7 +44,7 @@ namespace eXaDrumsApi
 		}
 
 
-		AlsaParamsApi& operator=(const Sound::AlsaParams& alsaparams)
+		AlsaParamsApi& operator=(const Sound::AlsaParams& alsaparams) noexcept
 		{
 			this->capture = alsaparams.capture;
 			this->sampleRate = alsaparams.sampleRate;
@@ -52,12 +52,7 @@ namespace eXaDrumsApi
 			this->bufferTime = alsaparams.bufferTime;
 			this->periodTime = alsaparams.periodTime;
 
-			if(alsaparams.device.size() > sizeof(this->device))
-			{
-				throw -1;
-			}
-
-			std::strcpy(this->device, alsaparams.device.data());
+			std::snprintf(this->device, sizeof this->device, "%s", alsaparams.device.data());
 
 			return *this;
 		}
