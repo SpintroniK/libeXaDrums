@@ -42,16 +42,16 @@ libeXaDrums depends on Alsa and TinyXml2. You can install those two libraries us
 sudo apt install libasound2-dev libtinyxml2-dev
 ```
 
-LibeXaDrums also depends on build-essential and autotools in order to build and install the binaries:
+LibeXaDrums also depends on build-essential, autotools and pkg-config in order to build and install the binaries:
 
 ```shell
-sudo apt install autoconf automake libtool build-essential
+sudo apt install autoconf automake libtool build-essential pkg-config
 ```
 
-If you wish to build the Debian packages, you will need to install debhelper and pkg-config:
+If you wish to build the Debian packages, you will need to install debhelper:
 
 ```shell
-sudo apt install debhelper pkg-config
+sudo apt install debhelper
 ```
 
 You may also want to install git, so that you can clone this repository and install from it:
