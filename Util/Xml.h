@@ -88,7 +88,7 @@ namespace Util
 		template <typename T>
 		inline T GetValue() const
 		{
-			T value;
+			T value{};
 			GetValue(value);
 			return value;
 		}
@@ -103,7 +103,7 @@ namespace Util
 		template <typename T>
 		inline T Attribute(const std::string& name) const
 		{
-			T value;
+			T value{};
 			Attribute<T>(name, value);
 			return value;
 		}
