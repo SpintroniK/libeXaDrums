@@ -6,4 +6,4 @@ opts=\
   filenamemangle=s/.+\/v?(\d\S+)\.tar\.gz/libeXaDrums-$1\.tar\.gz/ \
   \
   https://github.com/SpintroniK/libeXaDrums/tags \
-  .*/v?(\d\S+)\.tar\.gz
+  .*/archive/(\d\S+)\.tar\.gz
