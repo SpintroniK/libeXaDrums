@@ -47,9 +47,19 @@ namespace IO
 
 		if(::write(this->handle, &port, 1) == 1)
 		{
-			::read(this->handle, &this->buf, 1);
-			if(this->buf == 's')
-				::read(this->handle, &this->buf, 1);
+			auto res = ::read(this->handle, &this->buf, 1);
+
+			if(res != -1)
+			{
+				if(this->buf == 's')
+				{
+					auto resValue = ::read(this->handle, &this->buf, 1);
+					if(resValue < 0)
+					{
+						return 0;
+					}
+				}
+			}
 		}
 		else
 			return 0;
