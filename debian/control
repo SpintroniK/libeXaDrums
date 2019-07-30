@@ -3,7 +3,7 @@ Section: libdevel
 Priority: optional
 Maintainer: Jeremy Oden <jerem.oden@gmail.com>
 Build-Depends:
- debhelper (>= 10),
+ debhelper-compat (= 12),
 # because we want to build on stretch.
  libasound-dev,
  libtinyxml2-dev,
