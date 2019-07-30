@@ -23,7 +23,11 @@ pkgconfig_DATA = exadrums.pc
 
 # Good habits.
 AM_CXXFLAGS = -Wall
-AM_LDFLAGS = -Wl,--as-needed -Wl,--no-undefined
+AM_LDFLAGS = \
+  -Wl,--as-needed \
+  -Wl,--no-allow-shlib-undefined \
+  -Wl,--no-copy-dt-needed-entries \
+  -Wl,--no-undefined
 
 # Delegate library handling to libtool.
 lib_LTLIBRARIES = libexadrums.la
