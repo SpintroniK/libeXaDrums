@@ -18,6 +18,7 @@ Package: libexadrums-dev
 Architecture: any
 Depends: ${misc:Depends},
  libexadrums0 (= ${binary:Version}),
+ libasound-dev,
  libtinyxml2-dev,
 Recommends: pkg-config
 Description: Software drum module (development)

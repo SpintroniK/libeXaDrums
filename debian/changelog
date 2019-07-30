@@ -1,8 +1,12 @@
 libexadrums (0.4.0-2) unstable; urgency=medium
 
-  * Debhelper 12.
+  * Package libexadrums-dev depends on libasound-dev.
 
- --
+  [ Nicolas Boulenguez ]
+  * Debhelper 12.
+  * Report more link warnings as errors.
+
+ -- Jeremy Oden <jerem.oden@gmail.com>  Tue, 30 Jul 2019 12:51:18 +0100
 
 libexadrums (0.4.0-1) unstable; urgency=medium
 
