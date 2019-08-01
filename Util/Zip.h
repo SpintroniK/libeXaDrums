@@ -34,10 +34,12 @@ namespace Util
 
         auto filePath = fs::path{fileName};
 
-        //if(!fs::exists(filePath.parent_path()))
-        //{
-        //    return false;
-        //}
+        const auto absFilePath = fs::absolute(filePath).parent_path();
+
+        if(!fs::exists(absFilePath))
+        {
+            return false;
+        }
 
         auto zf = zipOpen(fileName.data(), APPEND_STATUS_CREATE);
 
