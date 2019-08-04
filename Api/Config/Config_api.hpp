@@ -45,9 +45,15 @@ namespace eXaDrumsApi
 		Util::ErrorToException([&] { return this->ResetAudioDevice_(); });
 	}
 
-	inline void Config::ExportConfig(const std::string& configDir, const std::string& outputFileName) const
+	inline void Config::ExportConfig(const std::string& configDir, const std::string& outputFileName)
 	{
-		Util::ErrorToException([&] { return this->ExportConfig_(configDir.c_str(), outputFileName.c_str()); });
+		Util::ErrorToException([&] { return Config::ExportConfig_(configDir.c_str(), outputFileName.c_str()); });
+	}
+
+
+	inline void Config::ImportConfig(const std::string& configFile, const std::string& outputConfigDir)
+	{
+		Util::ErrorToException([&] { return Config::ImportConfig_(configFile.c_str(), outputConfigDir.c_str()); });
 	}
 
 	inline void Config::AddTrigger(const TriggerParameters& params)

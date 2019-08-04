@@ -40,7 +40,8 @@ namespace eXaDrumsApi
 		void ResetAudioDevice();
 
 		// Config
-		void ExportConfig(const std::string& configDir, const std::string& outputFileName) const;
+		static void ExportConfig(const std::string& configDir, const std::string& outputFileName);
+		static void ImportConfig(const std::string& configFile, const std::string& outputConfigDir);
 
 		// Triggers
 		void AddTrigger(const TriggerParameters& params);
@@ -84,7 +85,8 @@ namespace eXaDrumsApi
 		Util::error SetAudioDeviceParameters_(const AlsaParamsApi& params);
 		Util::error GetNbTriggers_(size_t& nb) const;
 
-		Util::error ExportConfig_(const char* configDir, const char* outputFileName) const noexcept;
+		static Util::error ExportConfig_(const char* configDir, const char* outputFileName) noexcept;
+		static Util::error ImportConfig_(const char* configFile, const char* outputConfigDir) noexcept;
 
 		void RestartModule();
 
