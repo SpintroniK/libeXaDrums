@@ -2,6 +2,8 @@
 #define SOURCE_UTIL_ZIP_H_
 
 #include <minizip/zip.h>
+#include <minizip/unzip.h>
+
 #include <string>
 #include <vector>
 #include <fstream>
@@ -32,7 +34,7 @@ namespace Util
     inline bool ZipDir(const std::string& dir, const std::string& fileName)
     {
 
-        auto filePath = fs::path{fileName};
+        const auto filePath = fs::path{fileName};
 
         const auto absFilePath = fs::absolute(filePath).parent_path();
 
@@ -77,6 +79,68 @@ namespace Util
         }
 
         zipClose(zf, NULL);
+        return true;
+    }
+
+    /**
+     * @brief Unzip a compressed directory into a given folder.
+     * 
+     * @param zipFile Zip file location
+     * @param outputDir Output directory (where the file is extracted).
+     * @return true File unzipped successfully.
+     * @return false Could not unzip file (invalid file, or the file doesn't exist).
+     */
+    inline bool UnzipDir(const std::string& zipFile, const std::string& outputDir)
+    {
+
+        // Open the zip file
+        unzFile zipfile = unzOpen(zipFile.data());
+        if(zipfile == NULL)
+        {
+            return false;
+        }
+
+        // Get info about the zip file
+        unz_global_info global_info;
+        unzGetGlobalInfo(zipfile, &global_info);
+
+        // Loop to extract all files
+        for(size_t i = 0; i < global_info.number_entry; ++i)
+        {
+            // Get info about current file.
+            unz_file_info file_info;
+            std::string filename(256, '\0');
+            unzGetCurrentFileInfo(zipfile, &file_info, (char*)filename.data(), filename.size(), NULL, 0, NULL, 0);
+
+            // Update string's size to match its length
+            filename = filename.data();
+
+            //std::cout << "File name = " << filename << std::endl;
+            //std::cout << "Size uncompressed = " << file_info.uncompressed_size << std::endl;
+
+            // Create parent directories of the file
+            fs::path filePath{filename};
+            fs::create_directories(fs::path{outputDir} / filePath.parent_path());
+
+            // Select file
+            unzOpenCurrentFile(zipfile);
+
+            // Create buffer to hold data
+            std::vector<char> buffer(file_info.uncompressed_size);
+            unzReadCurrentFile(zipfile, buffer.data(), buffer.size());
+
+            // Write to file
+            std::ofstream file((fs::path{outputDir} / fs::path{filename}).string(), std::ios::out | std::ios::binary);
+            file.write(buffer.data(), buffer.size());
+
+            unzCloseCurrentFile(zipfile);
+
+            // Go the the next entry listed in the zip file.
+            unzGoToNextFile(zipfile);
+        }
+
+        unzClose(zipfile);
+
         return true;
     }
 
