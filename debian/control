@@ -4,7 +4,6 @@ Priority: optional
 Maintainer: Jeremy Oden <jerem.oden@gmail.com>
 Build-Depends:
  debhelper-compat (= 12),
-# because we want to build on stretch.
  libasound-dev,
  libtinyxml2-dev,
  pkg-config,
@@ -16,6 +15,8 @@ Vcs-Browser: https://github.com/SpintroniK/libeXaDrums
 
 Package: libexadrums-dev
 Architecture: any
+Multi-Arch: same
+# /usr/include/libexadrums/Api/eXaDrums.h is only generated for the version
 Depends: ${misc:Depends},
  libexadrums0 (= ${binary:Version}),
  libasound-dev,
