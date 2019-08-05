@@ -47,7 +47,14 @@ namespace Sound
 		{
 			// Add sound to playList
 			//playList.emplace_back(id, volume, true);
-			const auto index = playListIndex.fetch_add(1, std::memory_order_relaxed); // FIXME: protect from overflow
+			const auto index = playListIndex.fetch_add(1, std::memory_order_relaxed);
+			
+			// Protect from overflow (ignore new sound...)
+			if(index >= playList.size())
+			{
+				return;
+			}
+
 			playList[index].id = id;
 			playList[index].volume = volume;
 			playList[index].isPlaying.store(true, std::memory_order_release);

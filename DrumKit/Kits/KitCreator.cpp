@@ -303,58 +303,5 @@ namespace DrumKit
 		return instrumentsNames;
 	}
 
-	// Private Methods
-
-
-	// Used to test the class
-	void KitCreator::Test()
-	{
-
-		CreateNewKit();
-		SetKitName("Test Kit");
-
-		CreateNewInstrument();
-		SetInstrumentName("Test instrument 1");
-
-		// Get an instrument type
-		const std::string instrumentType = Enums::ToString(InstrumentType::TestDrum);
-		SetInstrumentType(instrumentType);
-
-		SetInstrumentVolume(1.0f);
-
-		// Add instrument sounds
-		std::string soundLocation;
-		std::string instrumentSoundType;
-		{
-			soundLocation = "SnareDrum/snare1.raw";
-			instrumentSoundType = Enums::ToString(InstrumentSoundType::Default);
-			AddInstrumentSound(soundLocation, instrumentSoundType);
-
-			// And another one
-			soundLocation = "SnareDrum/edge1.raw";
-			instrumentSoundType = Enums::ToString(InstrumentSoundType::RimShot);
-			AddInstrumentSound(soundLocation, instrumentSoundType);
-		}
-
-		// Add triggers
-		std::string triggerLocation;
-		{
-			int id = 0;
-			triggerLocation = Enums::ToString(TriggerLocation::DrumHead);
-			AddInstrumentTrigger(id, triggerLocation);
-
-			id = 1;
-			triggerLocation = Enums::ToString(TriggerLocation::Rim);
-			AddInstrumentTrigger(id, triggerLocation);
-		}
-
-		AddInstrumentToKit();
-
-		this->SaveKit("testKit_.xml");
-
-
-		return;
-	}
-
 
 } /* namespace DrumKit */
