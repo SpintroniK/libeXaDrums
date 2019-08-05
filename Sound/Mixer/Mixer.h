@@ -43,7 +43,7 @@ namespace Sound
 
 		std::shared_ptr<SoundBank> soundBank;
 		std::array<SoundState, 256> playList;
-		std::atomic<int> playListIndex{0};
+		std::atomic<size_t> playListIndex{0};
 
 	};
 
