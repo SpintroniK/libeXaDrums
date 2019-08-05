@@ -99,8 +99,7 @@ namespace DrumKit
 			// Add instrument to drum module
 			instruments.push_back(instrumentPtr);
 
-		};
-
+		}
 
 		return;
 	}

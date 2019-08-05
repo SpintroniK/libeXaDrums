@@ -68,21 +68,15 @@ namespace DrumKit
 		std::vector<std::string> GetTriggersLocations(const std::string& instrumentType) const;
 
 		// Sounds
-		//std::vector<std::string> GetSoundFiles() const { return soundFiles; }
 		std::vector<std::string> GetSoundTypes(const std::string& instrumentType) const;
 
 
 	private:
 
-		void Test();
-
 		std::string dataFolder;
 		std::string kitsDirectory;
 		KitParameters parameters;
 		InstrumentParameters instrument;
-
-		//std::vector<std::string> soundFiles;
-
 
 	};
 
