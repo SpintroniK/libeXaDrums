@@ -1,3 +1,10 @@
+libexadrums (0.4.1-1) unstable; urgency=medium
+
+  * New upstream version.
+  * Added 'Multi-Arch: same' to libexadrums-dev.
+
+ -- Jeremy Oden <jerem.oden@gmail.com>  Wed, 07 Aug 2019 15:27:02 +0100
+
 libexadrums (0.4.0-2) unstable; urgency=medium
 
   * Package libexadrums-dev depends on libasound-dev. Closes: #933173.
