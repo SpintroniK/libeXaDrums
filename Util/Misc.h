@@ -52,7 +52,7 @@ namespace Util
 	 * @return
 	 */
 	template <typename T>
-	static std::string JoinToStr(const T& input, const std::string& separator = ',')
+	static std::string JoinToStr(const T& input, std::string separator = ",")
 	{
 		std::string str = std::accumulate(std::begin(input), std::end(input), std::string{}, [&](const auto& a, const auto& b) { return a + std::to_string(b) + separator; });
 		return str.substr(0, str.size() - separator.size());

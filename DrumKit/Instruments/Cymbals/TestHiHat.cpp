@@ -68,8 +68,8 @@ namespace DrumKit
 				for(int i = 0; i < 10; i++)
 				{
 
-					const Sound::Sound& cymbalSound = soundBank->GetSound(cymbalSoundId);
-					Sound::Sound&& newSound = SoundProcessor::Muffle(cymbalSound, 0.25f/float(i + 1));
+					const auto& cymbalSound = soundBank->GetSound(cymbalSoundId);
+					auto&& newSound = SoundProcessor::Muffle(cymbalSound, 0.25f/float(i + 1));
 					int newSoundId = soundBank->AddSound(std::move(newSound), parameters.volume);
 
 					hiHatSoundsIds.push_back(newSoundId);
