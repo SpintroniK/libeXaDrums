@@ -39,7 +39,7 @@ namespace DrumKit
 		template <typename T>
 		void SetMetronomeTimeFunc(T&& f) noexcept
 		{
-			getLastClickTime = std::move(std::function<int64_t()>{f});
+			getLastClickTime = std::function<int64_t()>{f};
 		}
 
 		void Start();

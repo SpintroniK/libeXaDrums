@@ -27,7 +27,7 @@ namespace Util
             int32_t type;
         } error;
 
-        static error make_error(const char* message, errorType error_type)
+        inline error make_error(const char* message, errorType error_type)
         {
             error e{"", error_type};
             std::snprintf(e.message, sizeof e.message, "%s", message); // prevents overflow
