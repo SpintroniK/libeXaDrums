@@ -1,7 +1,8 @@
 *.m4
 m4*
-*.in
 *.log
+config.h.in
+Makefile.in
 *.o
 *.Po
 .dirstamp
@@ -28,4 +29,4 @@ config.sub
 exadrums.pc
 libtool
 ltmain.sh
-eXaDrums.h
+Api/Version.h
