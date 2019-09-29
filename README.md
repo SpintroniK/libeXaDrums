@@ -2,35 +2,33 @@
 
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/6fd320220fc24258a77b70ac716e4ee1)](https://app.codacy.com/app/SpintroniK/libeXaDrums?utm_source=github.com&utm_medium=referral&utm_content=SpintroniK/libeXaDrums&utm_campaign=Badge_Grade_Dashboard)
 
- ExaDrums is a virtual drum module that allows drummers play with
+ ExaDrums is a software drum module that allows drummers play with
  custom-made drum kits.
+ This C++ library provides the most common features of a drum module.
+ Its associated graphical user interface can be found in a separate
+ repository: <https://github.com/SpintroniK/eXaDrums.>
 
- It is user-friendly and combines high quality stereo sound with low
- latency.
-
- Each drum kit provides individual sliders in order to control the
- volume of its drum pads.
+ Each drum kit is made of instruments that can be individually
+ controlled.
 
  A built-in metronome can be combined with a rhythm coach to make
  practice sessions easier and efficient.
 
  The drum triggers can be adjusted so that their response feels as
- natural as possible, and different sensor interfaces include a
- virtual (on-screen) multi pad and external sensors.
+ natural as possible, and different sensor interfaces include
+ external sensors.
 
- Although eXaDrums is usable as a drum module, it is still an
- experimental project. As such, some features are not yet implemented,
- and the error management is not complete.
+ Although eXaDrums is usable as a drum module, it is still a
+ young project. As such, some features are not yet implemented
+ or are still experimental.
 
 ## Table of content
 
 - [Installation and Configuration](#installation)
   - [Dependencies](#dependencies)
-  - [Installation](#installation)
+  - [Install](#install)
   - [Configuration](#configuration)
 - [Usage](#usage)
-- [License](#license)
-- [Links](#links)
 
 ## Installation
 
@@ -48,13 +46,14 @@ LibeXaDrums also depends on build-essential, autotools and pkg-config in order t
 sudo apt install autoconf automake libtool build-essential pkg-config
 ```
 
-If you wish to build the Debian packages, you will need to install debhelper:
+If you wish to build the Debian packages (which is the recommended way to install
+the library), you will need to install debhelper:
 
 ```shell
 sudo apt install debhelper
 ```
 
-You may also want to install git, so that you can clone this repository and install from it:
+You will also need to install git, so that you can clone this repository:
 
 ```shell
 sudo apt install git
@@ -63,40 +62,36 @@ git clone https://github.com/SpintroniK/libeXaDrums.git
 
 ### Building libeXaDrums
 
-Now that you have all dependencies, you can build libeXaDrums:
+Now that you have all dependencies, you can build the Debian packages.
+Make sure you have dehelper installed, and then checkout the debian branch
+from your cloned repository:
 
 ```shell
 cd libeXaDrums
-autoreconf -fi
-./configure
-make
+git checkout debian
 ```
 
-or you can build the Debian packages:
+Then you can build the package:
 
 ```shell
-cd libeXaDrums
-dpkg-buildpackage -b -uc
+dpkg-buildpackage -b -uc -us
 ```
 
 If you have multiple cores/threads, you can speed up the build process by appending the option -jn to dpkg-buildpackage, where n is the number of threads that you want to use for the compilation.
-Example, for four threads type: `dpkg-buildpackage -b -uc -j4`.
+Example, for four threads type: `dpkg-buildpackage -b -uc -us -j4`.
 
-### Installing libeXaDrums
+### Install
 
-If you have built libeXaDrums using make, use:
-
-```sudo make install```
-
-otherwise, if you built the Debian packages, install them normally:
+The Debian packages are built in the parent directory, so you should be able to install them by using dpkg (don't forget to install them as root):
 
 ```shell
+cd ..
 sudo dpkg -i libexadrums0_[...].deb
 sudo dpkg -i libexadrums-dev[...].deb
 ```
 
+### Configuration
+
 ## Usage
 
-## License
-
-## Links
+The library is self documented.

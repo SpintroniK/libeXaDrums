@@ -14,12 +14,15 @@ This document outlines the development plan from a high level and will be update
 
 ### 0.4.2
 
-- [ ] &#9997; Build successfully with clang++-7.
+- [x] &#9997; Build successfully with clang++-7.
+- [ ] Version.h.in instead of eXaDrums.h.in.
+- [x] Fix Readme (installation procedure -- checkout debian branch first).
 
 ### 0.5.0
 
 - [x] Add export configuration feature.
 - [x] Add import configuration feature.
+- [ ] Add GetVersion() to API.
 - [ ] &#9997; Document API.
 - [ ] Bug fix: check if instrument's triggers exist.
 - [ ] Add trigger sensitivity.
