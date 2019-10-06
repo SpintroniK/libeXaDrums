@@ -121,7 +121,7 @@ libexadrums_la_SOURCES = \
 # Install into pkgincludedir, but do not distribute (it is generated
 # by configure.ac).
 nobase_nodist_pkginclude_HEADERS = \
-  Api/eXaDrums.h
+  Api/Version.h
 
 # Distribute and install into pkgincludedir.
 nobase_pkginclude_HEADERS = \
@@ -131,6 +131,7 @@ nobase_pkginclude_HEADERS = \
   Api/Config/TriggerParameters_api.h \
   Api/KitCreator/KitCreator_api.h \
   Api/KitCreator/KitCreator_api.hpp \
+  Api/eXaDrums.h \
   Api/eXaDrums.hpp \
   DrumKit/Instruments/InstrumentParameters.h \
   DrumKit/Instruments/InstrumentSoundInfo.h \

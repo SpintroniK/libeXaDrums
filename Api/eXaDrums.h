@@ -8,6 +8,7 @@
 #ifndef LIBEXADRUMS_SOURCE_API_EXADRUMKIT_H_
 #define LIBEXADRUMS_SOURCE_API_EXADRUMKIT_H_
 
+#include "Version.h"
 #include "../Util/ErrorHandling.h"
 
 #include <string>
@@ -22,8 +23,6 @@ namespace Sound { class Alsa; class Mixer;}
 
 namespace eXaDrumsApi
 {
-
-	constexpr auto LIBEXADRUMS_VERSION = "@PACKAGE_VERSION@";
 
 	class eXaDrums
 	{

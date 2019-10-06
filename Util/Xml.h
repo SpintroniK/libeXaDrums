@@ -129,7 +129,7 @@ namespace Util
         {
             std::ostringstream oss;
             oss << val;
-            value = std::move(oss.str());
+            value = oss.str();
         }
 
         std::string name;

@@ -28,6 +28,6 @@ PKG_CHECK_MODULES([tinyxml2], [tinyxml2])
 AC_CONFIG_FILES([
   Makefile
   exadrums.pc
-  Api/eXaDrums.h
+  Api/Version.h
 ])
 AC_OUTPUT

@@ -1,0 +1,14 @@
+#ifndef LIBEXADRUMS_SOURCE_API_VERSION_H_
+#define LIBEXADRUMS_SOURCE_API_VERSION_H_
+
+
+namespace eXaDrumsApi
+{
+
+	inline constexpr auto LIBEXADRUMS_VERSION = "@PACKAGE_VERSION@";
+
+}
+
+
+
+#endif

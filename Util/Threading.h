@@ -62,7 +62,7 @@ namespace Util
 
 	private:
 
-	    std::atomic_flag locked{ATOMIC_FLAG_INIT};
+	    std::atomic_flag locked = ATOMIC_FLAG_INIT;
 	};
 
 }
