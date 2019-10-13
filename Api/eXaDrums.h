@@ -38,7 +38,7 @@ namespace eXaDrumsApi
 		// eXaDrums
 		bool IsStarted() const noexcept { return isStarted.load(); }
 		std::string GetDataLocation() const noexcept;
-		std::string GetVersion() const noexcept;
+		static std::string GetVersion() noexcept;
 
 		// Module
 		void Start();
@@ -111,7 +111,7 @@ namespace eXaDrumsApi
 		Util::error SetInstrumentVolume_(std::size_t id, std::size_t volume);
 
 		const char* GetDataLocation_() const noexcept;
-		const char* GetVersion_() const noexcept;
+		static const char* GetVersion_() noexcept;
 		const char* GetKitDataFileName_();
 		void GetClicksTypes_(const char** data, unsigned int& size);
 		void GetRhythms_(int* data, unsigned int& size) const;
