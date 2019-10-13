@@ -6,8 +6,6 @@
 # Cache shared with autoconf.
 ACLOCAL_AMFLAGS = -I m4
 
-PACKAGE = libexadrums
-
 # https://www.gnu.org/software/libtool/manual/libtool.html#Updating-version-info
 exadrums_libtool_version_info = 0:0:0
 
@@ -17,25 +15,22 @@ EXTRA_DIST = LICENSE
 # Distribute and install into docdir.
 dist_doc_DATA = README.md
 
-# Install into pkgconfigdir, but do not distribute.
-pkgconfigdir = $(libdir)/pkgconfig
-pkgconfig_DATA = exadrums.pc
-
-# Good habits.
-AM_CXXFLAGS = -Wall
-AM_LDFLAGS = \
-  -Wl,--as-needed \
-  -Wl,--no-allow-shlib-undefined \
-  -Wl,--no-copy-dt-needed-entries \
-  -Wl,--no-undefined
+# Install in an architecture-dependent directory, do not distribute.
+pkgexecconfigdir = $(libdir)/pkgconfig
+pkgexecconfig_DATA = exadrums.pc
 
 # Delegate library handling to libtool.
 lib_LTLIBRARIES = libexadrums.la
 
-libexadrums_la_CXXFLAGS = $(AM_CXXFLAGS) \
+libexadrums_la_CXXFLAGS = \
+  -Wall \
   -pthread \
   -std=c++17 $(alsa_CFLAGS) $(tinyxml2_CFLAGS)
-libexadrums_la_LDFLAGS = $(AM_LDFLAGS) \
+libexadrums_la_LDFLAGS = \
+  -Wl,--as-needed \
+  -Wl,--no-allow-shlib-undefined \
+  -Wl,--no-copy-dt-needed-entries \
+  -Wl,--no-undefined \
   -pthread \
   -version-info $(exadrums_libtool_version_info)
 # The -pthread compiler and linker option links with libpthread, but
