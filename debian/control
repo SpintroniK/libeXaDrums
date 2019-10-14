@@ -7,43 +7,11 @@ Build-Depends:
  libasound-dev,
  libtinyxml2-dev,
  pkg-config,
-Standards-Version: 4.4.0
+Standards-Version: 4.4.1
 Rules-Requires-Root: no
 Homepage: http://www.freewebmaster.fr
 Vcs-Git: https://github.com/SpintroniK/libeXaDrums.git -b debian
 Vcs-Browser: https://github.com/SpintroniK/libeXaDrums
-
-Package: libexadrums-dev
-Architecture: any
-Multi-Arch: same
-# /usr/include/libexadrums/Api/eXaDrums.h is only generated for the version
-Depends: ${misc:Depends},
- libexadrums0 (= ${binary:Version}),
- libasound-dev,
- libtinyxml2-dev,
-Recommends: pkg-config
-Description: Software drum module (development)
- ExaDrums is a virtual drum module that allows drummers play with
- custom-made drum kits.
- .
- It is user-friendly and combines high quality stereo sound with low
- latency.
- .
- Each drum kit provides individual sliders in order to control the
- volume of its drum pads.
- .
- A built-in metronome can be combined with a rhythm coach to make
- practice sessions easier and efficient.
- .
- The drum triggers can be adjusted so that their response feels as
- natural as possible, and different sensor interfaces include a
- virtual (on-screen) multi pad and external sensors.
- .
- Although eXaDrums is usable as a drum module, it is still an
- experimental project. As such, some features are not yet implemented,
- and the error management is not complete.
- .
- This package provides the C++ headers.
 
 Package: libexadrums0
 Section: libs
@@ -72,3 +40,35 @@ Description: Software drum module (library)
  and the error management is not complete.
  .
  This package provides the runtime shared library.
+
+Package: libexadrums-dev
+Architecture: any
+Multi-Arch: same
+# /usr/include/libexadrums/Api/Version.h is only generated for the version
+Depends: ${misc:Depends},
+ libexadrums0 (= ${binary:Version}),
+ libasound-dev,
+ libtinyxml2-dev,
+Recommends: pkg-config
+Description: Software drum module (development)
+ ExaDrums is a virtual drum module that allows drummers play with
+ custom-made drum kits.
+ .
+ It is user-friendly and combines high quality stereo sound with low
+ latency.
+ .
+ Each drum kit provides individual sliders in order to control the
+ volume of its drum pads.
+ .
+ A built-in metronome can be combined with a rhythm coach to make
+ practice sessions easier and efficient.
+ .
+ The drum triggers can be adjusted so that their response feels as
+ natural as possible, and different sensor interfaces include a
+ virtual (on-screen) multi pad and external sensors.
+ .
+ Although eXaDrums is usable as a drum module, it is still an
+ experimental project. As such, some features are not yet implemented,
+ and the error management is not complete.
+ .
+ This package provides the C++ headers.

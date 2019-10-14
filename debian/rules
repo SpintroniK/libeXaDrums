@@ -6,19 +6,3 @@ export DEB_BUILD_MAINT_OPTIONS := hardening=+all
 # https://manpages.debian.org/debhelper
 %:
 	dh $@
-
-# Debian-specific work-around for a long-standing libtool quirk (it
-# puts (AM_)LDFLAGS after libraries, making --as-needed useless).
-.PHONY: override_dh_autoreconf
-override_dh_autoreconf:
-	dh_autoreconf --as-needed
-
-# The first joker matches the multiarch part of the library directory.
-# The other one matches a file and a symlink.
-# But we need an override because lib_pkg has to be generated.
-lib_pkg := $(shell sed -n \
-  '/^Package: \(libexadrums[0-9.]\+\)$$/{s//\1/;p;q}' debian/control)
-.PHONY: override_dh_install
-override_dh_install:
-	dh_install -p$(lib_pkg) usr/lib/*/libexadrums.so.*
-	dh_install --remaining-packages
