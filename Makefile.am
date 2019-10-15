@@ -26,7 +26,7 @@ exadrums_libtool_version_info = 0:0:0
 libexadrums_la_CXXFLAGS = \
   -Wall \
   -pthread \
-  -std=c++17 $(alsa_CFLAGS) $(tinyxml2_CFLAGS)
+  -std=c++17 $(alsa_CFLAGS) $(tinyxml2_CFLAGS) $(minizip_CFLAGS)
 libexadrums_la_LDFLAGS = \
   -Wl,--as-needed \
   -Wl,--no-allow-shlib-undefined \
@@ -36,7 +36,7 @@ libexadrums_la_LDFLAGS = \
   -version-info $(exadrums_libtool_version_info)
 # The -pthread compiler and linker option links with libpthread, but
 # also selects various architecture-dependent settings.
-libexadrums_la_LIBADD = $(alsa_LIBS) $(tinyxml2_LIBS) -lpthread -lstdc++fs -latomic
+libexadrums_la_LIBADD = $(alsa_LIBS) $(tinyxml2_LIBS) $(minizip_LIBS) -lpthread -lstdc++fs -latomic
 # The standard C++ library does not include libatomic on some
 # architectures (armel mips mipsel). It does not hurt to always list
 # it here, it will only be effective when used thanks to --as-needed.
