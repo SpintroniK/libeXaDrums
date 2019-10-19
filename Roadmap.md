@@ -10,13 +10,7 @@ This document outlines the development plan from a high level and will be update
 | check mark | work completed                  |
 | &#9997;    | on-going work                   |
 
-## Future versions
-
-### 0.4.2
-
-- [x] Build successfully with clang++-7.
-- [x] Version.h.in instead of eXaDrums.h.in.
-- [x] Fix Readme (installation procedure -- checkout debian branch first).
+## Current version
 
 ### 0.5.0
 
@@ -26,9 +20,11 @@ This document outlines the development plan from a high level and will be update
 - [ ] &#9997; Document API.
 - [ ] Bug fix: check if instrument's triggers exist.
 - [ ] Add trigger sensitivity.
-- [ ] Add score to rhythm coach window.
+- [ ] Add rhythm coach score.
 - [ ] Create instrument only if enough triggers are available.
 - [ ] Fix metronome volume bug.
+
+## Future versions
 
 ### 0.6.0
 
@@ -52,3 +48,11 @@ This document outlines the development plan from a high level and will be update
 
 - [ ] Doxygen: document code.
 - [ ] API documentation.
+
+## Past versions
+
+### 0.4.2
+
+- [x] Build successfully with clang++-7.
+- [x] Version.h.in instead of eXaDrums.h.in.
+- [x] Fix Readme (installation procedure -- checkout debian branch first).
