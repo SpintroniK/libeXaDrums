@@ -38,7 +38,7 @@ If you wish to install the latest version of the library, you can build the pack
 
 ### Dependencies
 
-libeXaDrums depends on Alsa and TinyXml2. You can install those two libraries using this command line:
+libeXaDrums depends on Alsa, TinyXml2 and minizip. You can install those two libraries using this command line:
 
 ```shell
 sudo apt install libasound2-dev libtinyxml2-dev libminizip-dev
