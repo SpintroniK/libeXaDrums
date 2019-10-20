@@ -18,7 +18,7 @@ This document outlines the development plan from a high level and will be update
 - [x] Add import configuration feature.
 - [x] Add GetVersion() to API.
 - [ ] &#9997; Document API.
-- [ ] Bug fix: check if instrument's triggers exist.
+- [x] Bug fix: check if instrument's triggers exist.
 - [ ] Add trigger sensitivity.
 - [ ] Add rhythm coach score.
 - [ ] Create instrument only if enough triggers are available.
