@@ -113,6 +113,11 @@ namespace Util
 			return XmlElement{element->FirstChildElement(childName.data())};
 		}
 
+		inline std::string TagName() const
+		{
+			return std::string{element->Name()};
+		}
+
 	private:
 
 		tinyxml2::XMLElement* element;
