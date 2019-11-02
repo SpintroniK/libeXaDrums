@@ -13,9 +13,21 @@
 #include <sstream>
 #include <string>
 #include <vector>
+#include <map>
 
 namespace Util
 {
+
+/*
+	class XmlNode
+	{
+	public:
+
+		std::string tagName;
+		std::map<std::string, std::vector<XmlNode>> childs;
+		std::map<std::string, std::string> attributes;
+	};
+*/
 
 	/**
 	 * Xml Element wrapper, very useful for range-based for loops.
@@ -66,7 +78,30 @@ namespace Util
 		{
 			return element != xe.element;
 		}
+/*
+		static XmlNode ReadElement(const XmlElement& e)
+		{
+			XmlNode t;
+			t.tagName = e.TagName();
+			for(const auto& c : e)
+			{
+				t.childs[c.TagName()].push_back(ReadElement(c));
+			}
 
+			return t;
+		}
+
+		inline std::vector<XmlNode> GetAllChildren() const
+		{
+			auto tags = std::vector<XmlNode>{};
+			for(const auto& e : XmlElement{this->element})
+			{
+				tags.push_back(ReadElement(e));
+			}
+
+			return tags;
+		}
+*/
 		inline const char* GetText() const
 		{
 			return element->GetText();
