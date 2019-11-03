@@ -20,8 +20,8 @@ This document outlines the development plan from a high level and will be update
 - [ ] &#9997; Document API.
 - [x] Bug fix: check if instrument's triggers exist.
 - [ ] Add trigger sensitivity.
-- [ ] Add rhythm coach score.
-- [ ] Create instrument only if enough triggers are available.
+- [x] Add rhythm coach score (done in eXaDrums directly).
+- [x] Create instrument only if enough triggers are available.
 - [ ] Fix metronome volume bug.
 
 ## Future versions
