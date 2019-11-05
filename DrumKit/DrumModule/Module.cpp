@@ -296,7 +296,7 @@ namespace DrumKit
 		return;
 	}
 
-	void Module::ChangeVolume(int volume)
+	void Module::ChangeClickVolume(int volume)
 	{
 
 		if(isMetronomeEnabled.load())
@@ -413,6 +413,11 @@ namespace DrumKit
 	void Module::Run()
 	{
 
+		if(isMetronomeEnabled.load())
+		{
+			const auto metronomeVolume = GetClickVolume();
+			mixer->PlaySound(metronomeSoundId, metronomeVolume);
+		}
 
 		lastTrigTime.store(0, std::memory_order_relaxed);
 		lastTrigValue.store(0, std::memory_order_relaxed);

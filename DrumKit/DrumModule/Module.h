@@ -72,7 +72,7 @@ namespace DrumKit
 		// Metronome
 		void EnableMetronome(bool enable);
 		void ChangeTempo(int tempo);
-		void ChangeVolume(int volume);
+		void ChangeClickVolume(int volume);
 		float GetClickVolume() const noexcept;
 		void RestartMetronome();
 		double GetClickPosition() const noexcept;

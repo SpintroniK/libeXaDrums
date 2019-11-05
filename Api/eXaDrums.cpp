@@ -169,9 +169,9 @@ namespace eXaDrumsApi
 		return;
 	}
 
-	void eXaDrums::ChangeVolume(std::size_t volume) const
+	void eXaDrums::ChangeClickVolume(std::size_t volume) const
 	{
-		drumModule->ChangeVolume(volume);
+		drumModule->ChangeClickVolume(volume);
 		return;
 	}
 
