@@ -28,19 +28,17 @@ This document outlines the development plan from a high level and will be update
 
 ### 0.6.0
 
-- [ ] Add recorder's sound export button and window.
+- [ ] Add recorder's sound export API.
 - [ ] Recorder can export to either xml or wav.
-- [ ] Calibration window.
+- [ ] Calibration stuff.
 
 ### 0.7.0
 
 ### 0.8.0
 
-- [ ] Load instrument configuration from file.
-
 ### 0.9.0
 
-- [ ] Instrument maker.
+- [ ] Instrument builder.
 
 ### 1.0.0
 
