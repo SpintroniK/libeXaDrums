@@ -22,7 +22,7 @@ This document outlines the development plan from a high level and will be update
 - [ ] Add trigger sensitivity.
 - [x] Add rhythm coach score (done in eXaDrums directly).
 - [x] Create instrument only if enough triggers are available.
-- [ ] Fix metronome volume bug.
+- [x] Fix metronome volume bug.
 
 ## Future versions
 

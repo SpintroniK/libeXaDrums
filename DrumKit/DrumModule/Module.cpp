@@ -264,7 +264,7 @@ namespace DrumKit
 			metronome->GenerateClick();
 			std::vector<short> data = metronome->GetData();
 
-			metronomeSoundId = soundBank->AddSound(data, 0.5f);
+			metronomeSoundId = soundBank->AddSound(data, 1.0f);
 			soundBank->LoopSound(metronomeSoundId, true);
 			mixer->PlaySound(metronomeSoundId, 1.0f);
 
