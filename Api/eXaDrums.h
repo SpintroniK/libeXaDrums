@@ -274,24 +274,101 @@ namespace eXaDrumsApi
 		std::vector<std::string> GetKitsNames();
 
 		// Instruments
+		/**
+		 * @brief Set an Instrument volume
+		 * 
+		 * @param id Instrument id
+		 * @param volume Volume (0, 100)
+		 */
 		void SetInstrumentVolume(std::size_t id, std::size_t volume);
+
+		/**
+		 * @brief Get an Instrument volume
+		 * 
+		 * @param id Instrument id
+		 * @return std::size_t Instrument volume (0, 100)
+		 */
 		std::size_t GetInstrumentVolume(std::size_t id) const;
+
+		/**
+		 * @brief Get the instruments names
+		 * 
+		 * @return std::vector<std::string> List of instruments names 
+		 */
 		std::vector<std::string> GetInstrumentsNames();
+
+		/**
+		 * @brief Get an instrument triggers ids
+		 * 
+		 * @param instrumentId instrument id
+		 * @return std::vector<int> List of triggers ids
+		 */
 		std::vector<int> GetInstrumentTriggersIds(std::size_t instrumentId) const;
 
 		// Triggers
+
+		/**
+		 * @brief Get the last trig timestamp
+		 * 
+		 * @return long long Timestamp of the last trig event
+		 */
 		long long GetLastTrigTime() const noexcept;
+
+		/**
+		 * @brief Get the last trig value
+		 * 
+		 * @return std::size_t Get last trig event's velocity
+		 */
 		std::size_t GetLastTrigValue() const noexcept;
+
+		/**
+		 * @brief Set a given trigger sensor's value
+		 * 
+		 * @param id Trigger id
+		 * @param channel Trigger channel
+		 * @param data Trig event's intensity
+		 */
 		void SetTriggerSensorValue(std::size_t id, char channel, short data);
 
 		// Sensors
+
+		/**
+		 * @brief Get the sensors resolution
+		 * 
+		 * @return std::size_t Sensors resolution in bits
+		 */
 		std::size_t GetSensorsResolution() const noexcept;
+
+		/**
+		 * @brief Get the sensor type (virtual or internal)
+		 * 
+		 * @return true If the sensor is virtual
+		 * @return false If the sensor is internal
+		 */
 		bool IsSensorVirtual() const noexcept;
+
+		/**
+		 * @brief Get the sensor's data transfer protocol (SPI of not)
+		 * 
+		 * @return true If the sensor uses SPI
+		 * @return false If the sensor doesn't use SPI
+		 */
 		bool IsSensorSpi() const noexcept;
 
 		// Sound
+
+		/**
+		 * @brief Get the audio device name
+		 * 
+		 * @return std::string Audio device name
+		 */
 		std::string GetAudioDeviceName() const noexcept;
 
+		/**
+		 * @brief Get the init error
+		 * 
+		 * @return Util::error Error struct (state and message)
+		 */
 		Util::error GetInitError() const { return this->init_error; }
 
 	private:
