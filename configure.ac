@@ -1,7 +1,7 @@
 # Process this file with autoconf to produce configure.
 
 # Copyright (C) 2018-2019 Jérémy Oden <jerem.oden@gmail.com>
-# Copyright (C) 2018-2019 Nicolas Boulenguez <nicolas@debian.org>
+# Copyright (C) 2018-2020 Nicolas Boulenguez <nicolas@debian.org>
 
 # https://www.gnu.org/software/autoconf/manual/autoconf.html
 AC_INIT([libeXaDrums],
@@ -26,7 +26,6 @@ PKG_CHECK_MODULES([tinyxml2], [tinyxml2])
 
 AC_CONFIG_FILES([
   Makefile
-  exadrums.pc
   Api/Version.h
 ])
 AC_OUTPUT

@@ -158,8 +158,52 @@ dist_doc_DATA = README.md
 pkgexecconfigdir = $(libdir)/pkgconfig
 pkgexecconfig_DATA = exadrums.pc
 
+# autoconf 4.8.2 Installation Directory Variables
+# Substituting from here instead of from configure.ac ensures that the
+# user can override prefix on the Make command line.
+edit = sed \
+  -e 's|@PACKAGE_NAME[@]|$(PACKAGE_NAME)|g' \
+  -e 's|@PACKAGE_URL[@]|$(PACKAGE_URL)|g' \
+  -e 's|@PACKAGE_VERSION[@]|$(PACKAGE_VERSION)|g' \
+  -e 's|@includedir[@]|$(includedir)|g' \
+  -e 's|@libdir[@]|$(libdir)|g'
+exadrums.pc: Makefile
+	rm -f $@ $@.tmp
+	srcdir=''; \
+	  test -f ./$@.in || srcdir=$(srcdir)/; \
+	  $(edit) $${srcdir}$@.in >$@.tmp
+	mv $@.tmp $@
+exadrums.pc: $(srcdir)/exadrums.pc.in
+
+######################################################################
+# 13 what gets cleaned
+
+# Remove files created by Makefile.
+CLEANFILES = \
+  exadrums.pc
+
+# Should silent `rm .gitignore && git status`.
+MAINTAINERCLEANFILES = \
+  Makefile.in \
+  aclocal.m4 \
+  ar-lib \
+  compile \
+  config.guess \
+  config.h.in \
+  config.sub \
+  configure \
+  depcomp \
+  install-sh \
+  ltmain.sh \
+  m4/* \
+  missing
+
 ######################################################################
 # 14 what goes in a distribution
 
 # Distribute (in the tarball created by 'make dist-gzip').
-EXTRA_DIST = LICENSE
+EXTRA_DIST = \
+  LICENSE \
+  Roadmap.md \
+  bootstrap \
+  exadrums.pc.in
