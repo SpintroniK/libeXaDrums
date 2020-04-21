@@ -12,7 +12,6 @@ AC_INIT([libeXaDrums],
 AC_CONFIG_SRCDIR([Api/eXaDrums.cpp])
 AC_PROG_CXX
 AC_CONFIG_MACRO_DIRS([m4])
-AC_CONFIG_HEADERS([config.h])
 
 # https://www.gnu.org/software/automake/manual/automake.html
 AM_INIT_AUTOMAKE([-Wall -Werror foreign subdir-objects])
