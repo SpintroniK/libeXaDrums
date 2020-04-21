@@ -8,7 +8,8 @@
 #ifndef LIBEXADRUMS_SOURCE_API_EXADRUMKIT_H_
 #define LIBEXADRUMS_SOURCE_API_EXADRUMKIT_H_
 
-#include "Version.h"
+/* The relative path helps when builddir differs from srcdir */
+#include "../Api/Version.h"
 #include "../Util/ErrorHandling.h"
 
 #include <string>
