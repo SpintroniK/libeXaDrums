@@ -1,10 +1,21 @@
-prefix=@prefix@
-exec_prefix=@prefix@
+# https://people.freedesktop.org/~dbn/pkg-config-guide.html
 
 Name: @PACKAGE_NAME@
 Description: The eXaDrums software drum module library
 URL: @PACKAGE_URL@
 Version: @PACKAGE_VERSION@
-Requires.private: alsa tinyxml2
+
+# When a compilation needs the library headers:
 Cflags: -I@includedir@
+
+# When linking against the shared library:
 Libs: -L@libdir@ -lexadrums
+
+# When linking against the static archive:
+Libs.private:
+
+# Let pkg-config extend Cflags and Libs.
+Requires:
+
+# Let pkg-config extend Cflags and Libs.private.
+Requires.private: alsa tinyxml2
