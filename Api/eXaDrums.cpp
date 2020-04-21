@@ -343,6 +343,11 @@ namespace eXaDrumsApi
 		return this->dataLocation.c_str();
 	}
 
+	const char* eXaDrums::GetVersion_() const noexcept
+	{
+		return LIBEXADRUMS_VERSION;
+	}
+
 	const char* eXaDrums::GetKitDataFileName_()
 	{
 

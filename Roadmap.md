@@ -22,7 +22,7 @@ This document outlines the development plan from a high level and will be update
 
 - [x] Add export configuration feature.
 - [x] Add import configuration feature.
-- [ ] Add GetVersion() to API.
+- [x] Add GetVersion() to API.
 - [ ] &#9997; Document API.
 - [ ] Bug fix: check if instrument's triggers exist.
 - [ ] Add trigger sensitivity.
