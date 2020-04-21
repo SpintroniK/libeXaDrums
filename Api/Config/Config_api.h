@@ -10,6 +10,8 @@
 
 #include "../../IO/SensorsConfig.h"
 #include "../../Util/ErrorHandling.h"
+#include "../../Util/Zip.h"
+
 #include "AlsaParams_api.h"
 
 #include <vector>
@@ -36,6 +38,9 @@ namespace eXaDrumsApi
 		void SaveCurrentAudioDeviceConfig() const;
 		void SaveAudioDeviceConfig(const AlsaParamsApi& params);
 		void ResetAudioDevice();
+
+		// Config
+		void ExportConfig(const std::string& configDir, const std::string& outputFileName) const;
 
 		// Triggers
 		void AddTrigger(const TriggerParameters& params);
@@ -78,6 +83,8 @@ namespace eXaDrumsApi
 		Util::error DeleteTrigger_(int sensorId);
 		Util::error SetAudioDeviceParameters_(const AlsaParamsApi& params);
 		Util::error GetNbTriggers_(size_t& nb) const;
+
+		Util::error ExportConfig_(const char* configDir, const char* outputFileName) const noexcept;
 
 		void RestartModule();
 

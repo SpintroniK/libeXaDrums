@@ -254,7 +254,7 @@ namespace eXaDrumsApi
 		return make_error("", error_type_success);
 	}
 
-	Util::error Config::GetNbTriggers_(size_t& nb) const
+	error Config::GetNbTriggers_(size_t& nb) const
 	{
 		auto error = this->LoadTriggersConfig_();
 		
@@ -268,6 +268,15 @@ namespace eXaDrumsApi
 		return make_error("", error_type_success);
 	}
 
+	error Config::ExportConfig_(const char* configDir, const char* outputFileName) const noexcept
+	{
+		if(ZipDir(std::string{configDir}, std::string{outputFileName}))
+		{
+			return make_error("", error_type_success);
+		}
+
+		return make_error("Could not export configuration. Make sure that the source and destination folders exist.", error_type_warning);
+	}
 
 	void Config::RestartModule()
 	{

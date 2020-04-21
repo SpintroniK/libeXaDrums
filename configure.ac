@@ -23,6 +23,7 @@ LT_INIT
 # https://autotools.io/pkgconfig/pkg_check_modules.html
 PKG_CHECK_MODULES([alsa], [alsa])
 PKG_CHECK_MODULES([tinyxml2], [tinyxml2])
+PKG_CHECK_MODULES([minizip], [minizip])
 
 AC_CONFIG_FILES([
   Makefile
