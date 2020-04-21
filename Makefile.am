@@ -1,26 +1,27 @@
 ## Process this file with automake to produce Makefile.in
 
 # Copyright (C) 2018-2019 Jérémy Oden <jerem.oden@gmail.com>
-# Copyright (C) 2018-2019 Nicolas Boulenguez <nicolas@debian.org>
+# Copyright (C) 2018-2020 Nicolas Boulenguez <nicolas@debian.org>
+
+# Unless otherwise specified, the numbers refer to
+# https://www.gnu.org/software/automake/manual/automake.html
+
+######################################################################
+# https://www.gnu.org/software/gettext/manual/gettext.html
+# 13.4.8 aclocal.m4 at top level
 
 # Cache shared with autoconf.
 ACLOCAL_AMFLAGS = -I m4
 
-# https://www.gnu.org/software/libtool/manual/libtool.html#Updating-version-info
-exadrums_libtool_version_info = 0:0:0
-
-# Distribute (in the tarball created by 'make dist-gzip').
-EXTRA_DIST = LICENSE
-
-# Distribute and install into docdir.
-dist_doc_DATA = README.md
-
-# Install in an architecture-dependent directory, do not distribute.
-pkgexecconfigdir = $(libdir)/pkgconfig
-pkgexecconfig_DATA = exadrums.pc
+######################################################################
+# 8 building programs and libraries
 
 # Delegate library handling to libtool.
 lib_LTLIBRARIES = libexadrums.la
+
+# libtool 7.3 updating library version information
+# Downstream packagers may have to override the SO version.
+exadrums_libtool_version_info = 0:0:0
 
 libexadrums_la_CXXFLAGS = \
   -Wall \
@@ -146,3 +147,19 @@ nobase_pkginclude_HEADERS = \
   Util/Enums.h \
   Util/ErrorHandling.h \
   Util/Xml.h
+
+######################################################################
+# 12 what gets installed
+
+# Distribute and install into docdir.
+dist_doc_DATA = README.md
+
+# Install in an architecture-dependent directory, do not distribute.
+pkgexecconfigdir = $(libdir)/pkgconfig
+pkgexecconfig_DATA = exadrums.pc
+
+######################################################################
+# 14 what goes in a distribution
+
+# Distribute (in the tarball created by 'make dist-gzip').
+EXTRA_DIST = LICENSE
