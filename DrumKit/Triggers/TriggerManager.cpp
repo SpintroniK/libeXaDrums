@@ -76,6 +76,13 @@ namespace DrumKit
 			trigParams.type = trigger.Attribute<TriggerType>("sensorType");
 
 			// Read xml elements
+			auto gainDefined = trigger.FirstChildElement("Gain").GetValue(trigParams.gain);
+
+			if(!gainDefined)
+			{
+				trigParams.gain = 1.;
+			}
+
 			trigger.FirstChildElement("Threshold").GetValue(trigParams.threshold);
 			trigger.FirstChildElement("ScanTime").GetValue(trigParams.scanTime);
 			trigger.FirstChildElement("MaskTime").GetValue(trigParams.maskTime);

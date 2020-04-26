@@ -22,8 +22,9 @@ namespace DrumKit
 
 		int sensorId;
 		int scanTime;
-		short threshold;
+		double threshold;
 		int maskTime;
+		double gain;
 
 		TriggerType type;
 		CurveType response;
