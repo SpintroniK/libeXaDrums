@@ -112,7 +112,8 @@ libexadrums_la_SOURCES = \
   Util/Parsing.h \
   Util/SimpleSafeQueue.h \
   Util/Threading.h \
-  Util/Time.h
+  Util/Time.h \
+  Util/Zip.h
 
 # Install into pkgincludedir, but do not distribute (it is generated
 # by configure.ac).
@@ -146,7 +147,8 @@ nobase_pkginclude_HEADERS = \
   Sound/InstrumentSoundType.h \
   Util/Enums.h \
   Util/ErrorHandling.h \
-  Util/Xml.h
+  Util/Xml.h \
+  Util/Zip.h
 
 ######################################################################
 # 12 what gets installed

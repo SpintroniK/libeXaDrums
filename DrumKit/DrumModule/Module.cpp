@@ -422,6 +422,11 @@ namespace DrumKit
 		lastTrigTime.store(0, std::memory_order_relaxed);
 		lastTrigValue.store(0, std::memory_order_relaxed);
 
+		for(const auto& t : triggers)
+		{
+			t->ResetTrigTime();
+		}
+
 		while(isPlay.load())
 		{
 
