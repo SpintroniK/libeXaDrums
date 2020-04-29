@@ -422,10 +422,10 @@ namespace DrumKit
 		lastTrigTime.store(0, std::memory_order_relaxed);
 		lastTrigValue.store(0, std::memory_order_relaxed);
 
-		for(const auto& t : triggers)
-		{
-			t->ResetTrigTime();
-		}
+
+		// Skip high-pass filter transient state
+		for(size_t i = 0; i < 100 * triggers.size(); ++i)
+			std::for_each(triggers.begin(), triggers.end(), [](TriggerPtr& triggerPtr) { triggerPtr->Refresh(); });
 
 		while(isPlay.load())
 		{

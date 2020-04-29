@@ -37,12 +37,6 @@ namespace DrumKit
 		// Read sensor date
 		double value = parameters.gain * this->GetSensorData();
 
-		if(reset)
-		{
-			prevValue = value;
-			reset = false;
-		}
-
 		// Remove DC offset (high pass filter: y[n] = x[n] - x[n-1] + R * y[n-1])
 		filteredValue = value - prevValue + 0.99 * prevFilteredValue;
 

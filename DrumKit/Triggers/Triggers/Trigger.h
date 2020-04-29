@@ -42,8 +42,6 @@ namespace DrumKit
 		virtual TriggerState const& GetTriggerState() const { return state; }
 		virtual TriggerParameters GetParameters() const;
 
-		virtual void ResetTrigTime() { reset = true; }
-
 
 	protected:
 
@@ -56,7 +54,7 @@ namespace DrumKit
 		size_t numSamples;
 
 		double prevValue;
-		double filteredValue;
+		double filteredValue{};
 		double prevFilteredValue;
 
 		bool trig;
