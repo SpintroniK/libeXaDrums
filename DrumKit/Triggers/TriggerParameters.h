@@ -24,7 +24,7 @@ namespace DrumKit
 		int scanTime;
 		double threshold;
 		int maskTime;
-		double gain;
+		double gain{};
 
 		TriggerType type;
 		CurveType response;

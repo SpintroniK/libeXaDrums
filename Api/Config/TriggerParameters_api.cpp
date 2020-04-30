@@ -46,6 +46,7 @@ namespace eXaDrumsApi
 		this->scanTime = parameters.scanTime;
 		this->sensorId = parameters.sensorId;
 		this->threshold = parameters.threshold;
+		this->gain = parameters.gain;
 
 		return *this;
 	}
@@ -62,6 +63,7 @@ namespace eXaDrumsApi
 		parameters.scanTime = this->scanTime;
 		parameters.sensorId = this->sensorId;
 		parameters.threshold = this->threshold;
+		parameters.gain = this->gain;
 
 		return parameters;
 	}
