@@ -19,8 +19,8 @@ This document outlines the development plan from a high level and will be update
 - [x] Add GetVersion() to API.
 - [ ] &#9997; Document API.
 - [x] Bug fix: check if instrument's triggers exist.
-- [ ] &#9997; Add trigger sensitivity.
-- [ ] &#9997; Fix trig on start bug.
+- [x] Add trigger sensitivity (gain).
+- [x] Fix trig on start bug (to be improved).
 - [x] Add rhythm coach score (done in eXaDrums directly).
 - [x] Create instrument only if enough triggers are available.
 - [x] Fix metronome volume bug.
