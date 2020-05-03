@@ -21,7 +21,7 @@ lib_LTLIBRARIES = libexadrums.la
 
 # libtool 7.3 updating library version information
 # Downstream packagers may have to override the SO version.
-exadrums_libtool_version_info = 0:0:0
+exadrums_libtool_version_info = 1:0:0
 
 libexadrums_la_CXXFLAGS = \
   -Wall \
