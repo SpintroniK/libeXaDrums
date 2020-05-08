@@ -281,6 +281,9 @@ namespace Sound
 
 		Util::SetThreadPriority(playThread.native_handle(), 100);
 
+		// Uncomment if debugging under Linux
+		// pthread_setname_np(playThread.native_handle(), "Audio Thread\0");
+
 		return;
 	}
 

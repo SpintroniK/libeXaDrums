@@ -83,6 +83,9 @@ namespace DrumKit
 
 		Util::SetThreadPriority(playThread.native_handle(), 99);
 
+		// Uncomment if debugging under Linux
+		// pthread_setname_np(playThread.native_handle(), "Module Thread\0");
+
 		return;
 	}
 
