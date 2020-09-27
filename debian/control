@@ -3,7 +3,7 @@ Section: libdevel
 Priority: optional
 Maintainer: Jeremy Oden <jerem.oden@gmail.com>
 Build-Depends:
- debhelper-compat (= 12),
+ debhelper-compat (= 13),
  libasound-dev,
  libtinyxml2-dev,
  pkg-config,
@@ -11,7 +11,7 @@ Standards-Version: 4.4.1
 Rules-Requires-Root: no
 Homepage: http://www.freewebmaster.fr
 Vcs-Git: https://github.com/SpintroniK/libeXaDrums.git -b debian
-Vcs-Browser: https://github.com/SpintroniK/libeXaDrums
+Vcs-Browser: https://github.com/SpintroniK/libeXaDrums/tree/debian
 
 Package: libexadrums0
 Section: libs

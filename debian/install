@@ -1,6 +1,6 @@
 # This unprefixed debhelper file affects the first package in
 # debian/control, that is the library package
 # (this trick avoids hard-conding the soversion).
-# The first joker matches the multiarch part of the library directory.
-# The other one matches a file and a symlink.
-usr/lib/*/libexadrums.so.*
+# The joker matches a file and a symlink.
+
+usr/lib/${DEB_HOST_MULTIARCH}/libexadrums.so.*

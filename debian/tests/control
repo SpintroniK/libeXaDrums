@@ -1,2 +1,3 @@
 Tests: link-with-shared
+Restrictions: superficial
 Depends: g++, libexadrums-dev, pkg-config

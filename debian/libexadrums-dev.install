@@ -1,4 +1,4 @@
-usr/include
-usr/lib/*/libexadrums.so
-usr/lib/*/libexadrums.a
-usr/lib/*/pkgconfig
+usr/include/libexadrums/*
+usr/lib/${DEB_HOST_MULTIARCH}/libexadrums.so
+usr/lib/${DEB_HOST_MULTIARCH}/libexadrums.a
+usr/lib/${DEB_HOST_MULTIARCH}/pkgconfig/exadrums.pc
