@@ -121,6 +121,7 @@ namespace DrumKit
 			auto trig = CreateXmlElement(doc, "Trigger", "", {{"sensorType", sensorTypeStr}, {"sensorId", trigger.sensorId}});
 
 			trig->InsertEndChild(CreateXmlElement(doc, "Threshold", trigger.threshold));
+			trig->InsertEndChild(CreateXmlElement(doc, "Gain", trigger.gain));
 			trig->InsertEndChild(CreateXmlElement(doc, "ScanTime", trigger.scanTime));
 			trig->InsertEndChild(CreateXmlElement(doc, "MaskTime", trigger.maskTime));
 			trig->InsertEndChild(CreateXmlElement(doc, "Response", Enums::ToString(trigger.response)));
