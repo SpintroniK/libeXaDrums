@@ -87,10 +87,11 @@ namespace Util
      * 
      * @param zipFile Zip file location
      * @param outputDir Output directory (where the file is extracted).
+     * @param replace Whether to replace existing files or not.
      * @return true File unzipped successfully.
      * @return false Could not unzip file (invalid file, or the file doesn't exist).
      */
-    inline bool UnzipDir(const std::string& zipFile, const std::string& outputDir)
+    inline bool UnzipDir(const std::string& zipFile, const std::string& outputDir, bool replace)
     {
 
         // Open the zip file
@@ -122,6 +123,25 @@ namespace Util
             fs::path filePath{filename};
             fs::create_directories(fs::path{outputDir} / filePath.parent_path());
 
+            const auto outputPath = fs::path{outputDir} / fs::path{filename};
+
+            try
+            {
+                const auto outFileExists = fs::exists(outputPath);
+                if(outFileExists && !replace)
+                {
+                    // Go the the next entry listed in the zip file.
+                    unzGoToNextFile(zipfile);
+                    continue;
+                }
+            }
+            catch(const fs::filesystem_error& e)
+            {
+                std::cerr << e.what() << '\n';
+                return false;
+            }
+            
+
             // Select file
             unzOpenCurrentFile(zipfile);
 
@@ -130,7 +150,7 @@ namespace Util
             unzReadCurrentFile(zipfile, buffer.data(), buffer.size());
 
             // Write to file
-            std::ofstream file((fs::path{outputDir} / fs::path{filename}).string(), std::ios::out | std::ios::binary);
+            std::ofstream file(outputPath.string(), std::ios::out | std::ios::binary);
             file.write(buffer.data(), buffer.size());
 
             unzCloseCurrentFile(zipfile);

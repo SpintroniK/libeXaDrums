@@ -279,9 +279,9 @@ namespace eXaDrumsApi
 	}
 
 
-	error Config::ImportConfig_(const char* configFile, const char* outputConfigDir) noexcept
+	error Config::ImportConfig_(const char* configFile, const char* outputConfigDir, bool replace) noexcept
 	{
-		if(UnzipDir(std::string{configFile}, std::string{outputConfigDir}))
+		if(UnzipDir(std::string{configFile}, std::string{outputConfigDir}, replace))
 		{
 			return make_error("", error_type_success);
 		}

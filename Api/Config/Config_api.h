@@ -98,8 +98,9 @@ namespace eXaDrumsApi
 		 * 
 		 * @param configFile Backup configuration file path and name.
 		 * @param outputConfigDir Output directory, where the configuration is to be extracted.
+		 * @param replace Whether to replace existing files or not.
 		 */
-		static void ImportConfig(const std::string& configFile, const std::string& outputConfigDir);
+		static void ImportConfig(const std::string& configFile, const std::string& outputConfigDir, bool replace = false);
 
 		// Triggers
 		/**
@@ -267,7 +268,7 @@ namespace eXaDrumsApi
 		Util::error GetNbTriggers_(size_t& nb) const;
 
 		static Util::error ExportConfig_(const char* configDir, const char* outputFileName) noexcept;
-		static Util::error ImportConfig_(const char* configFile, const char* outputConfigDir) noexcept;
+		static Util::error ImportConfig_(const char* configFile, const char* outputConfigDir, bool replace) noexcept;
 
 		void RestartModule();
 
