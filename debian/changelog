@@ -1,3 +1,9 @@
+libexadrums (0.5.0-1) unstable; urgency=medium
+
+  * New upstream version.
+
+ -- Jeremy Oden <jerem.oden@gmail.com>  Sat, 28 Nov 2020 17:25:26 +0100
+
 libexadrums (0.4.2-1) unstable; urgency=medium
 
   * New upstream version.
