@@ -135,8 +135,9 @@ namespace DrumKit
 			throw Util::Exception("This drum kit does not exist.", Util::errorType::error_type_error);
 		}
 
-		// Disable previous kit
-		kits[kitId].Disable();
+		// Disable previous kit if it exists
+		if(kitId < kits.size())
+			kits[kitId].Disable();
 
 		// Clear sound bank and mixer
 		mixer->Clear();
