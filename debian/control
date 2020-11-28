@@ -13,7 +13,7 @@ Homepage: http://www.freewebmaster.fr
 Vcs-Git: https://github.com/SpintroniK/libeXaDrums.git -b debian
 Vcs-Browser: https://github.com/SpintroniK/libeXaDrums/tree/debian
 
-Package: libexadrums0
+Package: libexadrums1
 Section: libs
 Architecture: any
 Multi-Arch: same
@@ -46,7 +46,7 @@ Architecture: any
 Multi-Arch: same
 # /usr/include/libexadrums/Api/Version.h is only generated for the version
 Depends: ${misc:Depends},
- libexadrums0 (= ${binary:Version}),
+ libexadrums1 (= ${binary:Version}),
  libasound-dev,
  libtinyxml2-dev,
 Recommends: pkg-config
