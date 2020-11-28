@@ -10,41 +10,36 @@ This document outlines the development plan from a high level and will be update
 | check mark | work completed                  |
 | &#9997;    | on-going work                   |
 
-## Future versions
-
-### 0.4.2
-
-- [x] Build successfully with clang++-7.
-- [x] Version.h.in instead of eXaDrums.h.in.
-- [x] Fix Readme (installation procedure -- checkout debian branch first).
+## Current version
 
 ### 0.5.0
 
 - [x] Add export configuration feature.
 - [x] Add import configuration feature.
-- [ ] Add GetVersion() to API.
-- [ ] &#9997; Document API.
-- [ ] Bug fix: check if instrument's triggers exist.
-- [ ] Add trigger sensitivity.
-- [ ] Add score to rhythm coach window.
-- [ ] Create instrument only if enough triggers are available.
-- [ ] Fix metronome volume bug.
+- [x] Add GetVersion() to API.
+- [x] Document API.
+- [x] Bug fix: check if instrument's triggers exist.
+- [x] Add trigger sensitivity (gain).
+- [x] Fix trig on start bug (to be improved).
+- [x] Add rhythm coach score (done in eXaDrums directly).
+- [x] Create instrument only if enough triggers are available.
+- [x] Fix metronome volume bug.
+
+## Future versions
 
 ### 0.6.0
 
-- [ ] Add recorder's sound export button and window.
+- [ ] Add recorder's sound export API.
 - [ ] Recorder can export to either xml or wav.
-- [ ] Calibration window.
+- [ ] Calibration stuff.
 
 ### 0.7.0
 
 ### 0.8.0
 
-- [ ] Load instrument configuration from file.
-
 ### 0.9.0
 
-- [ ] Instrument maker.
+- [ ] Instrument builder.
 
 ### 1.0.0
 
@@ -52,3 +47,11 @@ This document outlines the development plan from a high level and will be update
 
 - [ ] Doxygen: document code.
 - [ ] API documentation.
+
+## Past versions
+
+### 0.4.2
+
+- [x] Build successfully with clang++-7.
+- [x] Version.h.in instead of eXaDrums.h.in.
+- [x] Fix Readme (installation procedure -- checkout debian branch first).

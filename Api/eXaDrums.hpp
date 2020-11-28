@@ -50,6 +50,11 @@ namespace eXaDrumsApi
 		return std::string(this->GetDataLocation_());
 	}
 
+	inline std::string eXaDrums::GetVersion() noexcept
+	{
+		return std::string(eXaDrums::GetVersion_());
+	}
+
 	inline std::string eXaDrums::GetKitDataFileName()
 	{
 		const char* str = this->GetKitDataFileName_();

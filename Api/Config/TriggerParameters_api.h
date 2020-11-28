@@ -28,6 +28,7 @@ namespace eXaDrumsApi
 		unsigned int scanTime;
 		short threshold;
 		int maskTime;
+		double gain = 1.;
 
 		char type[64];
 		char response[64];

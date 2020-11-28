@@ -32,10 +32,6 @@ namespace eXaDrumsApi
 	const std::string eXaDrums::metronomeConfigFile = "metronomeConfig.xml";
 	const std::string eXaDrums::alsaConfigFile = "alsaConfig.xml";
 
-	/**
-	 * Create an instance of a drum module
-	 * @param dataLoc Path to the configuration files
-	 */
 	eXaDrums::eXaDrums(const char* dataLoc) noexcept : isStarted(false)
 	{
 
@@ -169,9 +165,9 @@ namespace eXaDrumsApi
 		return;
 	}
 
-	void eXaDrums::ChangeVolume(std::size_t volume) const
+	void eXaDrums::ChangeClickVolume(std::size_t volume) const
 	{
-		drumModule->ChangeVolume(volume);
+		drumModule->ChangeClickVolume(volume);
 		return;
 	}
 
@@ -341,6 +337,11 @@ namespace eXaDrumsApi
 	const char* eXaDrums::GetDataLocation_() const noexcept
 	{
 		return this->dataLocation.c_str();
+	}
+
+	const char* eXaDrums::GetVersion_() noexcept
+	{
+		return LIBEXADRUMS_VERSION;
 	}
 
 	const char* eXaDrums::GetKitDataFileName_()

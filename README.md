@@ -24,20 +24,24 @@
 
 ## Table of content
 
-- [Installation and Configuration](#installation)
+- [Installation and configuration](#installation-and-configuration)
   - [Dependencies](#dependencies)
-  - [Install](#install)
+  - [Building libeXaDrums](#building-libexadrums)
+  - [Installation](#installation)
   - [Configuration](#configuration)
 - [Usage](#usage)
 
-## Installation
+## Installation and configuration
+
+Libexadrums is available from the Debian unstable and testing distributions, as well as Ubuntu >=19.10.
+If you wish to install the latest version of the library, you can build the packages from the Github repositorie.
 
 ### Dependencies
 
-libeXaDrums depends on Alsa and TinyXml2. You can install those two libraries using this command line:
+libeXaDrums depends on Alsa, TinyXml2 and minizip. You can install those two libraries using this command line:
 
 ```shell
-sudo apt install libasound2-dev libtinyxml2-dev
+sudo apt install libasound2-dev libtinyxml2-dev libminizip-dev
 ```
 
 LibeXaDrums also depends on build-essential, autotools and pkg-config in order to build and install the binaries:
@@ -80,14 +84,14 @@ dpkg-buildpackage -b -uc -us
 If you have multiple cores/threads, you can speed up the build process by appending the option -jn to dpkg-buildpackage, where n is the number of threads that you want to use for the compilation.
 Example, for four threads type: `dpkg-buildpackage -b -uc -us -j4`.
 
-### Install
+### Installation
 
 The Debian packages are built in the parent directory, so you should be able to install them by using dpkg (don't forget to install them as root):
 
 ```shell
 cd ..
-sudo dpkg -i libexadrums0_[...].deb
-sudo dpkg -i libexadrums-dev[...].deb
+sudo apt install ./libexadrums0_[...].deb
+sudo apt install ./libexadrums-dev[...].deb
 ```
 
 ### Configuration

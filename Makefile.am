@@ -1,46 +1,42 @@
 ## Process this file with automake to produce Makefile.in
 
 # Copyright (C) 2018-2019 Jérémy Oden <jerem.oden@gmail.com>
-# Copyright (C) 2018-2019 Nicolas Boulenguez <nicolas@debian.org>
+# Copyright (C) 2018-2020 Nicolas Boulenguez <nicolas@debian.org>
+
+# Unless otherwise specified, the numbers refer to
+# https://www.gnu.org/software/automake/manual/automake.html
+
+######################################################################
+# https://www.gnu.org/software/gettext/manual/gettext.html
+# 13.4.8 aclocal.m4 at top level
 
 # Cache shared with autoconf.
 ACLOCAL_AMFLAGS = -I m4
 
-PACKAGE = libexadrums
-
-# https://www.gnu.org/software/libtool/manual/libtool.html#Updating-version-info
-exadrums_libtool_version_info = 0:0:0
-
-# Distribute (in the tarball created by 'make dist-gzip').
-EXTRA_DIST = LICENSE
-
-# Distribute and install into docdir.
-dist_doc_DATA = README.md
-
-# Install into pkgconfigdir, but do not distribute.
-pkgconfigdir = $(libdir)/pkgconfig
-pkgconfig_DATA = exadrums.pc
-
-# Good habits.
-AM_CXXFLAGS = -Wall
-AM_LDFLAGS = \
-  -Wl,--as-needed \
-  -Wl,--no-allow-shlib-undefined \
-  -Wl,--no-copy-dt-needed-entries \
-  -Wl,--no-undefined
+######################################################################
+# 8 building programs and libraries
 
 # Delegate library handling to libtool.
 lib_LTLIBRARIES = libexadrums.la
 
-libexadrums_la_CXXFLAGS = $(AM_CXXFLAGS) \
+# libtool 7.3 updating library version information
+# Downstream packagers may have to override the SO version.
+exadrums_libtool_version_info = 1:0:0
+
+libexadrums_la_CXXFLAGS = \
+  -Wall \
   -pthread \
-  -std=c++17 $(alsa_CFLAGS) $(tinyxml2_CFLAGS)
-libexadrums_la_LDFLAGS = $(AM_LDFLAGS) \
+  -std=c++17 $(alsa_CFLAGS) $(tinyxml2_CFLAGS) $(minizip_CFLAGS)
+libexadrums_la_LDFLAGS = \
+  -Wl,--as-needed \
+  -Wl,--no-allow-shlib-undefined \
+  -Wl,--no-copy-dt-needed-entries \
+  -Wl,--no-undefined \
   -pthread \
   -version-info $(exadrums_libtool_version_info)
 # The -pthread compiler and linker option links with libpthread, but
 # also selects various architecture-dependent settings.
-libexadrums_la_LIBADD = $(alsa_LIBS) $(tinyxml2_LIBS) -lpthread -lstdc++fs -latomic
+libexadrums_la_LIBADD = $(alsa_LIBS) $(tinyxml2_LIBS) $(minizip_LIBS) -lpthread -lstdc++fs -latomic
 # The standard C++ library does not include libatomic on some
 # architectures (armel mips mipsel). It does not hurt to always list
 # it here, it will only be effective when used thanks to --as-needed.
@@ -116,7 +112,8 @@ libexadrums_la_SOURCES = \
   Util/Parsing.h \
   Util/SimpleSafeQueue.h \
   Util/Threading.h \
-  Util/Time.h
+  Util/Time.h \
+  Util/Zip.h
 
 # Install into pkgincludedir, but do not distribute (it is generated
 # by configure.ac).
@@ -150,4 +147,65 @@ nobase_pkginclude_HEADERS = \
   Sound/InstrumentSoundType.h \
   Util/Enums.h \
   Util/ErrorHandling.h \
-  Util/Xml.h
+  Util/Xml.h \
+  Util/Zip.h
+
+######################################################################
+# 12 what gets installed
+
+# Distribute and install into docdir.
+dist_doc_DATA = README.md
+
+# Install in an architecture-dependent directory, do not distribute.
+pkgexecconfigdir = $(libdir)/pkgconfig
+pkgexecconfig_DATA = exadrums.pc
+
+# autoconf 4.8.2 Installation Directory Variables
+# Substituting from here instead of from configure.ac ensures that the
+# user can override prefix on the Make command line.
+edit = sed \
+  -e 's|@PACKAGE_NAME[@]|$(PACKAGE_NAME)|g' \
+  -e 's|@PACKAGE_URL[@]|$(PACKAGE_URL)|g' \
+  -e 's|@PACKAGE_VERSION[@]|$(PACKAGE_VERSION)|g' \
+  -e 's|@includedir[@]|$(includedir)|g' \
+  -e 's|@libdir[@]|$(libdir)|g'
+exadrums.pc: Makefile
+	rm -f $@ $@.tmp
+	srcdir=''; \
+	  test -f ./$@.in || srcdir=$(srcdir)/; \
+	  $(edit) $${srcdir}$@.in >$@.tmp
+	mv $@.tmp $@
+exadrums.pc: $(srcdir)/exadrums.pc.in
+
+######################################################################
+# 13 what gets cleaned
+
+# Remove files created by Makefile.
+CLEANFILES = \
+  exadrums.pc
+
+# Should silent `rm .gitignore && git status`.
+MAINTAINERCLEANFILES = \
+  Makefile.in \
+  aclocal.m4 \
+  ar-lib \
+  compile \
+  config.guess \
+  config.h.in \
+  config.sub \
+  configure \
+  depcomp \
+  install-sh \
+  ltmain.sh \
+  m4/* \
+  missing
+
+######################################################################
+# 14 what goes in a distribution
+
+# Distribute (in the tarball created by 'make dist-gzip').
+EXTRA_DIST = \
+  LICENSE \
+  Roadmap.md \
+  bootstrap \
+  exadrums.pc.in

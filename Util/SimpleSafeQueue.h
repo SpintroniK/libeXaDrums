@@ -27,7 +27,7 @@ namespace Util
 	public:
 
 		/**
-		 * Pushes new value to the queue, and returns true if successful.
+		 * @brief Pushes new value to the queue, and returns true if successful.
 		 * @param value
 		 * @return true if the queue isn't full, false otherwise.
 		 */
@@ -51,7 +51,7 @@ namespace Util
 		}
 
 		/**
-		 * Pops an element from the queue, and returns true if successful.
+		 * @brief Pops an element from the queue, and returns true if successful.
 		 * @param value
 		 * @return true if the queue isn't empty, false otherwise.
 		 */
@@ -75,7 +75,7 @@ namespace Util
 		}
 
 		/**
-		 * Returns the number of elements that the queue can hold.
+		 * @brief Returns the number of elements that the queue can hold.
 		 * @return
 		 */
 		constexpr size_t Capacity() const { return Length; }

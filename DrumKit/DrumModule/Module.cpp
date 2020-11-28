@@ -83,6 +83,9 @@ namespace DrumKit
 
 		Util::SetThreadPriority(playThread.native_handle(), 99);
 
+		// Uncomment if debugging under Linux
+		// pthread_setname_np(playThread.native_handle(), "Module Thread\0");
+
 		return;
 	}
 
@@ -132,8 +135,9 @@ namespace DrumKit
 			throw Util::Exception("This drum kit does not exist.", Util::errorType::error_type_error);
 		}
 
-		// Disable previous kit
-		kits[kitId].Disable();
+		// Disable previous kit if it exists
+		if(kitId < kits.size())
+			kits[kitId].Disable();
 
 		// Clear sound bank and mixer
 		mixer->Clear();
@@ -264,7 +268,7 @@ namespace DrumKit
 			metronome->GenerateClick();
 			std::vector<short> data = metronome->GetData();
 
-			metronomeSoundId = soundBank->AddSound(data, 0.5f);
+			metronomeSoundId = soundBank->AddSound(data, 1.0f);
 			soundBank->LoopSound(metronomeSoundId, true);
 			mixer->PlaySound(metronomeSoundId, 1.0f);
 
@@ -296,7 +300,7 @@ namespace DrumKit
 		return;
 	}
 
-	void Module::ChangeVolume(int volume)
+	void Module::ChangeClickVolume(int volume)
 	{
 
 		if(isMetronomeEnabled.load())
@@ -413,9 +417,19 @@ namespace DrumKit
 	void Module::Run()
 	{
 
+		if(isMetronomeEnabled.load())
+		{
+			const auto metronomeVolume = GetClickVolume();
+			mixer->PlaySound(metronomeSoundId, metronomeVolume);
+		}
 
 		lastTrigTime.store(0, std::memory_order_relaxed);
 		lastTrigValue.store(0, std::memory_order_relaxed);
+
+
+		// Skip high-pass filter transient state
+		for(size_t i = 0; i < 100 * triggers.size(); ++i)
+			std::for_each(triggers.begin(), triggers.end(), [](TriggerPtr& triggerPtr) { triggerPtr->Refresh(); });
 
 		while(isPlay.load())
 		{

@@ -32,10 +32,10 @@ namespace DrumKit
 		state.value = 0.0f;
 		state.isTrig = false;
 
-		// Read sensor date
-		short value = this->GetSensorData();
-
 		const auto parameters = this->GetParameters();
+
+		// Read sensor date
+		double value = parameters.gain * this->GetSensorData();
 
 		// Remove DC offset (high pass filter: y[n] = x[n] - x[n-1] + R * y[n-1])
 		filteredValue = value - prevValue + 0.99 * prevFilteredValue;

@@ -53,17 +53,18 @@ namespace DrumKit
 
 		size_t numSamples;
 
-		short prevValue;
-		short filteredValue;
-		short prevFilteredValue;
+		double prevValue;
+		double filteredValue{};
+		double prevFilteredValue;
 
 		bool trig;
 		bool out;
+		bool reset = false;
 
 		int64_t trigTime;
 
-		short velocity;
-		short maxVelocity;
+		double velocity;
+		double maxVelocity;
 
 		TriggerState state;
 		std::vector<curve_t<float>> curves;

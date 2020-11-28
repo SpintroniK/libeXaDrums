@@ -79,7 +79,9 @@ namespace DrumKit
 	{
 		std::lock_guard<SpinLock> lock(spin);
 
+		const auto sensorConfig = triggerParameters.sensorConfig;
 		triggerParameters = params;
+		triggerParameters.sensorConfig = sensorConfig;
 	}
 
 
