@@ -5,9 +5,11 @@ Maintainer: Jeremy Oden <jerem.oden@gmail.com>
 Build-Depends:
  debhelper-compat (= 13),
  libasound-dev,
+ libminizip-dev,
  libtinyxml2-dev,
  pkg-config,
-Standards-Version: 4.4.1
+ zlib1g-dev,
+Standards-Version: 4.5.1
 Rules-Requires-Root: no
 Homepage: http://www.freewebmaster.fr
 Vcs-Git: https://github.com/SpintroniK/libeXaDrums.git -b debian
@@ -46,8 +48,8 @@ Architecture: any
 Multi-Arch: same
 # /usr/include/libexadrums/Api/Version.h is only generated for the version
 Depends: ${misc:Depends},
- libexadrums1 (= ${binary:Version}),
  libasound-dev,
+ libexadrums1 (= ${binary:Version}),
  libtinyxml2-dev,
 Recommends: pkg-config
 Description: Software drum module (development)

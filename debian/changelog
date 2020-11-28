@@ -1,6 +1,17 @@
 libexadrums (0.5.0-1) unstable; urgency=medium
 
   * New upstream version.
+    Rename the library version because of the new Shared Object version.
+    New dependency on libminizip.
+  * Depend on zlib1g-dev because libminizip-dev does not.
+  * Select Debian branch in Vcs-Browser.
+  * Swap binary packages in control files in order to avoid hard-coding
+    the SO version in the packaging.
+  * Debhelper 13.  Refine patterns in debhelper config files.
+  * Drop obsolete work-around for libtool bug.
+  * Mark autopkgtests as superficial.
+  * Add upstream/metadata.
+  * Standards-Version 4.5.1 (no changes)
 
  -- Jeremy Oden <jerem.oden@gmail.com>  Sat, 28 Nov 2020 17:25:26 +0100
 
