@@ -1,4 +1,4 @@
-libexadrums (0.5.0-1) unstable; urgency=medium
+libexadrums (0.5.1-1) unstable; urgency=medium
 
   * New upstream version.
     Rename the library version because of the new Shared Object version.
