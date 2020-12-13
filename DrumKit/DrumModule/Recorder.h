@@ -45,6 +45,7 @@ namespace DrumKit
 		void Start();
 		void Stop();
 		void Export(const std::string& fileName);
+		void ExportPCM(const std::string& fileName);
 
 		bool Push(TrigSound&& value) { return recordQueue.Push(value); }
 		bool IsRecording(std::memory_order memOrder = std::memory_order_acquire) const { return isRecord.load(memOrder); }
@@ -54,6 +55,7 @@ namespace DrumKit
 		void Record();
 		void DumpBufferToFile();
 		void ConvertFile(const std::string& file);
+		void ConvertToPCM(const std::string& file);
 
 		std::atomic<bool> isRecord;
 

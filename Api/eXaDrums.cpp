@@ -132,6 +132,20 @@ namespace eXaDrumsApi
 		return make_error("", error_type_success);
 	}
 
+	error eXaDrums::RecorderExportPCM_(const char* fileName)
+	{
+		try
+		{
+			this->drumModule->RecorderExportPCM(std::string{fileName});
+		}
+		catch(const std::exception& e)
+		{
+			return make_error("Could not export track.", error_type_warning);
+		}
+		
+		return make_error("", error_type_success);
+	}
+
 	void eXaDrums::GetInstrumentTriggersIds_(int instrumentId, int* data, unsigned int& size) const
 	{
 		if(data == nullptr)

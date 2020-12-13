@@ -13,11 +13,13 @@
 #include "../../Util/Time.h"
 #include "../../Util/Crypt.h"
 #include "../../Util/ErrorHandling.h"
+#include "../../Sound/Util/WavUtil.h"
 
 #include <iterator>
 #include <chrono>
 #include <set>
 #include <map>
+#include <valarray>
 #include <iostream>
 
 #if __has_include(<filesystem>)
@@ -66,6 +68,12 @@ namespace DrumKit
 	{
 		outputFile = fileName;
 		ConvertFile(lastFile);
+	}
+
+	void Recorder::ExportPCM(const std::string& fileName)
+	{
+		outputFile = fileName;
+		ConvertToPCM(lastFile);
 	}
 
 	// PRIVATE Methods
@@ -253,6 +261,11 @@ namespace DrumKit
 				doc.SaveFile((outputFile + ".xml").data());
 			}
 		}
+	}
+
+	void Recorder::ConvertToPCM(const std::string& inputFile)
+	{
+
 	}
 
 } /* namespace DrumKit */

@@ -118,6 +118,12 @@ namespace DrumKit
 		recorder.Export(fileName);
 	}
 
+	void Module::RecorderExportPCM(const std::string& fileName)
+	{
+		recorder.ExportPCM(fileName);
+	}
+
+
 	void Module::GetDirectory(std::string& dir) const noexcept
 	{
 
