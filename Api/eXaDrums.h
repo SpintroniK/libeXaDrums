@@ -96,6 +96,13 @@ namespace eXaDrumsApi
 		 */
 		void RecorderExport(const std::string& fileName);
 
+		/**
+		 * @brief Export recorded data to wav (PCM)
+		 * 
+		 * @param fileName The wav output file name
+		 */
+		void RecorderExportPCM(const std::string& fileName);
+
 		// Metronome
 		
 		/**
@@ -390,6 +397,7 @@ namespace eXaDrumsApi
 		void GetKitsNames_(const char** data, unsigned int& size);
 		void GetInstrumentsNames_(const char** data, unsigned int& size);
 		Util::error RecorderExport_(const char* fileName);
+		Util::error RecorderExportPCM_(const char* fileName);
 		void GetInstrumentTriggersIds_(int instrumentId, int* data, unsigned int& size) const;
 
 
