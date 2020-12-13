@@ -265,6 +265,72 @@ namespace DrumKit
 
 	void Recorder::ConvertToPCM(const std::string& inputFile)
 	{
+		using SoundData = std::valarray<int16_t>;
+		using SoundDataF = std::valarray<float>;
+		using namespace tinyxml2;
+		using namespace std::chrono;
+		using TrigSoundTuple = std::tuple<int, int, int64_t, float>;
+
+		std::ifstream file{inputFile};
+
+		if(!file.good())
+		{
+			throw Exception("Could not load record file.", error_type_error);
+		}
+
+		// Read file line by line
+		std::vector<std::string> lines{std::istream_iterator<Line>{file}, std::istream_iterator<Line>{}};
+
+		// We'll store all the sounds ids in that vector
+		std::vector<TrigSound> sounds;
+		sounds.reserve(lines.size());
+
+		for(const auto& l : lines)
+		{
+			std::istringstream iss(l);
+			std::vector<std::string> tokens{std::istream_iterator<Token<','>>{iss}, std::istream_iterator<Token<','>>{}};
+
+			TrigSoundTuple tuple;
+			VectorOfStrToTuple(tokens, tuple);
+
+			TrigSound t;
+			std::tie(t.instrumentId, t.soundId, t.timeStamp, t.volume) = tuple;
+
+			sounds.push_back(t);
+		}
+
+		std::vector<int> soundsIds(lines.size());
+		std::transform(sounds.begin(), sounds.end(), soundsIds.begin(), [](const auto& s)
+		{
+			return s.soundId;
+		});
+
+		// Get all the unique sounds ids
+		std::set<int> uniqueSoundsIds(soundsIds.begin(), soundsIds.end());
+
+		// Remove the metronome from the set
+		uniqueSoundsIds.erase(-1);
+
+
+		std::vector<SoundData> soundsData;
+		for(const auto& soundId : uniqueSoundsIds)
+		{
+			const auto& sound = soundBankPtr->GetSound(soundId);
+			const auto& soundData = sound.GetInternalData();
+			soundsData.emplace_back(soundData.data(), soundData.size());
+		}
+
+		const auto tStart = sounds.front().timeStamp;
+		const auto tEnd = sounds.back().timeStamp;
+		const auto tDuration = tEnd - tStart;
+
+		const auto lastSoundId = sounds.back().soundId;
+		const auto longuestSoundId = std::max_element(soundsData.begin(), soundsData.end(), [](const auto& a, const auto& b)
+		{
+			return a.size() < b.size();
+		}) - soundsData.begin();
+
+		const auto sampleRate = alsaParameters.sampleRate;
 
 	}
 
