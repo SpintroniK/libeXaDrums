@@ -311,13 +311,14 @@ namespace DrumKit
 		// Remove the metronome from the set
 		uniqueSoundsIds.erase(-1);
 
-
 		std::vector<SoundData> soundsData;
+		std::vector<int> soundsDataIds;
 		for(const auto& soundId : uniqueSoundsIds)
 		{
 			const auto& sound = soundBankPtr->GetSound(soundId);
 			const auto& soundData = sound.GetInternalData();
 			soundsData.emplace_back(soundData.data(), soundData.size());
+			soundsDataIds.push_back(soundId);
 		}
 
 		const auto tStart = sounds.front().timeStamp;
@@ -331,6 +332,55 @@ namespace DrumKit
 		}) - soundsData.begin();
 
 		const auto sampleRate = alsaParameters.sampleRate;
+
+		const auto lastSampleStart = 2 * (tDuration / 1000000.) * sampleRate;  // 2 * for stereo
+
+		size_t totalLength = (int64_t)lastSampleStart + soundsData[longuestSoundId].size() + 1;
+
+		if(totalLength % 2 != 0)
+		{
+			totalLength++;
+		}
+
+		SoundData data(int16_t{0}, totalLength);
+
+		for(const auto& sound : sounds)
+		{
+			if(sound.soundId == -1) // Discard metronome sound
+				continue;
+
+			const auto idSound = std::find_if(soundsDataIds.begin(), soundsDataIds.end(), [&] (const auto sid)
+			{
+				return sid == sound.soundId;
+			}) - soundsDataIds.begin();
+
+			const auto tSample = sound.timeStamp;
+			const auto volume = sound.volume;
+
+			auto sampleNb = (int64_t) (2 * ((tSample - tStart) / 1000000.) * sampleRate);
+			if(sampleNb % 2 != 0) 
+				sampleNb++;
+	
+			SoundDataF snd(0.f, soundsData[idSound].size());
+			std::copy(begin(soundsData[idSound]), end(soundsData[idSound]), begin(snd));
+
+			snd *= 0.66 * volume;
+
+			SoundData sndVol(soundsData[idSound].size());
+			std::copy(std::begin(snd), std::end(snd), std::begin(sndVol));
+
+			std::slice slice(sampleNb, soundsData[idSound].size(), 1);
+			data[slice] += sndVol;
+		}
+
+		std::ofstream pcmFile(outputFile, std::ios::binary);
+		WavHeader header;
+		header.SetDataLength(data.size() * sizeof(int16_t));
+		auto bytes = header.ToBytes();
+
+		pcmFile.write((char*)bytes.data(), bytes.size());
+		pcmFile.write((char*)&data[0], data.size() * sizeof(int16_t));
+		pcmFile.close();
 
 	}
 
