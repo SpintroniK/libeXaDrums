@@ -376,7 +376,8 @@ namespace DrumKit
 		std::ofstream pcmFile(outputFile, std::ios::binary);
 		WavHeader header;
 		header.SetDataLength(data.size() * sizeof(int16_t));
-		auto bytes = header.ToBytes();
+		header.SetSampleRate(sampleRate);
+		const auto bytes = header.ToBytes();
 
 		pcmFile.write((char*)bytes.data(), bytes.size());
 		pcmFile.write((char*)&data[0], data.size() * sizeof(int16_t));
