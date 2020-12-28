@@ -77,6 +77,11 @@ namespace eXaDrumsApi
 		Util::ErrorToException([&]{ return RecorderExportPCM_(fileName.data()); });
 	}
 
+	inline void eXaDrums::RecorderPurgeTempFile()
+	{
+		Util::ErrorToException([&]{ return RecorderPurgeTempFile_(); });
+	}
+
 	inline std::vector<std::string> eXaDrums::GetClicksTypes()
 	{
 

@@ -146,6 +146,20 @@ namespace eXaDrumsApi
 		return make_error("", error_type_success);
 	}
 
+	error eXaDrums::RecorderPurgeTempFile_()
+	{
+		try
+		{
+			this->drumModule->RecorderPurgeTempFile();
+		}
+		catch(const std::exception& e)
+		{
+			return make_error("Unknown error.", error_type_warning);
+		}
+
+		return make_error("", error_type_success);	
+	}
+
 	void eXaDrums::GetInstrumentTriggersIds_(int instrumentId, int* data, unsigned int& size) const
 	{
 		if(data == nullptr)

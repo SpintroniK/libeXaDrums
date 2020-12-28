@@ -44,6 +44,7 @@ namespace DrumKit
 
 		void Start();
 		void Stop();
+		void PurgeTempFile();
 		void Export(const std::string& fileName);
 		void ExportPCM(const std::string& fileName);
 

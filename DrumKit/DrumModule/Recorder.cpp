@@ -64,6 +64,27 @@ namespace DrumKit
 		recordThread.join();
 	}
 
+	void Recorder::PurgeTempFile()
+	{
+		if(isRecord.load(std::memory_order_acquire))
+			return; // File is aleady being accessed, don't try to remove.
+
+		const auto lastFilePath = fs::path{lastFile};
+		
+		try
+		{
+			const auto exists = fs::exists(lastFile);
+			if(exists)
+			{
+				fs::remove(lastFilePath);
+			}
+		}
+		catch(...)
+		{
+			return;
+		}
+	}
+
 	void Recorder::Export(const std::string& fileName)
 	{
 		outputFile = fileName;
@@ -325,7 +346,7 @@ namespace DrumKit
 		const auto tEnd = sounds.back().timeStamp;
 		const auto tDuration = tEnd - tStart;
 
-		const auto lastSoundId = sounds.back().soundId;
+		// const auto lastSoundId = sounds.back().soundId;
 		const auto longuestSoundId = std::max_element(soundsData.begin(), soundsData.end(), [](const auto& a, const auto& b)
 		{
 			return a.size() < b.size();
@@ -364,7 +385,7 @@ namespace DrumKit
 			SoundDataF snd(0.f, soundsData[idSound].size());
 			std::copy(begin(soundsData[idSound]), end(soundsData[idSound]), begin(snd));
 
-			snd *= 0.66 * volume;
+			snd *= 0.66 * volume; // TODO: smart scaling factor and use user volume
 
 			SoundData sndVol(soundsData[idSound].size());
 			std::copy(std::begin(snd), std::end(snd), std::begin(sndVol));
