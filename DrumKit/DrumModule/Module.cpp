@@ -123,6 +123,10 @@ namespace DrumKit
 		recorder.ExportPCM(fileName);
 	}
 
+	void Module::RecorderPurgeTempFile()
+	{
+		recorder.PurgeTempFile();
+	}
 
 	void Module::GetDirectory(std::string& dir) const noexcept
 	{

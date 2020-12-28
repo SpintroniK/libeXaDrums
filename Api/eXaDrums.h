@@ -103,6 +103,12 @@ namespace eXaDrumsApi
 		 */
 		void RecorderExportPCM(const std::string& fileName);
 
+		/**
+		 * @brief Purge recorder temporary (csv) file
+		 * 
+		 */
+		void RecorderPurgeTempFile();
+
 		// Metronome
 		
 		/**
@@ -398,6 +404,7 @@ namespace eXaDrumsApi
 		void GetInstrumentsNames_(const char** data, unsigned int& size);
 		Util::error RecorderExport_(const char* fileName);
 		Util::error RecorderExportPCM_(const char* fileName);
+		Util::error RecorderPurgeTempFile_();
 		void GetInstrumentTriggersIds_(int instrumentId, int* data, unsigned int& size) const;
 
 
