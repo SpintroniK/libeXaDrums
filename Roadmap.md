@@ -14,8 +14,8 @@ This document outlines the development plan from a high level and will be update
 
 ### 0.6.0
 
-- [ ] &#9997;Recorder export to PCM (wav).
-- [ ] Calibration stuff.
+- [X] Recorder export to PCM (wav).
+- [X] Simple calibration stuff.
 
 ## Future versions
 
