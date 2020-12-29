@@ -11,7 +11,7 @@ Build-Depends:
  zlib1g-dev,
 Standards-Version: 4.5.1
 Rules-Requires-Root: no
-Homepage: http://www.freewebmaster.fr
+Homepage: https://exadrums.com
 Vcs-Git: https://github.com/SpintroniK/libeXaDrums.git -b debian
 Vcs-Browser: https://github.com/SpintroniK/libeXaDrums/tree/debian
 
