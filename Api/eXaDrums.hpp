@@ -149,7 +149,7 @@ namespace eXaDrumsApi
 
 	inline void eXaDrums::SetInstrumentVolume(std::size_t id, std::size_t volume)
 	{
-		Util::ExceptionToError([&] { return this->SetInstrumentVolume_(id, volume); });
+		Util::ErrorToException([&] { return this->SetInstrumentVolume_(id, volume); });
 	}
 
 	inline std::vector<std::string> eXaDrums::GetInstrumentsNames()
