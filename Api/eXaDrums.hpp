@@ -147,6 +147,13 @@ namespace eXaDrumsApi
 		return trigsIds;
 	}
 
+	inline float eXaDrums::GetTriggerValue(size_t id)
+	{
+		float value = 0.f;
+		Util::ErrorToException([&] { return this->GetTriggerValue_(id, value); });
+		return value;
+	}
+
 	inline void eXaDrums::SetInstrumentVolume(std::size_t id, std::size_t volume)
 	{
 		Util::ErrorToException([&] { return this->SetInstrumentVolume_(id, volume); });

@@ -173,6 +173,20 @@ namespace eXaDrumsApi
 		size = trigsIds.size();
 	}
 
+	error eXaDrums::GetTriggerValue_(size_t id, float& value)
+	{
+		try
+		{
+			value = drumModule->GetTriggerValue(id);
+		}
+		catch(const Exception& e)
+		{
+			return make_error(e.what(), e.type());
+		}
+
+		return make_error("", error_type_success);
+	}
+
 	// Metronome
 
 	void eXaDrums::EnableMetronome(bool enable) const

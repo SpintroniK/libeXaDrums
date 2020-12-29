@@ -270,6 +270,16 @@ namespace DrumKit
 		return;
 	}
 
+	float Module::GetTriggerValue(size_t id) const
+	{
+		if(id >= triggers.size())
+		{
+			throw Exception("Trigger not found.", error_type_error);
+		}
+
+		return triggers[id]->GetLastTrigValue();
+	}
+
 	void Module::EnableMetronome(bool enable)
 	{
 
