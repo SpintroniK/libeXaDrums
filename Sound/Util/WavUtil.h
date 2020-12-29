@@ -89,6 +89,12 @@ namespace Sound
 			chunk_size = subchunk2_size + 36;
 		}
 
+		void SetSampleRate(uint32_t sampleRate)
+		{
+			sample_rate = sampleRate;
+			byte_rate = num_channels * sample_rate * (bits_per_sample / 8);
+		}
+
 		std::vector<uint8_t> ToBytes() const
 		{
 

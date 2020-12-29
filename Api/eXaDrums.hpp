@@ -72,6 +72,16 @@ namespace eXaDrumsApi
 		Util::ErrorToException([&]{ return RecorderExport_(fileName.data()); });
 	}
 
+	inline void eXaDrums::RecorderExportPCM(const std::string& fileName)
+	{
+		Util::ErrorToException([&]{ return RecorderExportPCM_(fileName.data()); });
+	}
+
+	inline void eXaDrums::RecorderPurgeTempFile()
+	{
+		Util::ErrorToException([&]{ return RecorderPurgeTempFile_(); });
+	}
+
 	inline std::vector<std::string> eXaDrums::GetClicksTypes()
 	{
 
@@ -137,9 +147,16 @@ namespace eXaDrumsApi
 		return trigsIds;
 	}
 
+	inline float eXaDrums::GetTriggerValue(size_t id)
+	{
+		float value = 0.f;
+		Util::ErrorToException([&] { return this->GetTriggerValue_(id, value); });
+		return value;
+	}
+
 	inline void eXaDrums::SetInstrumentVolume(std::size_t id, std::size_t volume)
 	{
-		Util::ExceptionToError([&] { return this->SetInstrumentVolume_(id, volume); });
+		Util::ErrorToException([&] { return this->SetInstrumentVolume_(id, volume); });
 	}
 
 	inline std::vector<std::string> eXaDrums::GetInstrumentsNames()

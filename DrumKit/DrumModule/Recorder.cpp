@@ -13,11 +13,13 @@
 #include "../../Util/Time.h"
 #include "../../Util/Crypt.h"
 #include "../../Util/ErrorHandling.h"
+#include "../../Sound/Util/WavUtil.h"
 
 #include <iterator>
 #include <chrono>
 #include <set>
 #include <map>
+#include <valarray>
 #include <iostream>
 
 #if __has_include(<filesystem>)
@@ -62,10 +64,37 @@ namespace DrumKit
 		recordThread.join();
 	}
 
+	void Recorder::PurgeTempFile()
+	{
+		if(isRecord.load(std::memory_order_acquire))
+			return; // File is aleady being accessed, don't try to remove.
+
+		const auto lastFilePath = fs::path{lastFile};
+		
+		try
+		{
+			const auto exists = fs::exists(lastFile);
+			if(exists)
+			{
+				fs::remove(lastFilePath);
+			}
+		}
+		catch(...)
+		{
+			return;
+		}
+	}
+
 	void Recorder::Export(const std::string& fileName)
 	{
 		outputFile = fileName;
 		ConvertFile(lastFile);
+	}
+
+	void Recorder::ExportPCM(const std::string& fileName)
+	{
+		outputFile = fileName;
+		ConvertToPCM(lastFile);
 	}
 
 	// PRIVATE Methods
@@ -253,6 +282,128 @@ namespace DrumKit
 				doc.SaveFile((outputFile + ".xml").data());
 			}
 		}
+	}
+
+	void Recorder::ConvertToPCM(const std::string& inputFile)
+	{
+		using SoundData = std::valarray<int16_t>;
+		using SoundDataF = std::valarray<float>;
+		using namespace tinyxml2;
+		using namespace std::chrono;
+		using TrigSoundTuple = std::tuple<int, int, int64_t, float>;
+
+		std::ifstream file{inputFile};
+
+		if(!file.good())
+		{
+			throw Exception("Could not load record file.", error_type_error);
+		}
+
+		// Read file line by line
+		std::vector<std::string> lines{std::istream_iterator<Line>{file}, std::istream_iterator<Line>{}};
+
+		// We'll store all the sounds ids in that vector
+		std::vector<TrigSound> sounds;
+		sounds.reserve(lines.size());
+
+		for(const auto& l : lines)
+		{
+			std::istringstream iss(l);
+			std::vector<std::string> tokens{std::istream_iterator<Token<','>>{iss}, std::istream_iterator<Token<','>>{}};
+
+			TrigSoundTuple tuple;
+			VectorOfStrToTuple(tokens, tuple);
+
+			TrigSound t;
+			std::tie(t.instrumentId, t.soundId, t.timeStamp, t.volume) = tuple;
+
+			sounds.push_back(t);
+		}
+
+		std::vector<int> soundsIds(lines.size());
+		std::transform(sounds.begin(), sounds.end(), soundsIds.begin(), [](const auto& s)
+		{
+			return s.soundId;
+		});
+
+		// Get all the unique sounds ids
+		std::set<int> uniqueSoundsIds(soundsIds.begin(), soundsIds.end());
+
+		// Remove the metronome from the set
+		uniqueSoundsIds.erase(-1);
+
+		std::vector<SoundData> soundsData;
+		std::vector<int> soundsDataIds;
+		for(const auto& soundId : uniqueSoundsIds)
+		{
+			const auto& sound = soundBankPtr->GetSound(soundId);
+			const auto& soundData = sound.GetInternalData();
+			soundsData.emplace_back(soundData.data(), soundData.size());
+			soundsDataIds.push_back(soundId);
+		}
+
+		const auto tStart = sounds.front().timeStamp;
+		const auto tEnd = sounds.back().timeStamp;
+		const auto tDuration = tEnd - tStart;
+
+		// const auto lastSoundId = sounds.back().soundId;
+		const auto longuestSoundId = std::max_element(soundsData.begin(), soundsData.end(), [](const auto& a, const auto& b)
+		{
+			return a.size() < b.size();
+		}) - soundsData.begin();
+
+		const auto sampleRate = alsaParameters.sampleRate;
+
+		const auto lastSampleStart = 2 * (tDuration / 1000000.) * sampleRate;  // 2 * for stereo
+
+		size_t totalLength = (int64_t)lastSampleStart + soundsData[longuestSoundId].size() + 1;
+
+		if(totalLength % 2 != 0)
+		{
+			totalLength++;
+		}
+
+		SoundData data(int16_t{0}, totalLength);
+
+		for(const auto& sound : sounds)
+		{
+			if(sound.soundId == -1) // Discard metronome sound
+				continue;
+
+			const auto idSound = std::find_if(soundsDataIds.begin(), soundsDataIds.end(), [&] (const auto sid)
+			{
+				return sid == sound.soundId;
+			}) - soundsDataIds.begin();
+
+			const auto tSample = sound.timeStamp;
+			const auto volume = sound.volume;
+
+			auto sampleNb = (int64_t) (2 * ((tSample - tStart) / 1000000.) * sampleRate);
+			if(sampleNb % 2 != 0) 
+				sampleNb++;
+	
+			SoundDataF snd(0.f, soundsData[idSound].size());
+			std::copy(begin(soundsData[idSound]), end(soundsData[idSound]), begin(snd));
+
+			snd *= 0.66 * volume; // TODO: smart scaling factor and use user volume
+
+			SoundData sndVol(soundsData[idSound].size());
+			std::copy(std::begin(snd), std::end(snd), std::begin(sndVol));
+
+			std::slice slice(sampleNb, soundsData[idSound].size(), 1);
+			data[slice] += sndVol;
+		}
+
+		std::ofstream pcmFile(outputFile, std::ios::binary);
+		WavHeader header;
+		header.SetDataLength(data.size() * sizeof(int16_t));
+		header.SetSampleRate(sampleRate);
+		const auto bytes = header.ToBytes();
+
+		pcmFile.write((char*)bytes.data(), bytes.size());
+		pcmFile.write((char*)&data[0], data.size() * sizeof(int16_t));
+		pcmFile.close();
+
 	}
 
 } /* namespace DrumKit */
