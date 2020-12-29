@@ -40,6 +40,7 @@ namespace DrumKit
 		virtual int GetId() const { return this->triggerParameters.sensorId; };
 		virtual TriggerType GetType() const { return this->triggerParameters.type; }
 		virtual TriggerState const& GetTriggerState() const { return state; }
+		virtual float GetLastTrigValue() const { return lastTrigValue; }
 		virtual TriggerParameters GetParameters() const;
 
 
@@ -53,6 +54,7 @@ namespace DrumKit
 
 		size_t numSamples;
 
+		float lastTrigValue = 0.f;
 		double prevValue;
 		double filteredValue{};
 		double prevFilteredValue;

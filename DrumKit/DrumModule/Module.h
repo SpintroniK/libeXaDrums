@@ -61,12 +61,15 @@ namespace DrumKit
 		std::vector<TriggerParameters> GetTriggersParameters() const { return this->triggersParameters; }
 		unsigned long long GetLastTrigTime() const noexcept { return lastTrigTime.load(std::memory_order_acquire); }
 		int GetLastTrigValue() const noexcept { return lastTrigValue.load(std::memory_order_acquire); }
+		float GetTriggerValue(size_t id) const;
 
 		// Module
 		void Start();
 		void Stop();
 		void EnableRecording(bool record);
 		void RecorderExport(const std::string& fileName);
+		void RecorderExportPCM(const std::string& fileName);
+		void RecorderPurgeTempFile();
 		void GetDirectory(std::string& dir) const noexcept;
 
 		// Metronome

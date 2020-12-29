@@ -132,6 +132,34 @@ namespace eXaDrumsApi
 		return make_error("", error_type_success);
 	}
 
+	error eXaDrums::RecorderExportPCM_(const char* fileName)
+	{
+		try
+		{
+			this->drumModule->RecorderExportPCM(std::string{fileName});
+		}
+		catch(const std::exception& e)
+		{
+			return make_error("Could not export track.", error_type_warning);
+		}
+		
+		return make_error("", error_type_success);
+	}
+
+	error eXaDrums::RecorderPurgeTempFile_()
+	{
+		try
+		{
+			this->drumModule->RecorderPurgeTempFile();
+		}
+		catch(const std::exception& e)
+		{
+			return make_error("Unknown error.", error_type_warning);
+		}
+
+		return make_error("", error_type_success);	
+	}
+
 	void eXaDrums::GetInstrumentTriggersIds_(int instrumentId, int* data, unsigned int& size) const
 	{
 		if(data == nullptr)
@@ -143,6 +171,20 @@ namespace eXaDrumsApi
 		std::vector<int> trigsIds = drumModule->GetInstrumentTriggersIds(instrumentId);
 		std::copy(trigsIds.cbegin(), trigsIds.cend(), data);
 		size = trigsIds.size();
+	}
+
+	error eXaDrums::GetTriggerValue_(size_t id, float& value)
+	{
+		try
+		{
+			value = drumModule->GetTriggerValue(id);
+		}
+		catch(const Exception& e)
+		{
+			return make_error(e.what(), e.type());
+		}
+
+		return make_error("", error_type_success);
 	}
 
 	// Metronome

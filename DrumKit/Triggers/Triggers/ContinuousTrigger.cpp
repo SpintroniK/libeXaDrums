@@ -31,6 +31,7 @@ namespace DrumKit
 		short value = this->GetSensorData();
 
 		state.value = value / numSamples / 2.0f;
+		lastTrigValue = state.value;
 
 		return;
 	}

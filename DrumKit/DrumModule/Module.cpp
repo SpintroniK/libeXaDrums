@@ -118,6 +118,16 @@ namespace DrumKit
 		recorder.Export(fileName);
 	}
 
+	void Module::RecorderExportPCM(const std::string& fileName)
+	{
+		recorder.ExportPCM(fileName);
+	}
+
+	void Module::RecorderPurgeTempFile()
+	{
+		recorder.PurgeTempFile();
+	}
+
 	void Module::GetDirectory(std::string& dir) const noexcept
 	{
 
@@ -258,6 +268,16 @@ namespace DrumKit
 		LoadTriggers();
 
 		return;
+	}
+
+	float Module::GetTriggerValue(size_t id) const
+	{
+		if(id >= triggers.size())
+		{
+			throw Exception("Trigger not found.", error_type_error);
+		}
+
+		return triggers[id]->GetLastTrigValue();
 	}
 
 	void Module::EnableMetronome(bool enable)

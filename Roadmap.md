@@ -12,26 +12,12 @@ This document outlines the development plan from a high level and will be update
 
 ## Current version
 
-### 0.5.0
-
-- [x] Add export configuration feature.
-- [x] Add import configuration feature.
-- [x] Add GetVersion() to API.
-- [x] Document API.
-- [x] Bug fix: check if instrument's triggers exist.
-- [x] Add trigger sensitivity (gain).
-- [x] Fix trig on start bug (to be improved).
-- [x] Add rhythm coach score (done in eXaDrums directly).
-- [x] Create instrument only if enough triggers are available.
-- [x] Fix metronome volume bug.
-
-## Future versions
-
 ### 0.6.0
 
-- [ ] Add recorder's sound export API.
-- [ ] Recorder can export to either xml or wav.
-- [ ] Calibration stuff.
+- [X] Recorder export to PCM (wav).
+- [X] Simple calibration stuff.
+
+## Future versions
 
 ### 0.7.0
 
@@ -49,6 +35,19 @@ This document outlines the development plan from a high level and will be update
 - [ ] API documentation.
 
 ## Past versions
+
+### 0.5.0
+
+- [x] Add export configuration feature.
+- [x] Add import configuration feature.
+- [x] Add GetVersion() to API.
+- [x] Document API.
+- [x] Bug fix: check if instrument's triggers exist.
+- [x] Add trigger sensitivity (gain).
+- [x] Fix trig on start bug (to be improved).
+- [x] Add rhythm coach score (done in eXaDrums directly).
+- [x] Create instrument only if enough triggers are available.
+- [x] Fix metronome volume bug.
 
 ### 0.4.2
 
