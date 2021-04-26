@@ -12,16 +12,17 @@ This document outlines the development plan from a high level and will be update
 
 ## Current version
 
-### 0.6.0
+### 0.7.0
 
-- [X] Recorder export to PCM (wav).
-- [X] Simple calibration stuff.
+- [ ] Improve recorder stuff (auto gain, etc.).
+- [ ] More generic SPI sensor reading (multiple devices, etc.).
 
 ## Future versions
 
-### 0.7.0
-
 ### 0.8.0
+
+- [ ] Hybrid trigger (for hi-hat).
+- [ ] Better dual zone triggers.
 
 ### 0.9.0
 
@@ -35,6 +36,11 @@ This document outlines the development plan from a high level and will be update
 - [ ] API documentation.
 
 ## Past versions
+
+### 0.6.0
+
+- [X] Recorder export to PCM (wav).
+- [X] Simple calibration stuff.
 
 ### 0.5.0
 
