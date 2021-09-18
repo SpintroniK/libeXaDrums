@@ -20,10 +20,14 @@
 #include <fstream>
 #include <queue>
 #include <functional>
+#include <valarray>
 #include <string>
 
 namespace DrumKit
 {
+
+	using SoundData = std::valarray<int16_t>;
+	using SoundDataF = std::valarray<float>;
 
 	class Module;
 
@@ -47,6 +51,10 @@ namespace DrumKit
 		void PurgeTempFile();
 		void Export(const std::string& fileName);
 		void ExportPCM(const std::string& fileName);
+
+		SoundDataF ProcessSoundsData(const std::vector<SoundData>& soundsData, const std::vector<TrigSound>& sounds,
+									 const std::vector<int>& soundsDataIds, int64_t tStart, size_t totalLength, 
+									 unsigned int sampleRate, double gain);
 
 		bool Push(TrigSound&& value) { return recordQueue.Push(value); }
 		bool IsRecording(std::memory_order memOrder = std::memory_order_acquire) const { return isRecord.load(memOrder); }
