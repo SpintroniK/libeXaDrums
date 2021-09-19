@@ -361,11 +361,11 @@ namespace DrumKit
 			totalLength++;
 		}
 
+		SoundDataF dataF;
 		auto gain = 1. / soundsDataIds.size();
-		const auto target = 0.9 * static_cast<double>(std::numeric_limits<int16_t>::max());
+		const auto target = 0.9 * static_cast<double>(std::numeric_limits<SoundData::value_type>::max());
 		auto max = 0.;
 
-		SoundDataF dataF;
 		
 		do
 		{
