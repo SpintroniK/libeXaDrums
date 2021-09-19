@@ -26,8 +26,8 @@ namespace DrumKit
 			switch (triggerParameters.type)
 			{
 
-			case TriggerType::Discrete:   return std::make_shared<DiscreteTrigger>(triggerParameters);
-			case TriggerType::Continuous: return std::make_shared<ContinuousTrigger>(triggerParameters);
+			case TriggerType::Discrete:   return std::make_unique<DiscreteTrigger>(triggerParameters);
+			case TriggerType::Continuous: return std::make_unique<ContinuousTrigger>(triggerParameters);
 
 			default: Util::Exception("Unknown trigger type.", Util::error_type_error); return TriggerPtr(nullptr);
 

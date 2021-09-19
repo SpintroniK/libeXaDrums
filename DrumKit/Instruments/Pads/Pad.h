@@ -42,7 +42,7 @@ namespace DrumKit
 
 	private:
 
-		TriggerPtr trigger;
+		Trigger* trigger;
 
 		int soundId;
 

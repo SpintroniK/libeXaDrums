@@ -27,7 +27,7 @@ namespace DrumKit
 		{
 
 			auto triggerIdAndLocation = std::find_if(parameters.triggersIdsAndLocations.cbegin(), parameters.triggersIdsAndLocations.cend(),
-					[triggerPtr](std::pair<int, TriggerLocation> const& idAndLocation) { return (idAndLocation.first == triggerPtr->GetId()); });
+					[&triggerPtr](std::pair<int, TriggerLocation> const& idAndLocation) { return (idAndLocation.first == triggerPtr->GetId()); });
 
 			if(triggerIdAndLocation != std::end(parameters.triggersIdsAndLocations))
 			{
@@ -36,7 +36,7 @@ namespace DrumKit
 
 				switch (triggerLocation)
 				{
-					case TriggerLocation::DrumHead: this->trigger = triggerPtr; break;
+					case TriggerLocation::DrumHead: this->trigger = triggerPtr.get(); break;
 
 					default: break;
 				}

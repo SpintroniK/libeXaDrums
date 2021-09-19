@@ -508,7 +508,7 @@ namespace DrumKit
 		for(const TriggerParameters& triggerParameters : triggersParameters)
 		{
 			TriggerPtr triggerPtr = TriggerFactory::CreateTrigger(triggerParameters);
-			triggers.push_back(triggerPtr);
+			triggers.push_back(std::move(triggerPtr));
 		}
 
 		return;

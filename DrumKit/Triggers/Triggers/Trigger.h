@@ -43,10 +43,10 @@ namespace DrumKit
 		virtual float GetLastTrigValue() const { return lastTrigValue; }
 		virtual TriggerParameters GetParameters() const;
 
+		virtual ~Trigger() = default;
 
 	protected:
 
-		virtual ~Trigger() = default;
 
 		virtual short GetSensorData() const;
 
@@ -80,7 +80,7 @@ namespace DrumKit
 	};
 
 
-	typedef std::shared_ptr<Trigger> TriggerPtr;
+	typedef std::unique_ptr<Trigger> TriggerPtr;
 
 
 }

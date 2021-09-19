@@ -45,8 +45,8 @@ namespace DrumKit
 	private:
 
 
-		TriggerPtr cymbalTrigger;
-		TriggerPtr pedalTrigger;
+		Trigger* cymbalTrigger;
+		Trigger* pedalTrigger;
 
 		std::vector<int> hiHatSoundsIds;
 

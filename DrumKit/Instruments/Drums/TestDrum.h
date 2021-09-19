@@ -43,8 +43,8 @@ namespace DrumKit
 
 	private:
 
-		TriggerPtr drumHeadTrigger;
-		TriggerPtr drumRimTrigger;
+		Trigger* drumHeadTrigger;
+		Trigger* drumRimTrigger;
 
 		int drumHeadSoundId;
 		int drumRimSoundId;
