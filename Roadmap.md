@@ -16,13 +16,13 @@ This document outlines the development plan from a high level and will be update
 
 - &#9997; Improve recorder stuff (auto gain, etc.).
 - [ ] More generic SPI sensor reading (multiple devices, etc.).
+- [ ] Improve factories
 
 ## Future versions
 
 ### 0.8.0
 
-- [ ] Hybrid trigger (for hi-hat).
-- [ ] Better dual zone triggers.
+- [ ] More trigger types.
 
 ### 0.9.0
 
