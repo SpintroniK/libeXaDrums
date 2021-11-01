@@ -18,28 +18,19 @@ namespace IO
 	const std::vector<std::string> HddSensor::dataFiles({"out.raw", "out.raw", "out.raw"});
 
 
-	HddSensor::HddSensor(const std::string& dataFolder) : path(dataFolder), index(0)
+	HddSensor::HddSensor(const std::string& dataFolder, size_t chan) : path(dataFolder), index(0)
 	{
-
-
-		return;
-	}
-
-	HddSensor::~HddSensor()
-	{
-
-
+		this->channel = chan;
 		return;
 	}
 
 
-	short HddSensor::GetData(char channel)
+	short HddSensor::GetData()
 	{
-
 
 		if(data.empty())
 		{
-			ReadData(channel);
+			ReadData();
 		}
 
 		// Wait for a few microseconds
@@ -60,7 +51,7 @@ namespace IO
 
 	// Private Methods
 
-	void HddSensor::ReadData(char channel)
+	void HddSensor::ReadData()
 	{
 
 		std::string fileName = dataFiles[channel % dataFiles.size()];
@@ -87,5 +78,3 @@ namespace IO
 	}
 
 }
-
-

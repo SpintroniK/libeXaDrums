@@ -10,7 +10,7 @@
 
 
 #include "../Curves/Curves.h"
-#include "../../../IO/ISensor.h"
+#include "../../../IO/SensorFactory.h"
 #include "../../../Util/Threading.h"
 
 #include "../TriggerParameters.h"
@@ -29,13 +29,13 @@ namespace DrumKit
 	public:
 
 
-		explicit Trigger(TriggerParameters trigParams);
+		Trigger(TriggerParameters trigParams, const IO::SensorFactory& sensorFactory);
 
 		//virtual bool Trig(short value, float& strength) = 0;
 		virtual void Refresh() = 0;
 
 		virtual void SetParameters(const TriggerParameters& params);
-		virtual void SetSensorData(char channel, short data) { this->sensor->SetData(channel, data); }
+		virtual void SetSensorData(short data) { this->sensor->SetData(data); }
 
 		virtual int GetId() const { return this->triggerParameters.sensorId; };
 		virtual TriggerType GetType() const { return this->triggerParameters.type; }
@@ -68,14 +68,14 @@ namespace DrumKit
 		double velocity;
 		double maxVelocity;
 
-		TriggerState state;
-		std::vector<curve_t<float>> curves;
-		std::unique_ptr<IO::ISensor> sensor;
+		TriggerState state{};
+		std::vector<curve_t<float>> curves{};
+		IO::ISensorPtr sensor{};
 
 	private:
 
 		mutable Util::SpinLock spin;
-		TriggerParameters triggerParameters;
+		TriggerParameters triggerParameters{};
 
 	};
 

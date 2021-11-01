@@ -10,6 +10,7 @@
 
 #include "TriggerParameters_api.h"
 
+#include "../../IO/SensorFactory.h"
 #include "../../DrumKit/DrumModule/Module.h"
 #include "../../DrumKit/Triggers/TriggerManager.h"
 #include "../../Util/Enums.h"
@@ -210,7 +211,7 @@ namespace eXaDrumsApi
 	void Config::SetSensorsType_(const char* type)
 	{
 
-		sensorsConfig.sensorType = Enums::ToElement<IO::SensorType>(std::string(type));
+		sensorsConfig.sensorType = std::string{type};
 		return;
 	}
 
@@ -327,23 +328,18 @@ namespace eXaDrumsApi
 
 		if(types == nullptr)
 		{
-			size = Enums::GetEnumVector<IO::SensorType>().size();
+			size = IO::SensorFactory::Types.size();
 			return;
 		}
 
-		const std::vector<IO::SensorType>& vec = Enums::GetEnumVector<IO::SensorType>();
-
 		this->sensorsTypes.clear();
-		this->sensorsTypes.resize(vec.size());
-
-		std::transform(vec.cbegin(), vec.cend(), this->sensorsTypes.begin(), [](const IO::SensorType& t) { return Enums::ToString(t); });
-
+		this->sensorsTypes.resize(IO::SensorFactory::Types.size());
 
 		unsigned int numElements = std::min<unsigned int>(size, sensorsTypes.size());
 
 		for(unsigned int i = 0; i < numElements; i++)
 		{
-			types[i] = sensorsTypes[i].c_str();
+			types[i] = IO::SensorFactory::Types[i];
 		}
 
 		return;
@@ -450,7 +446,7 @@ namespace eXaDrumsApi
 	const char* Config::GetSensorsType_()
 	{
 
-		this->sensorType = Enums::ToString(this->sensorsConfig.sensorType);
+		this->sensorType = this->sensorsConfig.sensorType;
 
 		return this->sensorType.c_str();
 	}

@@ -8,8 +8,6 @@
 #ifndef SOURCE_DRUMKIT_TRIGGERS_TRIGGERMANAGER_H_
 #define SOURCE_DRUMKIT_TRIGGERS_TRIGGERMANAGER_H_
 
-
-#include "../../IO/SensorType.h"
 #include "../../IO/SensorsConfig.h"
 
 #include "TriggerParameters.h"

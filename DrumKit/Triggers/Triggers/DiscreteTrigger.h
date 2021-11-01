@@ -8,8 +8,9 @@
 #ifndef RASPIDRUMS_SOURCE_DRUMKIT_TRIGGER_H_
 #define RASPIDRUMS_SOURCE_DRUMKIT_TRIGGER_H_
 
-#include "Trigger.h"
+#include "../../../IO/SensorFactory.h"
 #include "../TriggerParameters.h"
+#include "Trigger.h"
 
 
 namespace DrumKit
@@ -20,7 +21,7 @@ namespace DrumKit
 
 	public:
 
-		explicit DiscreteTrigger(const TriggerParameters& triggerParams);
+		explicit DiscreteTrigger(const TriggerParameters& triggerParams, const IO::SensorFactory& sensorFactory);
 		~DiscreteTrigger() = default;
 
 		virtual void Refresh() final;

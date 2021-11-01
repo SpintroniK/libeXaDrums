@@ -16,31 +16,35 @@
 namespace IO
 {
 
-	const std::string Spi::spiDev0 = "/dev/spidev0.0";
-	const uint8_t Spi::bitsPerWord = 8;
-	const uint16_t Spi::delay = 0;
+	const std::string SpiDev::spiDevPath = "/dev/spidev";
+	const uint8_t SpiDev::bitsPerWord = 8;
+	const uint16_t SpiDev::delay = 0;
 
+	SpiDev::SpiDev(size_t dev, size_t cs)
+	{
+		this->devicePath = spiDevPath + std::to_string(dev) + "." + std::to_string(cs);
+	}
 
-	void Spi::Open(int freq, int mode) noexcept
+	void SpiDev::Open(size_t freq, int mode) noexcept
 	{
 
 		this->clkFreq = freq;
 
-		this->fd = open(Spi::spiDev0.c_str(), O_RDWR);
+		this->fd = open(devicePath.c_str(), O_RDWR);
 
 
 	  	mode &= 3;
 
 
 		ioctl(this->fd, SPI_IOC_WR_MODE, &mode);
-		ioctl(this->fd, SPI_IOC_WR_BITS_PER_WORD, &Spi::bitsPerWord);
+		ioctl(this->fd, SPI_IOC_WR_BITS_PER_WORD, &SpiDev::bitsPerWord);
 		ioctl(this->fd, SPI_IOC_WR_MAX_SPEED_HZ, &this->clkFreq);
 
 
 		return;
 	}
 
-	void Spi::Close() noexcept
+	void SpiDev::Close() noexcept
 	{
 
 		if(fd != -1)
@@ -52,19 +56,19 @@ namespace IO
 		return;
 	}
 
-	int Spi::dataRW(unsigned char* data, int len)
+	int SpiDev::dataRW(unsigned char* data, size_t len) const noexcept
 	{
 
-		struct spi_ioc_transfer spiData{};
+		spi_ioc_transfer spiData{};
 
-		spiData.tx_buf = (unsigned long)data;
-		spiData.rx_buf = (unsigned long)data;
+		spiData.tx_buf = reinterpret_cast<decltype(spiData.tx_buf)>(data);
+		spiData.rx_buf = reinterpret_cast<decltype(spiData.rx_buf)>(data);
 
 		spiData.len = len ;
 		spiData.speed_hz = this->clkFreq;
 
 		spiData.delay_usecs = 0;
-		spiData.bits_per_word = Spi::bitsPerWord;
+		spiData.bits_per_word = SpiDev::bitsPerWord;
 		spiData.cs_change = 0;
 		spiData.pad = 0;
 

@@ -8,8 +8,11 @@
 #ifndef SOURCE_DRUMKIT_TRIGGERS_TRIGGERS_CONTINUOUSTRIGGER_H_
 #define SOURCE_DRUMKIT_TRIGGERS_TRIGGERS_CONTINUOUSTRIGGER_H_
 
-#include "Trigger.h"
+#include "../../../IO/SensorFactory.h"
 #include "../TriggerParameters.h"
+#include "Trigger.h"
+
+#include <memory>
 
 namespace DrumKit
 {
@@ -19,7 +22,7 @@ namespace DrumKit
 
 	public:
 
-		explicit ContinuousTrigger(const TriggerParameters& triggerParams);
+		ContinuousTrigger(const TriggerParameters& triggerParams, const IO::SensorFactory& sensorFactory);
 		~ContinuousTrigger() = default;
 
 		virtual void Refresh() final;

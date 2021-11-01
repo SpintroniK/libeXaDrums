@@ -18,7 +18,8 @@ namespace DrumKit
 {
 
 
-	DiscreteTrigger::DiscreteTrigger(const TriggerParameters& triggerParams) : Trigger(triggerParams)
+	DiscreteTrigger::DiscreteTrigger(const TriggerParameters& triggerParams, const IO::SensorFactory& sensorFactory) 
+	: Trigger(triggerParams, sensorFactory)
 	{
 
 		return;

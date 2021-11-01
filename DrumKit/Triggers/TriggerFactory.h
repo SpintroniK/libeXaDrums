@@ -8,6 +8,7 @@
 #ifndef SOURCE_DRUMKIT_TRIGGERS_TRIGGERFACTORY_H_
 #define SOURCE_DRUMKIT_TRIGGERS_TRIGGERFACTORY_H_
 
+#include "../../IO/SensorFactory.h"
 #include "../../Util/ErrorHandling.h"
 #include "Triggers/DiscreteTrigger.h"
 #include "Triggers/ContinuousTrigger.h"
@@ -20,14 +21,14 @@ namespace DrumKit
 
 	public:
 
-		static TriggerPtr CreateTrigger(const TriggerParameters& triggerParameters)
+		static TriggerPtr CreateTrigger(const TriggerParameters& triggerParameters, const IO::SensorFactory& sensorFactory)
 		{
 
 			switch (triggerParameters.type)
 			{
 
-			case TriggerType::Discrete:   return std::make_unique<DiscreteTrigger>(triggerParameters);
-			case TriggerType::Continuous: return std::make_unique<ContinuousTrigger>(triggerParameters);
+			case TriggerType::Discrete:   return std::make_unique<DiscreteTrigger>(triggerParameters, sensorFactory);
+			case TriggerType::Continuous: return std::make_unique<ContinuousTrigger>(triggerParameters, sensorFactory);
 
 			default: Util::Exception("Unknown trigger type.", Util::error_type_error); return TriggerPtr(nullptr);
 

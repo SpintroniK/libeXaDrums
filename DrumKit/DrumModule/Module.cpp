@@ -416,12 +416,9 @@ namespace DrumKit
 		// Update sensors configuration
 		TriggerManager::LoadSensorsConfig(this->directory, this->sensorsConfig);
 
-		if(sensorsConfig.sensorType == IO::SensorType::Spi)
-		{
-			IO::Spi::get().Close();
-			IO::Spi::get().Open(sensorsConfig.samplingRate, 0);
-		}
-
+		this->spidev = std::move(std::vector{ IO::SpiDev{0,0} });
+		this->sensorFactory.SetSpiDev(this->spidev);
+		this->sensorFactory.SetDataFolder(this->sensorsConfig.hddDataFolder);
 
 		// Load triggers
 		TriggerManager::LoadTriggersConfig(this->directory, sensorsConfig, this->triggersParameters);
@@ -436,6 +433,15 @@ namespace DrumKit
 
 	void Module::Run()
 	{
+
+		if(sensorsConfig.sensorType == "Spi")
+		{
+			for(auto& dev : spidev)
+			{
+				dev.Close();
+				dev.Open(sensorsConfig.samplingRate, 0);
+			}
+		}
 
 		if(isMetronomeEnabled.load())
 		{
@@ -507,7 +513,7 @@ namespace DrumKit
 
 		for(const TriggerParameters& triggerParameters : triggersParameters)
 		{
-			TriggerPtr triggerPtr = TriggerFactory::CreateTrigger(triggerParameters);
+			TriggerPtr triggerPtr = TriggerFactory::CreateTrigger(triggerParameters, this->sensorFactory);
 			triggers.push_back(std::move(triggerPtr));
 		}
 

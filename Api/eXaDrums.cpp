@@ -349,9 +349,9 @@ namespace eXaDrumsApi
 	 * @param channel 
 	 * @param data trigger's output value
 	 */
-	void eXaDrums::SetTriggerSensorValue(std::size_t id, char channel, short data)
+	void eXaDrums::SetTriggerSensorValue(std::size_t id, short data)
 	{
-		this->drumModule->SetTriggerSensorValue(id, channel, data);
+		this->drumModule->SetTriggerSensorValue(id, data);
 	}
 
 	std::size_t eXaDrums::GetSensorsResolution() const noexcept
@@ -361,12 +361,12 @@ namespace eXaDrumsApi
 
 	bool eXaDrums::IsSensorVirtual() const noexcept
 	{
-		return this->drumModule->GetSensorsConfig().sensorType == IO::SensorType::Virtual;
+		return this->drumModule->GetSensorsConfig().sensorType == "Virtual";
 	}
 
 	bool eXaDrums::IsSensorSpi() const noexcept
 	{
-		return this->drumModule->GetSensorsConfig().sensorType == IO::SensorType::Spi;
+		return this->drumModule->GetSensorsConfig().sensorType == "Spi";
 	}
 
 	std::string eXaDrums::GetAudioDeviceName() const noexcept

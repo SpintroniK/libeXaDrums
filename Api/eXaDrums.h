@@ -349,7 +349,7 @@ namespace eXaDrumsApi
 		 * @param channel Trigger channel
 		 * @param data Trig event's intensity
 		 */
-		void SetTriggerSensorValue(std::size_t id, char channel, short data);
+		void SetTriggerSensorValue(std::size_t id, short data);
 
 		// Sensors
 

@@ -34,7 +34,7 @@ namespace DrumKit
 		IO::SensorsConfig sensorsConfig;
 		sensorsConfig.resolution = 12;
 		sensorsConfig.samplingRate = 1000000;
-		sensorsConfig.sensorType = IO::SensorType::Hdd;
+		sensorsConfig.sensorType = "Hdd";
 		sensorsConfig.hddDataFolder = "";
 
 		// Load triggers config with default sensor parameters
@@ -157,9 +157,7 @@ namespace DrumKit
 		root.FirstChildElement("SamplingRate").GetValue(sensorConfig.samplingRate);
 		root.FirstChildElement("Resolution").GetValue(sensorConfig.resolution);
 		root.FirstChildElement("HddDataFolder").GetValue(sensorConfig.hddDataFolder);
-
-		auto type = root.FirstChildElement("Type").GetValue<std::string>();
-		sensorConfig.sensorType = Enums::ToElement<IO::SensorType>(type);
+		root.FirstChildElement("Type").GetValue(sensorConfig.sensorType);
 
 		return;
 	}
@@ -184,8 +182,7 @@ namespace DrumKit
 		samplingRate->SetText(sensorConfig.samplingRate);
 		resolution->SetText(sensorConfig.resolution);
 
-		std::string typeStr = Enums::ToString(sensorConfig.sensorType);
-		type->SetText(typeStr.c_str());
+		type->SetText(sensorConfig.sensorType.c_str());
 
 		dataFolder->SetText(sensorConfig.hddDataFolder.c_str());
 

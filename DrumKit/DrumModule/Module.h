@@ -10,6 +10,7 @@
 
 #include "../../Metronome/Metronome.h"
 #include "../../IO/SensorsConfig.h"
+#include "../../IO/SensorFactory.h"
 #include "../../Sound/Mixer/Mixer.h"
 #include "../../Sound/Alsa/AlsaParams.h"
 #include "../../Sound/SoundBank/SoundBank.h"
@@ -57,7 +58,7 @@ namespace DrumKit
 		// Triggers
 		void ReloadTriggers();
 		void SetTriggerParameters(int triggerId, const TriggerParameters& params) { triggers[triggerId]->SetParameters(params);}
-		void SetTriggerSensorValue(int id, char channel, short data) { triggers[id]->SetSensorData(channel, data); }
+		void SetTriggerSensorValue(int id, short data) { triggers[id]->SetSensorData(data); }
 		std::vector<TriggerParameters> GetTriggersParameters() const { return this->triggersParameters; }
 		unsigned long long GetLastTrigTime() const noexcept { return lastTrigTime.load(std::memory_order_acquire); }
 		int GetLastTrigValue() const noexcept { return lastTrigValue.load(std::memory_order_acquire); }
@@ -92,6 +93,8 @@ namespace DrumKit
 		void CreateTriggers(const std::vector<TriggerParameters>& trigParams);
 		bool IsMetronomeEnabled() const;
 
+		IO::SensorFactory sensorFactory;
+		std::vector<IO::SpiDev> spidev;
 
 		// Module
 		std::string directory;
