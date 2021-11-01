@@ -14,9 +14,9 @@ This document outlines the development plan from a high level and will be update
 
 ### 0.7.0
 
-- &#9997; Improve recorder stuff (auto gain, etc.).
-- [ ] More generic SPI sensor reading (multiple devices, etc.).
-- [ ] Improve factories
+- [X] Improve recorder stuff (auto gain, etc.).
+- &#9997; More generic SPI sensor reading (multiple devices, etc.).
+- &#9997; Improve factories
 
 ## Future versions
 
