@@ -11,13 +11,9 @@
 #include <algorithm>
 #include <numeric>
 
-#if __has_include(<filesystem>)
-	#include <filesystem>
-	namespace fs = std::filesystem;
-#else
-	#include <experimental/filesystem>
-	namespace fs = std::experimental::filesystem;
-#endif
+#include <filesystem>
+namespace fs = std::filesystem;
+
 
 namespace Util
 {
