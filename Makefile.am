@@ -26,7 +26,7 @@ exadrums_libtool_version_info = 2:0:0
 libexadrums_la_CXXFLAGS = \
   -Wall \
   -pthread \
-  -std=c++17 $(alsa_CFLAGS) $(tinyxml2_CFLAGS) $(minizip_CFLAGS)
+  -std=c++20 $(alsa_CFLAGS) $(tinyxml2_CFLAGS) $(minizip_CFLAGS)
 libexadrums_la_LDFLAGS = \
   -Wl,--as-needed \
   -Wl,--no-allow-shlib-undefined \
@@ -81,8 +81,9 @@ libexadrums_la_SOURCES = \
   IO/HddSensor.cpp \
   IO/HddSensor.h \
   IO/ISensor.h \
-  IO/Spi.cpp \
-  IO/Spi.h \
+  IO/SpiDevices/SpiDev.cpp \
+  IO/SpiDevices/SpiDev.h \
+  IO/SpiDevices/SpiDevFactory.h \
   IO/SpiSensor.cpp \
   IO/SpiSensor.h \
   IO/SensorFactory.h \
