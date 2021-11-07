@@ -17,7 +17,7 @@ This document outlines the development plan from a high level and will be update
 - [X] Improve recorder stuff (auto gain, etc.).
 - &#9997; More generic SPI sensor reading (multiple devices, etc.).
 - &#9997; Improve factories
-- &#9997; Use C++20
+- [X] Use C++20
 
 ## Future versions
 

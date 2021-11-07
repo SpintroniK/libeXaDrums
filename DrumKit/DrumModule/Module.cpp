@@ -12,9 +12,9 @@
 #include "../../Util/ErrorHandling.h"
 #include "../../Util/Threading.h"
 
-#include "../Triggers/TriggerManager.h"
-#include "../Triggers/TriggerFactory.h"
 #include "../Kits/KitManager.h"
+#include "../Triggers/TriggerFactory.h"
+#include "../Triggers/TriggerManager.h"
 
 #include "TrigSound.h"
 
@@ -48,7 +48,7 @@ namespace DrumKit
 		recorder.SetDirectory(dir);
 		recorder.SetMetronomeTimeFunc([&]{ return GetLastClickTime(); });
 
-		return;
+		
 	}
 
 	Module::~Module()
@@ -86,7 +86,7 @@ namespace DrumKit
 		// Uncomment if debugging under Linux
 		// pthread_setname_np(playThread.native_handle(), "Module Thread\0");
 
-		return;
+		
 	}
 
 
@@ -98,7 +98,7 @@ namespace DrumKit
 
 		mixer->Clear();
 
-		return;
+		
 	}
 
 	void Module::EnableRecording(bool record)
@@ -133,7 +133,7 @@ namespace DrumKit
 
 		dir = this->directory;
 
-		return;
+		
 	}
 
 
@@ -165,7 +165,7 @@ namespace DrumKit
 		}
 
 
-		return;
+		
 	}
 
 	std::vector<std::string> Module::GetKitsNames() const noexcept
@@ -259,7 +259,7 @@ namespace DrumKit
 		kitManager.ReScan();
 		LoadKits();
 
-		return;
+		
 	}
 
 	void Module::ReloadTriggers()
@@ -267,7 +267,7 @@ namespace DrumKit
 
 		LoadTriggers();
 
-		return;
+		
 	}
 
 	float Module::GetTriggerValue(size_t id) const
@@ -308,7 +308,7 @@ namespace DrumKit
 		}
 
 
-		return;
+		
 	}
 
 	void Module::ChangeTempo(int tempo)
@@ -317,7 +317,7 @@ namespace DrumKit
 		metronome->SetTempo(tempo);
 		RestartMetronome();
 
-		return;
+		
 	}
 
 	void Module::ChangeClickVolume(int volume)
@@ -328,7 +328,7 @@ namespace DrumKit
 			soundBank->SetSoundVolume(metronomeSoundId, float(volume / 100.0f));
 		}
 
-		return;
+		
 	}
 
 	float Module::GetClickVolume() const noexcept
@@ -384,7 +384,7 @@ namespace DrumKit
 			EnableMetronome(true);
 		}
 
-		return;
+		
 	}
 
 
@@ -407,7 +407,7 @@ namespace DrumKit
 			return Kit(kitParams, this->triggers, this->soundBank);
 		});
 
-		return;
+		
 	}
 
 	void Module::LoadTriggers()
@@ -416,8 +416,12 @@ namespace DrumKit
 		// Update sensors configuration
 		TriggerManager::LoadSensorsConfig(this->directory, this->sensorsConfig);
 		
-		this->spidev.emplace_back(IO::SpiDevFactory().Make("MCP3008", 0, 0));
-		this->sensorFactory.SetSpiDev(this->spidev);
+		if(sensorsConfig.sensorType == "Spi")
+		{
+			TriggerManager::LoadSpiDevConfig(this->directory, this->spidev);
+			this->sensorFactory.SetSpiDev(this->spidev);
+		}
+
 		this->sensorFactory.SetDataFolder(this->sensorsConfig.hddDataFolder);
 
 		// Load triggers
@@ -427,7 +431,7 @@ namespace DrumKit
 		// Create Triggers
 		this->CreateTriggers(this->triggersParameters);
 
-		return;
+		
 	}
 
 
@@ -502,7 +506,7 @@ namespace DrumKit
 			}
 		}
 
-		return;
+		
 	}
 
 
@@ -517,8 +521,7 @@ namespace DrumKit
 			triggers.push_back(std::move(triggerPtr));
 		}
 
-		return;
+		
 	}
 
 }
-

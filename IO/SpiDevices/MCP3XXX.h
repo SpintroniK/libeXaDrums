@@ -1,5 +1,5 @@
 #ifndef LIBEXADRUMS_IO_SPIDEVICES_MCP3XXX_H
-#define LIBEXADRUMS_IO_SPIDEVICES_MCP3XXX_HMCP3008
+#define LIBEXADRUMS_IO_SPIDEVICES_MCP3XXX_H
 
 #include "SpiDev.h"
 
@@ -7,23 +7,28 @@
 
 namespace IO
 {
+
+    static constexpr size_t tenBits{10};
+    static constexpr size_t twelveBits{12};
+    static constexpr uint8_t eightChannels{8};
+    static constexpr uint8_t fourChannels{4};
     
     class MCP3XXX : public SpiDev
     {
         
     public:
 
-        virtual uint32_t ReadChannel(uint8_t channel) const noexcept override
+        uint32_t ReadChannel(uint8_t channel) const noexcept override
         {		
-            const uint32_t data = (0b0001'1000 | channel) << (nBits + 2);
-            std::array<uint8_t, 3> spiData {static_cast<uint8_t>((data & 0x00'ff'00'00) >> 16), 
-                                            static_cast<uint8_t>((data & 0x00'00'ff'00) >> 8), 
-                                            static_cast<uint8_t>(data  & 0x00'00'00'ff)}; 
+            const uint32_t data = (uint32_t{0b0001'1000} | channel) << (GetNBits() + 2);
+            std::array<uint8_t, 3> spiData {static_cast<uint8_t>((data & 0x00'ff'00'00U) >> 16U), 
+                                            static_cast<uint8_t>((data & 0x00'00'ff'00U) >> 8U), 
+                                            static_cast<uint8_t>(data  & 0x00'00'00'ffU)}; 
 
             
             this->DataRW(spiData.data(), spiData.size());
         
-            return static_cast<uint32_t>(((spiData[1] << 8) | spiData[2]) & mask);
+            return uint32_t{((spiData[1] << 8U) | spiData[2]) & GetMask()};
         }
 
     protected:
@@ -41,7 +46,7 @@ namespace IO
     {
 
     public:
-        MCP3008(size_t dev, size_t cs) : MCP3XXX{dev, cs, 10u, 8}
+        MCP3008(size_t dev, size_t cs) : MCP3XXX{dev, cs, tenBits, eightChannels}
         {
         }
 
@@ -53,7 +58,7 @@ namespace IO
     {
 
     public:
-        MCP3204(size_t dev, size_t cs) : MCP3XXX{dev, cs, 12u, 4}
+        MCP3204(size_t dev, size_t cs) : MCP3XXX{dev, cs, twelveBits, fourChannels}
         {
         }
 
@@ -65,7 +70,7 @@ namespace IO
     {
 
     public:
-        MCP3208(size_t dev, size_t cs) : MCP3XXX{dev, cs, 12u, 8}
+        MCP3208(size_t dev, size_t cs) : MCP3XXX{dev, cs, twelveBits, eightChannels}
         {
         }
 

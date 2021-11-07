@@ -8,11 +8,11 @@
 #ifndef LIBEXADRUMS_DRUMKIT_DRUMMODULE_MODULE_H
 #define LIBEXADRUMS_DRUMKIT_DRUMMODULE_MODULE_H
 
-#include "../../Metronome/Metronome.h"
 #include "../../IO/SensorsConfig.h"
 #include "../../IO/SensorFactory.h"
-#include "../../Sound/Mixer/Mixer.h"
+#include "../../Metronome/Metronome.h"
 #include "../../Sound/Alsa/AlsaParams.h"
+#include "../../Sound/Mixer/Mixer.h"
 #include "../../Sound/SoundBank/SoundBank.h"
 #include "../../Util/SimpleSafeQueue.h"
 
@@ -20,11 +20,11 @@
 
 #include "Recorder.h"
 
-#include <string>
-#include <vector>
 #include <atomic>
-#include <thread>
 #include <memory>
+#include <string>
+#include <thread>
+#include <vector>
 
 
 namespace DrumKit
