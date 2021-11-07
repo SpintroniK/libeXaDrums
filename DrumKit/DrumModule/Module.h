@@ -5,8 +5,8 @@
  *      Author: jeremy
  */
 
-#ifndef RASPIDRUMS_SOURCE_DRUMKIT_MODULE_H_
-#define RASPIDRUMS_SOURCE_DRUMKIT_MODULE_H_
+#ifndef LIBEXADRUMS_DRUMKIT_DRUMMODULE_MODULE_H
+#define LIBEXADRUMS_DRUMKIT_DRUMMODULE_MODULE_H
 
 #include "../../Metronome/Metronome.h"
 #include "../../IO/SensorsConfig.h"
@@ -94,7 +94,7 @@ namespace DrumKit
 		bool IsMetronomeEnabled() const;
 
 		IO::SensorFactory sensorFactory;
-		std::vector<IO::SpiDev> spidev;
+		std::vector<IO::SpiDevPtr> spidev;
 
 		// Module
 		std::string directory;
@@ -128,4 +128,4 @@ namespace DrumKit
 
 }
 
-#endif /* RASPIDRUMS_SOURCE_DRUMKIT_MODULE_H_ */
+#endif /* LIBEXADRUMS_DRUMKIT_DRUMMODULE_MODULE_H */

@@ -66,7 +66,7 @@ namespace IO
 
 		short val;
 
-		while(file.read((char*)&val, sizeof(short)))
+		while(file.read(reinterpret_cast<char*>(&val), sizeof(short)))
 		{
 			data.push_back(val);
 		}

@@ -8,7 +8,7 @@
 
 #include "Module.h"
 
-#include "../../IO/Spi.h"
+#include "../../IO/SpiDevices/SpiDevFactory.h"
 #include "../../Util/ErrorHandling.h"
 #include "../../Util/Threading.h"
 
@@ -415,8 +415,8 @@ namespace DrumKit
 
 		// Update sensors configuration
 		TriggerManager::LoadSensorsConfig(this->directory, this->sensorsConfig);
-
-		this->spidev = std::move(std::vector{ IO::SpiDev{0,0} });
+		
+		this->spidev.emplace_back(IO::SpiDevFactory().Make("MCP3008", 0, 0));
 		this->sensorFactory.SetSpiDev(this->spidev);
 		this->sensorFactory.SetDataFolder(this->sensorsConfig.hddDataFolder);
 
@@ -438,8 +438,8 @@ namespace DrumKit
 		{
 			for(auto& dev : spidev)
 			{
-				dev.Close();
-				dev.Open(sensorsConfig.samplingRate, 0);
+				dev->Close();
+				dev->Open(sensorsConfig.samplingRate, 0);
 			}
 		}
 

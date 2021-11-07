@@ -11,7 +11,7 @@
 
 #include "ISensor.h"
 
-#include "Spi.h"
+#include "SpiDevices/SpiDev.h"
 
 #include <vector>
 #include <cstdlib>

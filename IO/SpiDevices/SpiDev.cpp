@@ -5,22 +5,19 @@
  *      Author: jeremy
  */
 
-#include "Spi.h"
+#include "SpiDev.h"
 
 
 #include <fcntl.h>
-#include <sys/ioctl.h>
 #include <linux/spi/spidev.h>
-
+#include <sys/ioctl.h>
 
 namespace IO
 {
 
-	const std::string SpiDev::spiDevPath = "/dev/spidev";
-	const uint8_t SpiDev::bitsPerWord = 8;
-	const uint16_t SpiDev::delay = 0;
 
-	SpiDev::SpiDev(size_t dev, size_t cs)
+	SpiDev::SpiDev(size_t dev, size_t cs, size_t bits, uint8_t channels)
+	: nBits{bits}, nChannels{channels}
 	{
 		this->devicePath = spiDevPath + std::to_string(dev) + "." + std::to_string(cs);
 	}
@@ -32,16 +29,13 @@ namespace IO
 
 		this->fd = open(devicePath.c_str(), O_RDWR);
 
-
 	  	mode &= 3;
 
 
 		ioctl(this->fd, SPI_IOC_WR_MODE, &mode);
-		ioctl(this->fd, SPI_IOC_WR_BITS_PER_WORD, &SpiDev::bitsPerWord);
+		ioctl(this->fd, SPI_IOC_WR_BITS_PER_WORD, &bitsPerWord);
 		ioctl(this->fd, SPI_IOC_WR_MAX_SPEED_HZ, &this->clkFreq);
-
-
-		return;
+		
 	}
 
 	void SpiDev::Close() noexcept
@@ -56,7 +50,9 @@ namespace IO
 		return;
 	}
 
-	int SpiDev::dataRW(unsigned char* data, size_t len) const noexcept
+	
+
+	int SpiDev::DataRW(uint8_t* data, size_t len) const noexcept
 	{
 
 		spi_ioc_transfer spiData{};

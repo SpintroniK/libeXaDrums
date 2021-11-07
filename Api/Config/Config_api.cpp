@@ -328,18 +328,17 @@ namespace eXaDrumsApi
 
 		if(types == nullptr)
 		{
-			size = IO::SensorFactory::Types.size();
+			size = IO::SensorFactory().GetTypes().size();
 			return;
 		}
 
-		this->sensorsTypes.clear();
-		this->sensorsTypes.resize(IO::SensorFactory::Types.size());
+		sensorsTypes = std::move(IO::SensorFactory().GetTypes());
 
 		unsigned int numElements = std::min<unsigned int>(size, sensorsTypes.size());
 
 		for(unsigned int i = 0; i < numElements; i++)
 		{
-			types[i] = IO::SensorFactory::Types[i];
+			types[i] = sensorsTypes[i].data();
 		}
 
 		return;

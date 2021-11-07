@@ -21,6 +21,8 @@ namespace DrumKit
 
 	public:
 
+		TriggerFactory() = delete;
+
 		static TriggerPtr CreateTrigger(const TriggerParameters& triggerParameters, const IO::SensorFactory& sensorFactory)
 		{
 
@@ -37,8 +39,6 @@ namespace DrumKit
 
 	private:
 
-		TriggerFactory() = delete;
-		~TriggerFactory() = delete;
 
 	};
 

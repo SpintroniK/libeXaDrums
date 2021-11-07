@@ -1,5 +1,5 @@
-#ifndef LIBEXADRUMS_SOURCE_IO_SENSOR_FACTORY_H_
-#define LIBEXADRUMS_SOURCE_IO_SENSOR_FACTORY_H_
+#ifndef LIBEXADRUMS_IO_SENSORFACTORY_H
+#define LIBEXADRUMS_IO_SENSORFACTORY_H
 
 #include "../Util/ErrorHandling.h"
 
@@ -8,12 +8,13 @@
 #include "HddSensor.h"
 #include "VirtualSensor.h"
 
-#include <string>
+#include <array>
 #include <map>
+#include <ranges>
+#include <string>
+#include <tuple>
 #include <utility>
 #include <vector>
-#include <tuple>
-#include <array>
 
 namespace IO
 {
@@ -25,28 +26,27 @@ namespace IO
 
         SensorFactory() = default;
 
-        SensorFactory(const std::string& dataFolder)
-        : dataFolder{dataFolder}
+        SensorFactory(std::string dataFolder)
+        : dataFolder{std::move(dataFolder)}
         {
 
         }
 
-        ~SensorFactory() = default;
 
         ISensorPtr MakeVirtual(size_t channel) const
         {
-            return std::move(std::make_unique<VirtualSensor>(channel));
+            return std::make_unique<VirtualSensor>(channel);
         }
 
-        ISensorPtr MakeSpi(const std::vector<SpiDev>* spidev, size_t channel) const
+        ISensorPtr MakeSpi(const std::vector<SpiDevPtr>* spidev, size_t channel) const
         {
             // TODO: Make this work with more than one spi device.
-            return std::move(std::make_unique<SpiSensor>(&spidev->front(), channel));
+            return std::make_unique<SpiSensor>(spidev->front().get(), channel);
         }
 
         ISensorPtr MakeHdd(const std::string& dataFolder, size_t channel) const
         {
-            return std::move(std::make_unique<HddSensor>(dataFolder, channel));
+            return std::make_unique<HddSensor>(dataFolder, channel);
         }
 
         ISensorPtr Make(const std::string& type, size_t channel) const
@@ -61,7 +61,7 @@ namespace IO
             return (this->*iter->second)(channel); 
         }
 
-        void SetSpiDev(const std::vector<SpiDev>& spidev_)
+        void SetSpiDev(const std::vector<SpiDevPtr>& spidev_)
         {
             this->spidev = &spidev_;
         }
@@ -71,7 +71,12 @@ namespace IO
             this->dataFolder = hddDataFolder;
         }
 
-        static constexpr const auto Types = std::array{"Virtual", "Spi", "Hdd"};
+        auto GetTypes() &&
+        {
+            using namespace std::views;
+            return std::vector<std::string>{ keys(sensorMap).begin(), keys(sensorMap).end() };
+        }
+
 
     private:
 
@@ -88,18 +93,18 @@ namespace IO
         using FactoryPtmf = ISensorPtr(SensorFactory::*)(size_t) const;
         using SensorMap = std::map<std::string, FactoryPtmf>;
 
-        const std::vector<SpiDev>* spidev{nullptr};
+        const std::vector<SpiDevPtr>* spidev{nullptr};
         std::string dataFolder{};
 
         const SensorMap sensorMap
         {
-            {Types[0], &SensorFactory::MakeVirtual},
-            {Types[1], &SensorFactory::MakeSpi},
-            {Types[2], &SensorFactory::MakeHdd},
+            {"Virtual", &SensorFactory::MakeVirtual},
+            {"Spi", &SensorFactory::MakeSpi},
+            {"Hdd", &SensorFactory::MakeHdd},
         };
 
     };
 
 }
 
-#endif
+#endif /* LIBEXADRUMS_IO_SENSORFACTORY_H */
