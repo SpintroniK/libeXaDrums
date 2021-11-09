@@ -3,18 +3,20 @@
 
 #include "../Util/ErrorHandling.h"
 
+#include "HddSensor.h"
 #include "ISensor.h"
 #include "SpiSensor.h"
-#include "HddSensor.h"
 #include "VirtualSensor.h"
 
 #include <array>
+#include <iostream>
 #include <map>
+#include <numeric>
 #include <ranges>
 #include <string>
-#include <tuple>
 #include <utility>
 #include <vector>
+
 
 namespace IO
 {
@@ -38,10 +40,23 @@ namespace IO
             return std::make_unique<VirtualSensor>(channel);
         }
 
-        ISensorPtr MakeSpi(const std::vector<SpiDevPtr>* spidev, size_t channel) const
+        ISensorPtr MakeSpi(const std::vector<SpiDevPtr>& spidev, size_t channel) const
         {
-            // TODO: Make this work with more than one spi device.
-            return std::make_unique<SpiSensor>(spidev->front().get(), channel);
+
+            auto getChannels = std::views::transform([] (const auto& devPtr) { return devPtr->GetNbChannels(); });
+            auto cumsum = std::views::transform([total = size_t{0}] (auto c) mutable { total += c; return total; });
+
+            auto totalChannels = spidev | getChannels | cumsum;
+
+            auto it = std::ranges::find_if(totalChannels, [&](auto n) { return channel < n; });
+
+            if(it != totalChannels.end())
+            {
+                const auto index = std::distance(totalChannels.begin(), it);
+                return std::make_unique<SpiSensor>(spidev[index].get(), channel);
+            }
+
+            throw Util::Exception("SPI channel index out of range.", Util::error_type_error);
         }
 
         ISensorPtr MakeHdd(const std::string& dataFolder, size_t channel) const
@@ -82,7 +97,7 @@ namespace IO
 
         ISensorPtr MakeSpi(size_t channel) const
         {
-            return MakeSpi(this->spidev, channel);
+            return MakeSpi(*this->spidev, channel);
         }
 
         ISensorPtr MakeHdd(size_t channel) const

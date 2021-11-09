@@ -3,13 +3,14 @@
 
 #include "../../Util/ErrorHandling.h"
 
-#include "SpiDev.h"
 #include "MCP3XXX.h"
+#include "SpiDev.h"
 
 #include <map>
 #include <memory>
 #include <ranges>
 #include <string>
+#include <vector>
 
 namespace IO
 {
