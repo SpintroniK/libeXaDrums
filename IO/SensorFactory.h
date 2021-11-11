@@ -43,10 +43,10 @@ namespace IO
         ISensorPtr MakeSpi(const std::vector<SpiDevPtr>& spidev, size_t channel) const
         {
 
-            auto getChannels = std::views::transform([] (const auto& devPtr) { return devPtr->GetNbChannels(); });
+            auto getNbChannels = std::views::transform([] (const auto& devPtr) { return devPtr->GetNbChannels(); });
             auto cumsum = std::views::transform([total = size_t{0}] (auto c) mutable { total += c; return total; });
 
-            auto totalChannels = spidev | getChannels | cumsum;
+            auto totalChannels = spidev | getNbChannels | cumsum;
 
             auto it = std::ranges::find_if(totalChannels, [&](auto n) { return channel < n; });
 
