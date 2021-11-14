@@ -9,12 +9,14 @@
 #define LIBEXADRUMS_DRUMKIT_TRIGGERS_TRIGGERMANAGER_H
 
 #include "../../IO/SensorsConfig.h"
-#include "../../IO/SpiDevices/SpiDev.h"
 
 #include "TriggerParameters.h"
 
 #include <string>
 #include <vector>
+#include <memory>
+
+namespace IO { class SpiDev; }
 
 namespace DrumKit
 {
@@ -31,7 +33,7 @@ namespace DrumKit
 		static std::vector<int> LoadTriggersIds(const std::string& moduleDir);
 		static void LoadSensorsConfig(const std::string& moduleDir, IO::SensorsConfig& sensorConfig);
 		static void SaveSensorsConfig(const std::string& moduleDir, IO::SensorsConfig& sensorConfig);
-		static void LoadSpiDevConfig(const std::string& moduleDir, std::vector<IO::SpiDevPtr>& spidev);
+		static void LoadSpiDevConfig(const std::string& moduleDir, std::vector<std::unique_ptr<IO::SpiDev>>& spidev);
 
 	private:
 
