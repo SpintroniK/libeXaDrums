@@ -375,16 +375,23 @@ namespace DrumKit
 		}
 	}
 
+	std::vector<IO::SpiDev::ExternalParameters> Module::GetSpiDevParams() const
+	{
+		std::vector<IO::SpiDev::ExternalParameters> spiDevParams;
+		std::ranges::transform(spidev, std::back_inserter(spiDevParams), [](const auto& spidev) 
+		{ 
+			return IO::SpiDev::ExternalParameters{spidev->GetName(), spidev->GetBus(), spidev->GetCS()};
+		});
+		return spiDevParams;
+	}
+
 	void Module::RestartMetronome()
 	{
-
 		if(isMetronomeEnabled.load())
 		{
 			EnableMetronome(false);
 			EnableMetronome(true);
 		}
-
-		
 	}
 
 

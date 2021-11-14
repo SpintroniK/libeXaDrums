@@ -84,6 +84,7 @@ namespace DrumKit
 
 		// Config
 		IO::SensorsConfig GetSensorsConfig() const noexcept { return sensorsConfig; }
+		std::vector<IO::SpiDev::ExternalParameters> GetSpiDevParams() const;
 
 	private:
 
