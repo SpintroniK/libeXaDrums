@@ -239,6 +239,12 @@ namespace eXaDrumsApi
 		 */
 		AlsaParamsApi GetAudioDeviceParams() const noexcept;
 
+		/**
+		 * @brief Get the supported Spi Devices as a list of string
+		 * 
+		 * @return std::vector<std::string> List of supported Spi devices
+		 */
+		std::vector<std::string> GetSupportedSpiDevices();
 
 		/**
 		 * @brief Get the (SPI) sensor sampling rate.
@@ -285,6 +291,7 @@ namespace eXaDrumsApi
 		AlsaParamsApi GetAudioDeviceParams_() const noexcept;
 
 		void GetSensorsTypes_(const char** types, unsigned int& size);
+		void GetSupportedSpiDevices_(const char** data, unsigned int& size);
 		void GetTriggersTypes_(const char** types, unsigned int& size);
 		void GetTriggersResponses_(const char** responses, unsigned int& size);
 		void GetAudioDevicesNames_(const char** devices, unsigned int& size);
@@ -310,6 +317,7 @@ namespace eXaDrumsApi
 		std::vector<std::string> sensorsTypes;
 		std::vector<std::string> triggersTypes;
 		std::vector<std::string> triggersResponses;
+		std::vector<std::string> supportedSpiDevices;
 		std::vector<std::pair<std::string, std::string>> audioDevices;
 
 	};

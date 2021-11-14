@@ -10,7 +10,7 @@
 
 #include "TriggerParameters_api.h"
 
-#include "../../IO/SensorFactory.h"
+#include "../../IO/SpiDevices/SpiDevFactory.h"
 #include "../../DrumKit/DrumModule/Module.h"
 #include "../../DrumKit/Triggers/TriggerManager.h"
 #include "../../Util/Enums.h"
@@ -342,6 +342,26 @@ namespace eXaDrumsApi
 		}
 
 		return;
+	}
+
+
+	void Config::GetSupportedSpiDevices_(const char** data, unsigned int& size)
+	{
+		if(data == nullptr)
+		{
+			size = IO::SpiDevFactory().GetTypes().size();
+			return;
+		}
+
+		supportedSpiDevices.clear();
+		supportedSpiDevices = std::move(IO::SensorFactory().GetTypes());
+
+		unsigned int numElements = std::min<unsigned int>(size, supportedSpiDevices.size());
+
+		for(unsigned int i = 0; i < numElements; i++)
+		{
+			data[i] = supportedSpiDevices[i].data();
+		}
 	}
 
 	void Config::GetTriggersTypes_(const char** types, unsigned int& size)

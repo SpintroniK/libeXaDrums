@@ -186,6 +186,20 @@ namespace eXaDrumsApi
 		return vec;
 	}
 
+	inline std::vector<std::string> Config::GetSupportedSpiDevices()
+	{
+		unsigned int size{};
+		GetSupportedSpiDevices_(nullptr, size);
+
+		std::vector<const char*> data(size);
+		GetSupportedSpiDevices_(data.data(), size);
+
+		std::vector<std::string> v(size);
+		std::copy(data.cbegin(), data.cend(), v.begin());
+
+		return v;
+	}
+
 	inline AlsaParamsApi Config::GetAudioDeviceParams() const noexcept
 	{
 
