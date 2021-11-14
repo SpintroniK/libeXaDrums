@@ -22,6 +22,31 @@ namespace IO
 	public:
 
 		/**
+		 * @brief Defines SPI device external parameters.
+		 * 
+		 * These parameters are the bus id, chip select (cs), the device name.
+		 */
+		struct ExternalParameters
+		{
+			/**
+			 * @brief Construct a new External Parameters object
+			 * 
+			 * @param name Name of the SPI device
+			 * @param bus Bus id of the device
+			 * @param cs Chip select for tat device
+			 */
+			ExternalParameters(const std::string& name, size_t bus, size_t cs)
+			: name{name}, bus{bus}, cs{cs}
+			{
+
+			}
+			
+			const std::string name;
+			const size_t bus;
+			const size_t cs;
+		};
+
+		/**
 		 * @brief Construct a new SpiDev object
 		 * 
 		 * Only ADC devices are supported, so the number of bits and channels are required.
@@ -32,7 +57,7 @@ namespace IO
 		 * @param bits Number of bits (ADC device)
 		 * @param channels Number of channels
 		 */
-		SpiDev(size_t dev, size_t cs, size_t bits, uint8_t channels);
+		SpiDev(const std::string& name, size_t dev, size_t cs, size_t bits, uint8_t channels);
 		~SpiDev() noexcept { Close(); }
 
 		/**
@@ -63,6 +88,9 @@ namespace IO
 		 * @return uint8_t Number of channels
 		 */
 		virtual uint8_t GetNbChannels() const noexcept { return nChannels; }
+		auto GetName() const noexcept { return name; }
+		auto GetBus() const noexcept { return bus; }
+		auto GetCS() const noexcept { return cs; }
 
 		SpiDev(const SpiDev&) = delete;
 		SpiDev(SpiDev&&) = delete;
@@ -74,10 +102,14 @@ namespace IO
 
 
 		int DataRW(uint8_t* data, size_t len) const noexcept;
-		auto GetNBits() const { return nBits; }
-		auto GetMask() const { return mask; }
+		auto GetNBits() const noexcept { return nBits; }
+		auto GetMask() const noexcept { return mask; }
 	
 	private:
+
+		const std::string name;
+		const size_t bus;
+		const size_t cs;
 
         const size_t nBits{};
 		const uint32_t mask = (1U << nBits) - 1U;

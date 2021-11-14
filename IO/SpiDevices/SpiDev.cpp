@@ -16,8 +16,8 @@ namespace IO
 {
 
 
-	SpiDev::SpiDev(size_t dev, size_t cs, size_t bits, uint8_t channels)
-	: nBits{bits}, nChannels{channels}
+	SpiDev::SpiDev(const std::string& name, size_t dev, size_t cs, size_t bits, uint8_t channels)
+	: name{name}, bus{dev}, cs{cs}, nBits{bits}, nChannels{channels}
 	{
 		this->devicePath = spiDevPath + std::to_string(dev) + "." + std::to_string(cs);
 	}

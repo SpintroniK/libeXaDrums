@@ -8,6 +8,7 @@
 #include "SpiSensor.h"
 #include "VirtualSensor.h"
 
+#include <algorithm>
 #include <array>
 #include <iostream>
 #include <map>

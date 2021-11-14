@@ -33,8 +33,8 @@ namespace IO
 
     protected:
 
-        MCP3XXX(size_t dev, size_t cs, size_t bits, uint8_t channels)
-        : SpiDev{dev, cs, bits, channels}
+        MCP3XXX(const std::string& name, size_t dev, size_t cs, size_t bits, uint8_t channels)
+        : SpiDev{name, dev, cs, bits, channels}
         {
         }
 
@@ -46,7 +46,7 @@ namespace IO
     {
 
     public:
-        MCP3008(size_t dev, size_t cs) : MCP3XXX{dev, cs, tenBits, eightChannels}
+        MCP3008(size_t dev, size_t cs) : MCP3XXX{"MCP3008", dev, cs, tenBits, eightChannels}
         {
         }
 
@@ -58,7 +58,7 @@ namespace IO
     {
 
     public:
-        MCP3204(size_t dev, size_t cs) : MCP3XXX{dev, cs, twelveBits, fourChannels}
+        MCP3204(size_t dev, size_t cs) : MCP3XXX{"MCP3204", dev, cs, twelveBits, fourChannels}
         {
         }
 
@@ -70,7 +70,7 @@ namespace IO
     {
 
     public:
-        MCP3208(size_t dev, size_t cs) : MCP3XXX{dev, cs, twelveBits, eightChannels}
+        MCP3208(size_t dev, size_t cs) : MCP3XXX{"MCP3208", dev, cs, twelveBits, eightChannels}
         {
         }
 
