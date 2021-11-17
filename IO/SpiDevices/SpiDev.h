@@ -22,31 +22,6 @@ namespace IO
 	public:
 
 		/**
-		 * @brief Defines SPI device external parameters.
-		 * 
-		 * These parameters are the bus id, chip select (cs), the device name.
-		 */
-		struct ExternalParameters
-		{
-			/**
-			 * @brief Construct a new External Parameters object
-			 * 
-			 * @param name Name of the SPI device
-			 * @param bus Bus id of the device
-			 * @param cs Chip select for tat device
-			 */
-			ExternalParameters(const std::string& name, size_t bus, size_t cs)
-			: name{name}, bus{bus}, cs{cs}
-			{
-
-			}
-			
-			const std::string name;
-			const size_t bus;
-			const size_t cs;
-		};
-
-		/**
 		 * @brief Construct a new SpiDev object
 		 * 
 		 * Only ADC devices are supported, so the number of bits and channels are required.

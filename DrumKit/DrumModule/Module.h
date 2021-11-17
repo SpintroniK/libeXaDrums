@@ -10,6 +10,7 @@
 
 #include "../../IO/SensorsConfig.h"
 #include "../../IO/SensorFactory.h"
+#include "../../IO/SpiDevices/SpiDevParameters.h"
 #include "../../Metronome/Metronome.h"
 #include "../../Sound/Alsa/AlsaParams.h"
 #include "../../Sound/Mixer/Mixer.h"
@@ -84,7 +85,7 @@ namespace DrumKit
 
 		// Config
 		IO::SensorsConfig GetSensorsConfig() const noexcept { return sensorsConfig; }
-		std::vector<IO::SpiDev::ExternalParameters> GetSpiDevParams() const;
+		std::vector<IO::SpiDevParameters> GetSpiDevParams() const;
 
 	private:
 

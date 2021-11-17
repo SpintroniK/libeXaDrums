@@ -125,6 +125,7 @@ nobase_pkginclude_HEADERS = \
   Api/Config/AlsaParams_api.h \
   Api/Config/Config_api.h \
   Api/Config/Config_api.hpp \
+  Api/Config/SpiDevParameters_api.h \
   Api/Config/TriggerParameters_api.h \
   Api/KitCreator/KitCreator_api.h \
   Api/KitCreator/KitCreator_api.hpp \
@@ -142,6 +143,7 @@ nobase_pkginclude_HEADERS = \
   DrumKit/Triggers/TriggerParameters.h \
   DrumKit/Triggers/TriggerType.h \
   IO/SensorsConfig.h \
+  IO/SpiDevices/SpiDevParameters.h \
   Sound/Alsa/AlsaParams.h \
   Sound/InstrumentSoundType.h \
   Util/Enums.h \

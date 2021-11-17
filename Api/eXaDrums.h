@@ -5,8 +5,8 @@
  *      Author: jeremy
  */
 
-#ifndef LIBEXADRUMS_SOURCE_API_EXADRUMKIT_H_
-#define LIBEXADRUMS_SOURCE_API_EXADRUMKIT_H_
+#ifndef LIBEXADRUMS_API_EXADRUMS_H
+#define LIBEXADRUMS_API_EXADRUMS_H
 
 /* The relative path helps when builddir differs from srcdir */
 #include "../Api/Version.h"
@@ -376,6 +376,7 @@ namespace eXaDrumsApi
 		 */
 		bool IsSensorSpi() const noexcept;
 
+
 		// Sound
 
 		/**
@@ -443,4 +444,4 @@ namespace eXaDrumsApi
 
 #include "eXaDrums.hpp"
 
-#endif /* LIBEXADRUMS_SOURCE_API_EXADRUMKIT_H_ */
+#endif /* LIBEXADRUMS_API_EXADRUMS_H */

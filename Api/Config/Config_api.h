@@ -5,14 +5,15 @@
  *      Author: jeremy
  */
 
-#ifndef SOURCE_API_CONFIG_CONFIG_API_H_
-#define SOURCE_API_CONFIG_CONFIG_API_H_
+#ifndef LIBEXADRUMS_API_CONFIG_CONFIG_API_H
+#define LIBEXADRUMS_API_CONFIG_CONFIG_API_H
 
 #include "../../IO/SensorsConfig.h"
 #include "../../Util/ErrorHandling.h"
 #include "../../Util/Zip.h"
 
 #include "AlsaParams_api.h"
+#include "SpiDevParameters_api.h"
 
 #include <vector>
 #include <string>
@@ -246,6 +247,9 @@ namespace eXaDrumsApi
 		 */
 		std::vector<std::string> GetSupportedSpiDevices();
 
+		
+		std::vector<SpiDevParameters> GetSpiDevicesParameters() const;
+
 		/**
 		 * @brief Get the (SPI) sensor sampling rate.
 		 * 
@@ -296,6 +300,7 @@ namespace eXaDrumsApi
 		void GetTriggersResponses_(const char** responses, unsigned int& size);
 		void GetAudioDevicesNames_(const char** devices, unsigned int& size);
 		void GetTriggersParameters_(TriggerParameters* const triggers, unsigned int& size) const;
+		void GetSpiDevicesParameters_(SpiDevParameters* const params, unsigned int& size) const;
 
 		eXaDrums& drumKit;
 		DrumKit::Module& module;
@@ -326,4 +331,4 @@ namespace eXaDrumsApi
 
 #include "Config_api.hpp"
 
-#endif /* SOURCE_API_CONFIG_CONFIG_API_H_ */
+#endif /* LIBEXADRUMS_API_CONFIG_CONFIG_API_H */

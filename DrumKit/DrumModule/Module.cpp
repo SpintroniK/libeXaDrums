@@ -375,12 +375,13 @@ namespace DrumKit
 		}
 	}
 
-	std::vector<IO::SpiDev::ExternalParameters> Module::GetSpiDevParams() const
+	std::vector<IO::SpiDevParameters> Module::GetSpiDevParams() const
 	{
-		std::vector<IO::SpiDev::ExternalParameters> spiDevParams;
+		std::vector<IO::SpiDevParameters> spiDevParams;
+		spiDevParams.reserve(spidev.size());
 		std::ranges::transform(spidev, std::back_inserter(spiDevParams), [](const auto& spidev) 
 		{ 
-			return IO::SpiDev::ExternalParameters{spidev->GetName(), spidev->GetBus(), spidev->GetCS()};
+			return IO::SpiDevParameters{spidev->GetName(), spidev->GetBus(), spidev->GetCS()};
 		});
 		return spiDevParams;
 	}

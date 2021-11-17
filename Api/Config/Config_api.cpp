@@ -487,5 +487,25 @@ namespace eXaDrumsApi
 		return alsaParameters;
 	}
 
+	void Config::GetSpiDevicesParameters_(SpiDevParameters* const params, unsigned int& size) const
+	{
+
+		std::vector<IO::SpiDevParameters> spiDevParams = this->module.GetSpiDevParams();
+
+		if(params == nullptr)
+		{
+			size = spiDevParams.size();
+			return;
+		}
+
+		if(size != spiDevParams.size())
+		{
+			throw -1;
+		}
+
+		std::copy(spiDevParams.cbegin(), spiDevParams.cend(), params);
+
+		return;
+	}
 
 }

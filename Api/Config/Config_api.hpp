@@ -202,8 +202,25 @@ namespace eXaDrumsApi
 
 	inline AlsaParamsApi Config::GetAudioDeviceParams() const noexcept
 	{
-
 		return GetAudioDeviceParams_();
+	}
+
+
+	inline std::vector<SpiDevParameters> Config::GetSpiDevicesParameters() const
+	{
+
+		unsigned int size = 0;
+		GetSpiDevicesParameters_(nullptr, size);
+
+		std::vector<SpiDevParameters> vec;
+		vec.reserve(size);
+		for(size_t i = 0; i < size; ++i)
+		{
+			vec.emplace_back("", -1, -1);
+		}
+		GetSpiDevicesParameters_(vec.data(), size);
+
+		return vec;
 	}
 
 	inline std::string Config::GetSensorsType()

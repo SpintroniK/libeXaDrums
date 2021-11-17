@@ -5,8 +5,8 @@
  *      Author: jeremy
  */
 
-#ifndef SOURCE_API_EXADRUMS_HPP_
-#define SOURCE_API_EXADRUMS_HPP_
+#ifndef LIBEXADRUMS_API_EXADRUMS_HPP
+#define LIBEXADRUMS_API_EXADRUMS_HPP
 
 
 #include "eXaDrums.h"
@@ -178,4 +178,4 @@ namespace eXaDrumsApi
 }
 
 
-#endif /* SOURCE_API_EXADRUMS_HPP_ */
+#endif /* LIBEXADRUMS_API_EXADRUMS_HPP */
