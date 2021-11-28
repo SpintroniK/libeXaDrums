@@ -37,7 +37,7 @@ namespace eXaDrumsApi
 
 	inline void Config::SaveSpiDevConfig()
 	{
-
+		Util::ErrorToException([&] { return this->SaveSpiDevConfig_(); });
 	}
 
 	inline void Config::SaveCurrentAudioDeviceConfig() const
