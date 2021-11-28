@@ -104,6 +104,45 @@ namespace eXaDrumsApi
 		});
 	}
 
+	error Config::LoadSpiDevConfig_() const
+	{
+		std::string dir;
+		module.GetDirectory(dir);
+
+		return ExceptionToError([&]
+		{
+			std::vector<IO::SpiDevParameters> spidevParams;
+			DrumKit::TriggerManager::LoadSpiDevParams(dir, spidevParams);
+
+			// Convert and copy SPI dev parameters
+			this->spiDevParameters.clear();
+			this->spiDevParameters.reserve(spidevParams.size());
+			std::transform(spidevParams.begin(), spidevParams.end(), std::back_inserter(spiDevParameters), [](const auto& params)
+			{
+				return static_cast<eXaDrumsApi::SpiDevParameters>(params);
+			});
+		});
+	}
+
+	error Config::SaveSpiDevConfig_()
+	{
+		std::string dir;
+		module.GetDirectory(dir);
+
+		std::vector<IO::SpiDevParameters> spidevParams;
+		spidevParams.reserve(this->spiDevParameters.size());
+		std::transform(spiDevParameters.begin(), spiDevParameters.end(), std::back_inserter(spidevParams), [](const auto& params)
+		{
+			return static_cast<IO::SpiDevParameters>(params);
+		});
+
+		return ExceptionToError([&]
+		{
+			DrumKit::TriggerManager::SaveSpiDevParams(dir, spidevParams);
+			RestartModule();
+		});
+	}
+
 	error Config::SaveCurrentAudioDeviceConfig_() const
 	{
 

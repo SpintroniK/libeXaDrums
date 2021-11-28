@@ -19,7 +19,7 @@
 #include <string>
 
 namespace DrumKit { class Module; }
-namespace eXaDrumsApi{ class eXaDrums; struct TriggerParameters; }
+namespace eXaDrumsApi { class eXaDrums; struct TriggerParameters; }
 
 namespace eXaDrumsApi
 {
@@ -65,6 +65,18 @@ namespace eXaDrumsApi
 		 * 
 		 */
 		void LoadTriggersConfig() const;
+
+		/**
+		 * @brief Save SPI devices configuration.
+		 * 
+		 */
+		void SaveSpiDevConfig();
+
+		/**
+		 * @brief Load SPI devices configuration.
+		 * 
+		 */
+		void LoadSpiDevConfig() const;
 
 		/**
 		 * @brief Save current audio device configuration.
@@ -269,6 +281,8 @@ namespace eXaDrumsApi
 		Util::error SaveSensorsConfig_();
 		Util::error SaveTriggersConfig_();
 		Util::error LoadTriggersConfig_() const;
+		Util::error LoadSpiDevConfig_() const;
+		Util::error SaveSpiDevConfig_();
 		Util::error SaveCurrentAudioDeviceConfig_() const;
 		Util::error SaveAudioDeviceConfig_(const AlsaParamsApi& params);
 		Util::error ResetAudioDevice_();
@@ -310,6 +324,7 @@ namespace eXaDrumsApi
 
 		// Sensors config
 		IO::SensorsConfig sensorsConfig;
+		mutable std::vector<SpiDevParameters> spiDevParameters;
 
 		// Triggers config
 		mutable std::vector<TriggerParameters> triggersParameters;

@@ -196,6 +196,33 @@ namespace DrumKit
 
 	void TriggerManager::LoadSpiDevConfig(const std::string& moduleDir, std::vector<IO::SpiDevPtr>& spidev)
 	{
+		std::vector<IO::SpiDevParameters> spidevParams;
+		LoadSpiDevParams(moduleDir, spidevParams);
+		spidev.clear();
+		spidev.resize(spidevParams.size());
+		std::transform(spidevParams.begin(), spidevParams.end(), spidev.begin(), [](const auto& params)
+		{
+			return IO::SpiDevFactory().Make(params.name, params.bus, params.cs);
+		});
+	}
+
+
+	void TriggerManager::SaveSpiDevConfig(const std::string& moduleDir, const std::vector<std::unique_ptr<IO::SpiDev>>& spidev)
+	{
+		std::vector<IO::SpiDevParameters> spidevParams;
+		spidevParams.reserve(spidev.size());
+
+		std::transform(spidev.begin(), spidev.end(), std::back_inserter(spidevParams), [](const auto& sd)
+		{
+			return IO::SpiDevParameters{sd->GetName(), sd->GetBus(), sd->GetCS()};
+		});
+
+		SaveSpiDevParams(moduleDir, spidevParams);
+	}
+
+
+	void TriggerManager::LoadSpiDevParams(const std::string& moduleDir, std::vector<IO::SpiDevParameters>& spidevParams)
+	{
 		const std::string file{moduleDir + "spiDev.xml"};
 
 		XMLDocument doc;
@@ -207,7 +234,7 @@ namespace DrumKit
 
 		auto* root = doc.RootElement();
 
-		spidev.clear();
+		spidevParams.clear();
 
 		for(const auto& device : XmlElement{root, "Device"})
 		{
@@ -215,7 +242,36 @@ namespace DrumKit
 			const auto dev = device.Attribute<size_t>("bus");
 			const auto cs = device.Attribute<size_t>("cs");
 
-			spidev.push_back(IO::SpiDevFactory().Make(type, dev, cs));
+			spidevParams.push_back(IO::SpiDevParameters{type, dev, cs});
+		}
+	}
+
+	void TriggerManager::SaveSpiDevParams(const std::string& moduleDir, const std::vector<IO::SpiDevParameters>& spidevParams)
+	{
+		const std::string file{moduleDir + "spiDev.xml"};
+
+		XMLDocument doc;
+
+		// Add root element
+		XMLElement* root = doc.NewElement("SpiDev");
+		doc.InsertFirstChild(root);
+
+		for(const auto& dev : spidevParams)
+		{
+			root->InsertEndChild(CreateXmlElement(doc, "SpiDev", "", 
+			{
+				{"type", dev.name},
+				{"bus", dev.bus},
+				{"cs", dev.cs}
+			}));
+		}
+
+		// Save file
+		auto result = doc.SaveFile(file.c_str());
+
+		if(XML_SUCCESS != result)
+		{
+			throw Exception("Could not save SPI configuration.", error_type_error);
 		}
 	}
 

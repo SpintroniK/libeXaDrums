@@ -5,8 +5,8 @@
  *      Author: jeremy
  */
 
-#ifndef SOURCE_API_KITCREATOR_KITCREATOR_API_H_
-#define SOURCE_API_KITCREATOR_KITCREATOR_API_H_
+#ifndef LIBEXADRUMS_API_KITCREATOR_KITCREATOR_API_H
+#define LIBEXADRUMS_API_KITCREATOR_KITCREATOR_API_H
 
 #include "../../Util/ErrorHandling.h"
 #include "../../DrumKit/Kits/KitCreator.h"
@@ -306,4 +306,4 @@ namespace eXaDrumsApi
 
 #include "KitCreator_api.hpp"
 
-#endif /* SOURCE_API_KITCREATOR_KITCREATOR_API_H_ */
+#endif /* LIBEXADRUMS_API_KITCREATOR_KITCREATOR_API_H */

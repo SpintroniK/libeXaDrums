@@ -30,6 +30,16 @@ namespace eXaDrumsApi
 		Util::ErrorToException([&] { return this->LoadTriggersConfig_(); });
 	}
 
+	inline void Config::LoadSpiDevConfig() const
+	{
+		Util::ErrorToException([&] { return this->LoadSpiDevConfig_(); });
+	}
+
+	inline void Config::SaveSpiDevConfig()
+	{
+
+	}
+
 	inline void Config::SaveCurrentAudioDeviceConfig() const
 	{
 		Util::ErrorToException([&] { return this->SaveCurrentAudioDeviceConfig_(); });

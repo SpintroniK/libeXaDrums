@@ -438,8 +438,6 @@ namespace DrumKit
 
 		// Create Triggers
 		this->CreateTriggers(this->triggersParameters);
-
-		
 	}
 
 
