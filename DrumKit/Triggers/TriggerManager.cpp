@@ -258,7 +258,7 @@ namespace DrumKit
 
 		for(const auto& dev : spidevParams)
 		{
-			root->InsertEndChild(CreateXmlElement(doc, "SpiDev", "", 
+			root->InsertEndChild(CreateXmlElement(doc, "Device", "", 
 			{
 				{"type", dev.name},
 				{"bus", dev.bus},
