@@ -188,6 +188,13 @@ namespace eXaDrumsApi
 		 */
 		void SetTriggerParameters(int triggerId, const TriggerParameters& params);
 
+		/**
+		 * @brief Set Spi Dev Parameters
+		 * 
+		 * @param params Spi Dev parameters list.
+		 */
+		void SetSpiDevParameters(const std::vector<SpiDevParameters>& params);
+
 		// Accessors
 		/**
 		 * @brief Get the sensors types list.
@@ -300,6 +307,7 @@ namespace eXaDrumsApi
 		void SetSensorsDataFolder_(const char* folder) noexcept;
 		void SetAudioDeviceParameters_(const char* name);
 		void SetTriggersParameters_(const TriggerParameters* params, unsigned int size) noexcept;
+		void SetSpiDevParameters_(const SpiDevParameters* params, unsigned int size) noexcept;
 		void SetTriggerParameters_(int triggerId, const TriggerParameters& params);
 
 		const char* GetSensorsType_();

@@ -5,8 +5,8 @@
  *      Author: jeremy
  */
 
-#ifndef SOURCE_API_CONFIG_CONFIG_API_HPP_
-#define SOURCE_API_CONFIG_CONFIG_API_HPP_
+#ifndef LIBEXADRUMS_API_CONFIG_CONFIG_API_HPP
+#define LIBEXADRUMS_API_CONFIG_CONFIG_API_HPP
 
 #include "Config_api.h"
 
@@ -113,6 +113,11 @@ namespace eXaDrumsApi
 		SetTriggersParameters_(params.data(), params.size());
 
 		return;
+	}
+
+	inline void Config::SetSpiDevParameters(const std::vector<SpiDevParameters>& params)
+	{
+		SetSpiDevParameters_(params.data(), params.size());
 	}
 
 	inline void Config::SetTriggerParameters(int triggerId, const TriggerParameters& params)
@@ -254,4 +259,4 @@ namespace eXaDrumsApi
 
 
 
-#endif /* SOURCE_API_CONFIG_CONFIG_API_HPP_ */
+#endif /* LIBEXADRUMS_API_CONFIG_CONFIG_API_HPP */

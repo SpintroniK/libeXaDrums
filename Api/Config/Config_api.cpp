@@ -273,6 +273,15 @@ namespace eXaDrumsApi
 		return;
 	}
 
+
+	void Config::SetSpiDevParameters_(const SpiDevParameters* params, unsigned int size) noexcept
+	{
+		std::vector<SpiDevParameters> spidevParams(params, params + size);
+
+		this->spiDevParameters.clear();
+		this->spiDevParameters = spidevParams;
+	}
+
 	error Config::SetAudioDeviceParameters_(const AlsaParamsApi& params)
 	{
 

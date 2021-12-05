@@ -10,6 +10,7 @@ namespace eXaDrumsApi
 
     struct SpiDevParameters
     {
+        SpiDevParameters() = default;
 
         SpiDevParameters(const char* names, unsigned int bus, unsigned int cs)
         {
