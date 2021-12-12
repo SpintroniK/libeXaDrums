@@ -4,8 +4,9 @@
 #include "../../Util/ErrorHandling.h"
 
 #include "MCP3XXX.h"
-#include "SpiDev.h"
+#include "SpiDev.h
 
+#include <functional>
 #include <map>
 #include <memory>
 #include <ranges>
@@ -45,7 +46,7 @@ namespace IO
                 throw Util::Exception("Spi device type doesn't exist.", Util::error_type_error);
             }
 
-            return (this->*iter->second)(dev, cs); 
+            return std::invoke(iter->second, this, dev, cs); 
         }
 
         auto GetTypes() &&

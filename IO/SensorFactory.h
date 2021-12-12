@@ -10,6 +10,7 @@
 
 #include <algorithm>
 #include <array>
+#include <functional>
 #include <iostream>
 #include <map>
 #include <numeric>
@@ -74,7 +75,7 @@ namespace IO
                 throw Util::Exception("Sensor type doesn't exist.", Util::error_type_error);
             }
 
-            return (this->*iter->second)(channel); 
+            return std::invoke(iter->second, this, channel); 
         }
 
         void SetSpiDev(const std::vector<SpiDevPtr>& spidev_)
