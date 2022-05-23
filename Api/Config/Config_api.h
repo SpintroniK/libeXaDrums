@@ -167,6 +167,13 @@ namespace eXaDrumsApi
 		void SetSensorsDataFolder(const std::string& folder) noexcept;
 
 		/**
+		 * @brief Set the serial port
+		 * 
+		 * @param port Path to the serial port
+		 */
+		void SetSerialPort(const std::string& port) noexcept;
+
+		/**
 		 * @brief Set audio device parameters.
 		 * 
 		 * @param params Audio device parameters.
@@ -246,6 +253,13 @@ namespace eXaDrumsApi
 		std::string GetSensorsDataFolder() const noexcept;
 
 		/**
+		 * @brief Get the serial port
+		 * 
+		 * @return std::string Path to the serial port
+		 */
+		std::string GetSerialPort() const noexcept;
+
+		/**
 		 * @brief Get the audio device name.
 		 * 
 		 * @return std::string Audio device name.
@@ -305,6 +319,7 @@ namespace eXaDrumsApi
 
 		void SetSensorsType_(const char* type);
 		void SetSensorsDataFolder_(const char* folder) noexcept;
+		void SetSerialPort_(const char* port) noexcept;
 		void SetAudioDeviceParameters_(const char* name);
 		void SetTriggersParameters_(const TriggerParameters* params, unsigned int size) noexcept;
 		void SetSpiDevParameters_(const SpiDevParameters* params, unsigned int size) noexcept;
@@ -312,6 +327,7 @@ namespace eXaDrumsApi
 
 		const char* GetSensorsType_();
 		const char* GetSensorsDataFolder_() const noexcept;
+		const char* GetSerialPort_() const noexcept;
 		const char* GetAudioDeviceName_() const noexcept;
 
 		AlsaParamsApi GetAudioDeviceParams_() const noexcept;

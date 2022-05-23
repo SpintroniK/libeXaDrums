@@ -81,6 +81,7 @@ libexadrums_la_SOURCES = \
   IO/HddSensor.cpp \
   IO/HddSensor.h \
   IO/ISensor.h \
+  IO/SerialMidi.h \
   IO/SpiDevices/SpiDev.cpp \
   IO/SpiDevices/SpiDev.h \
   IO/SpiDevices/SpiDevFactory.h \
@@ -143,6 +144,7 @@ nobase_pkginclude_HEADERS = \
   DrumKit/Triggers/TriggerParameters.h \
   DrumKit/Triggers/TriggerType.h \
   IO/SensorsConfig.h \
+  IO/SerialMidi.h \
   IO/SpiDevices/SpiDevParameters.h \
   Sound/Alsa/AlsaParams.h \
   Sound/InstrumentSoundType.h \

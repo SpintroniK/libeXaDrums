@@ -10,6 +10,7 @@
 
 #include "../../IO/SensorsConfig.h"
 #include "../../IO/SensorFactory.h"
+#include "../../IO/SerialMidi.h"
 #include "../../IO/SpiDevices/SpiDevParameters.h"
 #include "../../Metronome/Metronome.h"
 #include "../../Sound/Alsa/AlsaParams.h"
@@ -97,6 +98,8 @@ namespace DrumKit
 
 		IO::SensorFactory sensorFactory;
 		std::vector<IO::SpiDevPtr> spidev;
+
+		IO::SerialMidi serialMidi{};
 
 		// Module
 		std::string directory;

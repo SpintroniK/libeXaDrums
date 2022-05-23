@@ -152,6 +152,7 @@ namespace DrumKit
 		root.FirstChildElement("Resolution").GetValue(sensorConfig.resolution);
 		root.FirstChildElement("HddDataFolder").GetValue(sensorConfig.hddDataFolder);
 		root.FirstChildElement("Type").GetValue(sensorConfig.sensorType);
+		root.FirstChildElement("SerialPort").GetValue(sensorConfig.serialPort);
 
 	}
 
@@ -171,6 +172,7 @@ namespace DrumKit
 		XMLElement* resolution = doc.NewElement("Resolution");
 		XMLElement* type = doc.NewElement("Type");
 		XMLElement* dataFolder = doc.NewElement("HddDataFolder");
+		XMLElement* serialPort = doc.NewElement("SerialPort");
 
 		samplingRate->SetText(sensorConfig.samplingRate);
 		resolution->SetText(sensorConfig.resolution);
@@ -178,12 +180,14 @@ namespace DrumKit
 		type->SetText(sensorConfig.sensorType.c_str());
 
 		dataFolder->SetText(sensorConfig.hddDataFolder.c_str());
+		serialPort->SetText(sensorConfig.serialPort.c_str());
 
 		// Add elements to document
 		root->InsertEndChild(samplingRate);
 		root->InsertEndChild(resolution);
 		root->InsertEndChild(type);
 		root->InsertEndChild(dataFolder);
+		root->InsertEndChild(serialPort);
 
 		auto result = doc.SaveFile(file.c_str());
 

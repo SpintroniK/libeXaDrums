@@ -107,6 +107,11 @@ namespace IO
             return MakeHdd(this->dataFolder, channel);
         }
 
+        ISensorPtr MakeSerialMidi(size_t channel) const
+        {
+            return MakeVirtual(channel);
+        }
+
         using FactoryPtmf = ISensorPtr(SensorFactory::*)(size_t) const;
         using SensorMap = std::map<std::string, FactoryPtmf>;
 
@@ -118,6 +123,7 @@ namespace IO
             {"Virtual", &SensorFactory::MakeVirtual},
             {"Spi", &SensorFactory::MakeSpi},
             {"Hdd", &SensorFactory::MakeHdd},
+            {"SerialMidi", &SensorFactory::MakeSerialMidi},
         };
 
     };

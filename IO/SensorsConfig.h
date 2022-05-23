@@ -22,6 +22,7 @@ namespace IO
 		int resolution{};
 		std::string sensorType{};
 
+		std::string serialPort{};
 		std::string hddDataFolder{};
 
 	};

@@ -99,6 +99,11 @@ namespace eXaDrumsApi
 		return;
 	}
 
+	inline void Config::SetSerialPort(const std::string& port) noexcept
+	{
+		SetSerialPort_(port.c_str());
+	}
+
 	inline void Config::SetAudioDeviceParameters(const AlsaParamsApi& params)
 	{
 
@@ -246,6 +251,11 @@ namespace eXaDrumsApi
 	inline std::string Config::GetSensorsDataFolder() const noexcept
 	{
 		return std::string(GetSensorsDataFolder_());
+	}
+
+	inline std::string Config::GetSerialPort() const noexcept
+	{
+		return std::string{GetSerialPort_()};
 	}
 
 
