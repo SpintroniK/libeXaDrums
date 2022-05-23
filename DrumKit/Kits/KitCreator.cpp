@@ -127,8 +127,8 @@ namespace DrumKit
 	void KitCreator::SetInstrumentType(const std::string& typeStr)
 	{
 
-		InstrumentType type =  Enums::ToElement<InstrumentType>(typeStr);
-		this->instrument.instrumentType = type;
+		// InstrumentType type =  Enums::ToElement<InstrumentType>(typeStr);
+		this->instrument.instrumentType = typeStr;
 
 		return;
 	}
@@ -200,11 +200,7 @@ namespace DrumKit
 
 	std::string KitCreator::GetInstrumentType(int i) const
 	{
-
-		InstrumentType type = parameters.instrumentParameters[i].instrumentType;
-		std::string typeStr = Enums::ToString(type);
-
-		return typeStr;
+		return parameters.instrumentParameters[i].instrumentType;
 	}
 
 	std::vector<int> KitCreator::GetInstrumentsTriggersIds(int i) const
@@ -255,9 +251,7 @@ namespace DrumKit
 	std::vector<std::string> KitCreator::GetSoundTypes(const std::string& instrumentType) const
 	{
 
-		InstrumentType type = Enums::ToElement<InstrumentType>(instrumentType);
-
-		std::vector<InstrumentSoundType> sndTypes = InstrumentFactory::GetSoundsTypes(type);
+		std::vector<InstrumentSoundType> sndTypes = InstrumentFactory::GetSoundsTypes(instrumentType);
 
 		std::vector<std::string> soundsTypes;
 		std::transform(sndTypes.cbegin(), sndTypes.cend(), std::back_inserter(soundsTypes), [](const InstrumentSoundType& t) { return Enums::ToString(t); });
@@ -268,10 +262,7 @@ namespace DrumKit
 
 	std::vector<std::string> KitCreator::GetTriggersLocations(const std::string& instrumentType) const
 	{
-
-		InstrumentType type = Enums::ToElement<InstrumentType>(instrumentType);
-
-		std::vector<TriggerLocation> trigsLocs = InstrumentFactory::GetTriggersTypes(type);
+		std::vector<TriggerLocation> trigsLocs = InstrumentFactory::GetTriggersTypes(instrumentType);
 
 		std::vector<std::string> triggersLocations;
 		std::transform(trigsLocs.cbegin(), trigsLocs.cend(), std::back_inserter(triggersLocations), [](const TriggerLocation& l) { return Enums::ToString(l); });
@@ -283,13 +274,7 @@ namespace DrumKit
 
 	std::vector<std::string> KitCreator::GetInstrumentsTypes() const
 	{
-
-		std::vector<InstrumentType> types = Enums::GetEnumVector<InstrumentType>();
-
-		std::vector<std::string> instrumentTypes;
-		std::transform(types.cbegin(), types.cend(), std::back_inserter(instrumentTypes), [](const InstrumentType& t) { return Enums::ToString(t); });
-
-		return instrumentTypes;
+		return InstrumentFactory{}.GetTypes();
 	}
 
 	std::vector<std::string> KitCreator::GetInstrumentsNames() const

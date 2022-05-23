@@ -18,50 +18,93 @@
 #include "Drums/TestDrum.h"
 #include "Pads/Pad.h"
 
-#include "InstrumentType.h"
 #include "Instrument.h"
 
+#include <map>
+#include <ranges>
 #include <vector>
 
 namespace DrumKit
 {
 
-	class InstrumentFactory
-	{
+    class InstrumentFactory
+    {
 
-	public:
+    public:
 
-		static InstrumentPtr CreateInstrument(InstrumentType type, InstrumentParameters parameters, std::shared_ptr<Sound::SoundBank> sb)
-		{
+        InstrumentFactory() = default;
 
-			switch(type)
-			{
-				case InstrumentType::Pad: 		return std::make_shared<Pad>(parameters, sb);
-				case InstrumentType::TestDrum: 	return std::make_shared<TestDrum>(parameters, sb);
-				case InstrumentType::HiHat: 	return std::make_shared<TestHiHat>(parameters, sb);
-			}
+        // static InstrumentPtr CreateInstrument(InstrumentType type, InstrumentParameters parameters, std::shared_ptr<Sound::SoundBank> sb)
+        // {
 
-			throw Util::Exception("Instrument type does not exist.", Util::error_type_error);
-		}
+        //     switch(type)
+        //     {
+        //         case InstrumentType::Pad:         return std::make_shared<Pad>(parameters, sb);
+        //         case InstrumentType::TestDrum:    return std::make_shared<TestDrum>(parameters, sb);
+        //         case InstrumentType::HiHat:       return std::make_shared<TestHiHat>(parameters, sb);
+        //     }
 
-		static std::vector<Sound::InstrumentSoundType>  GetSoundsTypes(InstrumentType type)
-		{
-			return CreateInstrument(type, InstrumentParameters(), nullptr)->GetSoundTypes();
-		}
+        //     throw Util::Exception("Instrument type does not exist.", Util::error_type_error);
+        // }
 
-		static std::vector<TriggerLocation>  GetTriggersTypes(InstrumentType type)
-		{
-			return CreateInstrument(type, InstrumentParameters(), nullptr)->GetTriggersLocations();
-		}
+        static std::vector<Sound::InstrumentSoundType>  GetSoundsTypes(const std::string& type)
+        {
+            return InstrumentFactory{}.Make(type, InstrumentParameters(), nullptr)->GetSoundTypes();
+        }
+
+        static std::vector<TriggerLocation>  GetTriggersTypes(const std::string& type)
+        {
+            return InstrumentFactory{}.Make(type, InstrumentParameters(), nullptr)->GetTriggersLocations();
+        }
+
+        InstrumentPtr MakePad(InstrumentParameters parameters, std::shared_ptr<Sound::SoundBank> sb) const
+        {
+            return std::make_shared<Pad>(parameters, sb);
+        }
+        
+        InstrumentPtr MakeTestDrum(InstrumentParameters parameters, std::shared_ptr<Sound::SoundBank> sb) const
+        {
+            return std::make_shared<TestDrum>(parameters, sb);
+        }
+
+        InstrumentPtr MakeTestHiHat(InstrumentParameters parameters, std::shared_ptr<Sound::SoundBank> sb) const
+        {
+            return std::make_shared<TestHiHat>(parameters, sb);
+        }
 
 
-	private:
+        InstrumentPtr Make(const std::string& type, InstrumentParameters parameters, std::shared_ptr<Sound::SoundBank> sb) const
+        {
+            const auto iter = instrumentMap.find(type);
 
-		InstrumentFactory() = delete;
-		~InstrumentFactory() = delete;
+            if(iter == instrumentMap.cend())
+            {
+                throw Util::Exception("Instrument type doesn't exist.", Util::error_type_error);
+            }
+
+            return std::invoke(iter->second, this, parameters, sb); 
+        }
 
 
-	};
+        auto GetTypes() &&
+        {
+            using namespace std::views;
+            return std::vector<std::string>{ keys(instrumentMap).begin(), keys(instrumentMap).end() };
+        }
+
+    private:
+    
+        using FactoryPtmf = InstrumentPtr(InstrumentFactory::*)(InstrumentParameters, std::shared_ptr<Sound::SoundBank>) const;
+        using InstrumentMap = std::map<std::string, FactoryPtmf>;
+
+        const InstrumentMap instrumentMap
+        {
+            {"Pad", &InstrumentFactory::MakePad},
+            {"TestDrum", &InstrumentFactory::MakeTestDrum},
+            {"TestHiHat", &InstrumentFactory::MakeTestHiHat},
+        };
+
+    };
 
 
 }

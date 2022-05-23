@@ -13,7 +13,6 @@
 #include "../Triggers/TriggerLocation.h"
 
 #include "InstrumentSoundInfo.h"
-#include "InstrumentType.h"
 
 #include <tinyxml2.h>
 
@@ -62,7 +61,7 @@ namespace DrumKit
 		}
 
 
-		InstrumentType instrumentType;
+		std::string instrumentType;
 
 		int id;
 		float volume;

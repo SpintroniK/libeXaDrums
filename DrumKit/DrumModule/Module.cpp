@@ -466,10 +466,14 @@ namespace DrumKit
 				const auto message = serialMidi.GetMessage();
 				if(message)
 				{
-					// std::cout << "Command: " << std::hex << +message->command << ", "
-					// 		<< "Channel: " << std::hex << +message->channel << ", "
-					// 		<< "Param 1: " << std::hex << +message->param1 << ", "
-					// 		<< "Param 2: " << std::hex << +message->param2 << std::endl;
+					std::cout << "Command: " << std::hex << +message->command << ", " << std::dec
+							<< "Channel: " << +message->channel << ", "
+							<< "Param 1: " << +message->param1 << ", "
+							<< "Param 2: " << +message->param2 << std::endl;
+
+					// TODO: add trigtime stuff here
+
+					
 				}
 			}
 		}

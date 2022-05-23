@@ -155,7 +155,7 @@ namespace DrumKit
 			XMLElement* instrument = doc.NewElement("Instrument");
 
 			// Set type
-			std::string instrumentType = Enums::ToString(instrumentParameters.instrumentType);
+			std::string instrumentType = instrumentParameters.instrumentType; //Enums::ToString(instrumentParameters.instrumentType);
 			instrument->SetAttribute("type", instrumentType.c_str());
 
 			// Set volume
