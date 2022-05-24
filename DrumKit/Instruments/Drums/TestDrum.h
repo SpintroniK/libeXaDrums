@@ -37,6 +37,8 @@ namespace DrumKit
 		virtual bool IsTriggerEvent() const final;
 		virtual void GetSoundProps(int& id, float& volume) const final;
 
+		std::optional<int> GetMidiNoteSoundId(uint8_t note) const final;
+
 		virtual std::vector<Sound::InstrumentSoundType> GetSoundTypes() const final { return {Sound::InstrumentSoundType::Default, Sound::InstrumentSoundType::RimShot}; }
 		virtual std::vector<TriggerLocation> GetTriggersLocations() const final { return {TriggerLocation::DrumHead, TriggerLocation::Rim}; };
 		virtual std::vector<int> GetTriggersIds() const final { return {drumHeadTrigger->GetId(), drumRimTrigger->GetId()}; };

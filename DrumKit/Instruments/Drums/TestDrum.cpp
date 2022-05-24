@@ -70,6 +70,12 @@ namespace DrumKit
 		return;
 	}
 
+
+	std::optional<int> TestDrum::GetMidiNoteSoundId(uint8_t note) const
+	{
+		return {};
+	}
+
 	void TestDrum::SetVolume(float volume)
 	{
 

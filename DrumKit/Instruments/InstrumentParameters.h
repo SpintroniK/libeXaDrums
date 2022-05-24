@@ -5,8 +5,8 @@
  *      Author: jeremy
  */
 
-#ifndef SOURCE_DRUMKIT_INSTRUMENTS_INSTRUMENTPARAMETERS_H_
-#define SOURCE_DRUMKIT_INSTRUMENTS_INSTRUMENTPARAMETERS_H_
+#ifndef LIBEXADRUMS_DRUMKIT_INSTRUMENTS_INSTRUMENTPARAMETERS_H
+#define LIBEXADRUMS_DRUMKIT_INSTRUMENTS_INSTRUMENTPARAMETERS_H
 
 #include "../../Util/Xml.h"
 #include "../../Util/Enums.h"
@@ -52,7 +52,11 @@ namespace DrumKit
 
 				for(const auto& sound : soundsInfo)
 				{
-					sounds->InsertEndChild(CreateXmlElement(doc, "sound", sound.soundLocation, {{"type", Enums::ToString(sound.type)}}));
+					sounds->InsertEndChild(CreateXmlElement(doc, "sound", sound.soundLocation, 
+					{
+						{"type", Enums::ToString(sound.type)},
+						{"note", std::to_string(sound.midiNote)},
+					}));
 				}
 
 				element->InsertEndChild(sounds);
@@ -74,4 +78,4 @@ namespace DrumKit
 
 }
 
-#endif /* SOURCE_DRUMKIT_INSTRUMENTS_INSTRUMENTPARAMETERS_H_ */
+#endif /* LIBEXADRUMS_DRUMKIT_INSTRUMENTS_INSTRUMENTPARAMETERS_H */

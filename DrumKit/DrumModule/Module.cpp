@@ -463,6 +463,16 @@ namespace DrumKit
 		{
 			while(isPlay.load())
 			{
+
+				const auto instruments = kits[kitId].GetInstruments();
+				const auto it = std::find_if(instruments.begin(), instruments.end(), [&](const auto& i) { return i->GetMidiNoteSoundId(38); });
+
+				if(it != instruments.cend())
+				{
+					std::cout << *it->get()->GetMidiNoteSoundId(38) << std::endl;
+				}
+				
+
 				const auto message = serialMidi.GetMessage();
 				if(message)
 				{

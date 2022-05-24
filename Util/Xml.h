@@ -102,7 +102,12 @@ namespace Util
 		template <typename T>
 		inline void Attribute(const std::string& name, T& value) const
 		{
-			std::istringstream iss{element->Attribute(name.data())};
+			auto attr = element->Attribute(name.data());
+			if(attr == nullptr)
+			{
+				return;
+			}
+			std::istringstream iss{attr};
 			iss >> value;
 		}
 

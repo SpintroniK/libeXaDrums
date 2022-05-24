@@ -84,6 +84,12 @@ namespace DrumKit
 		return;
 	}
 
+
+	std::optional<int> TestHiHat::GetMidiNoteSoundId(uint8_t note) const
+	{
+		return {};
+	}
+
 	void TestHiHat::SetVolume(float volume)
 	{
 

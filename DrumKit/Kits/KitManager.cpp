@@ -103,6 +103,8 @@ namespace DrumKit
 				}
 
 				sound.Attribute("type", soundInfo.type);
+				const auto note = sound.Attribute<uint32_t>("note");
+				soundInfo.midiNote = static_cast<uint8_t>(note);
 
 				instrumentParameters.soundsInfo.push_back(soundInfo);
 
@@ -195,6 +197,7 @@ namespace DrumKit
 				// Set type
 				std::string type = Enums::ToString(soundInfo.type);
 				sound->SetAttribute("type", type.c_str());
+				sound->SetAttribute("note", soundInfo.midiNote);
 
 				// Set file path
 				sound->SetText(soundInfo.soundLocation.c_str());

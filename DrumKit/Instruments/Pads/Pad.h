@@ -5,8 +5,8 @@
  *      Author: jeremy
  */
 
-#ifndef SOURCE_DRUMKIT_INSTRUMENTS_PADS_PAD_H_
-#define SOURCE_DRUMKIT_INSTRUMENTS_PADS_PAD_H_
+#ifndef LIBEXADRUMS_DRUMKIT_INSTRUMENTS_PADS_PAD_H
+#define LIBEXADRUMS_DRUMKIT_INSTRUMENTS_PADS_PAD_H
 
 #include "../../../Sound/SoundBank/SoundBank.h"
 #include "../../../Sound/InstrumentSoundType.h"
@@ -15,8 +15,8 @@
 
 #include "../Instrument.h"
 
-#include <vector>
 #include <memory>
+#include <vector>
 
 namespace DrumKit
 {
@@ -36,6 +36,8 @@ namespace DrumKit
 		virtual void GetSoundProps(int& id, float& volume) const final;
 		virtual bool IsTriggerEvent() const final;
 
+		std::optional<int> GetMidiNoteSoundId(uint8_t note) const final;
+
 		virtual std::vector<Sound::InstrumentSoundType> GetSoundTypes() const final { return {Sound::InstrumentSoundType::Default}; }
 		virtual std::vector<TriggerLocation> GetTriggersLocations() const final { return {TriggerLocation::DrumHead}; };
 		virtual std::vector<int> GetTriggersIds() const final { return { trigger->GetId() }; };
@@ -50,4 +52,4 @@ namespace DrumKit
 
 } /* namespace DrumKit */
 
-#endif /* SOURCE_DRUMKIT_INSTRUMENTS_PADS_PAD_H_ */
+#endif /* LIBEXADRUMS_DRUMKIT_INSTRUMENTS_PADS_PAD_H */
