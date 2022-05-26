@@ -464,26 +464,31 @@ namespace DrumKit
 			while(isPlay.load())
 			{
 
-				const auto instruments = kits[kitId].GetInstruments();
-				const auto it = std::find_if(instruments.begin(), instruments.end(), [&](const auto& i) { return i->GetMidiNoteSoundId(38); });
-
-				if(it != instruments.cend())
-				{
-					std::cout << *it->get()->GetMidiNoteSoundId(38) << std::endl;
-				}
-				
-
 				const auto message = serialMidi.GetMessage();
+
 				if(message)
 				{
-					std::cout << "Command: " << std::hex << +message->command << ", " << std::dec
-							<< "Channel: " << +message->channel << ", "
-							<< "Param 1: " << +message->param1 << ", "
-							<< "Param 2: " << +message->param2 << std::endl;
 
 					// TODO: add trigtime stuff here
 
-					
+					// std::cout 	<< "Command: " << std::hex << +message->command << ", " << std::dec
+					// 			<< "Channel: " << +message->channel << ", "
+					// 			<< "Param 1: " << +message->param1 << ", "
+					// 			<< "Param 2: " << +message->param2 << std::endl;
+
+					const auto instruments = kits[kitId].GetInstruments();
+
+					for(const auto& instrument : instruments)
+					{
+						const auto instrumentSoundId = instrument->GetMidiNoteSoundId(message->param1);
+
+						if(instrumentSoundId)
+						{
+							// std::cout << *instrumentSoundId << std::endl;
+							const auto volume = static_cast<float>(message->param2) / 127.f;
+							mixer->PlaySound(*instrumentSoundId, volume);
+						}
+					}
 				}
 			}
 		}
