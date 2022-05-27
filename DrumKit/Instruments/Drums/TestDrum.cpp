@@ -71,7 +71,7 @@ namespace DrumKit
 	}
 
 
-	std::optional<int> TestDrum::GetMidiNoteSoundId(uint8_t note) const
+	std::optional<int> TestDrum::GetSoundIdFromMidiParams(uint8_t note) const
 	{
 		return {};
 	}

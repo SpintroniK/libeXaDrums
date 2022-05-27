@@ -19,6 +19,7 @@
 #include "TrigSound.h"
 
 #include <algorithm>
+#include <chrono>
 
 using namespace Sound;
 using namespace Util;
@@ -426,6 +427,7 @@ namespace DrumKit
 
 	void Module::Run()
 	{
+		using namespace std::chrono;
 
 		if(sensorsConfig.sensorType == "Spi")
 		{
@@ -461,6 +463,7 @@ namespace DrumKit
 
 		if(sensorsConfig.sensorType == "SerialMidi")
 		{
+
 			while(isPlay.load())
 			{
 
@@ -469,7 +472,7 @@ namespace DrumKit
 				if(message)
 				{
 
-					// TODO: add trigtime stuff here
+					// TODO: add control change and MIDI command check
 
 					// std::cout 	<< "Command: " << std::hex << +message->command << ", " << std::dec
 					// 			<< "Channel: " << +message->channel << ", "
@@ -480,12 +483,24 @@ namespace DrumKit
 
 					for(const auto& instrument : instruments)
 					{
-						const auto instrumentSoundId = instrument->GetMidiNoteSoundId(message->param1);
+						const auto instrumentSoundId = instrument->GetSoundIdFromMidiParams(message->param1);
 
 						if(instrumentSoundId)
 						{
 							// std::cout << *instrumentSoundId << std::endl;
-							const auto volume = static_cast<float>(message->param2) / 127.f;
+							const auto volume = static_cast<float>(message->param2) / 127.F;
+
+							lastTrigValue.store(volume * 100.F, std::memory_order_release);
+
+							const auto now = high_resolution_clock::now();
+							const auto t = static_cast<int64_t>(time_point_cast<microseconds>(now).time_since_epoch().count());
+
+							lastTrigTime.store(t, std::memory_order_release);
+
+							if(recorder.IsRecording(std::memory_order_relaxed))
+							{
+								recorder.Push(TrigSound{instrument->GetId(), instrumentSoundId.value(), t, volume});
+							}
 							mixer->PlaySound(*instrumentSoundId, volume);
 						}
 					}

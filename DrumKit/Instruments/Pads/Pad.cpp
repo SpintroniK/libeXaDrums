@@ -46,7 +46,7 @@ namespace DrumKit
 		return;
 	}
 
-	std::optional<int> Pad::GetMidiNoteSoundId(uint8_t note) const
+	std::optional<int> Pad::GetSoundIdFromMidiParams(uint8_t note) const
 	{
 		if(parameters.soundsInfo.front().midiNote == note)
 		{
