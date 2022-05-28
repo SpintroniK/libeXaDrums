@@ -172,6 +172,14 @@ namespace eXaDrumsApi
 		 */
 		void SetInstrumentSoundsTypesAndLocs(int id, const std::vector<std::pair<std::string, std::string>>& sndTypesAndLocs);
 
+		/**
+		 * @brief Set the instrument sounds notes.
+		 * 
+		 * @param id Instrument id.
+		 * @param notes Sounds notes.
+		 */
+		void SetInstrumentSoundsNotes(int id, const std::vector<uint8_t>& notes);
+
 
 		/**
 		 * @brief Get an instrument's type.
@@ -212,6 +220,15 @@ namespace eXaDrumsApi
 		 * @return std::vector<std::string> Sounds locations.
 		 */
 		std::vector<std::string> GetInstrumentSoundsLocs(int i);
+
+
+		/**
+		 * @brief Get the instrument sounds notes.
+		 * 
+		 * @param i Instrument id.
+		 * @return std::vector<uint8_t>  Sounds notes.
+		 */
+		std::vector<uint8_t> GetInstrumentSoundsNotes(int i);
 
 		// Enums
 		// Instruments
@@ -266,6 +283,7 @@ namespace eXaDrumsApi
 
 		void SetInstrumentTriggersIdsAndLocs_(int id, int* ids, const char** locs, unsigned int size);
 		void SetInstrumentSoundsTypesAndLocs_(int id, const char** types, const char** locs, unsigned int size);
+		void SetInstrumentSoundsNotes_(int id, const unsigned char* data, unsigned int size);
 
 		const char* GetInstrumentType_(int i);
 
@@ -280,6 +298,7 @@ namespace eXaDrumsApi
 
 		void GetInstrumentSoundsLocs_(int i, const char** data, unsigned int& size);
 		//void GetSoundFiles_(const char** data, unsigned int& size);
+		void GetInstrumentSoundsNotes_(int i, unsigned char* data, unsigned int& size) const;
 
 		void GetInstrumentsTypes_(const char** data, unsigned int& size);
 		void GetInstrumentsNames_(const char** data, unsigned int& size);

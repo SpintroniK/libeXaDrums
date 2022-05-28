@@ -5,8 +5,8 @@
  *      Author: jeremy
  */
 
-#ifndef SOURCE_DRUMKIT_KITMANAGER_KITPARAMS_H_
-#define SOURCE_DRUMKIT_KITMANAGER_KITPARAMS_H_
+#ifndef LIBEXADRUMS_DRUMKIT_KITS_KITPARAMETERS_H
+#define LIBEXADRUMS_DRUMKIT_KITS_KITPARAMETERS_H
 
 #include "../Instruments/InstrumentParameters.h"
 
@@ -30,4 +30,4 @@ namespace DrumKit
 }
 
 
-#endif /* SOURCE_DRUMKIT_KITMANAGER_KITPARAMS_H_ */
+#endif /* LIBEXADRUMS_DRUMKIT_KITS_KITPARAMETERS_H */

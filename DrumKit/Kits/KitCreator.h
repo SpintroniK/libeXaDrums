@@ -5,8 +5,8 @@
  *      Author: jeremy
  */
 
-#ifndef SOURCE_DRUMKIT_KITS_KITCREATOR_H_
-#define SOURCE_DRUMKIT_KITS_KITCREATOR_H_
+#ifndef LIBEXADRUMS_DRUMKIT_KITS_KITCREATOR_H
+#define LIBEXADRUMS_DRUMKIT_KITS_KITCREATOR_H
 
 #include "../../Util/Enums.h"
 #include "../Triggers/TriggerManager.h"
@@ -51,12 +51,14 @@ namespace DrumKit
 		void SetInstrumentType(int id, const std::string& type) { this->parameters.instrumentParameters[id].instrumentType = type; }
 		void SetInstrumentTriggersIdsAndLocs(int id, const std::vector<std::pair<int, std::string>>& trigsIdsAndLocs);
 		void SetInstrumentSoundsTypesAndLocs(int id, const std::vector<std::pair<std::string, std::string>>& sndsTypesAndLocs);
+		void SetInstrumentSoundsNotes(int id, const std::vector<uint8_t>& notes);
 
 		std::string GetInstrumentType(int i) const;
 		std::vector<int> GetInstrumentsTriggersIds(int i) const;
 		std::vector<std::string> GetInstrumentTriggersLocations(int i) const;
 		std::vector<std::string> GetInstrumentSoundsTypes(int i) const;
 		std::vector<std::string> GetInstrumentSoundsLocs(int i) const;
+		std::vector<uint8_t> GetInstrumentSoundsNotes(int i) const;
 
 		// Enums
 		// Instruments
@@ -82,4 +84,4 @@ namespace DrumKit
 
 } /* namespace DrumKit */
 
-#endif /* SOURCE_DRUMKIT_KITS_KITCREATOR_H_ */
+#endif /* LIBEXADRUMS_DRUMKIT_KITS_KITCREATOR_H */
