@@ -15,8 +15,8 @@ This document outlines the development plan from a high level and will be update
 ### 0.7.0
 
 - [X] Improve recorder stuff (auto gain, etc.).
-- &#9997; More generic SPI sensor reading (multiple devices, etc.).
-- &#9997; Improve factories
+- [X] More generic SPI sensor reading (multiple devices, etc.).
+- [X] Improve factories
 - &#9997; Serial MIDI input support.
 - [X] Use C++20
 
