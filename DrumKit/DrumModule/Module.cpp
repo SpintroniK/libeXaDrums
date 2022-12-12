@@ -472,12 +472,17 @@ namespace DrumKit
 				if(message)
 				{
 
-					// TODO: add control change and MIDI command check
+					// TODO: add control change
 
 					// std::cout 	<< "Command: " << std::hex << +message->command << ", " << std::dec
 					// 			<< "Channel: " << +message->channel << ", "
 					// 			<< "Param 1: " << +message->param1 << ", "
 					// 			<< "Param 2: " << +message->param2 << std::endl;
+
+					if(message->command != 0x90 || message->command != 0xB0)
+					{
+						continue;
+					}
 
 					const auto instruments = kits[kitId].GetInstruments();
 
