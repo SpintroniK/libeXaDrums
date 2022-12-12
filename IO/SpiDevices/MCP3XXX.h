@@ -3,6 +3,7 @@
 
 #include "SpiDev.h"
 
+#include <array>
 #include <memory>
 
 namespace IO
