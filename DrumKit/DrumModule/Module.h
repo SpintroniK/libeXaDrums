@@ -5,13 +5,16 @@
  *      Author: jeremy
  */
 
-#ifndef RASPIDRUMS_SOURCE_DRUMKIT_MODULE_H_
-#define RASPIDRUMS_SOURCE_DRUMKIT_MODULE_H_
+#ifndef LIBEXADRUMS_DRUMKIT_DRUMMODULE_MODULE_H
+#define LIBEXADRUMS_DRUMKIT_DRUMMODULE_MODULE_H
 
-#include "../../Metronome/Metronome.h"
 #include "../../IO/SensorsConfig.h"
-#include "../../Sound/Mixer/Mixer.h"
+#include "../../IO/SensorFactory.h"
+#include "../../IO/SerialMidi.h"
+#include "../../IO/SpiDevices/SpiDevParameters.h"
+#include "../../Metronome/Metronome.h"
 #include "../../Sound/Alsa/AlsaParams.h"
+#include "../../Sound/Mixer/Mixer.h"
 #include "../../Sound/SoundBank/SoundBank.h"
 #include "../../Util/SimpleSafeQueue.h"
 
@@ -19,11 +22,11 @@
 
 #include "Recorder.h"
 
-#include <string>
-#include <vector>
 #include <atomic>
-#include <thread>
 #include <memory>
+#include <string>
+#include <thread>
+#include <vector>
 
 
 namespace DrumKit
@@ -57,7 +60,7 @@ namespace DrumKit
 		// Triggers
 		void ReloadTriggers();
 		void SetTriggerParameters(int triggerId, const TriggerParameters& params) { triggers[triggerId]->SetParameters(params);}
-		void SetTriggerSensorValue(int id, char channel, short data) { triggers[id]->SetSensorData(channel, data); }
+		void SetTriggerSensorValue(int id, short data) { triggers[id]->SetSensorData(data); }
 		std::vector<TriggerParameters> GetTriggersParameters() const { return this->triggersParameters; }
 		unsigned long long GetLastTrigTime() const noexcept { return lastTrigTime.load(std::memory_order_acquire); }
 		int GetLastTrigValue() const noexcept { return lastTrigValue.load(std::memory_order_acquire); }
@@ -83,6 +86,7 @@ namespace DrumKit
 
 		// Config
 		IO::SensorsConfig GetSensorsConfig() const noexcept { return sensorsConfig; }
+		std::vector<IO::SpiDevParameters> GetSpiDevParams() const;
 
 	private:
 
@@ -92,6 +96,10 @@ namespace DrumKit
 		void CreateTriggers(const std::vector<TriggerParameters>& trigParams);
 		bool IsMetronomeEnabled() const;
 
+		IO::SensorFactory sensorFactory;
+		std::vector<IO::SpiDevPtr> spidev;
+
+		IO::SerialMidi serialMidi{};
 
 		// Module
 		std::string directory;
@@ -125,4 +133,4 @@ namespace DrumKit
 
 }
 
-#endif /* RASPIDRUMS_SOURCE_DRUMKIT_MODULE_H_ */
+#endif /* LIBEXADRUMS_DRUMKIT_DRUMMODULE_MODULE_H */

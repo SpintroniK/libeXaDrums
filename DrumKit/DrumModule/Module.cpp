@@ -8,17 +8,18 @@
 
 #include "Module.h"
 
-#include "../../IO/Spi.h"
+#include "../../IO/SpiDevices/SpiDevFactory.h"
 #include "../../Util/ErrorHandling.h"
 #include "../../Util/Threading.h"
 
-#include "../Triggers/TriggerManager.h"
-#include "../Triggers/TriggerFactory.h"
 #include "../Kits/KitManager.h"
+#include "../Triggers/TriggerFactory.h"
+#include "../Triggers/TriggerManager.h"
 
 #include "TrigSound.h"
 
 #include <algorithm>
+#include <chrono>
 
 using namespace Sound;
 using namespace Util;
@@ -48,7 +49,7 @@ namespace DrumKit
 		recorder.SetDirectory(dir);
 		recorder.SetMetronomeTimeFunc([&]{ return GetLastClickTime(); });
 
-		return;
+		
 	}
 
 	Module::~Module()
@@ -86,7 +87,7 @@ namespace DrumKit
 		// Uncomment if debugging under Linux
 		// pthread_setname_np(playThread.native_handle(), "Module Thread\0");
 
-		return;
+		
 	}
 
 
@@ -98,7 +99,7 @@ namespace DrumKit
 
 		mixer->Clear();
 
-		return;
+		
 	}
 
 	void Module::EnableRecording(bool record)
@@ -133,7 +134,7 @@ namespace DrumKit
 
 		dir = this->directory;
 
-		return;
+		
 	}
 
 
@@ -165,7 +166,7 @@ namespace DrumKit
 		}
 
 
-		return;
+		
 	}
 
 	std::vector<std::string> Module::GetKitsNames() const noexcept
@@ -255,19 +256,13 @@ namespace DrumKit
 
 	void Module::ReloadKits()
 	{
-
 		kitManager.ReScan();
 		LoadKits();
-
-		return;
 	}
 
 	void Module::ReloadTriggers()
 	{
-
 		LoadTriggers();
-
-		return;
 	}
 
 	float Module::GetTriggerValue(size_t id) const
@@ -306,29 +301,20 @@ namespace DrumKit
 
 			isMetronomeEnabled.store(false);
 		}
-
-
-		return;
 	}
 
 	void Module::ChangeTempo(int tempo)
 	{
-
 		metronome->SetTempo(tempo);
 		RestartMetronome();
-
-		return;
 	}
 
 	void Module::ChangeClickVolume(int volume)
 	{
-
 		if(isMetronomeEnabled.load())
 		{
 			soundBank->SetSoundVolume(metronomeSoundId, float(volume / 100.0f));
 		}
-
-		return;
 	}
 
 	float Module::GetClickVolume() const noexcept
@@ -341,7 +327,6 @@ namespace DrumKit
 		{
 			return 0.0f;
 		}
-		
 	}
 
 
@@ -375,16 +360,24 @@ namespace DrumKit
 		}
 	}
 
+	std::vector<IO::SpiDevParameters> Module::GetSpiDevParams() const
+	{
+		std::vector<IO::SpiDevParameters> spiDevParams;
+		spiDevParams.reserve(spidev.size());
+		std::ranges::transform(spidev, std::back_inserter(spiDevParams), [](const auto& spidev) 
+		{ 
+			return IO::SpiDevParameters{spidev->GetName(), spidev->GetBus(), spidev->GetCS()};
+		});
+		return spiDevParams;
+	}
+
 	void Module::RestartMetronome()
 	{
-
 		if(isMetronomeEnabled.load())
 		{
 			EnableMetronome(false);
 			EnableMetronome(true);
 		}
-
-		return;
 	}
 
 
@@ -406,8 +399,6 @@ namespace DrumKit
 
 			return Kit(kitParams, this->triggers, this->soundBank);
 		});
-
-		return;
 	}
 
 	void Module::LoadTriggers()
@@ -415,13 +406,15 @@ namespace DrumKit
 
 		// Update sensors configuration
 		TriggerManager::LoadSensorsConfig(this->directory, this->sensorsConfig);
-
-		if(sensorsConfig.sensorType == IO::SensorType::Spi)
+		
+		// if(sensorsConfig.sensorType == "Spi")
 		{
-			IO::Spi::get().Close();
-			IO::Spi::get().Open(sensorsConfig.samplingRate, 0);
+			TriggerManager::LoadSpiDevConfig(this->directory, this->spidev);
+			this->sensorFactory.SetSpiDev(this->spidev);
 		}
 
+
+		this->sensorFactory.SetDataFolder(this->sensorsConfig.hddDataFolder);
 
 		// Load triggers
 		TriggerManager::LoadTriggersConfig(this->directory, sensorsConfig, this->triggersParameters);
@@ -429,13 +422,29 @@ namespace DrumKit
 
 		// Create Triggers
 		this->CreateTriggers(this->triggersParameters);
-
-		return;
 	}
 
 
 	void Module::Run()
 	{
+		using namespace std::chrono;
+
+		if(sensorsConfig.sensorType == "Spi")
+		{
+			for(auto& dev : spidev)
+			{
+				dev->Close();
+				dev->Open(sensorsConfig.samplingRate, 0);
+			}
+		}
+
+		if(sensorsConfig.sensorType == "SerialMidi")
+		{
+			serialMidi.Close();
+			serialMidi.SetPort(sensorsConfig.serialPort);
+			serialMidi.SetBaudRate(sensorsConfig.samplingRate);
+			serialMidi.Open();
+		}
 
 		if(isMetronomeEnabled.load())
 		{
@@ -446,57 +455,109 @@ namespace DrumKit
 		lastTrigTime.store(0, std::memory_order_relaxed);
 		lastTrigValue.store(0, std::memory_order_relaxed);
 
-
 		// Skip high-pass filter transient state
 		for(size_t i = 0; i < 100 * triggers.size(); ++i)
+		{
 			std::for_each(triggers.begin(), triggers.end(), [](TriggerPtr& triggerPtr) { triggerPtr->Refresh(); });
+		}
 
-		while(isPlay.load())
+		if(sensorsConfig.sensorType == "SerialMidi")
 		{
 
-			// Refresh triggers
-			std::for_each(triggers.begin(), triggers.end(), [](TriggerPtr& triggerPtr) { triggerPtr->Refresh(); });
-
-			// Get most recent hit
-			auto it = std::max_element(triggers.cbegin(), triggers.cend(),
-					[](const TriggerPtr& t1, const TriggerPtr& t2) { return t1->GetTriggerState().trigTime < t2->GetTriggerState().trigTime; });
-
-
-			int64_t trigTime = (*it)->GetTriggerState().trigTime;
-			int64_t prevTrigTime = lastTrigTime.exchange(trigTime, std::memory_order_release);
-
-			if(prevTrigTime != trigTime)
-			{
-				lastTrigValue.store(int((*it)->GetTriggerState().value * 100.0f), std::memory_order_release);
-
-				//std::cout << double(trigTime - soundBank->GetSound(metronomeSoundId).GetLastStartTime()) / 1000. << std::endl;
-
-			}
-
-			// Check instruments triggers and send sounds to mixer if necessary
-			const std::vector<InstrumentPtr>& instruments = kits[kitId].GetInstruments();
-			for(const InstrumentPtr& instrumentPtr : instruments)
+			while(isPlay.load())
 			{
 
-				bool isTriggerEvent = instrumentPtr->IsTriggerEvent();
+				const auto message = serialMidi.GetMessage();
 
-				if(isTriggerEvent)
+				if(message)
 				{
-					int soundId = 0;
-					float volume = 1.0f;
-					instrumentPtr->GetSoundProps(soundId, volume);
 
-					if(recorder.IsRecording(std::memory_order_relaxed))
+					// TODO: add control change
+
+					// std::cout 	<< "Command: " << std::hex << +message->command << ", " << std::dec
+					// 			<< "Channel: " << +message->channel << ", "
+					// 			<< "Param 1: " << +message->param1 << ", "
+					// 			<< "Param 2: " << +message->param2 << std::endl;
+
+					if(message->command != 0x90 || message->command != 0xB0)
 					{
-						recorder.Push(TrigSound{instrumentPtr->GetId(), soundId, trigTime, volume});
+						continue;
 					}
 
-					mixer->PlaySound(soundId, volume);
+					const auto instruments = kits[kitId].GetInstruments();
+
+					for(const auto& instrument : instruments)
+					{
+						const auto instrumentSoundId = instrument->GetSoundIdFromMidiParams(message->param1);
+
+						if(instrumentSoundId)
+						{
+							// std::cout << *instrumentSoundId << std::endl;
+							const auto volume = static_cast<float>(message->param2) / 127.F;
+
+							lastTrigValue.store(volume * 100.F, std::memory_order_release);
+
+							const auto now = high_resolution_clock::now();
+							const auto t = static_cast<int64_t>(time_point_cast<microseconds>(now).time_since_epoch().count());
+
+							lastTrigTime.store(t, std::memory_order_release);
+
+							if(recorder.IsRecording(std::memory_order_relaxed))
+							{
+								recorder.Push(TrigSound{instrument->GetId(), instrumentSoundId.value(), t, volume});
+							}
+							mixer->PlaySound(*instrumentSoundId, volume);
+						}
+					}
 				}
 			}
 		}
+		else
+		{
+			while(isPlay.load())
+			{
+				// Refresh triggers
+				std::for_each(triggers.begin(), triggers.end(), [](TriggerPtr& triggerPtr) { triggerPtr->Refresh(); });
 
-		return;
+				// Get most recent hit
+				auto it = std::max_element(triggers.cbegin(), triggers.cend(),
+						[](const TriggerPtr& t1, const TriggerPtr& t2) { return t1->GetTriggerState().trigTime < t2->GetTriggerState().trigTime; });
+
+
+				int64_t trigTime = (*it)->GetTriggerState().trigTime;
+				int64_t prevTrigTime = lastTrigTime.exchange(trigTime, std::memory_order_release);
+
+				if(prevTrigTime != trigTime)
+				{
+					lastTrigValue.store(int((*it)->GetTriggerState().value * 100.0f), std::memory_order_release);
+
+					//std::cout << double(trigTime - soundBank->GetSound(metronomeSoundId).GetLastStartTime()) / 1000. << std::endl;
+
+				}
+
+				// Check instruments triggers and send sounds to mixer if necessary
+				const std::vector<InstrumentPtr>& instruments = kits[kitId].GetInstruments();
+				for(const InstrumentPtr& instrumentPtr : instruments)
+				{
+
+					bool isTriggerEvent = instrumentPtr->IsTriggerEvent();
+
+					if(isTriggerEvent)
+					{
+						int soundId = 0;
+						float volume = 1.0f;
+						instrumentPtr->GetSoundProps(soundId, volume);
+
+						if(recorder.IsRecording(std::memory_order_relaxed))
+						{
+							recorder.Push(TrigSound{instrumentPtr->GetId(), soundId, trigTime, volume});
+						}
+
+						mixer->PlaySound(soundId, volume);
+					}
+				}
+			}	
+		}		
 	}
 
 
@@ -507,12 +568,8 @@ namespace DrumKit
 
 		for(const TriggerParameters& triggerParameters : triggersParameters)
 		{
-			TriggerPtr triggerPtr = TriggerFactory::CreateTrigger(triggerParameters);
-			triggers.push_back(triggerPtr);
+			TriggerPtr triggerPtr = TriggerFactory::CreateTrigger(triggerParameters, this->sensorFactory);
+			triggers.push_back(std::move(triggerPtr));
 		}
-
-		return;
 	}
-
 }
-

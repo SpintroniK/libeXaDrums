@@ -8,7 +8,6 @@
 #ifndef SOURCE_IO_SENSORSCONFIG_H_
 #define SOURCE_IO_SENSORSCONFIG_H_
 
-#include "SensorType.h"
 
 #include <string>
 
@@ -19,11 +18,12 @@ namespace IO
 	struct SensorsConfig
 	{
 
-		int samplingRate;
-		int resolution;
-		SensorType sensorType;
+		int samplingRate{};
+		int resolution{};
+		std::string sensorType{};
 
-		std::string hddDataFolder;
+		std::string serialPort{};
+		std::string hddDataFolder{};
 
 	};
 

@@ -286,8 +286,6 @@ namespace DrumKit
 
 	void Recorder::ConvertToPCM(const std::string& inputFile)
 	{
-		using SoundData = std::valarray<int16_t>;
-		using SoundDataF = std::valarray<float>;
 		using namespace tinyxml2;
 		using namespace std::chrono;
 		using TrigSoundTuple = std::tuple<int, int, int64_t, float>;
@@ -363,7 +361,43 @@ namespace DrumKit
 			totalLength++;
 		}
 
-		SoundData data(int16_t{0}, totalLength);
+		SoundDataF dataF;
+		auto gain = 1. / soundsDataIds.size();
+		const auto target = 0.9 * static_cast<double>(std::numeric_limits<SoundData::value_type>::max());
+		auto max = 0.;
+
+		
+		do
+		{
+			dataF = ProcessSoundsData(soundsData, sounds, soundsDataIds, tStart, totalLength, sampleRate, gain);
+			max = dataF.max();
+			gain *= 1.01 * target / max;
+		}
+		while(max <= target);
+
+
+		SoundData data(dataF.size());
+		std::copy(begin(dataF), end(dataF), begin(data));
+
+		std::ofstream pcmFile(outputFile, std::ios::binary);
+		WavHeader header;
+		header.SetDataLength(data.size() * sizeof(int16_t));
+		header.SetSampleRate(sampleRate);
+		const auto bytes = header.ToBytes();
+
+		pcmFile.write((char*)bytes.data(), bytes.size());
+		pcmFile.write((char*)&data[0], data.size() * sizeof(int16_t));
+		pcmFile.close();
+
+	}
+
+
+	SoundDataF Recorder::ProcessSoundsData(const std::vector<SoundData>& soundsData, const std::vector<TrigSound>& sounds,
+									      const std::vector<int>& soundsDataIds, int64_t tStart, size_t totalLength, 
+										  unsigned int sampleRate, double gain)
+	{
+
+		SoundDataF data(float{0}, totalLength);
 
 		for(const auto& sound : sounds)
 		{
@@ -385,25 +419,16 @@ namespace DrumKit
 			SoundDataF snd(0.f, soundsData[idSound].size());
 			std::copy(begin(soundsData[idSound]), end(soundsData[idSound]), begin(snd));
 
-			snd *= 0.66 * volume; // TODO: smart scaling factor and use user volume
+			snd *= gain * volume; // TODO: smart scaling factor and use user volume
 
-			SoundData sndVol(soundsData[idSound].size());
-			std::copy(std::begin(snd), std::end(snd), std::begin(sndVol));
+			// SoundData sndVol(soundsData[idSound].size());
+			// std::copy(std::begin(snd), std::end(snd), std::begin(sndVol));
 
 			std::slice slice(sampleNb, soundsData[idSound].size(), 1);
-			data[slice] += sndVol;
+			data[slice] += snd;
 		}
 
-		std::ofstream pcmFile(outputFile, std::ios::binary);
-		WavHeader header;
-		header.SetDataLength(data.size() * sizeof(int16_t));
-		header.SetSampleRate(sampleRate);
-		const auto bytes = header.ToBytes();
-
-		pcmFile.write((char*)bytes.data(), bytes.size());
-		pcmFile.write((char*)&data[0], data.size() * sizeof(int16_t));
-		pcmFile.close();
-
+		return data;
 	}
 
 } /* namespace DrumKit */

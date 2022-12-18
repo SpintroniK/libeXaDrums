@@ -5,8 +5,8 @@
  *      Author: jeremy
  */
 
-#ifndef LIBEXADRUMS_SOURCE_API_EXADRUMKIT_H_
-#define LIBEXADRUMS_SOURCE_API_EXADRUMKIT_H_
+#ifndef LIBEXADRUMS_API_EXADRUMS_H
+#define LIBEXADRUMS_API_EXADRUMS_H
 
 /* The relative path helps when builddir differs from srcdir */
 #include "../Api/Version.h"
@@ -349,7 +349,7 @@ namespace eXaDrumsApi
 		 * @param channel Trigger channel
 		 * @param data Trig event's intensity
 		 */
-		void SetTriggerSensorValue(std::size_t id, char channel, short data);
+		void SetTriggerSensorValue(std::size_t id, short data);
 
 		// Sensors
 
@@ -375,6 +375,7 @@ namespace eXaDrumsApi
 		 * @return false If the sensor doesn't use SPI
 		 */
 		bool IsSensorSpi() const noexcept;
+
 
 		// Sound
 
@@ -443,4 +444,4 @@ namespace eXaDrumsApi
 
 #include "eXaDrums.hpp"
 
-#endif /* LIBEXADRUMS_SOURCE_API_EXADRUMKIT_H_ */
+#endif /* LIBEXADRUMS_API_EXADRUMS_H */

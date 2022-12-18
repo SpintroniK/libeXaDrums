@@ -10,7 +10,8 @@
 namespace DrumKit
 {
 
-	ContinuousTrigger::ContinuousTrigger(const TriggerParameters& triggerParams) : Trigger(triggerParams)
+	ContinuousTrigger::ContinuousTrigger(const TriggerParameters& triggerParams, const IO::SensorFactory& sensorFactory) 
+	: Trigger(triggerParams, sensorFactory)
 	{
 
 		return;

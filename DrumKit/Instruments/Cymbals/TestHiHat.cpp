@@ -30,7 +30,7 @@ namespace DrumKit
 		{
 
 			auto triggerIdAndLocation = std::find_if(parameters.triggersIdsAndLocations.cbegin(), parameters.triggersIdsAndLocations.cend(),
-					[triggerPtr](std::pair<int, TriggerLocation> const& idAndLocation) { return (idAndLocation.first == triggerPtr->GetId()); });
+					[&triggerPtr](std::pair<int, TriggerLocation> const& idAndLocation) { return (idAndLocation.first == triggerPtr->GetId()); });
 
 
 			if(triggerIdAndLocation != std::end(parameters.triggersIdsAndLocations))
@@ -40,8 +40,8 @@ namespace DrumKit
 
 				switch (triggerLocation)
 				{
-					case TriggerLocation::DrumHead: this->cymbalTrigger = triggerPtr; break;
-					case TriggerLocation::Rim: this->pedalTrigger = triggerPtr; break;
+					case TriggerLocation::DrumHead: this->cymbalTrigger = triggerPtr.get(); break;
+					case TriggerLocation::Rim: this->pedalTrigger = triggerPtr.get(); break;
 
 					default: break;
 				}
@@ -82,6 +82,12 @@ namespace DrumKit
 		}
 
 		return;
+	}
+
+
+	std::optional<int> TestHiHat::GetSoundIdFromMidiParams(uint8_t note) const
+	{
+		return {};
 	}
 
 	void TestHiHat::SetVolume(float volume)

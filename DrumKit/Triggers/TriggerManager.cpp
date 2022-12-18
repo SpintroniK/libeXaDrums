@@ -8,6 +8,7 @@
 #include "TriggerManager.h"
 
 
+#include "../../IO/SpiDevices/SpiDevFactory.h"
 #include "../../Util/Enums.h"
 #include "../../Util/ErrorHandling.h"
 #include "../../Util/Xml.h"
@@ -31,11 +32,7 @@ namespace DrumKit
 	{
 
 		// Set default sensors parameters
-		IO::SensorsConfig sensorsConfig;
-		sensorsConfig.resolution = 12;
-		sensorsConfig.samplingRate = 1000000;
-		sensorsConfig.sensorType = IO::SensorType::Hdd;
-		sensorsConfig.hddDataFolder = "";
+		IO::SensorsConfig sensorsConfig{};
 
 		// Load triggers config with default sensor parameters
 		std::vector<TriggerParameters> trigsParams;
@@ -95,8 +92,6 @@ namespace DrumKit
 			trigsParams.push_back(trigParams);
 		}
 
-
-		return;
 	}
 
 	void TriggerManager::SaveTriggersConfig(const std::string& moduleDir, const std::vector<TriggerParameters>& triggerParameters)
@@ -111,14 +106,14 @@ namespace DrumKit
 		XMLDocument doc;
 
 		// Add root element
-		auto root = doc.NewElement("Triggers");
+		auto* root = doc.NewElement("Triggers");
 		doc.InsertFirstChild(root);
 
 		// Add triggers configurations
 		for(const auto& trigger : trigsParams)
 		{
 			std::string sensorTypeStr = Enums::ToString(trigger.type);
-			auto trig = CreateXmlElement(doc, "Trigger", "", {{"sensorType", sensorTypeStr}, {"sensorId", trigger.sensorId}});
+			auto* trig = CreateXmlElement(doc, "Trigger", "", {{"sensorType", sensorTypeStr}, {"sensorId", trigger.sensorId}});
 
 			trig->InsertEndChild(CreateXmlElement(doc, "Threshold", trigger.threshold));
 			trig->InsertEndChild(CreateXmlElement(doc, "Gain", trigger.gain));
@@ -137,7 +132,6 @@ namespace DrumKit
 			throw Exception("Could not save triggers configuration.", error_type_error);
 		}
 
-		return;
 	}
 
 	void TriggerManager::LoadSensorsConfig(const std::string& moduleDir, IO::SensorsConfig& sensorConfig)
@@ -157,11 +151,9 @@ namespace DrumKit
 		root.FirstChildElement("SamplingRate").GetValue(sensorConfig.samplingRate);
 		root.FirstChildElement("Resolution").GetValue(sensorConfig.resolution);
 		root.FirstChildElement("HddDataFolder").GetValue(sensorConfig.hddDataFolder);
+		root.FirstChildElement("Type").GetValue(sensorConfig.sensorType);
+		root.FirstChildElement("SerialPort").GetValue(sensorConfig.serialPort);
 
-		auto type = root.FirstChildElement("Type").GetValue<std::string>();
-		sensorConfig.sensorType = Enums::ToElement<IO::SensorType>(type);
-
-		return;
 	}
 
 	void TriggerManager::SaveSensorsConfig(const std::string& moduleDir, IO::SensorsConfig& sensorConfig)
@@ -180,20 +172,22 @@ namespace DrumKit
 		XMLElement* resolution = doc.NewElement("Resolution");
 		XMLElement* type = doc.NewElement("Type");
 		XMLElement* dataFolder = doc.NewElement("HddDataFolder");
+		XMLElement* serialPort = doc.NewElement("SerialPort");
 
 		samplingRate->SetText(sensorConfig.samplingRate);
 		resolution->SetText(sensorConfig.resolution);
 
-		std::string typeStr = Enums::ToString(sensorConfig.sensorType);
-		type->SetText(typeStr.c_str());
+		type->SetText(sensorConfig.sensorType.c_str());
 
 		dataFolder->SetText(sensorConfig.hddDataFolder.c_str());
+		serialPort->SetText(sensorConfig.serialPort.c_str());
 
 		// Add elements to document
 		root->InsertEndChild(samplingRate);
 		root->InsertEndChild(resolution);
 		root->InsertEndChild(type);
 		root->InsertEndChild(dataFolder);
+		root->InsertEndChild(serialPort);
 
 		auto result = doc.SaveFile(file.c_str());
 
@@ -202,7 +196,87 @@ namespace DrumKit
 			throw Exception("Could not save sensors configuration.", error_type_error);
 		}
 
-		return;
+	}
+
+	void TriggerManager::LoadSpiDevConfig(const std::string& moduleDir, std::vector<IO::SpiDevPtr>& spidev)
+	{
+		std::vector<IO::SpiDevParameters> spidevParams;
+		LoadSpiDevParams(moduleDir, spidevParams);
+		spidev.clear();
+		spidev.resize(spidevParams.size());
+		std::transform(spidevParams.begin(), spidevParams.end(), spidev.begin(), [](const auto& params)
+		{
+			return IO::SpiDevFactory().Make(params.name, params.bus, params.cs);
+		});
+	}
+
+
+	void TriggerManager::SaveSpiDevConfig(const std::string& moduleDir, const std::vector<std::unique_ptr<IO::SpiDev>>& spidev)
+	{
+		std::vector<IO::SpiDevParameters> spidevParams;
+		spidevParams.reserve(spidev.size());
+
+		std::transform(spidev.begin(), spidev.end(), std::back_inserter(spidevParams), [](const auto& sd)
+		{
+			return IO::SpiDevParameters{sd->GetName(), sd->GetBus(), sd->GetCS()};
+		});
+
+		SaveSpiDevParams(moduleDir, spidevParams);
+	}
+
+
+	void TriggerManager::LoadSpiDevParams(const std::string& moduleDir, std::vector<IO::SpiDevParameters>& spidevParams)
+	{
+		const std::string file{moduleDir + "spiDev.xml"};
+
+		XMLDocument doc;
+		auto ret = doc.LoadFile(file.c_str());
+		if(ret != XML_SUCCESS)
+		{
+			throw Exception("Could not load spidev configuration.", error_type_error);
+		}
+
+		auto* root = doc.RootElement();
+
+		spidevParams.clear();
+
+		for(const auto& device : XmlElement{root, "Device"})
+		{
+			const auto type = device.Attribute<std::string>("type");
+			const auto dev = device.Attribute<size_t>("bus");
+			const auto cs = device.Attribute<size_t>("cs");
+
+			spidevParams.push_back(IO::SpiDevParameters{type, dev, cs});
+		}
+	}
+
+	void TriggerManager::SaveSpiDevParams(const std::string& moduleDir, const std::vector<IO::SpiDevParameters>& spidevParams)
+	{
+		const std::string file{moduleDir + "spiDev.xml"};
+
+		XMLDocument doc;
+
+		// Add root element
+		XMLElement* root = doc.NewElement("SpiDev");
+		doc.InsertFirstChild(root);
+
+		for(const auto& dev : spidevParams)
+		{
+			root->InsertEndChild(CreateXmlElement(doc, "Device", "", 
+			{
+				{"type", dev.name},
+				{"bus", dev.bus},
+				{"cs", dev.cs}
+			}));
+		}
+
+		// Save file
+		auto result = doc.SaveFile(file.c_str());
+
+		if(XML_SUCCESS != result)
+		{
+			throw Exception("Could not save SPI configuration.", error_type_error);
+		}
 	}
 
 

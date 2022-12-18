@@ -30,3 +30,4 @@ exadrums.pc
 libtool
 ltmain.sh
 Api/Version.h
+compile_commands.json

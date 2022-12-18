@@ -99,7 +99,7 @@ namespace DrumKit
             }
 
             // Create instrument
-            InstrumentPtr instrumentPtr = InstrumentFactory::CreateInstrument(instrumentParameters.instrumentType, instrumentParameters, soundBank);
+            InstrumentPtr instrumentPtr = InstrumentFactory{}.Make(instrumentParameters.instrumentType, instrumentParameters, soundBank);
 
             // Create instrument's triggers
             instrumentPtr->SetTriggers(this->triggers);
