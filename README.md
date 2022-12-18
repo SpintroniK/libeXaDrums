@@ -1,7 +1,5 @@
 # libeXaDrums
 
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/6fd320220fc24258a77b70ac716e4ee1)](https://app.codacy.com/app/SpintroniK/libeXaDrums?utm_source=github.com&utm_medium=referral&utm_content=SpintroniK/libeXaDrums&utm_campaign=Badge_Grade_Dashboard)
-
  ExaDrums is a software drum module that allows drummers play with
  custom-made drum kits.
  This C++ library provides the most common features of a drum module.

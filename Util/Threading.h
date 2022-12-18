@@ -5,15 +5,15 @@
  *      Author: jeremy
  */
 
-#ifndef SOURCE_UTIL_THREADING_H_
-#define SOURCE_UTIL_THREADING_H_
+#ifndef LIBEXADRUMS_UTIL_THREADING_H
+#define LIBEXADRUMS_UTIL_THREADING_H
 
 #include "Misc.h"
 
-#include <thread>
+#include <algorithm>
 #include <atomic>
 #include <mutex>
-#include <algorithm>
+#include <thread>
 
 namespace Util
 {
@@ -68,4 +68,4 @@ namespace Util
 }
 
 
-#endif /* SOURCE_UTIL_THREADING_H_ */
+#endif /* LIBEXADRUMS_UTIL_THREADING_H */

@@ -5,20 +5,21 @@
  *      Author: jeremy
  */
 
-#ifndef SOURCE_API_CONFIG_CONFIG_API_H_
-#define SOURCE_API_CONFIG_CONFIG_API_H_
+#ifndef LIBEXADRUMS_API_CONFIG_CONFIG_API_H
+#define LIBEXADRUMS_API_CONFIG_CONFIG_API_H
 
 #include "../../IO/SensorsConfig.h"
 #include "../../Util/ErrorHandling.h"
 #include "../../Util/Zip.h"
 
 #include "AlsaParams_api.h"
+#include "SpiDevParameters_api.h"
 
 #include <vector>
 #include <string>
 
 namespace DrumKit { class Module; }
-namespace eXaDrumsApi{ class eXaDrums; struct TriggerParameters; }
+namespace eXaDrumsApi { class eXaDrums; struct TriggerParameters; }
 
 namespace eXaDrumsApi
 {
@@ -64,6 +65,18 @@ namespace eXaDrumsApi
 		 * 
 		 */
 		void LoadTriggersConfig() const;
+
+		/**
+		 * @brief Save SPI devices configuration.
+		 * 
+		 */
+		void SaveSpiDevConfig();
+
+		/**
+		 * @brief Load SPI devices configuration.
+		 * 
+		 */
+		void LoadSpiDevConfig() const;
 
 		/**
 		 * @brief Save current audio device configuration.
@@ -154,6 +167,13 @@ namespace eXaDrumsApi
 		void SetSensorsDataFolder(const std::string& folder) noexcept;
 
 		/**
+		 * @brief Set the serial port
+		 * 
+		 * @param port Path to the serial port
+		 */
+		void SetSerialPort(const std::string& port) noexcept;
+
+		/**
 		 * @brief Set audio device parameters.
 		 * 
 		 * @param params Audio device parameters.
@@ -174,6 +194,13 @@ namespace eXaDrumsApi
 		 * @param params Trigger parameters.
 		 */
 		void SetTriggerParameters(int triggerId, const TriggerParameters& params);
+
+		/**
+		 * @brief Set Spi Dev Parameters
+		 * 
+		 * @param params Spi Dev parameters list.
+		 */
+		void SetSpiDevParameters(const std::vector<SpiDevParameters>& params);
 
 		// Accessors
 		/**
@@ -226,6 +253,13 @@ namespace eXaDrumsApi
 		std::string GetSensorsDataFolder() const noexcept;
 
 		/**
+		 * @brief Get the serial port
+		 * 
+		 * @return std::string Path to the serial port
+		 */
+		std::string GetSerialPort() const noexcept;
+
+		/**
 		 * @brief Get the audio device name.
 		 * 
 		 * @return std::string Audio device name.
@@ -239,6 +273,15 @@ namespace eXaDrumsApi
 		 */
 		AlsaParamsApi GetAudioDeviceParams() const noexcept;
 
+		/**
+		 * @brief Get the supported Spi Devices as a list of string
+		 * 
+		 * @return std::vector<std::string> List of supported Spi devices
+		 */
+		std::vector<std::string> GetSupportedSpiDevices();
+
+		
+		std::vector<SpiDevParameters> GetSpiDevicesParameters() const;
 
 		/**
 		 * @brief Get the (SPI) sensor sampling rate.
@@ -259,6 +302,8 @@ namespace eXaDrumsApi
 		Util::error SaveSensorsConfig_();
 		Util::error SaveTriggersConfig_();
 		Util::error LoadTriggersConfig_() const;
+		Util::error LoadSpiDevConfig_() const;
+		Util::error SaveSpiDevConfig_();
 		Util::error SaveCurrentAudioDeviceConfig_() const;
 		Util::error SaveAudioDeviceConfig_(const AlsaParamsApi& params);
 		Util::error ResetAudioDevice_();
@@ -274,21 +319,26 @@ namespace eXaDrumsApi
 
 		void SetSensorsType_(const char* type);
 		void SetSensorsDataFolder_(const char* folder) noexcept;
+		void SetSerialPort_(const char* port) noexcept;
 		void SetAudioDeviceParameters_(const char* name);
 		void SetTriggersParameters_(const TriggerParameters* params, unsigned int size) noexcept;
+		void SetSpiDevParameters_(const SpiDevParameters* params, unsigned int size) noexcept;
 		void SetTriggerParameters_(int triggerId, const TriggerParameters& params);
 
 		const char* GetSensorsType_();
 		const char* GetSensorsDataFolder_() const noexcept;
+		const char* GetSerialPort_() const noexcept;
 		const char* GetAudioDeviceName_() const noexcept;
 
 		AlsaParamsApi GetAudioDeviceParams_() const noexcept;
 
 		void GetSensorsTypes_(const char** types, unsigned int& size);
+		void GetSupportedSpiDevices_(const char** data, unsigned int& size);
 		void GetTriggersTypes_(const char** types, unsigned int& size);
 		void GetTriggersResponses_(const char** responses, unsigned int& size);
 		void GetAudioDevicesNames_(const char** devices, unsigned int& size);
 		void GetTriggersParameters_(TriggerParameters* const triggers, unsigned int& size) const;
+		void GetSpiDevicesParameters_(SpiDevParameters* const params, unsigned int& size) const;
 
 		eXaDrums& drumKit;
 		DrumKit::Module& module;
@@ -298,6 +348,7 @@ namespace eXaDrumsApi
 
 		// Sensors config
 		IO::SensorsConfig sensorsConfig;
+		mutable std::vector<SpiDevParameters> spiDevParameters;
 
 		// Triggers config
 		mutable std::vector<TriggerParameters> triggersParameters;
@@ -310,6 +361,7 @@ namespace eXaDrumsApi
 		std::vector<std::string> sensorsTypes;
 		std::vector<std::string> triggersTypes;
 		std::vector<std::string> triggersResponses;
+		std::vector<std::string> supportedSpiDevices;
 		std::vector<std::pair<std::string, std::string>> audioDevices;
 
 	};
@@ -318,4 +370,4 @@ namespace eXaDrumsApi
 
 #include "Config_api.hpp"
 
-#endif /* SOURCE_API_CONFIG_CONFIG_API_H_ */
+#endif /* LIBEXADRUMS_API_CONFIG_CONFIG_API_H */

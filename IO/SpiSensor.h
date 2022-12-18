@@ -11,6 +11,9 @@
 
 #include "ISensor.h"
 
+#include "SpiDevices/SpiDev.h"
+
+#include <vector>
 #include <cstdlib>
 
 namespace IO
@@ -21,16 +24,17 @@ namespace IO
 
 	public:
 
-		SpiSensor();
-		virtual ~SpiSensor();
+		SpiSensor(const SpiDev* const d, size_t channel);
+		SpiSensor() = delete;
+		virtual ~SpiSensor() = default;
 
-		short GetData(char channel);
-		virtual void SetData(char channel, short value) final {}
+		short GetData() noexcept;
+		virtual void SetData(short value) final {}
 
 
 	private:
 
-		//static std::size_t numInstances;
+		const SpiDev* const dev;
 
 	};
 

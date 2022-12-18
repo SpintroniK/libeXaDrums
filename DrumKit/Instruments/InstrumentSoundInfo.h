@@ -23,6 +23,7 @@ namespace DrumKit
 		int id;
 		std::string soundLocation;
 		Sound::InstrumentSoundType type;
+		uint8_t midiNote{};
 
 
 	};

@@ -5,8 +5,8 @@
  *      Author: jeremy
  */
 
-#ifndef SOURCE_DRUMKIT_INSTRUMENTS_INSTRUMENT_H_
-#define SOURCE_DRUMKIT_INSTRUMENTS_INSTRUMENT_H_
+#ifndef LIBEXADRUMS_DRUMKIT_INSTRUMENTS_INSTRUMENT_H
+#define LIBEXADRUMS_DRUMKIT_INSTRUMENTS_INSTRUMENT_H
 
 
 #include "../../Sound/SoundBank/SoundBank.h"
@@ -15,8 +15,9 @@
 
 #include "InstrumentParameters.h"
 
-#include <vector>
 #include <memory>
+#include <optional>
+#include <vector>
 
 namespace DrumKit
 {
@@ -34,6 +35,8 @@ namespace DrumKit
 
 		virtual void GetSoundProps(int& id, float& volume) const = 0;
 		virtual bool IsTriggerEvent() const = 0;
+
+		virtual std::optional<int> GetSoundIdFromMidiParams(uint8_t note) const = 0;
 
 		virtual int GetId() const { return this->parameters.id; }
 		virtual float GetVolume() const { return this->parameters.volume; }
@@ -62,4 +65,4 @@ namespace DrumKit
 
 }
 
-#endif /* SOURCE_DRUMKIT_INSTRUMENTS_INSTRUMENT_H_ */
+#endif /* LIBEXADRUMS_DRUMKIT_INSTRUMENTS_INSTRUMENT_H */

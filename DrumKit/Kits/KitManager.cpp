@@ -26,13 +26,8 @@
 
 #include <unistd.h>
 
-#if __has_include(<filesystem>)
-	#include <filesystem>
-	namespace fs = std::filesystem;
-#else
-	#include <experimental/filesystem>
-	namespace fs = std::experimental::filesystem;
-#endif
+#include <filesystem>
+namespace fs = std::filesystem;
 
 using namespace Sound;
 using namespace tinyxml2;
@@ -108,6 +103,8 @@ namespace DrumKit
 				}
 
 				sound.Attribute("type", soundInfo.type);
+				const auto note = sound.Attribute<uint32_t>("note");
+				soundInfo.midiNote = static_cast<uint8_t>(note);
 
 				instrumentParameters.soundsInfo.push_back(soundInfo);
 
@@ -160,7 +157,7 @@ namespace DrumKit
 			XMLElement* instrument = doc.NewElement("Instrument");
 
 			// Set type
-			std::string instrumentType = Enums::ToString(instrumentParameters.instrumentType);
+			std::string instrumentType = instrumentParameters.instrumentType; //Enums::ToString(instrumentParameters.instrumentType);
 			instrument->SetAttribute("type", instrumentType.c_str());
 
 			// Set volume
@@ -200,6 +197,7 @@ namespace DrumKit
 				// Set type
 				std::string type = Enums::ToString(soundInfo.type);
 				sound->SetAttribute("type", type.c_str());
+				sound->SetAttribute("note", soundInfo.midiNote);
 
 				// Set file path
 				sound->SetText(soundInfo.soundLocation.c_str());

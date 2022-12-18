@@ -21,12 +21,12 @@ lib_LTLIBRARIES = libexadrums.la
 
 # libtool 7.3 updating library version information
 # Downstream packagers may have to override the SO version.
-exadrums_libtool_version_info = 1:0:0
+exadrums_libtool_version_info = 2:0:0
 
 libexadrums_la_CXXFLAGS = \
   -Wall \
   -pthread \
-  -std=c++17 $(alsa_CFLAGS) $(tinyxml2_CFLAGS) $(minizip_CFLAGS)
+  -std=c++20 $(alsa_CFLAGS) $(tinyxml2_CFLAGS) $(minizip_CFLAGS)
 libexadrums_la_LDFLAGS = \
   -Wl,--as-needed \
   -Wl,--no-allow-shlib-undefined \
@@ -81,12 +81,13 @@ libexadrums_la_SOURCES = \
   IO/HddSensor.cpp \
   IO/HddSensor.h \
   IO/ISensor.h \
-  IO/Serial.cpp \
-  IO/Serial.h \
-  IO/Spi.cpp \
-  IO/Spi.h \
+  IO/SerialMidi.h \
+  IO/SpiDevices/SpiDev.cpp \
+  IO/SpiDevices/SpiDev.h \
+  IO/SpiDevices/SpiDevFactory.h \
   IO/SpiSensor.cpp \
   IO/SpiSensor.h \
+  IO/SensorFactory.h \
   IO/VirtualSensor.h \
   Metronome/ClickTypes.h \
   Metronome/Metronome.cpp \
@@ -125,6 +126,7 @@ nobase_pkginclude_HEADERS = \
   Api/Config/AlsaParams_api.h \
   Api/Config/Config_api.h \
   Api/Config/Config_api.hpp \
+  Api/Config/SpiDevParameters_api.h \
   Api/Config/TriggerParameters_api.h \
   Api/KitCreator/KitCreator_api.h \
   Api/KitCreator/KitCreator_api.hpp \
@@ -141,8 +143,9 @@ nobase_pkginclude_HEADERS = \
   DrumKit/Triggers/TriggerManager.h \
   DrumKit/Triggers/TriggerParameters.h \
   DrumKit/Triggers/TriggerType.h \
-  IO/SensorType.h \
   IO/SensorsConfig.h \
+  IO/SerialMidi.h \
+  IO/SpiDevices/SpiDevParameters.h \
   Sound/Alsa/AlsaParams.h \
   Sound/InstrumentSoundType.h \
   Util/Enums.h \

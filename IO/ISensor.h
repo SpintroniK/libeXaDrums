@@ -8,6 +8,8 @@
 #ifndef LIBEXADRUMS_SOURCE_IO_ISENSOR_H_
 #define LIBEXADRUMS_SOURCE_IO_ISENSOR_H_
 
+#include <memory>
+
 namespace IO
 {
 
@@ -16,17 +18,20 @@ namespace IO
 
 	public:
 
-		virtual short GetData(char channel) = 0;
-		virtual void SetData(char channel, short value) = 0;
-		virtual bool IsDigital() const { return is_digital; }
+		virtual short GetData() = 0;
+		virtual void SetData(short value) = 0;
+		virtual bool IsDigital() const { return isDigital; }
 
-		virtual ~ISensor() {};
+		virtual ~ISensor() = default;
 
 	protected:
 
-		bool is_digital{false};
+		bool isDigital{false};
+		size_t channel{};
 
 	};
+
+	using ISensorPtr = std::unique_ptr<ISensor>;
 
 } /* namespace IO */
 

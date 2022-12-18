@@ -12,16 +12,19 @@ This document outlines the development plan from a high level and will be update
 
 ## Current version
 
-### 0.6.0
+### 0.7.0
 
-- [X] Recorder export to PCM (wav).
-- [X] Simple calibration stuff.
+- [X] Improve recorder stuff (auto gain, etc.).
+- [X] More generic SPI sensor reading (multiple devices, etc.).
+- [X] Improve factories
+- &#9997; Serial MIDI input support.
+- [X] Use C++20
 
 ## Future versions
 
-### 0.7.0
-
 ### 0.8.0
+
+- [ ] More trigger & instrument types.
 
 ### 0.9.0
 
@@ -36,21 +39,26 @@ This document outlines the development plan from a high level and will be update
 
 ## Past versions
 
+### 0.6.0
+
+- [X] Recorder export to PCM (wav).
+- [X] Simple calibration stuff.
+
 ### 0.5.0
 
-- [x] Add export configuration feature.
-- [x] Add import configuration feature.
-- [x] Add GetVersion() to API.
-- [x] Document API.
-- [x] Bug fix: check if instrument's triggers exist.
-- [x] Add trigger sensitivity (gain).
-- [x] Fix trig on start bug (to be improved).
-- [x] Add rhythm coach score (done in eXaDrums directly).
-- [x] Create instrument only if enough triggers are available.
-- [x] Fix metronome volume bug.
+- [X] Add export configuration feature.
+- [X] Add import configuration feature.
+- [X] Add GetVersion() to API.
+- [X] Document API.
+- [X] Bug fix: check if instrument's triggers exist.
+- [X] Add trigger sensitivity (gain).
+- [X] Fix trig on start bug (to be improved).
+- [X] Add rhythm coach score (done in eXaDrums directly).
+- [X] Create instrument only if enough triggers are available.
+- [X] Fix metronome volume bug.
 
 ### 0.4.2
 
-- [x] Build successfully with clang++-7.
-- [x] Version.h.in instead of eXaDrums.h.in.
-- [x] Fix Readme (installation procedure -- checkout debian branch first).
+- [X] Build successfully with clang++-7.
+- [X] Version.h.in instead of eXaDrums.h.in.
+- [X] Fix Readme (installation procedure -- checkout debian branch first).

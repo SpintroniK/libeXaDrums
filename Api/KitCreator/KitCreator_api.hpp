@@ -86,6 +86,11 @@ namespace eXaDrumsApi
 		return;
 	}
 
+	inline void KitCreator::SetInstrumentSoundsNotes(int id, const std::vector<uint8_t>& notes)
+	{
+		SetInstrumentSoundsNotes_(id, notes.data(), notes.size());
+	}
+
 	inline std::string KitCreator::GetInstrumentType(int i)
 	{
 		return std::string(GetInstrumentType_(i));
@@ -158,6 +163,18 @@ namespace eXaDrumsApi
 		std::copy(data.cbegin(), data.cend(), v.begin());
 
 		return v;
+	}
+
+	inline std::vector<uint8_t> KitCreator::GetInstrumentSoundsNotes(int i)
+	{
+		unsigned int size{};
+		GetInstrumentSoundsNotes_(i, nullptr, size);
+
+		std::vector<uint8_t> data(size);
+
+		GetInstrumentSoundsNotes_(i, data.data(), size);
+
+		return data;
 	}
 
 	/*inline std::vector<std::string> KitCreator::GetSoundsFiles()

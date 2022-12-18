@@ -10,6 +10,7 @@
 
 #include "TriggerParameters_api.h"
 
+#include "../../IO/SpiDevices/SpiDevFactory.h"
 #include "../../DrumKit/DrumModule/Module.h"
 #include "../../DrumKit/Triggers/TriggerManager.h"
 #include "../../Util/Enums.h"
@@ -100,6 +101,45 @@ namespace eXaDrumsApi
 			{ 
 				return static_cast<eXaDrumsApi::TriggerParameters>(tp); 
 			});
+		});
+	}
+
+	error Config::LoadSpiDevConfig_() const
+	{
+		std::string dir;
+		module.GetDirectory(dir);
+
+		return ExceptionToError([&]
+		{
+			std::vector<IO::SpiDevParameters> spidevParams;
+			DrumKit::TriggerManager::LoadSpiDevParams(dir, spidevParams);
+
+			// Convert and copy SPI dev parameters
+			this->spiDevParameters.clear();
+			this->spiDevParameters.reserve(spidevParams.size());
+			std::transform(spidevParams.begin(), spidevParams.end(), std::back_inserter(spiDevParameters), [](const auto& params)
+			{
+				return static_cast<eXaDrumsApi::SpiDevParameters>(params);
+			});
+		});
+	}
+
+	error Config::SaveSpiDevConfig_()
+	{
+		std::string dir;
+		module.GetDirectory(dir);
+
+		std::vector<IO::SpiDevParameters> spidevParams;
+		spidevParams.reserve(this->spiDevParameters.size());
+		std::transform(spiDevParameters.begin(), spiDevParameters.end(), std::back_inserter(spidevParams), [](const auto& params)
+		{
+			return static_cast<IO::SpiDevParameters>(params);
+		});
+
+		return ExceptionToError([&]
+		{
+			DrumKit::TriggerManager::SaveSpiDevParams(dir, spidevParams);
+			RestartModule();
 		});
 	}
 
@@ -210,7 +250,7 @@ namespace eXaDrumsApi
 	void Config::SetSensorsType_(const char* type)
 	{
 
-		sensorsConfig.sensorType = Enums::ToElement<IO::SensorType>(std::string(type));
+		sensorsConfig.sensorType = std::string{type};
 		return;
 	}
 
@@ -219,6 +259,11 @@ namespace eXaDrumsApi
 
 		sensorsConfig.hddDataFolder = std::string(folder);
 		return;
+	}
+
+	void Config::SetSerialPort_(const char* port) noexcept
+	{
+		sensorsConfig.serialPort = std::string{port};
 	}
 
 
@@ -231,6 +276,15 @@ namespace eXaDrumsApi
 		this->triggersParameters = trigParams;
 
 		return;
+	}
+
+
+	void Config::SetSpiDevParameters_(const SpiDevParameters* params, unsigned int size) noexcept
+	{
+		std::vector<SpiDevParameters> spidevParams(params, params + size);
+
+		this->spiDevParameters.clear();
+		this->spiDevParameters = spidevParams;
 	}
 
 	error Config::SetAudioDeviceParameters_(const AlsaParamsApi& params)
@@ -327,26 +381,40 @@ namespace eXaDrumsApi
 
 		if(types == nullptr)
 		{
-			size = Enums::GetEnumVector<IO::SensorType>().size();
+			size = IO::SensorFactory().GetTypes().size();
 			return;
 		}
 
-		const std::vector<IO::SensorType>& vec = Enums::GetEnumVector<IO::SensorType>();
-
-		this->sensorsTypes.clear();
-		this->sensorsTypes.resize(vec.size());
-
-		std::transform(vec.cbegin(), vec.cend(), this->sensorsTypes.begin(), [](const IO::SensorType& t) { return Enums::ToString(t); });
-
+		sensorsTypes = std::move(IO::SensorFactory().GetTypes());
 
 		unsigned int numElements = std::min<unsigned int>(size, sensorsTypes.size());
 
 		for(unsigned int i = 0; i < numElements; i++)
 		{
-			types[i] = sensorsTypes[i].c_str();
+			types[i] = sensorsTypes[i].data();
 		}
 
 		return;
+	}
+
+
+	void Config::GetSupportedSpiDevices_(const char** data, unsigned int& size)
+	{
+		if(data == nullptr)
+		{
+			size = IO::SpiDevFactory().GetTypes().size();
+			return;
+		}
+
+		supportedSpiDevices.clear();
+		supportedSpiDevices = std::move(IO::SensorFactory().GetTypes());
+
+		unsigned int numElements = std::min<unsigned int>(size, supportedSpiDevices.size());
+
+		for(unsigned int i = 0; i < numElements; i++)
+		{
+			data[i] = supportedSpiDevices[i].data();
+		}
 	}
 
 	void Config::GetTriggersTypes_(const char** types, unsigned int& size)
@@ -450,7 +518,7 @@ namespace eXaDrumsApi
 	const char* Config::GetSensorsType_()
 	{
 
-		this->sensorType = Enums::ToString(this->sensorsConfig.sensorType);
+		this->sensorType = this->sensorsConfig.sensorType;
 
 		return this->sensorType.c_str();
 	}
@@ -459,6 +527,12 @@ namespace eXaDrumsApi
 	{
 		return this->sensorsConfig.hddDataFolder.c_str();
 	}
+
+	const char* Config::GetSerialPort_() const noexcept
+	{
+		return this->sensorsConfig.serialPort.c_str();
+	}
+	
 
 	const char* Config::GetAudioDeviceName_() const noexcept
 	{
@@ -472,5 +546,25 @@ namespace eXaDrumsApi
 		return alsaParameters;
 	}
 
+	void Config::GetSpiDevicesParameters_(SpiDevParameters* const params, unsigned int& size) const
+	{
+
+		std::vector<IO::SpiDevParameters> spiDevParams = this->module.GetSpiDevParams();
+
+		if(params == nullptr)
+		{
+			size = spiDevParams.size();
+			return;
+		}
+
+		if(size != spiDevParams.size())
+		{
+			throw -1;
+		}
+
+		std::copy(spiDevParams.cbegin(), spiDevParams.cend(), params);
+
+		return;
+	}
 
 }

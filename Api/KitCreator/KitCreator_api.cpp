@@ -182,6 +182,26 @@ namespace eXaDrumsApi
 		return;
 	}
 
+	void KitCreator::SetInstrumentSoundsNotes_(int id, const unsigned char* data, unsigned int size)
+	{
+		std::vector<uint8_t> notes(data, data + size);
+
+		controller.SetInstrumentSoundsNotes(id, notes);
+	}
+
+	void KitCreator::GetInstrumentSoundsNotes_(int i, unsigned char* data, unsigned int& size) const
+	{
+		if(data == nullptr)
+		{
+			size = controller.GetInstrumentSoundsNotes(i).size();
+			return;
+		}
+
+		std::vector<uint8_t> notes = controller.GetInstrumentSoundsNotes(i);
+		std::copy(notes.cbegin(), notes.cend(), data);
+		size = notes.size();
+	}
+
 	const char* KitCreator::GetInstrumentType_(int i)
 	{
 

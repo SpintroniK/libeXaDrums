@@ -22,22 +22,24 @@ namespace IO
 
 	public:
 
-		explicit HddSensor(const std::string& filePath);
-		virtual ~HddSensor();
+		explicit HddSensor(const std::string& filePath, size_t channel);
+		virtual ~HddSensor() = default;
 
-		virtual short GetData(char channel) final;
-		virtual void SetData(char channel, short value) final {}
+		virtual short GetData() final;
+		virtual void SetData(short value) final {}
 
 	private:
 
 		static const std::vector<std::string> dataFiles;
 
 
-		void ReadData(char channel);
+		void ReadData();
 
 		std::string path;
 		std::vector<short> data;
 		unsigned int index;
+
+		size_t channel{};
 
 	};
 

@@ -5,8 +5,8 @@
  *      Author: jeremy
  */
 
-#ifndef SOURCE_API_CONFIG_ALSAPARAMS_API_H_
-#define SOURCE_API_CONFIG_ALSAPARAMS_API_H_
+#ifndef LIBEXADRUMS_API_CONFIG_ALSAPARAMS_API_H
+#define LIBEXADRUMS_API_CONFIG_ALSAPARAMS_API_H
 
 #include "../../Sound/Alsa/AlsaParams.h"
 
@@ -71,4 +71,4 @@ namespace eXaDrumsApi
 }
 
 
-#endif /* SOURCE_API_CONFIG_ALSAPARAMS_API_H_ */
+#endif /* LIBEXADRUMS_API_CONFIG_ALSAPARAMS_API_H */

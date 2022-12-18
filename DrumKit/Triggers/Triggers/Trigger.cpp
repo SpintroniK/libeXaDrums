@@ -24,7 +24,7 @@ using namespace Util;
 namespace DrumKit
 {
 
-	Trigger::Trigger(TriggerParameters triggerParams)
+	Trigger::Trigger(TriggerParameters triggerParams, const IO::SensorFactory& sensorFactory)
 	: trig(false),
 	  out(false),
 	  trigTime(0),
@@ -50,21 +50,15 @@ namespace DrumKit
 
 		const std::string dataFolder = triggerParams.sensorConfig.hddDataFolder;
 
-		switch(triggerParams.sensorConfig.sensorType)
-		{
-
-			case IO::SensorType::Hdd: this->sensor = std::make_unique<IO::HddSensor>(dataFolder); break;
-			case IO::SensorType::Spi: this->sensor = std::make_unique<IO::SpiSensor>(); break;
-			case IO::SensorType::Virtual: this->sensor = std::make_unique<IO::VirtualSensor>(); break;
-
-			default: throw -1; break;
-
-		}
+		this->sensor = sensorFactory.Make(triggerParams.sensorConfig.sensorType, state.sensorId);
 
 		// Generate curves
 		const auto curves_types = Enums::GetEnumVector<CurveType>();
 		curves.resize(curves_types.size());
-		std::transform(curves_types.cbegin(), curves_types.cend(), curves.begin(), [&](const auto& t) { return Curves::MakeCurve<float>(t, numSamples);});
+		std::transform(curves_types.cbegin(), curves_types.cend(), curves.begin(), [&](const auto& t) 
+		{ 
+			return Curves::MakeCurve<float>(t, numSamples);
+		});
 
 
 		return;
@@ -72,7 +66,7 @@ namespace DrumKit
 
 	short Trigger::GetSensorData() const
 	{
-		return sensor->GetData(triggerParameters.sensorId);
+		return sensor->GetData();
 	}
 
 	void Trigger::SetParameters(const TriggerParameters& params)

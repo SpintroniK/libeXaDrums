@@ -38,6 +38,8 @@ namespace DrumKit
 		virtual bool IsTriggerEvent() const final;
 		virtual void GetSoundProps(int& id, float& volume) const final;
 
+		std::optional<int> GetSoundIdFromMidiParams(uint8_t note) const final;
+
 		virtual std::vector<Sound::InstrumentSoundType> GetSoundTypes() const final { return {Sound::InstrumentSoundType::Default}; }
 		virtual std::vector<TriggerLocation> GetTriggersLocations() const final { return {TriggerLocation::DrumHead, TriggerLocation::Rim}; };
 		virtual std::vector<int> GetTriggersIds() const final { return {cymbalTrigger->GetId(), pedalTrigger->GetId()}; };
@@ -45,8 +47,8 @@ namespace DrumKit
 	private:
 
 
-		TriggerPtr cymbalTrigger;
-		TriggerPtr pedalTrigger;
+		Trigger* cymbalTrigger;
+		Trigger* pedalTrigger;
 
 		std::vector<int> hiHatSoundsIds;
 
