@@ -15,7 +15,8 @@ Homepage: https://exadrums.com
 Vcs-Git: https://github.com/SpintroniK/libeXaDrums.git -b debian
 Vcs-Browser: https://github.com/SpintroniK/libeXaDrums/tree/debian
 
-Package: libexadrums1
+# When updating the soversion, change the dependency in the -dev package.
+Package: libexadrums2
 Section: libs
 Architecture: any
 Multi-Arch: same
@@ -49,7 +50,7 @@ Multi-Arch: same
 # /usr/include/libexadrums/Api/Version.h is only generated for the version
 Depends: ${misc:Depends},
  libasound-dev,
- libexadrums1 (= ${binary:Version}),
+ libexadrums2 (= ${binary:Version}),
  libtinyxml2-dev,
 Recommends: pkg-config
 Description: Software drum module (development)
