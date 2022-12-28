@@ -100,7 +100,7 @@ namespace DrumKit
         const InstrumentMap instrumentMap
         {
             {"Pad", &InstrumentFactory::MakePad},
-            {"TestDrum", &InstrumentFactory::MakeTestDrum},
+            {"DualZonePad", &InstrumentFactory::MakeTestDrum},
             {"TestHiHat", &InstrumentFactory::MakeTestHiHat},
         };
 
