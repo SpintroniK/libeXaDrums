@@ -17,18 +17,20 @@ This document outlines the development plan from a high level and will be update
 - [X] Improve recorder stuff (auto gain, etc.).
 - [X] More generic SPI sensor reading (multiple devices, etc.).
 - [X] Improve factories
-- &#9997; Serial MIDI input support.
+- [X] Serial MIDI input support.
 - [X] Use C++20
 
 ## Future versions
 
 ### 0.8.0
 
-- [ ] More trigger & instrument types.
+- [ ] C++23.
+- [ ] USB MIDI input.
 
 ### 0.9.0
 
-- [ ] Instrument builder.
+- [ ] Instrument module system.
+- [ ] More trigger & instrument types.
 
 ### 1.0.0
 
