@@ -1,66 +1,66 @@
-# LibeXaDrums roadmap
+# LibeXaDrums Roadmap
 
 This document outlines the development plan from a high level and will be updated as progress is made.
 
 ## Legend of annotations
 
-| Mark       | Description                     |
-| ---------- | ------------------------------- |
-| open box   | work not started - scheduled    |
-| check mark | work completed                  |
-| &#9997;    | on-going work                   |
+| Mark               | Description                     |
+| ----------         | ------------------------------- |
+| :construction:     | work not started - scheduled    |
+| :heavy_check_mark: | work completed                  |
+| :pencil:           | on-going work                   |
 
 ## Current version
 
-### 0.7.0
+### 0.8.0
 
-- [X] Improve recorder stuff (auto gain, etc.).
-- [X] More generic SPI sensor reading (multiple devices, etc.).
-- [X] Improve factories
-- [X] Serial MIDI input support.
-- [X] Use C++20
+- :heavy_check_mark: C++23.
+- :pencil: USB MIDI input.
 
 ## Future versions
 
-### 0.8.0
-
-- [ ] C++23.
-- [ ] USB MIDI input.
-
 ### 0.9.0
 
-- [ ] Instrument module system.
-- [ ] More trigger & instrument types.
+- :construction: Instrument module system.
+- :construction: More trigger & instrument types.
 
 ### 1.0.0
 
 ## Documentation
 
-- [ ] Doxygen: document code.
-- [ ] API documentation.
+- :construction: Doxygen: document code.
+- :construction: API documentation.
 
 ## Past versions
 
+### 0.7.0
+
+- :heavy_check_mark: Improve recorder stuff (auto gain, etc.).
+- :heavy_check_mark: More generic SPI sensor reading (multiple devices, etc.).
+- :heavy_check_mark: Improve factories
+- :heavy_check_mark: Serial MIDI input support.
+- :heavy_check_mark: Use C++20
+
 ### 0.6.0
 
-- [X] Recorder export to PCM (wav).
-- [X] Simple calibration stuff.
+- :heavy_check_mark: Recorder export to PCM (wav).
+- :heavy_check_mark: Simple calibration stuff.
 
 ### 0.5.0
 
-- [X] Add export configuration feature.
-- [X] Add import configuration feature.
-- [X] Add GetVersion() to API.
-- [X] Document API.
-- [X] Bug fix: check if instrument's triggers exist.
-- [X] Add trigger sensitivity (gain).
-- [X] Fix trig on start bug (to be improved).
-- [X] Add rhythm coach score (done in eXaDrums directly).
-- [X] Create instrument only if enough triggers are available.
-- [X] Fix metronome volume bug.
+- :heavy_check_mark: Add export configuration feature.
+- :heavy_check_mark: Add import configuration feature.
+- :heavy_check_mark: Add GetVersion() to API.
+- :heavy_check_mark: Document API.
+- :heavy_check_mark: Bug fix: check if instrument's triggers exist.
+- :heavy_check_mark: Add trigger sensitivity (gain).
+- :heavy_check_mark: Fix trig on start bug (to be improved).
+- :heavy_check_mark: Add rhythm coach score (done in eXaDrums directly).
+- :heavy_check_mark: Create instrument only if enough triggers are available.
+- :heavy_check_mark: Fix metronome volume bug.
 
 ### 0.4.2
 
-- [X] Build successfully with clang++-7.
-- [X] Version.h.in instead of eXaDrums.h.in.
-- [X] Fix Readme (installation procedure -- checkout debian branch first).
+- :heavy_check_mark: Build successfully with clang++-7.
+- :heavy_check_mark: Version.h.in instead of eXaDrums.h.in.
+- :heavy_check_mark: Fix Readme (installation procedure -- checkout debian branch first).
