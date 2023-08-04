@@ -26,7 +26,7 @@ exadrums_libtool_version_info = 2:0:0
 libexadrums_la_CXXFLAGS = \
   -Wall \
   -pthread \
-  -std=c++20 $(alsa_CFLAGS) $(tinyxml2_CFLAGS) $(minizip_CFLAGS)
+  -std=c++23 $(alsa_CFLAGS) $(tinyxml2_CFLAGS) $(minizip_CFLAGS)
 libexadrums_la_LDFLAGS = \
   -Wl,--as-needed \
   -Wl,--no-allow-shlib-undefined \
