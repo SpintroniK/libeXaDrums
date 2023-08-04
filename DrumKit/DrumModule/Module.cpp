@@ -8,6 +8,7 @@
 
 #include "Module.h"
 
+#include "../../IO/MIDIFactory.h"
 #include "../../IO/SpiDevices/SpiDevFactory.h"
 #include "../../Util/ErrorHandling.h"
 #include "../../Util/Threading.h"
@@ -438,13 +439,6 @@ namespace DrumKit
 			}
 		}
 
-		if(sensorsConfig.sensorType == "SerialMidi")
-		{
-			serialMidi.Close();
-			serialMidi.SetPort(sensorsConfig.serialPort);
-			serialMidi.SetBaudRate(sensorsConfig.samplingRate);
-			serialMidi.Open();
-		}
 
 		if(isMetronomeEnabled.load())
 		{
@@ -461,13 +455,18 @@ namespace DrumKit
 			std::for_each(triggers.begin(), triggers.end(), [](TriggerPtr& triggerPtr) { triggerPtr->Refresh(); });
 		}
 
-		if(sensorsConfig.sensorType == "SerialMidi")
+
+		if(sensorsConfig.sensorType.contains("Midi"))
 		{
+
+			auto midi = IO::MIDIFactory::Make(sensorsConfig.sensorType);
+			midi->SetPort(sensorsConfig.serialPort);
+			midi->SetBaudRate(sensorsConfig.samplingRate);
+			midi->Open();
 
 			while(isPlay.load())
 			{
-
-				const auto message = serialMidi.GetMessage();
+				const auto message = midi->GetMessage();
 
 				if(message)
 				{
@@ -479,7 +478,7 @@ namespace DrumKit
 					// 			<< "Param 1: " << +message->param1 << ", "
 					// 			<< "Param 2: " << +message->param2 << std::endl;
 
-					if(message->command != 0x90 || message->command != 0xB0)
+					if(message->command != 0x90 && message->command != 0xB0)
 					{
 						continue;
 					}
