@@ -265,7 +265,11 @@ namespace eXaDrumsApi
 	{
 		sensorsConfig.serialPort = std::string{port};
 	}
-
+	
+	void Config::SetMidiPort_(const char* port) noexcept
+	{
+		sensorsConfig.midiPort = std::string{port};
+	}
 
 	void Config::SetTriggersParameters_(const TriggerParameters* params, unsigned int size) noexcept
 	{
@@ -533,6 +537,10 @@ namespace eXaDrumsApi
 		return this->sensorsConfig.serialPort.c_str();
 	}
 	
+	const char* Config::GetMidiPort_() const noexcept
+	{
+		return this->sensorsConfig.midiPort.c_str();
+	}
 
 	const char* Config::GetAudioDeviceName_() const noexcept
 	{

@@ -104,6 +104,11 @@ namespace eXaDrumsApi
 		SetSerialPort_(port.c_str());
 	}
 
+	inline void Config::SetMidiPort(const std::string& port) noexcept
+	{
+		SetMidiPort_(port.c_str());
+	}
+
 	inline void Config::SetAudioDeviceParameters(const AlsaParamsApi& params)
 	{
 
@@ -258,6 +263,10 @@ namespace eXaDrumsApi
 		return std::string{GetSerialPort_()};
 	}
 
+	inline std::string Config::GetMidiPort() const noexcept
+	{
+		return std::string{GetMidiPort_()};
+	}
 
 	inline std::string Config::GetAudioDeviceName() const noexcept
 	{
