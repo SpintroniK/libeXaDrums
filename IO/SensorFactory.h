@@ -50,7 +50,7 @@ namespace IO
 
             auto totalChannels = spidev | getNbChannels | cumsum;
 
-            auto it = std::ranges::find_if(totalChannels, [&](auto n) { return channel < n; });
+            const auto it = std::ranges::find_if(totalChannels, [&](auto n) { return channel < n; });
 
             if(it != totalChannels.end())
             {
@@ -107,7 +107,7 @@ namespace IO
             return MakeHdd(this->dataFolder, channel);
         }
 
-        ISensorPtr MakeSerialMidi(size_t channel) const
+        ISensorPtr MakeMidi(size_t channel) const
         {
             return MakeVirtual(channel);
         }
@@ -123,7 +123,8 @@ namespace IO
             {"Virtual", &SensorFactory::MakeVirtual},
             {"Spi", &SensorFactory::MakeSpi},
             {"Hdd", &SensorFactory::MakeHdd},
-            {"SerialMidi", &SensorFactory::MakeSerialMidi},
+            {"SerialMidi", &SensorFactory::MakeMidi},
+            {"USBMidi", &SensorFactory::MakeMidi},
         };
 
     };

@@ -24,6 +24,7 @@ namespace IO
 
 		std::string serialPort{};
 		std::string hddDataFolder{};
+		std::string midiPort{};
 
 	};
 

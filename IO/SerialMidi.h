@@ -1,7 +1,8 @@
 #ifndef LIBEXADRUMS_IO_SERIALMIDI_H
 #define LIBEXADRUMS_IO_SERIALMIDI_H
 
-#include <array>
+#include "MIDI.h"
+
 #include <optional>
 #include <ranges>
 #include <string>
@@ -17,34 +18,7 @@
 namespace IO
 {
 
-    static constexpr auto nbBytesPerMessage = 3;
-    using MidiBytes_t = std::array<uint8_t, nbBytesPerMessage>;
-
-    struct MidiMessage
-    {
-        uint8_t command{};
-        uint8_t channel{};
-        uint8_t param1{};
-        uint8_t param2{};
-
-        MidiBytes_t ToBytes() const
-        {
-            return {static_cast<uint8_t>((command & 0xF0) | (channel & 0x0F)), param1, param2};
-        }
-
-        static MidiMessage FromBytes(const MidiBytes_t& bytes)
-        {
-            MidiMessage message{};   
-            message.command = bytes[0] & 0xF0;
-            message.channel = bytes[0] & 0x0F;
-            message.param1 = bytes[1];
-            message.param2 = bytes[2];
-
-            return message;
-        }
-    };
-
-    class SerialMidi
+    class SerialMidi : public MIDI
     {
 
     public:
@@ -55,7 +29,7 @@ namespace IO
             Close();
         }
 
-        void SetPort(const std::string& serialPort) noexcept
+        virtual void SetPort(const std::string& serialPort) noexcept override
         {
             port = serialPort;
         }
@@ -65,7 +39,7 @@ namespace IO
             baudRate = br;
         }
 
-        bool Open()
+        virtual bool Open() override
         {
             handle = ::open(port.data(), O_RDWR);
 
@@ -107,7 +81,7 @@ namespace IO
             return isOpen;
         }
 
-        void Close()
+        virtual void Close() override
         {
             if(isOpen)
             {
@@ -124,7 +98,7 @@ namespace IO
             return byte;        
         }
 
-        std::optional<MidiMessage> GetMessage() const
+        virtual std::optional<MidiMessage> GetMessage() const override
         {
 
             MidiBytes_t midiBytes;
@@ -145,7 +119,7 @@ namespace IO
             return MidiMessage::FromBytes(midiBytes);
         }
 
-        auto GetIsOpen() const noexcept { return isOpen; }
+        virtual bool GetIsOpen() const noexcept override { return isOpen; }
 
     private:
 
