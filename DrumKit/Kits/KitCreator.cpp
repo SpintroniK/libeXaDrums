@@ -293,7 +293,7 @@ namespace DrumKit
 
 	std::vector<std::string> KitCreator::GetInstrumentsTypes() const
 	{
-		return InstrumentFactory{}.GetTypes();
+		return InstrumentFactory::GetTypes();
 	}
 
 	std::vector<std::string> KitCreator::GetInstrumentsNames() const

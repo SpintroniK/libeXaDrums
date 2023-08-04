@@ -20,8 +20,9 @@
 
 #include "Instrument.h"
 
-#include <map>
+#include <concepts>
 #include <ranges>
+#include <unordered_map>
 #include <vector>
 
 namespace DrumKit
@@ -32,61 +33,39 @@ namespace DrumKit
 
     public:
 
-        InstrumentFactory() = default;
+        InstrumentFactory() = delete;
+        ~InstrumentFactory() = delete;
 
-        // static InstrumentPtr CreateInstrument(InstrumentType type, InstrumentParameters parameters, std::shared_ptr<Sound::SoundBank> sb)
-        // {
-
-        //     switch(type)
-        //     {
-        //         case InstrumentType::Pad:         return std::make_shared<Pad>(parameters, sb);
-        //         case InstrumentType::TestDrum:    return std::make_shared<TestDrum>(parameters, sb);
-        //         case InstrumentType::HiHat:       return std::make_shared<TestHiHat>(parameters, sb);
-        //     }
-
-        //     throw Util::Exception("Instrument type does not exist.", Util::error_type_error);
-        // }
-
-        static std::vector<Sound::InstrumentSoundType>  GetSoundsTypes(const std::string& type)
+        static inline std::vector<Sound::InstrumentSoundType>  GetSoundsTypes(const std::string& type)
         {
-            return InstrumentFactory{}.Make(type, InstrumentParameters(), nullptr)->GetSoundTypes();
+            return InstrumentFactory::Make(type, InstrumentParameters{}, nullptr)->GetSoundTypes();
         }
 
-        static std::vector<TriggerLocation>  GetTriggersTypes(const std::string& type)
+        static inline std::vector<TriggerLocation>  GetTriggersTypes(const std::string& type)
         {
-            return InstrumentFactory{}.Make(type, InstrumentParameters(), nullptr)->GetTriggersLocations();
+            return InstrumentFactory::Make(type, InstrumentParameters{}, nullptr)->GetTriggersLocations();
         }
 
-        InstrumentPtr MakePad(InstrumentParameters parameters, std::shared_ptr<Sound::SoundBank> sb) const
+        template <typename Instrument_t>
+        static inline InstrumentPtr MakeInstrument(InstrumentParameters parameters, std::shared_ptr<Sound::SoundBank> sb)
         {
-            return std::make_shared<Pad>(parameters, sb);
+            return std::make_shared<Instrument_t>(parameters, sb);
         }
         
-        InstrumentPtr MakeTestDrum(InstrumentParameters parameters, std::shared_ptr<Sound::SoundBank> sb) const
+
+        static inline InstrumentPtr Make(const std::string& type, InstrumentParameters parameters, std::shared_ptr<Sound::SoundBank> sb)
         {
-            return std::make_shared<TestDrum>(parameters, sb);
-        }
 
-        InstrumentPtr MakeTestHiHat(InstrumentParameters parameters, std::shared_ptr<Sound::SoundBank> sb) const
-        {
-            return std::make_shared<TestHiHat>(parameters, sb);
-        }
-
-
-        InstrumentPtr Make(const std::string& type, InstrumentParameters parameters, std::shared_ptr<Sound::SoundBank> sb) const
-        {
-            const auto iter = instrumentMap.find(type);
-
-            if(iter == instrumentMap.cend())
+            if(!instrumentMap.contains(type))
             {
                 throw Util::Exception("Instrument type doesn't exist.", Util::error_type_error);
             }
 
-            return std::invoke(iter->second, this, parameters, sb); 
+            return std::invoke(instrumentMap.at(type), parameters, sb); 
         }
 
 
-        auto GetTypes() &&
+        static inline auto GetTypes()
         {
             using namespace std::views;
             return std::vector<std::string>{ keys(instrumentMap).begin(), keys(instrumentMap).end() };
@@ -94,14 +73,14 @@ namespace DrumKit
 
     private:
     
-        using FactoryPtmf = InstrumentPtr(InstrumentFactory::*)(InstrumentParameters, std::shared_ptr<Sound::SoundBank>) const;
-        using InstrumentMap = std::map<std::string, FactoryPtmf>;
+        using FactoryPtmf = InstrumentPtr(*)(InstrumentParameters, std::shared_ptr<Sound::SoundBank>);
+        using InstrumentMap = std::unordered_map<std::string, FactoryPtmf>;
 
-        const InstrumentMap instrumentMap
+        static inline const InstrumentMap instrumentMap
         {
-            {"Pad", &InstrumentFactory::MakePad},
-            {"DualZonePad", &InstrumentFactory::MakeTestDrum},
-            {"TestHiHat", &InstrumentFactory::MakeTestHiHat},
+            {"Pad", &InstrumentFactory::MakeInstrument<Pad>},
+            {"DualZonePad", &InstrumentFactory::MakeInstrument<TestDrum>},
+            {"TestHiHat", &InstrumentFactory::MakeInstrument<TestHiHat>},
         };
 
     };
