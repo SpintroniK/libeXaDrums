@@ -9,7 +9,6 @@
 #include "Module.h"
 
 #include "../../IO/MIDIFactory.h"
-#include "../../IO/SpiDevices/SpiDevFactory.h"
 #include "../../Util/ErrorHandling.h"
 #include "../../Util/Threading.h"
 
@@ -140,7 +139,9 @@ namespace DrumKit
 
         // Disable previous kit if it exists
         if (kitId < kits.size())
+        {
             kits[kitId].Disable();
+        }
 
         // Clear sound bank and mixer
         mixer->Clear();
@@ -162,7 +163,7 @@ namespace DrumKit
     {
 
         std::vector<std::string> names;
-        std::transform(kits.cbegin(), kits.cend(), std::back_inserter(names), [](const Kit& k) { return k.GetName(); });
+        std::ranges::transform(kits, std::back_inserter(names), [](const Kit& k) { return k.GetName(); });
 
         return names;
     }
@@ -173,8 +174,7 @@ namespace DrumKit
         const std::vector<InstrumentPtr>& instruments = kits[kitId].GetInstruments();
 
         std::vector<std::string> names;
-        std::transform(instruments.cbegin(), instruments.cend(), std::back_inserter(names),
-                       [](const InstrumentPtr i) { return i->GetName(); });
+        std::ranges::transform(instruments, std::back_inserter(names), [](const InstrumentPtr i) { return i->GetName(); });
 
         return names;
     }
@@ -272,9 +272,9 @@ namespace DrumKit
             metronome->GenerateClick();
             std::vector<short> data = metronome->GetData();
 
-            metronomeSoundId = soundBank->AddSound(data, 1.0f);
+            metronomeSoundId = soundBank->AddSound(data, 1.0F);
             soundBank->LoopSound(metronomeSoundId, true);
-            mixer->PlaySound(metronomeSoundId, 1.0f);
+            mixer->PlaySound(metronomeSoundId, 1.0F);
 
             isMetronomeEnabled.store(true);
         }
@@ -302,7 +302,7 @@ namespace DrumKit
     {
         if (isMetronomeEnabled.load())
         {
-            soundBank->SetSoundVolume(metronomeSoundId, float(volume / 100.0f));
+            soundBank->SetSoundVolume(metronomeSoundId, float(volume / 100.0F));
         }
     }
 
@@ -314,7 +314,7 @@ namespace DrumKit
         }
         else
         {
-            return 0.0f;
+            return 0.0F;
         }
     }
 
@@ -332,7 +332,7 @@ namespace DrumKit
         }
         else
         {
-            return 0.0f;
+            return 0.0F;
         }
     }
 
@@ -379,14 +379,14 @@ namespace DrumKit
         // Get all kits locations
         std::vector<std::string> kitsPaths = kitManager.GetKitsLocations();
 
-        std::transform(kitsPaths.cbegin(), kitsPaths.cend(), std::back_inserter(kits),
-                       [this](std::string const& kitPath)
-                       {
-                           KitParameters kitParams;
-                           KitManager::LoadKit(kitPath, kitParams);
+        std::ranges::transform(kitsPaths, std::back_inserter(kits),
+                               [this](std::string const& kitPath)
+                               {
+                                   KitParameters kitParams;
+                                   KitManager::LoadKit(kitPath, kitParams);
 
-                           return Kit(kitParams, this->triggers, this->soundBank);
-                       });
+                                   return Kit(kitParams, this->triggers, this->soundBank);
+                               });
     }
 
     void Module::LoadTriggers()
@@ -437,9 +437,9 @@ namespace DrumKit
         lastTrigValue.store(0, std::memory_order_relaxed);
 
         // Skip high-pass filter transient state
-        for (size_t i = 0; i < 100 * triggers.size(); ++i)
+        for (size_t i = 0; i < triggers.size() * 100; ++i)
         {
-            std::for_each(triggers.begin(), triggers.end(), [](TriggerPtr& triggerPtr) { triggerPtr->Refresh(); });
+            std::ranges::for_each(triggers, [](TriggerPtr& triggerPtr) { triggerPtr->Refresh(); });
         }
 
 
@@ -481,7 +481,7 @@ namespace DrumKit
                             // std::cout << *instrumentSoundId << std::endl;
                             const auto volume = static_cast<float>(message->param2) / 127.F;
 
-                            lastTrigValue.store(volume * 100.F, std::memory_order_release);
+                            lastTrigValue.store(100.F * volume, std::memory_order_release);
 
                             const auto now = high_resolution_clock::now();
                             const auto t = static_cast<int64_t>(time_point_cast<microseconds>(now).time_since_epoch().count());
@@ -490,7 +490,10 @@ namespace DrumKit
 
                             if (recorder.IsRecording(std::memory_order_relaxed))
                             {
-                                recorder.Push(TrigSound{ instrument->GetId(), instrumentSoundId.value(), t, volume });
+                                recorder.Push(TrigSound{ .instrumentId = instrument->GetId(),
+                                                         .soundId = instrumentSoundId.value(),
+                                                         .timeStamp = t,
+                                                         .volume = volume });
                             }
                             mixer->PlaySound(*instrumentSoundId, volume);
                         }
@@ -503,11 +506,12 @@ namespace DrumKit
             while (isPlay.load())
             {
                 // Refresh triggers
-                std::for_each(triggers.begin(), triggers.end(), [](TriggerPtr& triggerPtr) { triggerPtr->Refresh(); });
+                std::ranges::for_each(triggers, [](TriggerPtr& triggerPtr) { triggerPtr->Refresh(); });
 
                 // Get most recent hit
-                auto it = std::max_element(triggers.cbegin(), triggers.cend(), [](const TriggerPtr& t1, const TriggerPtr& t2)
-                                           { return t1->GetTriggerState().trigTime < t2->GetTriggerState().trigTime; });
+                auto it =
+                std::ranges::max_element(triggers, [](const TriggerPtr& t1, const TriggerPtr& t2)
+                                         { return t1->GetTriggerState().trigTime < t2->GetTriggerState().trigTime; });
 
 
                 int64_t trigTime = (*it)->GetTriggerState().trigTime;
@@ -515,7 +519,7 @@ namespace DrumKit
 
                 if (prevTrigTime != trigTime)
                 {
-                    lastTrigValue.store(int((*it)->GetTriggerState().value * 100.0f), std::memory_order_release);
+                    lastTrigValue.store(int((*it)->GetTriggerState().value * 100.0F), std::memory_order_release);
 
                     // std::cout << double(trigTime - soundBank->GetSound(metronomeSoundId).GetLastStartTime()) / 1000. << std::endl;
                 }
@@ -530,12 +534,13 @@ namespace DrumKit
                     if (isTriggerEvent)
                     {
                         int soundId = 0;
-                        float volume = 1.0f;
+                        float volume = 1.0F;
                         instrumentPtr->GetSoundProps(soundId, volume);
 
                         if (recorder.IsRecording(std::memory_order_relaxed))
                         {
-                            recorder.Push(TrigSound{ instrumentPtr->GetId(), soundId, trigTime, volume });
+                            recorder.Push(TrigSound{
+                            .instrumentId = instrumentPtr->GetId(), .soundId = soundId, .timeStamp = trigTime, .volume = volume });
                         }
 
                         mixer->PlaySound(soundId, volume);
