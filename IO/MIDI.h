@@ -14,20 +14,22 @@ namespace IO
     class MIDI
     {
     public:
-
         MIDI() = default;
+        MIDI(const MIDI&) = default;
+        MIDI(MIDI&&) = delete;
+        MIDI& operator=(const MIDI&) = default;
+        MIDI& operator=(MIDI&&) = delete;
         virtual ~MIDI() = default;
 
         virtual void SetPort(const std::string&) noexcept = 0;
         virtual bool Open() = 0;
         virtual void Close() = 0;
-        virtual void SetBaudRate(std::size_t br) noexcept = 0;
-        virtual std::optional<MidiMessage> GetMessage() const = 0;
+        virtual void SetBaudRate(std::size_t baud_rate) noexcept = 0;
+        [[nodiscard]] virtual std::optional<MidiMessage> GetMessage() const = 0;
 
-        virtual bool GetIsOpen() const noexcept = 0;
+        [[nodiscard]] virtual bool GetIsOpen() const noexcept = 0;
 
     protected:
-
     private:
     };
 
@@ -43,14 +45,14 @@ namespace IO
         uint8_t param1{};
         uint8_t param2{};
 
-        MidiBytes_t ToBytes() const
+        [[nodiscard]] MidiBytes_t ToBytes() const
         {
-            return {static_cast<uint8_t>((command & 0xF0) | (channel & 0x0F)), param1, param2};
+            return { static_cast<uint8_t>((command & 0xF0) | (channel & 0x0F)), param1, param2 };
         }
 
         static MidiMessage FromBytes(const MidiBytes_t& bytes)
         {
-            MidiMessage message{};   
+            MidiMessage message{};
             message.command = bytes[0] & 0xF0;
             message.channel = bytes[0] & 0x0F;
             message.param1 = bytes[1];
@@ -61,8 +63,6 @@ namespace IO
     };
 
 } // namespace IO
-
-
 
 
 #endif /* LIBEXADRUMS_IO_MIDI_H */

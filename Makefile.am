@@ -52,6 +52,8 @@ libexadrums_la_SOURCES = \
   DrumKit/DrumModule/Recorder.cpp \
   DrumKit/DrumModule/Recorder.h \
   DrumKit/DrumModule/TrigSound.h \
+  DrumKit/DrumModule/MIDIProcessor.h \
+  DrumKit/DrumModule/MIDIProcessor.cpp \
   DrumKit/Instruments/Cymbals/TestHiHat.cpp \
   DrumKit/Instruments/Cymbals/TestHiHat.h \
   DrumKit/Instruments/Drums/TestDrum.cpp \

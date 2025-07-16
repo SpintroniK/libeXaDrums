@@ -3,8 +3,8 @@
 
 #include "../Util/ErrorHandling.h"
 #include "MIDI.h"
-#include "USBMIDI.h"
 #include "SerialMidi.h"
+#include "USBMIDI.h"
 
 #include <concepts>
 #include <functional>
@@ -16,20 +16,23 @@ namespace IO
     class MIDIFactory
     {
     public:
-
         MIDIFactory() = delete;
+        MIDIFactory(const MIDIFactory&) = default;
+        MIDIFactory(MIDIFactory&&) = delete;
+        MIDIFactory& operator=(const MIDIFactory&) = default;
+        MIDIFactory& operator=(MIDIFactory&&) = delete;
         ~MIDIFactory() = delete;
 
         template <typename Midi_t>
-        requires std::derived_from<Midi_t, MIDI>
-        static inline MIDIPtr MakeMidi()
+            requires std::derived_from<Midi_t, MIDI>
+        static MIDIPtr MakeMidi()
         {
             return std::make_unique<Midi_t>();
         }
 
-        static inline MIDIPtr Make(const std::string& type)
+        static MIDIPtr Make(const std::string& type)
         {
-            if(!midiMap.contains(type))
+            if (!midiMap.contains(type))
             {
                 throw Util::Exception("MIDI interface not supported.", Util::error_type_error);
             }
@@ -38,15 +41,12 @@ namespace IO
         }
 
     private:
-
-        static inline const std::unordered_map<std::string, MIDIPtr(*)()> midiMap
-        {
-            {"USBMidi", &MIDIFactory::MakeMidi<USBMIDI>},
-            {"SerialMidi", &MIDIFactory::MakeMidi<SerialMidi>},
+        static inline const std::unordered_map<std::string, MIDIPtr (*)()> midiMap{
+            { "USBMidi", &MIDIFactory::MakeMidi<USBMIDI> },
+            { "SerialMidi", &MIDIFactory::MakeMidi<SerialMidi> },
         };
-
     };
-    
+
 } // namespace IO
 
 

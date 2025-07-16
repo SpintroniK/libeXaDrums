@@ -16,6 +16,7 @@
 #include "../Triggers/TriggerFactory.h"
 #include "../Triggers/TriggerManager.h"
 
+#include "MIDIProcessor.h"
 #include "TrigSound.h"
 
 #include <algorithm>
@@ -457,15 +458,7 @@ namespace DrumKit
 
                 if (message)
                 {
-
-                    // TODO: add control change
-
-                    // std::cout 	<< "Command: " << std::hex << +message->command << ", " << std::dec
-                    // 			<< "Channel: " << +message->channel << ", "
-                    // 			<< "Param 1: " << +message->param1 << ", "
-                    // 			<< "Param 2: " << +message->param2 << std::endl;
-
-                    if (message->command != 0x90 && message->command != 0xB0)
+                    if (!MIDIProcessor::ValidateCommand(message->command))
                     {
                         continue;
                     }
@@ -474,7 +467,7 @@ namespace DrumKit
 
                     for (const auto& instrument : instruments)
                     {
-                        const auto instrumentSoundId = instrument->GetSoundIdFromMidiParams(message->param1);
+                        const auto instrumentSoundId = instrument->GetSoundIdFromMidiParams(message.value());
 
                         if (instrumentSoundId)
                         {
