@@ -15,7 +15,6 @@ namespace IO
     class USBMIDI : public MIDI
     {
     public:
-
         USBMIDI() = default;
         ~USBMIDI()
         {
@@ -26,7 +25,7 @@ namespace IO
         {
             portName = midiPort;
         }
-        
+
         virtual void SetBaudRate(std::size_t br) noexcept override
         {
             baudRate = br;
@@ -34,18 +33,13 @@ namespace IO
 
         virtual bool Open() override
         {
-            const auto status = snd_rawmidi_open(&midiIn, nullptr, portName.c_str(), SND_RAWMIDI_SYNC);
-            if(status < 0)
-            {
-                return false;
-            }
-
-            return true;
+            const auto status = snd_rawmidi_open(&midiIn, nullptr, "hw:1,0,0", SND_RAWMIDI_SYNC);
+            return status >= 0;
         }
 
         virtual void Close() override
         {
-            if(midiIn != nullptr)
+            if (midiIn != nullptr)
             {
                 snd_rawmidi_close(midiIn);
                 midiIn = nullptr;
@@ -56,14 +50,14 @@ namespace IO
         {
             MidiBytes_t midiBytes;
 
-            if(midiIn == nullptr)
+            if (midiIn == nullptr)
             {
                 return {};
             }
 
             const auto status = snd_rawmidi_read(midiIn, midiBytes.data(), midiBytes.size());
 
-            if(static_cast<size_t>(status) != midiBytes.size())
+            if (static_cast<size_t>(status) != midiBytes.size())
             {
                 return {};
             }
@@ -71,14 +65,15 @@ namespace IO
             return MidiMessage::FromBytes(midiBytes);
         }
 
-        virtual bool GetIsOpen() const noexcept override { return midiIn != nullptr; }
+        virtual bool GetIsOpen() const noexcept override
+        {
+            return midiIn != nullptr;
+        }
 
     private:
-
         snd_rawmidi_t* midiIn = nullptr;
         std::string portName;
         std::size_t baudRate{};
-
     };
 
 
