@@ -7,103 +7,106 @@
 
 #include "Pad.h"
 
-using namespace Sound;
-
 #include <algorithm>
+
+using namespace Sound;
 
 namespace DrumKit
 {
 
-	Pad::Pad(InstrumentParameters parameters, std::shared_ptr<SoundBank> soundBank): Instrument(parameters, soundBank), soundId(0)
-	{
+    Pad::Pad(InstrumentParameters parameters, std::shared_ptr<SoundBank> soundBank)
+    : Instrument(parameters, soundBank), soundId(0)
+    {
+    }
 
-		return;
-	}
+    void Pad::SetTriggers(std::vector<TriggerPtr> const& triggers)
+    {
 
-	void Pad::SetTriggers(std::vector<TriggerPtr> const& triggers)
-	{
+        for (const TriggerPtr& triggerPtr : triggers)
+        {
 
-		for(const TriggerPtr& triggerPtr : triggers)
-		{
+            auto triggerIdAndLocation = std::ranges::find_if(parameters.triggersIdsAndLocations,
+                                                             [&triggerPtr](std::pair<int, TriggerLocation> const& idAndLocation)
+                                                             { return (idAndLocation.first == triggerPtr->GetId()); });
 
-			auto triggerIdAndLocation = std::find_if(parameters.triggersIdsAndLocations.cbegin(), parameters.triggersIdsAndLocations.cend(),
-					[&triggerPtr](std::pair<int, TriggerLocation> const& idAndLocation) { return (idAndLocation.first == triggerPtr->GetId()); });
+            if (triggerIdAndLocation != std::end(parameters.triggersIdsAndLocations))
+            {
 
-			if(triggerIdAndLocation != std::end(parameters.triggersIdsAndLocations))
-			{
+                TriggerLocation triggerLocation = triggerIdAndLocation->second;
 
-				TriggerLocation triggerLocation =  triggerIdAndLocation->second;
+                switch (triggerLocation)
+                {
+                case TriggerLocation::DrumHead: this->trigger = triggerPtr.get(); break;
 
-				switch (triggerLocation)
-				{
-					case TriggerLocation::DrumHead: this->trigger = triggerPtr.get(); break;
+                default: break;
+                }
+            }
+        }
+    }
 
-					default: break;
-				}
-			}
-		}
+    std::optional<int> Pad::GetSoundIdFromMidiParams(const IO::MidiMessage& message) const
+    {
+        if (parameters.soundsInfo.front().midiNote == message.param1)
+        {
+            return soundId;
+        }
 
-		return;
-	}
+        return {};
+    }
 
-	std::optional<int> Pad::GetSoundIdFromMidiParams(uint8_t note) const
-	{
-		if(parameters.soundsInfo.front().midiNote == note)
-		{
-			return soundId;
-		}
+    void Pad::SetSound(InstrumentSoundInfo const& soundInfo)
+    {
 
-		return {};
-	}
+        InstrumentSoundType soundType = soundInfo.type;
+        std::string soundLocation = soundInfo.soundLocation;
 
-	void Pad::SetSound(InstrumentSoundInfo const& soundInfo)
-	{
+        switch (soundType)
+        {
+        case InstrumentSoundType::Default: soundId = soundBank->LoadSound(soundLocation, parameters.volume); break;
 
-		InstrumentSoundType soundType = soundInfo.type;
-		std::string soundLocation = soundInfo.soundLocation;
+        default: throw -1; break;
+        }
+    }
 
-		switch (soundType)
-		{
-			case InstrumentSoundType::Default: soundId = soundBank->LoadSound(soundLocation, parameters.volume); break;
+    void Pad::SetVolume(float volume)
+    {
+        soundBank->SetSoundVolume(soundId, volume);
+        parameters.volume = volume;
+    }
 
-			default: throw -1; break;
-		}
+    void Pad::GetSoundProps(int& id, float& volume) const
+    {
 
+        TriggerState triggerState = trigger->GetTriggerState();
 
-		return;
-	}
+        if (triggerState.isTrig)
+        {
+            id = soundId;
+            volume = triggerState.value;
+        }
+    }
 
-	void Pad::SetVolume(float volume)
-	{
+    bool Pad::IsTriggerEvent() const
+    {
 
-		soundBank->SetSoundVolume(soundId, volume);
+        TriggerState triggerState = trigger->GetTriggerState();
 
-		parameters.volume = volume;
-
-		return;
-	}
-
-	void Pad::GetSoundProps(int& id, float& volume) const
-	{
-
-		TriggerState triggerState = trigger->GetTriggerState();
-
-		if(triggerState.isTrig)
-		{
-			id = soundId;
-			volume = triggerState.value;
-		}
-
-		return;
-	}
-
-	bool Pad::IsTriggerEvent() const
-	{
-
-		TriggerState triggerState = trigger->GetTriggerState();
-
-		return triggerState.isTrig;
-	}
+        return triggerState.isTrig;
+    }
 
 
+    std::vector<TriggerLocation> Pad::GetTriggersLocations() const
+    {
+        return { TriggerLocation::DrumHead };
+    };
+
+    std::vector<int> Pad::GetTriggersIds() const
+    {
+        return { trigger->GetId() };
+    };
+
+    std::vector<Sound::InstrumentSoundType> Pad::GetSoundTypes() const
+    {
+        return { Sound::InstrumentSoundType::Default };
+    }
 } /* namespace DrumKit */

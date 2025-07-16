@@ -15,155 +15,137 @@ using namespace Sound;
 namespace DrumKit
 {
 
-	TestDrum::TestDrum(InstrumentParameters parameters, std::shared_ptr<SoundBank> soundBank): Instrument(parameters, soundBank),
-	drumHeadSoundId(0), drumRimSoundId(0)
-	{
+    TestDrum::TestDrum(InstrumentParameters parameters, std::shared_ptr<SoundBank> soundBank)
+    : Instrument(parameters, soundBank), drumHeadSoundId(0), drumRimSoundId(0)
+    {
+    }
 
 
-		return;
-	}
+    void TestDrum::SetTriggers(std::vector<TriggerPtr> const& triggers)
+    {
+
+        for (const TriggerPtr& triggerPtr : triggers)
+        {
+
+            auto triggerIdAndLocation = std::ranges::find_if(parameters.triggersIdsAndLocations,
+                                                             [&triggerPtr](std::pair<int, TriggerLocation> const& idAndLocation)
+                                                             { return (idAndLocation.first == triggerPtr->GetId()); });
+
+            if (triggerIdAndLocation != std::end(parameters.triggersIdsAndLocations))
+            {
+
+                TriggerLocation triggerLocation = triggerIdAndLocation->second;
+
+                switch (triggerLocation)
+                {
+                case TriggerLocation::DrumHead: this->drumHeadTrigger = triggerPtr.get(); break;
+                case TriggerLocation::Rim: this->drumRimTrigger = triggerPtr.get(); break;
+
+                default: break;
+                }
+            }
+        }
+    }
+
+    void TestDrum::SetSound(InstrumentSoundInfo const& soundInfo)
+    {
+
+        InstrumentSoundType soundType = soundInfo.type;
+        std::string soundLocation = soundInfo.soundLocation;
+
+        switch (soundType)
+        {
+        case InstrumentSoundType::RimShot:
+            drumRimSoundId = soundBank->LoadSound(soundLocation, parameters.volume);
+            break;
+        case InstrumentSoundType::Default:
+            drumHeadSoundId = soundBank->LoadSound(soundLocation, parameters.volume);
+            break;
+
+        default: throw -1; break;
+        }
+    }
 
 
-	void TestDrum::SetTriggers(std::vector<TriggerPtr> const& triggers)
-	{
+    std::optional<int> TestDrum::GetSoundIdFromMidiParams(const IO::MidiMessage& /* message */) const
+    {
+        return {};
+    }
 
-		for(const TriggerPtr& triggerPtr : triggers)
-		{
+    void TestDrum::SetVolume(float volume)
+    {
 
-			auto triggerIdAndLocation = std::find_if(parameters.triggersIdsAndLocations.cbegin(), parameters.triggersIdsAndLocations.cend(),
-					[&triggerPtr](std::pair<int, TriggerLocation> const& idAndLocation) { return (idAndLocation.first == triggerPtr->GetId()); });
+        soundBank->SetSoundVolume(drumRimSoundId, volume);
+        soundBank->SetSoundVolume(drumHeadSoundId, volume);
 
-			if(triggerIdAndLocation != std::end(parameters.triggersIdsAndLocations))
-			{
+        parameters.volume = volume;
+    }
 
-				TriggerLocation triggerLocation =  triggerIdAndLocation->second;
+    bool TestDrum::IsTriggerEvent() const
+    {
 
-				switch (triggerLocation)
-				{
-					case TriggerLocation::DrumHead: this->drumHeadTrigger = triggerPtr.get(); break;
-					case TriggerLocation::Rim: this->drumRimTrigger = triggerPtr.get(); break;
+        TriggerState headTriggerState = drumHeadTrigger->GetTriggerState();
+        TriggerState rimTriggerState = drumRimTrigger->GetTriggerState();
 
-					default: break;
-				}
-			}
-		}
+        return headTriggerState.isTrig || rimTriggerState.isTrig;
+    }
 
+    void TestDrum::GetSoundProps(int& id, float& volume) const
+    {
 
-		return;
-	}
-
-	void TestDrum::SetSound(InstrumentSoundInfo const& soundInfo)
-	{
-
-		InstrumentSoundType soundType = soundInfo.type;
-		std::string soundLocation = soundInfo.soundLocation;
-
-		switch (soundType)
-		{
-			case InstrumentSoundType::RimShot: drumRimSoundId = soundBank->LoadSound(soundLocation, parameters.volume); break;
-			case InstrumentSoundType::Default: drumHeadSoundId = soundBank->LoadSound(soundLocation, parameters.volume); break;
-
-			default: throw -1; break;
-		}
+        TriggerState headTriggerState = drumHeadTrigger->GetTriggerState();
+        TriggerState rimTriggerState = drumRimTrigger->GetTriggerState();
 
 
-		return;
-	}
+        if (headTriggerState.isTrig)
+        {
+            id = drumHeadSoundId;
+            volume = headTriggerState.value;
+        }
+        else if (rimTriggerState.isTrig)
+        {
+            id = drumRimSoundId;
+            volume = rimTriggerState.value;
+        }
+    }
+    // PRIVATE
 
+    /*void Drum::GenerateSounds()
+    {
 
-	std::optional<int> TestDrum::GetSoundIdFromMidiParams(uint8_t note) const
-	{
-		return {};
-	}
+        std::function<void(InstrumentSoundInfo)> genSounds = [this](InstrumentSoundInfo soundInfo)
+        {
 
-	void TestDrum::SetVolume(float volume)
-	{
+            std::vector<short> soundData;
+            unsigned int soundDuration;
 
-		soundBank->SetSoundVolume(drumRimSoundId, volume);
-		soundBank->SetSoundVolume(drumHeadSoundId, volume);
+            // Load sound
+            //Sound::SoundBank::LoadSound(soundInfo.soundLocation, soundData, soundDuration);
 
-		parameters.volume = volume;
+            switch (soundInfo.type)
+            {
+                case Sound::InstrumentSoundType::Default:
 
-		return;
-	}
+                        int id;
+                        //soundProcessor->AddSound(id, soundData);
 
-	bool TestDrum::IsTriggerEvent() const
-	{
+                        // Internal Id = 0 for default sound
+                        soundIds.insert(std::pair<int, int>(0, id));
 
-		TriggerState headTriggerState = drumHeadTrigger->GetTriggerState();
-		TriggerState rimTriggerState = drumRimTrigger->GetTriggerState();
-
-		if(headTriggerState.isTrig || rimTriggerState.isTrig)
-		{
-			return true;
-		}
-		else
-		{
-			return false;
-		}
-
-	}
-
-	void TestDrum::GetSoundProps(int& id, float& volume) const
-	{
-
-		TriggerState headTriggerState = drumHeadTrigger->GetTriggerState();
-		TriggerState rimTriggerState = drumRimTrigger->GetTriggerState();
-
-
-		if(headTriggerState.isTrig)
-		{
-			id = drumHeadSoundId;
-			volume = headTriggerState.value;
-		}
-		else if(rimTriggerState.isTrig)
-		{
-			id = drumRimSoundId;
-			volume = rimTriggerState.value;
-		}
-
-		return;
-	}
-	// PRIVATE
-
-	/*void Drum::GenerateSounds()
-	{
-
-		std::function<void(InstrumentSoundInfo)> genSounds = [this](InstrumentSoundInfo soundInfo)
-		{
-
-			std::vector<short> soundData;
-			unsigned int soundDuration;
-
-			// Load sound
-			//Sound::SoundBank::LoadSound(soundInfo.soundLocation, soundData, soundDuration);
-
-			switch (soundInfo.type)
-			{
-				case Sound::InstrumentSoundType::Default:
-
-						int id;
-						//soundProcessor->AddSound(id, soundData);
-
-						// Internal Id = 0 for default sound
-						soundIds.insert(std::pair<int, int>(0, id));
-
-					break;
-				default:
-					break;
-			}
+                    break;
+                default:
+                    break;
+            }
 
 
 
 
-		};
+        };
 
 
-		std::for_each(parameters.soundsInfo.cbegin(), parameters.soundsInfo.cend(), genSounds);
+        std::for_each(parameters.soundsInfo.cbegin(), parameters.soundsInfo.cend(), genSounds);
 
-		return;
-	}
-	*/
-}
-
-
+        return;
+    }
+    */
+} // namespace DrumKit

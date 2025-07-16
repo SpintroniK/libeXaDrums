@@ -17,128 +17,112 @@ using namespace Sound;
 namespace DrumKit
 {
 
-	TestHiHat::TestHiHat(InstrumentParameters parameters, std::shared_ptr<SoundBank> soundBank) : Instrument(parameters, soundBank), cymbalSoundId(0)
-	{
+    TestHiHat::TestHiHat(InstrumentParameters parameters, std::shared_ptr<SoundBank> soundBank)
+    : Instrument(parameters, soundBank), cymbalSoundId(0)
+    {
+    }
 
-		return;
-	}
+    void TestHiHat::SetTriggers(const std::vector<TriggerPtr>& triggers)
+    {
 
-	void TestHiHat::SetTriggers(const std::vector<TriggerPtr>& triggers)
-	{
+        for (const TriggerPtr& triggerPtr : triggers)
+        {
 
-		for(const TriggerPtr& triggerPtr : triggers)
-		{
-
-			auto triggerIdAndLocation = std::find_if(parameters.triggersIdsAndLocations.cbegin(), parameters.triggersIdsAndLocations.cend(),
-					[&triggerPtr](std::pair<int, TriggerLocation> const& idAndLocation) { return (idAndLocation.first == triggerPtr->GetId()); });
-
-
-			if(triggerIdAndLocation != std::end(parameters.triggersIdsAndLocations))
-			{
-
-				TriggerLocation triggerLocation =  triggerIdAndLocation->second;
-
-				switch (triggerLocation)
-				{
-					case TriggerLocation::DrumHead: this->cymbalTrigger = triggerPtr.get(); break;
-					case TriggerLocation::Rim: this->pedalTrigger = triggerPtr.get(); break;
-
-					default: break;
-				}
-			}
-		}
-
-		return;
-	}
-
-	void TestHiHat::SetSound(const InstrumentSoundInfo& soundInfo)
-	{
-
-		InstrumentSoundType soundType = soundInfo.type;
-		std::string soundLocation = soundInfo.soundLocation;
+            auto triggerIdAndLocation = std::ranges::find_if(parameters.triggersIdsAndLocations,
+                                                             [&triggerPtr](std::pair<int, TriggerLocation> const& idAndLocation)
+                                                             { return (idAndLocation.first == triggerPtr->GetId()); });
 
 
-		switch (soundType)
-		{
-			case InstrumentSoundType::Default:
-			{
+            if (triggerIdAndLocation != std::end(parameters.triggersIdsAndLocations))
+            {
 
-				cymbalSoundId = soundBank->LoadSound(soundLocation, parameters.volume);
+                TriggerLocation triggerLocation = triggerIdAndLocation->second;
 
-				for(int i = 0; i < 10; i++)
-				{
+                switch (triggerLocation)
+                {
+                case TriggerLocation::DrumHead: this->cymbalTrigger = triggerPtr.get(); break;
+                case TriggerLocation::Rim: this->pedalTrigger = triggerPtr.get(); break;
 
-					const auto& cymbalSound = soundBank->GetSound(cymbalSoundId);
-					auto&& newSound = SoundProcessor::Muffle(cymbalSound, 0.25f/float(i + 1));
-					int newSoundId = soundBank->AddSound(std::move(newSound), parameters.volume);
+                default: break;
+                }
+            }
+        }
+    }
 
-					hiHatSoundsIds.push_back(newSoundId);
-				}
+    void TestHiHat::SetSound(const InstrumentSoundInfo& soundInfo)
+    {
 
-				break;
-			}
-
-			default: throw -1; break;
-		}
-
-		return;
-	}
+        InstrumentSoundType soundType = soundInfo.type;
+        std::string soundLocation = soundInfo.soundLocation;
 
 
-	std::optional<int> TestHiHat::GetSoundIdFromMidiParams(uint8_t note) const
-	{
-		return {};
-	}
+        switch (soundType)
+        {
+        case InstrumentSoundType::Default:
+        {
 
-	void TestHiHat::SetVolume(float volume)
-	{
+            cymbalSoundId = soundBank->LoadSound(soundLocation, parameters.volume);
 
-		soundBank->SetSoundVolume(cymbalSoundId, volume);
+            for (int i = 0; i < 10; i++)
+            {
 
-		std::for_each(hiHatSoundsIds.cbegin(), hiHatSoundsIds.cend(), [&](const int& id) { soundBank->SetSoundVolume(id, volume); });
+                const auto& cymbalSound = soundBank->GetSound(cymbalSoundId);
+                auto&& newSound = SoundProcessor::Muffle(cymbalSound, 0.25f / float(i + 1));
+                int newSoundId = soundBank->AddSound(std::move(newSound), parameters.volume);
 
-		parameters.volume = volume;
+                hiHatSoundsIds.push_back(newSoundId);
+            }
 
-		return;
-	}
+            break;
+        }
 
-
-	bool TestHiHat::IsTriggerEvent() const
-	{
-
-		TriggerState cymbalTriggerState = cymbalTrigger->GetTriggerState();
-
-		if(cymbalTriggerState.isTrig)
-		{
-			return true;
-		}
-		else
-		{
-			return false;
-		}
-
-	}
-
-	void TestHiHat::GetSoundProps(int& id, float& volume) const
-	{
-
-		TriggerState cymbalTriggerState = cymbalTrigger->GetTriggerState();
-		TriggerState pedalTriggerState = pedalTrigger->GetTriggerState();
+        default: throw -1; break;
+        }
+    }
 
 
-		if(cymbalTriggerState.isTrig)
-		{
+    std::optional<int> TestHiHat::GetSoundIdFromMidiParams(const IO::MidiMessage& /*message*/) const
+    {
+        return {};
+    }
 
-			float pedalPosition = pedalTriggerState.value;
-			int hiHatSoundIndex = cymbalSoundId + std::floor(pedalPosition * 10) + 1;
+    void TestHiHat::SetVolume(float volume)
+    {
+
+        soundBank->SetSoundVolume(cymbalSoundId, volume);
+
+        std::ranges::for_each(hiHatSoundsIds, [&](const int& id) { soundBank->SetSoundVolume(id, volume); });
+
+        parameters.volume = volume;
+    }
 
 
-			id = hiHatSoundIndex;
-			volume = cymbalTriggerState.value;
-		}
+    bool TestHiHat::IsTriggerEvent() const
+    {
 
-		return;
-	}
+        TriggerState cymbalTriggerState = cymbalTrigger->GetTriggerState();
+
+        return cymbalTriggerState.isTrig;
+    }
+
+    void TestHiHat::GetSoundProps(int& id, float& volume) const
+    {
+
+        TriggerState cymbalTriggerState = cymbalTrigger->GetTriggerState();
+        TriggerState pedalTriggerState = pedalTrigger->GetTriggerState();
+
+
+        if (cymbalTriggerState.isTrig)
+        {
+
+            float pedalPosition = pedalTriggerState.value;
+            int hiHatSoundIndex = cymbalSoundId + std::floor(pedalPosition * 10) + 1;
+
+
+            id = hiHatSoundIndex;
+            volume = cymbalTriggerState.value;
+        }
+    }
 
 
 } /* namespace DrumKit */
