@@ -5,7 +5,6 @@
 
 #include <alsa/asoundlib.h>
 
-#include <array>
 #include <optional>
 #include <string>
 
@@ -16,28 +15,33 @@ namespace IO
     {
     public:
         USBMIDI() = default;
-        ~USBMIDI()
+        USBMIDI(const USBMIDI&) = default;
+        USBMIDI(USBMIDI&&) = delete;
+        USBMIDI& operator=(const USBMIDI&) = default;
+        USBMIDI& operator=(USBMIDI&&) = delete;
+
+        ~USBMIDI() override
         {
             Close();
         }
 
-        virtual void SetPort(const std::string& midiPort) noexcept override
+        void SetPort(const std::string& midiPort) noexcept override
         {
             portName = midiPort;
         }
 
-        virtual void SetBaudRate(std::size_t br) noexcept override
+        void SetBaudRate(std::size_t baud_rate) noexcept override
         {
-            baudRate = br;
+            baudRate = baud_rate;
         }
 
-        virtual bool Open() override
+        bool Open() override
         {
             const auto status = snd_rawmidi_open(&midiIn, nullptr, "hw:1,0,0", SND_RAWMIDI_SYNC);
             return status >= 0;
         }
 
-        virtual void Close() override
+        void Close() override
         {
             if (midiIn != nullptr)
             {
@@ -46,7 +50,7 @@ namespace IO
             }
         }
 
-        virtual std::optional<MidiMessage> GetMessage() const override
+        [[nodiscard]] std::optional<MidiMessage> GetMessage() const override
         {
             MidiBytes_t midiBytes;
 
@@ -65,7 +69,7 @@ namespace IO
             return MidiMessage::FromBytes(midiBytes);
         }
 
-        virtual bool GetIsOpen() const noexcept override
+        [[nodiscard]] bool GetIsOpen() const noexcept override
         {
             return midiIn != nullptr;
         }

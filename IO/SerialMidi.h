@@ -7,13 +7,13 @@
 #include <ranges>
 #include <string>
 
-#include <cstdio>      // Standard input / output functions
+#include <cerrno> // Error number definitions
+#include <cstdio> // Standard input / output functions
 #include <cstdlib>
-#include <cstring>     // String function definitions
-#include <unistd.h>     // UNIX standard function definitions
-#include <fcntl.h>      // File control definitions
-#include <cerrno>      // Error number definitions
-#include <termios.h>    // POSIX terminal control definitions
+#include <cstring>   // String function definitions
+#include <fcntl.h>   // File control definitions
+#include <termios.h> // POSIX terminal control definitions
+#include <unistd.h>  // UNIX standard function definitions
 
 namespace IO
 {
@@ -22,7 +22,6 @@ namespace IO
     {
 
     public:
-
         SerialMidi() = default;
         ~SerialMidi() noexcept
         {
@@ -45,9 +44,9 @@ namespace IO
 
             termios tty;
 
-            if(tcgetattr(handle, &tty) != 0)
+            if (tcgetattr(handle, &tty) != 0)
             {
-                //error
+                // error
                 return false;
             }
 
@@ -55,23 +54,23 @@ namespace IO
             cfsetospeed(&tty, GetSpeedTFromBaudRate(baudRate));
             cfsetispeed(&tty, GetSpeedTFromBaudRate(baudRate));
 
-            tty.c_cflag &= 	~PARENB;            // Make 8n1
-            tty.c_cflag &= 	~CSTOPB;
-            tty.c_cflag &= 	~CSIZE;
-            tty.c_cflag |= 	CS8;
+            tty.c_cflag &= ~PARENB; // Make 8n1
+            tty.c_cflag &= ~CSTOPB;
+            tty.c_cflag &= ~CSIZE;
+            tty.c_cflag |= CS8;
 
-            tty.c_cflag &= 	~CRTSCTS;           // no flow control
-            tty.c_cc[VMIN] = 0;                 // read blocks
-            tty.c_cc[VTIME] = 10;               // 1 second read timeout
-            tty.c_cflag |=	CREAD | CLOCAL;     // turn on READ & ignore ctrl lines
+            tty.c_cflag &= ~CRTSCTS;       // no flow control
+            tty.c_cc[VMIN] = 0;            // read blocks
+            tty.c_cc[VTIME] = 10;          // 1 second read timeout
+            tty.c_cflag |= CREAD | CLOCAL; // turn on READ & ignore ctrl lines
 
             // Raw mode
-		    cfmakeraw(&tty);
+            cfmakeraw(&tty);
 
             // Flush Port, then applies attributes
             tcflush(this->handle, TCIFLUSH);
-    
-            if(tcsetattr (this->handle, TCSANOW, &tty) != 0)
+
+            if (tcsetattr(this->handle, TCSANOW, &tty) != 0)
             {
                 return false;
             }
@@ -83,19 +82,19 @@ namespace IO
 
         virtual void Close() override
         {
-            if(isOpen)
+            if (isOpen)
             {
                 ::close(handle);
             }
         }
 
-        uint8_t ReadByte() const
+        [[nodiscard]] uint8_t ReadByte() const
         {
             uint8_t byte{};
 
-            ::read(handle, &byte, sizeof byte);
-            
-            return byte;        
+            [[maybe_unused]] const auto result = ::read(handle, &byte, sizeof byte);
+
+            return byte;
         }
 
         virtual std::optional<MidiMessage> GetMessage() const override
@@ -103,12 +102,12 @@ namespace IO
 
             MidiBytes_t midiBytes;
 
-            for(auto i : std::views::iota(0, nbBytesPerMessage))
+            for (auto i : std::views::iota(0, nbBytesPerMessage))
             {
                 const auto byte = ReadByte();
-                const auto isStatusByte =  byte >> 7 != 0;
+                const auto isStatusByte = byte >> 7 != 0;
 
-                if(!isStatusByte && i == 0)
+                if (!isStatusByte && i == 0)
                 {
                     return {};
                 }
@@ -119,16 +118,18 @@ namespace IO
             return MidiMessage::FromBytes(midiBytes);
         }
 
-        virtual bool GetIsOpen() const noexcept override { return isOpen; }
+        virtual bool GetIsOpen() const noexcept override
+        {
+            return isOpen;
+        }
 
     private:
-
         static speed_t GetSpeedTFromBaudRate(std::size_t baudRate)
         {
-            switch(baudRate)
+            switch (baudRate)
             {
             case 115'200: return static_cast<speed_t>(B115200);
-            
+
             default: return static_cast<speed_t>(B0);
             }
         }
@@ -136,10 +137,9 @@ namespace IO
         std::string port{};
         std::size_t baudRate{};
         int handle{};
-        bool isOpen{false};
-
+        bool isOpen{ false };
     };
-    
+
 } // namespace IO
 
 
