@@ -24,6 +24,7 @@ This document outlines the development plan from a high level and will be update
 - 🚧 Multi-layer sounds
 - 🚧 Round-robin
 - 🚧 More trigger & instrument types.
+- Hi-hat CC
 
 ### 1.0.0
 
