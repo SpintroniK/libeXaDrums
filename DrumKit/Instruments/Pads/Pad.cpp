@@ -105,8 +105,8 @@ namespace DrumKit
         return { trigger->GetId() };
     };
 
-    std::vector<Sound::InstrumentSoundType> Pad::GetSoundTypes() const
+    std::vector<InstrumentSoundType> Pad::GetSoundTypes() const
     {
-        return { Sound::InstrumentSoundType::Default };
+        return { InstrumentSoundType::Default };
     }
 } /* namespace DrumKit */
