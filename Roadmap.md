@@ -12,11 +12,6 @@ This document outlines the development plan from a high level and will be update
 
 ## Current version
 
-### 0.8.0
-
-- ✔️ C++23.
-- 📝 USB MIDI input.
-
 ## Future versions
 
 ### 0.9.0
@@ -24,7 +19,7 @@ This document outlines the development plan from a high level and will be update
 - 🚧 Multi-layer sounds
 - 🚧 Round-robin
 - 🚧 More trigger & instrument types.
-- Hi-hat CC
+- 🚧 Hi-hat CC
 
 ### 1.0.0
 
@@ -34,6 +29,11 @@ This document outlines the development plan from a high level and will be update
 - 🚧 API documentation.
 
 ## Past versions
+
+### 0.8.0
+
+- ✔️ C++23.
+- ✔️ USB MIDI input.
 
 ### 0.7.0
 
